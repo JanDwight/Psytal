@@ -192,6 +192,13 @@ export default function PreRegistrationForContinuing() {
           if (error.response) {
             const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
             setError({__html: finalErrors.join('<br>')})
+            setSuccessMessage({
+              message: 'Please Fill in ALL of the NECESSARY details.',
+            });
+            setTimeout(() => {
+              setSuccessMessage(null);
+              closeModal();
+            }, 3000);
           }
             console.error(error)
         });
