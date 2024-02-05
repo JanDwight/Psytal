@@ -200,6 +200,14 @@ export default function PreRegistrationForm() {
 
     })
     .catch(( error ) => {
+      setSuccessMessage({
+        message: 'Missing Data, Please Double Check.',
+      });
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+      }, 3000);
       if (error.response) {
         const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
         setError({__html: finalErrors.join('<br>')})
