@@ -188,7 +188,17 @@ export default function PreRegistrationForContinuing() {
             closeModal();
           }, 3000);
         })
-        .catch(( error ) => {
+        .catch(( error ) => 
+        
+        {setSuccessMessage({
+          message: 'Missing Data, please double check.',
+        });
+  
+        setTimeout(() => {
+          setSuccessMessage(null);
+          closeModal();
+        }, 3000);
+
           if (error.response) {
             const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
             setError({__html: finalErrors.join('<br>')})
