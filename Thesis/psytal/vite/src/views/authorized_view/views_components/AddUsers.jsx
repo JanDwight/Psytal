@@ -72,17 +72,15 @@ export default function AddUsers({ showModal, onClose}) {
       .post('/adduser', formData) // Back end, needs edit
       .then((response) => {
         console.log('Success:', response.data);
-        //reset feilds
-        resetForm();
-
         setSuccessMessage({
           message: 'The USER was added successfully!',
         });
-
+        
         setTimeout(() => {
           setSuccessMessage(null);
           resetForm();
-          onClose();
+          window.location.reload();
+          // onClose();
         }, 2000);
       })
       .catch((error) => {
@@ -93,8 +91,8 @@ export default function AddUsers({ showModal, onClose}) {
       });
       setTimeout(() => {
         resetForm();
-        onClose();
         window.location.reload();
+        // onClose();
       }, 2000);
 
       });
@@ -186,9 +184,7 @@ export default function AddUsers({ showModal, onClose}) {
 
             </div>
           </form>
-      </div>
-    </div>
-    {successMessage && (
+          {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
             <div className="w-full px-4 mx-auto mt-6">
@@ -210,7 +206,11 @@ export default function AddUsers({ showModal, onClose}) {
           </div>
         </div>
       )}
+      </div>
+    </div>
+   
     </ReactModal>
+    
     </>
   );
 }

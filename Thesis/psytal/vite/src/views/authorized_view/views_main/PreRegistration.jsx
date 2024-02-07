@@ -38,17 +38,20 @@ const handleRowClick = (items) => {
         
       </div>
       <div className="mt-2 mb-5"></div>
-      <div>
+      <div >
       <table className="table w-full table-striped">
         <thead>
           <tr>
             <th className="text-left text-gray-700 bg-gray-200 p-2">Name</th>
             <th className="text-left text-gray-700 bg-gray-200 p-2">Date of Submission</th>
+            {/* <th className="text-left text-gray-700 bg-gray-200 p-2">Section</th> */}
             <th className="text-left text-gray-700 bg-gray-200 p-2">Status</th>
           </tr>
         </thead>
-
-        <tbody>
+        </table>
+        
+        <div className="table-container overflow-y-auto max-h-[400px] ">
+        <table className="w-full">
           {data.map((item, index) => (
               <tr 
                 onClick={() => handleRowClick(item)}
@@ -74,10 +77,12 @@ const handleRowClick = (items) => {
               </td>
             </tr>
           ))}
-        </tbody>
           
-      </table>
-        
+        </table>
+        </div>
+          
+     
+      
       </div>
       
       {/* For the Pop ups */}
@@ -88,6 +93,7 @@ const handleRowClick = (items) => {
             className="w-fit h-[98%] bg-[#FFFFFF] rounded-3xl shadow-2xl mt-[1%] mx-auto p-5 overflow-y-scroll"
         >
             <div>
+              
     {selectedData.type_of_student === 'Continuing' ? (
       <PreRegistrationForContinuingView
         closeModal={() => setIsPreRegFormModalOpen(false)}
@@ -100,8 +106,10 @@ const handleRowClick = (items) => {
       />
     )}
   </div>
+  
         </ReactModal>
     </div>
+    
   )
 }
 

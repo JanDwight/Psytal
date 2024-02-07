@@ -311,7 +311,7 @@ export default function PreRegistrationForContinuing() {
                                     Student ID No:
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                id="grid-studentSchoolID" 
+                                id="grid-`  `" 
                                 type="text"
                                 pattern="\d{0,7}"
                                 title="Input numeric characters only. (0 to 9)"
