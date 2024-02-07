@@ -107,7 +107,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                   name="c_code"
                   type="text"
                   placeholder={class_code_old}
-                  value={class_code_old}
+                  //value={class_code_old}
                   onChange={(ev) => setClass_Code(ev.target.value.toUpperCase())}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   required
@@ -143,9 +143,9 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                       id="section"
                       name="section"
                       type="text"
-                      maxLength={1}
+                      maxLength={10}
                       placeholder={section_old}
-                      value={section_old}
+                      //value={section_old}
                       onChange={(ev) => setClass_Section(ev.target.value.toUpperCase())}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" 
                       required
@@ -175,6 +175,6 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
         </div>
       )}
     </div>
-    // ... (rest of your component code)
+    
   );
 }
