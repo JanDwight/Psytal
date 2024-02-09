@@ -63,6 +63,11 @@ class AttachSubjectController extends Controller
         // Split the full name into an array
         $nameParts = explode(' ', $studentName);
 
+        $DataBaseCleaner = student_profile::where('start_of_school_year', null);
+
+        // Delete all records that match the condition in $DataBaseCleaner
+        $DataBaseCleaner->delete();
+
         // Initialize variables for lastName, firstName, and middleInitial
         $lastName = '';
         $firstName = '';
@@ -120,6 +125,7 @@ if ($selectedClass instanceof \Illuminate\Database\Eloquent\Collection) {
     foreach ($selectedClass as $class) {
         if ($class) {
             $class->grade = $request['grade'];
+            $class->ongoing-=1;
             $class->save();
             $updatedRecords->push($class);
         }
@@ -127,6 +133,7 @@ if ($selectedClass instanceof \Illuminate\Database\Eloquent\Collection) {
 } elseif ($selectedClass instanceof \Illuminate\Database\Eloquent\Model) {
     // If it's a single record, update the grade directly
     $selectedClass->grade = $request['grade'];
+    $selectedClass->ongoing-=1;
     $selectedClass->save();
     $updatedRecords->push($selectedClass);
 }
