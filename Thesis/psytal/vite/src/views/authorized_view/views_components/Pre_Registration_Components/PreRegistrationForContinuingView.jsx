@@ -14,6 +14,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
     const [subjectData, setSubjectData] = useState([]); //<><><><><>
     const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
 
+    
+
       //variable for inputs
       const [preregData, setPreregData] = useState(prereg, {
         start_of_school_year: '',   
@@ -54,9 +56,27 @@ export default function PreRegistrationForContinuingView({prereg}) {
       });
 
 
-    const [inputFields, setInputFields] = useState([
-        { classCode: '', courseCode: '', units: '', bcac: '' },
-      ]);
+    
+
+      //auto fill dropdown
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axiosClient.get('/show_classes');
+        const classData = response.data; // Set the data in the state
+        setSubjectData(classData); // Set the data in the state
+      } catch (error) {
+        console.error('Error fetching data from the database:', error);
+      }
+    }
+  
+    fetchData(); // Call the fetchData function
+  }, []);
+
+  const [inputFields, setInputFields] = useState([
+    { class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' }
+  ]);
+
 
     //calling the Form in the adding of classes
     const handleSubmitCourseUnits = (e) => {
@@ -64,11 +84,35 @@ export default function PreRegistrationForContinuingView({prereg}) {
         console.log("InputFields", inputFields);
       };
     //Changing the input fields
+    // Changing the input fields
     const handleChangeInput = (index, event) => {
-        const values = [...inputFields];
-        values [index][event.target.name] = event.target.value;     
-        setInputFields(values);
+      const { name, value } = event.target;
+      const updatedInputFields = [...inputFields];
+    
+      // Update the input field based on the name
+      updatedInputFields[index] = {
+        ...updatedInputFields[index],
+        [name]: value,
+      };
+    
+      // If the changed field is Class Code, update Course Code and Unit/s
+      if (name === 'classCode') {
+        const [classId, classCode] = value.split('-');
+    
+        // Find the selected subject data based on classId
+        const selectedSubject = subjectData.find(item => item.class_id === parseInt(classId, 10));
+    
+        // Update Course Code and Unit/s
+        updatedInputFields[index] = {
+          ...updatedInputFields[index],
+          class_id: selectedSubject ? selectedSubject.class_id : '',
+          courseCode: selectedSubject ? selectedSubject.course_code : '',
+          units: selectedSubject ? selectedSubject.units : '',
+        };
       }
+    
+      setInputFields(updatedInputFields);
+    };
     //For Adding
     const handleAddFields = () => {
         setInputFields([...inputFields, { classCode: '', courseCode: '', units: '', bcac: '' }])
@@ -127,7 +171,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         useEffect(() => {
           async function fetchData() {
             try {
-              const response = await axiosClient.get('/show_classes');
+              const response = await axiosClient.get('/classes');
               const classData = response.data; // Set the data in the state
               setSubjectData(classData); // Set the data in the state
             } catch (error) {
@@ -145,50 +189,18 @@ export default function PreRegistrationForContinuingView({prereg}) {
         
         const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
 
-        axiosClient
-        .post('/preregcontinuingtmp', {
-            start_of_school_year: parseInt(preregData.start_of_school_year),
-            end_of_school_year: parseInt(preregData.end_of_school_year),
-            last_name: preregData.last_name,
-            first_name: preregData.first_name,
-            middle_name: preregData.middle_name,
-            maiden_name: preregData.maiden_name,
-            degree: preregData.degree,
-            major: preregData.major,
-            section: preregData.section,
-            end_of_term_to_finnish_degree: preregData.end_of_term_to_finnish_degree,
-            last_of_term_to_finnish_degree: preregData.last_of_term_to_finnish_degree,
-            date_of_birth: preregData.date_of_birth,
-            place_of_birth: preregData.place_of_birth,
-            citizenship: preregData.citizenship,
-            sex_at_birth: preregData.sex_at_birth,
-            ethnicity: preregData.ethnicity,
-            special_needs: preregData.special_needs,
-            contact_number: parseInt(preregData.contact_number),
-            email_address: preregData.email_address,
-            home_address: preregData.home_address,
-            address_while_studying: preregData.address_while_studying,
-            contact_person_name: preregData.contact_person_name,
-            contact_person_number: parseInt(preregData.contact_person_number), //theres an error here--doesnt accept multiple numbers
-            contact_person_address: preregData.contact_person_address,
-            contact_person_relationship: preregData.contact_person_relationship,
-            health_facility_registered: preregData.health_facility_registered,
-            parent_health_facility_dependent: preregData.parent_health_facility_dependent,
-            vaccination_status: preregData.vaccination_status,
-            technology_level: preregData.technology_level,
-            digital_literacy: preregData.digital_literacy,
-            avail_free_higher_education: preregData.avail_free_higher_education,
-            voluntary_contribution: preregData.voluntary_contribution,
-            contribution_amount: preregData.contribution_amount,
-            complied_to_admission_policy: preregData.complied_to_admission_policy,
-            pre_reg_status: 'Accepted',
-            type_of_student: preregData.type_of_student,
-            year_level: preregData.year_level,
-            candidate_for_graduation: preregData.candidate_for_graduation,
-            student_status: preregData.student_status
-            
-        })
+        //--------------------------// <><><><><>
 
+    
+
+        axiosClient.post('/student_subject', {
+          studentData: preregData,
+          subjectData: inputFields, // Exclude the last element
+        }).then(data)
+        console.log('This is the Data: ', data)
+        //--------------------------// <><><><><>
+    
+      
         //prereg update===============================================================================
             axiosClient
             .put(`/preregcheck/${preregData.id}`, {
@@ -499,11 +511,10 @@ export default function PreRegistrationForContinuingView({prereg}) {
           setError({__html: finalErrors.join('<br>')})
         }
           console.error(error)
-      });
+      });  
     };
 
-    console.log(preregData)
-
+   
   return (
     <>
     <main>
@@ -1334,30 +1345,12 @@ export default function PreRegistrationForContinuingView({prereg}) {
                 </div>
                 </div>
                 </div>
-             {/**===========SUMBIT Button============= */}
-            <div className="text-center flex justify-end my-8">
-                    <button onClick={onDecline}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                    Decline
-                    </button>
-                    <button onClick={onClickAccept}
-                    type="submit"
-                    className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                    Accept
-                    </button>
-                </div>
-                        
             </div>
-        </form>
 
      {/**=========================== 4 ==========================*/}      
         {/**Start of Filling the FORM for CLASS CODES UNITS*/}
-        <div className="w-full lg:w-8/12 px-4 container mx-auto">            
-            <form 
-                //ah basta hhaha
-                //onSubmit={handleSubmitCourseUnits}
-                >
-                <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
+        <div className="w-full lg:w-8/12 px-4 container mx-auto">   
+        <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
                     <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         <div className="text-normal font-medium text-center mt-2">
                             SECTION/COURSE(S) TO BE ENROLLED : FOR IRREGULAR STUDENT
@@ -1388,8 +1381,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                       Class Code
                                     </option>
                                     {subjectData.map(item => (
-                                      <option key={item.id} value={item.class_code}>
-                                        {item.class_code}
+                                      <option key={item.id} value={item.class_id + '-' + item.class_code}>
+                                        {item.class_code + ' - ' + item.course_code}
                                       </option>
                                     ))}
                                   </select>
@@ -1444,7 +1437,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     name="bcac"
                                     value={inputField.bcac}
                                     onChange={event => handleChangeInput(index, event)}
-                                    defaultValue="N/A"
+                                    required
                                   >
                                     <option value="N/A">N/A</option>
                                     <option value="BC">BC</option>
@@ -1456,8 +1449,10 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                 <div className='w-full md:w-[10%] flex items-center justify-center mx-0 mt-4"'>
                                     <button type="button"
                                             className="ml-2 text-red-600 hover:bg-red-300 hover:text-black font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center border border-gray-600 hover:border-red-800 hover:cursor-pointer"
-                                            disabled={inputFields.length === 1} onClick={() => handleRemoveFields(index)}
-                                            >
+                                            disabled={inputFields.length === 1} onClick={() => {
+                                              handleChangeUnits(index, event.target.value);
+                                              handleRemoveFields(index);
+                                            }}>
                                         <svg
                                             className="w-4 h-4"
                                             aria-hidden="true"
@@ -1521,15 +1516,23 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                 </div>
                                                                
                             </div> 
-                            <button className=' bg-blue-500 rounded mt-2' variant="container">submit [fix me]</button>
-                            <button className=' bg-blue-500 rounded mt-2 ml-2' variant="container">clear subjects</button>
-                            {/*fix the two buttons above, no axios connection yet, do for other view*/}
                     </div>
                 </div>
-            </form>
         </div>
       {/**=====================================================*/}
-
+        {/**===========SUMBIT Button============= */}
+        <div className="text-center flex justify-end my-8">
+          <button onClick={onDecline}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+              Decline
+          </button>
+          <button onClick={onClickAccept}
+            type="submit"
+            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              Accept
+          </button>
+        </div>
+      </form>
     </main>
     </>
   )

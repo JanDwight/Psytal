@@ -58,6 +58,7 @@ export default function PreRegistrationForContinuing() {
   const [compliedtoadmissionpolicy, setcompliedtoadmissionpolicy] = useState('NO');
   const [typeofstudent, setTypeOfStudent] = useState('Continuing');
   const [candidateForGraduadtion, setCandidateForGraduadtion] = useState('');
+  const [semester, setSemester] = useState('');
   const [studentStatus, setStudentStatus] = useState('');
   const [userId, setUserId] = useState(0);
 
@@ -97,6 +98,7 @@ export default function PreRegistrationForContinuing() {
     setvoluntarycontribution('');
     setcontributionamount('');
     setCandidateForGraduadtion('');
+    setSemester('');
   }
 
     const [inputFields, setInputFields] = useState([
@@ -174,6 +176,7 @@ export default function PreRegistrationForContinuing() {
             student_status: studentStatus,
             type_of_student: typeofstudent,
             year_level: yearLevel,
+            semester: semester,
             candidate_for_graduation: candidateForGraduadtion
         })
         .then(({ data }) => {
@@ -261,7 +264,11 @@ export default function PreRegistrationForContinuing() {
                               Semester :
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            value= "First Semester"
+                            value={semester}
+                            onChange={ev => {
+                              const value = ev.target.value.replace(/\D/g, '');
+                              setSemester(value);
+                            }}
                             />
                           </div>
                           

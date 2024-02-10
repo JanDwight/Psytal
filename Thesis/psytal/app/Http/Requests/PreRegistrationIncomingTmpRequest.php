@@ -66,6 +66,7 @@ class PreRegistrationIncomingTmpRequest extends FormRequest
             'complied_to_admission_policy' => 'string',
             'section' => 'string',
             'image' => 'string',
+            'semester' => 'string',
             'pre_reg_status' => 'string',
             'student_status' => 'string',
         ];
