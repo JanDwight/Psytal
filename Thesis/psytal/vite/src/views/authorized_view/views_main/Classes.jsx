@@ -66,10 +66,10 @@ export default function Classes(){
 
                 </div>
             </div>
-            <div className="table-container overflow-x-auto max-h-[400px] overflow-y-auto">
-          <table className="table w-full px-4 table-striped text-gray-700 mt-5" >
-            <thead>
-              <tr>
+            <div className="table-container px-4 overflow-x-auto max-h-[400px] overflow-y-auto">
+        <table className="table w-full table-striped text-gray-700 mt-5">
+            <thead >
+              <tr >
                         <th className="text-left bg-gray-200 p-2">Class Code</th>
                         <th className="text-left bg-gray-200 p-2">Course Code</th>
                         <th className="bg-gray-200 text-left p-2">Course Title</th>

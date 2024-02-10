@@ -110,8 +110,8 @@ handleSaveClassChanges = () => {
 
     return (
       <div className="w-full h-[auto] px-4 mx-auto rounded-b-3xl bg-white shadow-2xl max-h-[400px] overflow-y-auto">
-      
-          <tbody className="">{filteredData.map((subject, index) => (
+        <table className="w-full">
+          <tbody >{filteredData.map((subject, index) => (
                 <tr key={index} className='odd:bg-green-100 cursor-pointer'>
                 <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.class_code}</td>
                 <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>
@@ -123,7 +123,7 @@ handleSaveClassChanges = () => {
                 <td className="text-left p-2">
                   <div className="flex items-center">
                     <img
-                      src={edit}
+                      src={edit} 
                       alt='Edit'
                       className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'
                       onClick={() => this.handleEditClassesClick(subject)}
@@ -139,6 +139,7 @@ handleSaveClassChanges = () => {
               </tr>
             ))}
           </tbody>
+          </table>
         
         {this.state.isArchiveClassesOpen && (
           <ArchiveClasses
