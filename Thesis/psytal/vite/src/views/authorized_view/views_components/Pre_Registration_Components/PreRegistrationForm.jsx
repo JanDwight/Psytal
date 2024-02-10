@@ -367,36 +367,10 @@ export default function PreRegistrationForm() {
 
                 {/**=========================== Student ID - LRN ==========================*/} 
                 <div className="flex flex-wrap flex-row -mx-3 mb-2">
-                      {/*column1*/}
-                      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
-                      <div className="input-container relative">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-studentID">
-                          student id no :
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-studentID"
-                        type="text"
-                        pattern="\d{0,7}"
-                        title="Input numeric characters only. (0 to 9)"
-                        inputmode="numeric"
-                        maxLength={7}
-                        value={studentSchoolId}
-                        onChange={ev => {
-                          // Ensure that only numeric values are entered
-                          const value = ev.target.value.replace(/\D/g, '');
-                          setStudentSchoolId(value);}}
-                        />
-                        <img
-                        src={info}
-                        alt="info"
-                        className="absolute right-3 top-[50%] h-6 w-6"
-                        title="Input numeric characters only. (0 to 9)"
-                      />
-                        </div>                          
-                      </div>
+                      
                       {/*column2*/}
                       <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
-                      <div className="input-container relative">
+                      <div className="input-container relative ml-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-lrn">
                           learner's reference number (lrn) :
                         </label>
