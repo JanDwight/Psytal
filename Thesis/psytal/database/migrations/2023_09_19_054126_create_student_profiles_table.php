@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('place_of_birth')->nullable();
             $table->string('sex_at_birth')->nullable();
             $table->string('special_needs')->nullable();
-            $table->string('email_address')->nullable();
+            $table->string('email_address')->nullable()->unique();
             $table->string('home_address')->nullable();
             $table->string('address_while_studying')->nullable();
             $table->string('contact_person_name')->nullable();

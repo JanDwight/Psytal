@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->unsignedInteger('role')->default(1); // Add the 'role' column with a default value of 1 <><><>
-            $table->string('email');
+            $table->string('email')->unique();
             $table->boolean('archived')->default(false); // Add the 'archived' column <><>><>
             $table->rememberToken();
             $table->timestamps();
