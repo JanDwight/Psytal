@@ -51,14 +51,18 @@ export default function AddingPost() {
 
     try {
       if (!title || !description) {
-        setSuccessMessage({
-          message: 'Please enter both a title and description.',
-        }), 2000;
-        setError('Please enter both a title and description.');
-        setLoading(false);
-        return;
+          setError('Please enter both a title and description.');
+          setLoading(false);
+          setSuccessMessage({
+              message: 'Please enter both a title and description.'
+          });
+  
+          setTimeout(() => {
+              window.location.reload();
+          }, 2000); 
+          
+          return;
       }
-
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);

@@ -13,6 +13,7 @@ export default function PreRegistrationForm() {
   const [error, setError] = useState({__html: ""});
   const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   //variables for the user inputs
   const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
@@ -54,6 +55,8 @@ export default function PreRegistrationForm() {
 
   //clearing the input fields using the reset button
   const handleClear = () => {
+    console.log("Inside handleClear function");
+    console.log("Clearing start of school year");
     setStartOfSchoolYear('');
     setEndOfSchoolYear('');
     setStudentSchoolId('');
@@ -87,6 +90,8 @@ export default function PreRegistrationForm() {
     setavailfreehighereducation('');
     setvoluntarycontribution('');
     setcontributionamount('');
+    console.log("Closing modal");
+    setShowModal(false);
   }
   //the onSubmit function
   const onSubmit = (ev) => {
@@ -259,11 +264,33 @@ export default function PreRegistrationForm() {
                 </h6>
                 <button className="bg-blue-600 text-white active:bg-blue-800 font-bold uppercase text-xs px-4 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" 
                         type="button"
-                        onClick={handleClear}>
+                        onClick={() => setShowModal(true)}>
                     RESET
                 </button>
               </div>         
       </div>
+      {/* Modal for reset button*/}
+      {showModal ? (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    <div className="bg-white rounded-lg z-50 p-5">
+                        <h2 className="text-xl font-bold mb-3">Are you sure you want to reset?</h2>
+                        <div className="flex justify-end">
+                            <button 
+                                className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-2 rounded mr-2"
+                                onClick={() => setShowModal(false)}>
+                                  
+                                Cancel
+                            </button>
+                            <button 
+                                className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-2 rounded"
+                                onClick={handleClear}>
+                                Confirm Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
       {/**=========================== 2 ==========================*/}      
       {/**Start of Filling the FORM */}
       
@@ -1333,6 +1360,7 @@ export default function PreRegistrationForm() {
               </div>
             </div>
           </div>
+           
         </div>
       )}
     </>
