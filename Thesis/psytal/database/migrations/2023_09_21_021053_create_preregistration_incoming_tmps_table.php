@@ -58,6 +58,7 @@ return new class extends Migration
             $table->string('section')->nullable();
             $table->timestamps();
             $table->string('pre_reg_status')->nullable();
+            $table->string('semester')->nullable();
             $table->string('student_status');
         });
     }

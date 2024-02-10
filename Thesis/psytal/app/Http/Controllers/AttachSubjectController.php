@@ -15,12 +15,17 @@ class AttachSubjectController extends Controller
     public function createStudentClasses(Request $request)
     {
         $request->validate([
-            'studentData' => 'required|array',
+            'studentData' => 'array',
             'studentData.first_name' => 'required',
             'studentData.middle_name' => 'required',
             'studentData.last_name' => 'required',
-            'subjectData' => 'required'
+            'subjectData' => ''
         ]);
+
+        $DataBaseCleaner = student_profile::where('start_of_school_year', null);
+
+        // Delete all records that match the condition in $DataBaseCleaner
+        $DataBaseCleaner->delete();
 
         $student = student_profile::where('first_name', $request->input('studentData.first_name'))
             ->where('middle_name', $request->input('studentData.middle_name'))
@@ -35,7 +40,6 @@ class AttachSubjectController extends Controller
         // Retrieve the student_profile_id
         $studentProfileID = $student->student_profile_id;
 
-        $subjects = $request->input('subjectData');
 
         // Create an instance of the student_classes model for each class
         foreach ($request->input('subjectData') as $subject) {
@@ -53,9 +57,11 @@ class AttachSubjectController extends Controller
             $studentClasses->instructor_profile = $instructorName;
             // Save the record to the student_classes table
             $studentClasses->save();
+
+            return response()->json(['message' => 'Success']);
         }
 
-        return response()->json(['message' => $instructor]);
+        return response()->json(['message' => $studentProfileID]);
     }
 
     public function editGrade(Request $request, $studentName)
