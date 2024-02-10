@@ -26,8 +26,7 @@ class ForgotPasswordInputEmail extends Mailable
      */
     public function envelope()
     {
-        return new Envelope(subject:'Congratulations',);
-        
+        return new Envelope(subject:'Forgot Password',);
     }
 
     /**
