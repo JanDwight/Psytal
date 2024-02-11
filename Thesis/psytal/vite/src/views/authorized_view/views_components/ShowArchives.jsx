@@ -4,7 +4,7 @@ import axiosClient from '../../../axios.js';
 export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
-
+  const [selectAll, setSelectAll] = useState(false); 
 
   if (!showModal) {
     return null;
@@ -19,6 +19,16 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
       setSelectedRows([...selectedRows, index]);
     }
   };
+  // Function to toggle the selection of all rows
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(dataTable.map((_, index) => index));
+    }
+    setSelectAll(!selectAll);
+  };
+
 
   // Handle backup
   const handleBackup = async () => {
@@ -113,12 +123,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg">
         {/* Exit (Close) Button */}
-        <button
-          onClick={handleCloseModal}
-          className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
-        >
-          X
-        </button>
 
         <div className="mb-6"> {/* Add margin to the bottom of the table */}
           <table className="min-w-full">
@@ -131,6 +135,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
                 <th>Archiver Name</th>
                 <th>Archiver Role</th>
                 <th>Archived On</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -154,14 +159,31 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
             </tbody>
           </table>
         </div>
-
+        
+        <input
+              type="checkbox"
+              checked={selectAll}
+              onChange={toggleSelectAll}
+            />
+            <label className="ml-2">Select All</label>
+      
+        <button
+          onClick={handleCloseModal}
+          className="absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
+        >
+          X
+        </button>
         <div className="absolute bottom-2 right-2 flex space-x-3">
+        
+        
+        
           <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>
           <button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Backup
           </button>
+          
         </div>
       </div>
       {successMessage && (
