@@ -146,7 +146,7 @@ export default function PreRegistrationForm() {
       start_of_school_year: parseInt(startOfSchoolYear, 10),
       end_of_school_year: parseInt(endOfSchoolYear, 10),
       user_id: parseInt(userId),
-      student_school_id: parseInt(studentSchoolId, 10),
+      student_school_id: 0,
       learners_reference_number: parseInt(learnersReferenceNumber, 10),
       last_name: lastName,
       first_name: firstName,

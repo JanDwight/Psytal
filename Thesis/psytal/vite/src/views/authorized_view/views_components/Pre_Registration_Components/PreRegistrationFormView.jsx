@@ -68,15 +68,6 @@ export default function PreRegistrationFormView({prereg}) {
       setInputFields([{ class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' }]); //changed classCode to classId
       setTotalUnits(0);
     };
-
-    //calling the Form in the adding of classes
-    //unused, remove later <><><>
-    const handleSubmitCourseDetails = (e) => {
-        e.preventDefault();
-        //axios
-        //send student info (preferably student ID number)
-        //send course details to curriculum checklist, ideally just the course_id + class_code [already sending course_id + class_code]
-      };
     
     // Changing the input fields
 const handleChangeInput = (index, event) => {
@@ -1665,8 +1656,6 @@ const handleChangeUnits = (index, value) => {
                                 </div>
                                                                
                             </div> 
-                            <button className=' bg-blue-500 rounded mt-2' variant="container" onClick={handleSubmitCourseDetails}>submit [fix me]</button>
-                            <button className=' bg-blue-500 rounded mt-2 ml-2' variant="container" onClick={handleClearSubjects}>clear subjects</button>
                             {/*fix the two buttons above, no axios connection yet, do for other view*/}
                     </div>
                 </div>
