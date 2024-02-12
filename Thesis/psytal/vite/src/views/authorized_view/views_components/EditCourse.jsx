@@ -15,7 +15,6 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Create an object with the updated curriculum data
-    console.log('Submitting'+ {curriculum});
     const updatedCourse = {
       // Assuming curriculumId is still the same
       class_year,

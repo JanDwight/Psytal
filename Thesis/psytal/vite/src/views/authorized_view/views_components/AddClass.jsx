@@ -15,7 +15,7 @@ export default function AddClass({closeModal}) {
 
   
   function handleDropdownChange(selected_subject) {
-      console.log('Selected value:', selected_subject);
+
     
       axiosClient.get(`/get_selected/${selected_subject}`)
         .then((response) => {
@@ -75,7 +75,7 @@ export default function AddClass({closeModal}) {
   const handleSubmit = (ev) => {
     ev.preventDefault(); // Prevent the default form submission behavior
 
-    console.log('Selected:', selected_subject);
+    
 
       // Create a formData object and send it using axios
       const formData = {
@@ -90,7 +90,7 @@ export default function AddClass({closeModal}) {
         class_code,
         instructor_name,
       };
-      console.log('Selected:', formData);
+      
   
     axiosClient.post('/addclass', formData)
       .then((response) => {

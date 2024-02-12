@@ -25,7 +25,6 @@ export default function Dashboard() {
       .get('/getsemesterinformation')
       .then((res) => {
         setSemesterInformation(res.data);  // Assuming res.data is an array
-        console.log(semesterInformation)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);

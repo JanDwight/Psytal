@@ -28,17 +28,7 @@ export default function Curriculum(){
         setSelectedcourse(curriculum);
       }
 
-      // const addCourse = async (CurriculumData) => {
-      //     try {
-      //       const response = await axios.post('/addcurriculum', CurriculumData);
-      //       // Handle the response (e.g., show success message)
-      //     } catch (error) {
-      //       // Handle errors (e.g., display validation errors)
-      //       console.error(error);
-      //     }
-      //   };
-        
-    
+
       // Calling the AddCourse
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [curriculum, setCurriculum] = useState([]);   

@@ -30,7 +30,6 @@ const handleRowClick = (items) => {
       });
   }, []);
 
-  console.log('test ' + selectedData.type_of_student)
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">

@@ -94,7 +94,7 @@ class EmployeeList extends Component {
       const filteredData = data.filter((employee) => {
         const roleText = getRoleText(employee.role).toLowerCase(); //Used to filter text values instead of numeric value 1,2,3
 
-        console.log(selectedEmployee)
+        
         return (
           employee.employee_id.toString().includes(filterText) || // Filter by ID
           employee.full_name.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -103,7 +103,7 @@ class EmployeeList extends Component {
         );
       });
 
-      console.log('employee', data);
+      
 
     return (
       <>

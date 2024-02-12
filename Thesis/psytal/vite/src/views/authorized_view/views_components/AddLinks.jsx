@@ -28,8 +28,6 @@ export default function AddLinks({closeModal}) {
       .then(response => {
         // Handle success, e.g., show a success message
         console.log(response.data);
-        
-
         setSuccessMessage({
           message: 'The LINK was added successfully!',
         });

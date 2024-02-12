@@ -55,11 +55,6 @@ export default function AddUsers({ showModal, onClose}) {
     }
     
     //---------------------------------------------------------------------------
-    console.log('P-word:', password);
-    console.log('Name:', fullName);
-    console.log('Role:', selectedRole);
-    console.log('Email:', email);
-
     const formData = {
       name: fullName,//these are errors
       password: password,
@@ -71,7 +66,7 @@ export default function AddUsers({ showModal, onClose}) {
     axiosClient
       .post('/adduser', formData) // Back end, needs edit
       .then((response) => {
-        console.log('Success:', response.data);
+
         setSuccessMessage({
           message: 'The USER was added successfully!',
         });

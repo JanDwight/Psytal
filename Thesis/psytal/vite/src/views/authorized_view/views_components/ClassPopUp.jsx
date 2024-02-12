@@ -14,24 +14,6 @@ export default function ClassPopUp({ showModal, onClose, subject }) {
     return null;
   }
 
-  /*const [data, setData] = useState([]);
-  
-  useEffect(() => {
-    if (showModal) {
-      fetchData();
-    }
-  }, [showModal]);
-
-  const fetchData = () => {
-    // Fetch data from the Laravel API endpoint
-    axiosClient.get('/class_students') // take from student_profiles???
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching students:', error);
-      });
-  }*/
 
 
   return (

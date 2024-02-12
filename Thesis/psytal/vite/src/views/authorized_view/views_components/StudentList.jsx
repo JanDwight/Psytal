@@ -88,7 +88,6 @@ class StudentList extends Component {
         //add year and section here
     );
 
-    console.log(selectedStudent)
     return (
       <div>
        <table className="table w-full table-striped text-gray-700">

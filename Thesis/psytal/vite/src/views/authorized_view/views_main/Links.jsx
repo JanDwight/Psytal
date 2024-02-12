@@ -121,7 +121,7 @@ export default function Links() {
                     <th className="text-center bg-gray-200 ">Class Description</th>
                     <th className="text-center bg-gray-200 p-2">Instructor</th>
                     <th className="text-center bg-gray-200 p-2">Link Code</th>
-                    <th className="text-center bg-gray-200 p-2 justify-end">Action</th>
+                    <th className="text-center bg-gray-200 justify-end">Action</th>
 		              </tr>
               </thead>
           </table>

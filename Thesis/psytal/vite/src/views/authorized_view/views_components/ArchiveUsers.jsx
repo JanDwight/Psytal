@@ -9,7 +9,6 @@ export default function ArchiveUsers({ showModal, onClose, user }) {
       // send selected user to archive controller
       const response = await axiosClient.put(`/archiveuser/${user.user_id}`);
       
-      console.log(response.data);
       // Handle success, e.g., show a success message
       setSuccessMessage({
         message: 'User Deleted successfully!',

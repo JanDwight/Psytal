@@ -39,7 +39,6 @@ class ClassList extends Component {
 
   // open class pop-up modal <><><><><>
   handleOpenPopUp = (subject) => {
-    console.log('selected row: ', subject);
     this.setState({
       selectedClass: subject,
       isClassPopUpOpen: true,
