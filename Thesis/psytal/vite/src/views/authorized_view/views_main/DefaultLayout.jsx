@@ -30,7 +30,8 @@
     // Calling the ProfilePopupSample
     const [isProfileOpen, setIsProfileOpen] = useState(0);
     
-    const {userToken, setCurrentUser, setUserToken, setUserRole, userRole} = useStateContext();
+    // const {userToken, setCurrentUser, setUserToken, setUserRole, userRole} = useStateContext();
+    const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
 
     const [isPreRegOpen, setIsPreRegOpen] = useState();
 
@@ -70,11 +71,11 @@
 
     return (
       <>
-        <div className="min-h-full">
+        <div className="min-h-full w-full">
           <Disclosure as="nav" className="bg-[#588665]">
             {({ open }) => (
               <>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-8">
+                <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-8">
                   <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
@@ -89,11 +90,14 @@
                       </div>
                     </div>
 
+                    
                     <div className="hidden md:block">
                       <div className="ml-4 flex items-center md:ml-6">
                         {/* Profile dropdown */}
+                        
                         <Menu as="div" className="relative ml-3">
                           <div>
+                          <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right"><h4 className="font-medium text-gray-800 dark:text-gray-600">{currentUser}</h4></div>
                             <Menu.Button className="relative flex max-w-xs items-center rounded-full shadow-2xl shadow-black text-sm  focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                               <span className="absolute -inset-1.5" />
                               <span className="sr-only">Open user menu</span>
@@ -130,17 +134,7 @@
                               </Menu.Item>
                             </Menu.Items>
                           </Transition>
-                        </Menu>
-                        
-                        {/**Notification */}
-                        <button
-                          type="button"
-                          className="relative rounded-full p-1 ml-4 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                        >
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-7 w-7" aria-hidden="true" />
-                        </button>                      
+                        </Menu>                   
                       </div>
                     </div>
                     
