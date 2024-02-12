@@ -77,6 +77,7 @@ export default function StaffLayout() {
                         {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
+                        <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right"><h4 className="font-medium text-gray-800 dark:text-gray-600">{currentUser}</h4></div>
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full shadow-2xl shadow-black text-sm  focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
@@ -113,16 +114,6 @@ export default function StaffLayout() {
                           </Menu.Items>
                         </Transition>
                       </Menu>
-
-                        {/**Notification */}
-                        <button
-                          type="button"
-                          className="relative rounded-full p-1 ml-4 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                        >
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-7 w-7" aria-hidden="true" />
-                        </button>
                     </div>
                   </div>
                   {/*Mobile Menu*/}
@@ -167,15 +158,6 @@ export default function StaffLayout() {
                             <div className="flex-shrink-0">
                             <UserIcon className=' w-8 h-8 rounded-full text-white bg-black hover:cursor-pointer' onClick={()=>setIsStaffProfileOpen(true)}/>
                             </div>
-                            
-                            <button
-                              type="button"
-                              className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                            >
-                              <span className="absolute -inset-1.5" />
-                              <span className="sr-only">View notifications</span>
-                              <BellIcon className="h-6 w-6" aria-hidden="true" />
-                            </button>
                           </div>
                           <div className="mt-3 space-y-1 px-2">
                               <button
