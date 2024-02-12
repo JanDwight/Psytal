@@ -2,14 +2,12 @@ import React, {useEffect, useState} from 'react'
 import schoolLogo from "@assets/BSUlogo.png";
 import date from "@assets/calendar.png";
 import axiosClient from '../../../../axios';
-import { Navigate } from 'react-router-dom';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 
 export default function PreRegistrationFormView({prereg}) {
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
-  const [firstYearSubjects, setFirstYearSubjects] = useState([]);
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
 
   const includeNumbers = true;  // Include numbers in the password
@@ -617,7 +615,6 @@ const handleChangeUnits = (index, value) => {
       studentData: preregData,
       subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
     }).then(data)
-    console.log('This is the Data: ', data)
     //--------------------------// <><><><><>
 
   };
@@ -640,6 +637,21 @@ const handleChangeUnits = (index, value) => {
     });
   };
 
+  useEffect(() => {
+    let newTotal = 0;
+    inputFields.forEach(field => {
+      console.log('Field units:', field.units); // Debugging line
+      // Check if field.units is a non-empty string and a valid number
+      if (field.units !== '') {
+        // Parse the value to an integer
+        newTotal += parseInt(field.units, 10); // Specify the radix to prevent unexpected behavior
+        console.log('This is the new Total', newTotal);
+      }
+    });
+    console.log('Final Total:', newTotal); // Debugging line
+    setTotalUnits(newTotal);
+  }, [inputFields]);
+    
   return (
     <>
         {error.__html && (
