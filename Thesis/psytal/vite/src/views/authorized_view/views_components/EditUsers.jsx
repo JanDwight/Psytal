@@ -8,12 +8,9 @@ export default function EditUsers({ showModal, onClose, user }) {
   const [email, setEmail] = useState(user.email);
   const [successMessage, setSuccessMessage] = useState(null);
   const [lastedit, setLastedit] = useState(user.updated_at);
-  console.log('role: ', role);
 
   const handleSave = async(e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-
-    console.log('role: ', role);
 
     const updatedUser = {
       id,
@@ -25,8 +22,6 @@ export default function EditUsers({ showModal, onClose, user }) {
 
     try {
       const response = await axiosClient.put(`/updateuser/${user.id}`, updatedUser);
-  
-      console.log(response.data);
       // Handle success, e.g., show a success message
       setSuccessMessage({
         message: 'Account Updated successfully!',

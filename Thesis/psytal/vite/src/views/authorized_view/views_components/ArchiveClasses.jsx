@@ -10,9 +10,7 @@ export default function ArchiveClasses({ showModal, onClose, subject }) {
       // send selected subject to archive controller
       //change 'class_id' with just 'id'
       const response = await axiosClient.put(`/archiveclasses/${subject.class_id}`);
-
-      console.log('Class archived successfully.');
-      console.log(response.data);
+      
       // Handle success, e.g., show a success message
       setSuccessMessage({
         message: 'Class Deleted successfully!',

@@ -3,12 +3,6 @@ import axiosClient from '../../../axios.js';
 import ClassPopUp from '../views_components/ClassPopUp.jsx';
 
 export default function ClassesForStudent() {
-    const test = [
-        {class_code: "ABC1", course_code: "TEST", course_title: "TEST", semester: "TEST", class_year: "TEST", class_section: "TEST" },              
-        {class_code: "ABC1", course_code: "TEST", course_title: "TEST", semester: "TEST", class_year: "TEST", class_section: "TEST" },
-        {class_code: "ABC1", course_code: "TEST", course_title: "TEST", semester: "TEST", class_year: "TEST", class_section: "TEST" }
-    ]
-
     const [isClassPopUpOpen, setClassPopUpOpen]= useState(false);
     const [selectedClass, setSelectedClass] = useState([]);
 
@@ -25,8 +19,6 @@ export default function ClassesForStudent() {
       const fetchClasses = async () => {
           try {
             const response = await axiosClient.get('/classes');
-            //console.log('Server Response: ', response);
-            
             const classesArray = Object.values(response.data);
             setClasses(classesArray);
             console.log('Response Data:', classesArray);
@@ -35,7 +27,6 @@ export default function ClassesForStudent() {
           }
         };
 
-        console.log('Classes:', classes);
     return (
       <>
       <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">

@@ -6,6 +6,7 @@ import ArchivePost from './ArchivePost';
 import ImageGallery from './ImageGallery';
 import Timestamp from './Timestamp';
 import ReadMore from './ReadMore'; 
+import { useStateContext } from '../../../../context/ContextProvider';
 
 export default function PostArticles() {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,7 @@ export default function PostArticles() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [archiveConfirmation, setArchiveConfirmation] = useState(false);
   const [editedPostIndex, setEditedPostIndex] = useState(null);
-
+  const {userRole} = useStateContext();
   useEffect(() => {
     // Define a function to fetch posts
     const fetchPosts = async () => {
@@ -68,6 +69,7 @@ export default function PostArticles() {
       {posts.map((post, index) => (
         <div key={post.id} className="px-10 my-8 py-8 bg-gray-200 rounded-2xl shadow-lg">
           {/* Ellipsis Menu */}
+          {userRole === 1 && ( 
           <div
             className="relative"
             onClick={() => toggleMenu(index)}
@@ -93,9 +95,11 @@ export default function PostArticles() {
                 >
                   Delete
                 </div>
-              </div>
+              </div> 
             )}
           </div>
+          )}
+         
 
           {/* Profile section and Description */}
           <div className="flex h-1/2">

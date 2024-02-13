@@ -32,7 +32,6 @@ export default function ManageUsers() {
 
   const {userRole} = useStateContext(''); //just refresh server
 
-  console.log('role: ', userRole);
   const handleAddUserClick = () => {
     console.log('ModalShowing');
     setIsModalOpen(true);

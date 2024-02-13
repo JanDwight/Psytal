@@ -22,8 +22,6 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
       const [show_instructors] = await Promise.all([
        fetchInstructorData('/show_instructors'),
        ]);
-       console.log('data: ', show_instructors);
-
        const instructor_Table = show_instructors.map(instructor => ({
          id: instructor.id,
          name: instructor.name,
@@ -47,7 +45,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Create an object with the updated class data
-    console.log('Submitting', subject.class_id); //sending the passed ID to edit
+    
     const updatedClass = {
       // Assuming classId is still the same
       instructor_name,

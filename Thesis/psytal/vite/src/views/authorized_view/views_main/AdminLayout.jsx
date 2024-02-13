@@ -49,7 +49,6 @@ export default function AdminLayout() {
     return <Navigate to='/' />
   }
 
-  console.log(userRole)
 
   if (!userToken && !userRole) {
     return <Navigate to='/' />
@@ -65,7 +64,6 @@ export default function AdminLayout() {
       })
   }
 
-  console.log('Current User' + currentUser)
 
   return (
     <>

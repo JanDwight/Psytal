@@ -34,7 +34,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   const handleBackup = async () => {
     // Get the data of the selected rows
     const selectedItems = selectedRows.map((index) => dataTable[index].id);
-    console.log('Selected Items for backup:', selectedItems);
+   
 
     if (selectedItems.length === 0) {
       // No items selected, show an error message
@@ -91,8 +91,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
       // Make a POST request to your backend endpoint with selectedItems as the request payload
       const response = await axiosClient.post('/return_archives', { selectedItems });
 
-      // Handle the response from the backend as needed
-      console.log('Response from backend:', response.data);
 
       setSuccessMessage({
         message: 'This ITEM has been restored successfully!',
