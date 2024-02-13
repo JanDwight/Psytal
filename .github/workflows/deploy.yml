@@ -8,6 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: windows-latest
+        env:
+      NODE_VERSION: 20
+
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
     steps:
       - name: Checkout code
