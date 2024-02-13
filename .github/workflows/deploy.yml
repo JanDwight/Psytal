@@ -19,8 +19,8 @@ jobs:
 
       - name: Deploy via FTP
         env:
-          FTP_SERVER: ftp://153.92.8.51
-          FTP_USERNAME: u120281604
-          FTP_PASSWORD: Psyt@12024
+          FTP_SERVER: ${ftp://153.92.8.51}
+          FTP_USERNAME: ${u120281604}
+          FTP_PASSWORD: ${Psyt@12024}
         run: |
           lftp -e "set ssl:verify-certificate no; open -u $u120281604,$Psyt@12024 $ftp://153.92.8.51; mirror -R -e -x .git -x .github -x .gitignore /home/u120281604/domains/psytal-bsu.com/public_html; quit"
