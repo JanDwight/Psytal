@@ -76,7 +76,7 @@ export default function Login() {
     setIsVisible(!isVisible);
     
   };
-  console.log('12:06 2/13/2024');
+  
   return (
     <>
       <div className="flex min-h-[100%] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
