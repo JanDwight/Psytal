@@ -16,7 +16,7 @@ jobs:
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@3.1.1
         with:
-          server: ${{ secrets.ftp://psytal-bsu.com }}
+          server: ${{ secrets.ftp://153.92.8.51 }}
           username: ${{ secrets.u120281604 }}
           password: ${{ secrets.Psyt@12024 }}
           local-dir: ./home/u120281604/domains/psytal-bsu.com
