@@ -1,0 +1,23 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Deploy to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        with:
+          server: ${{ secrets.ftp://psytal-bsu.com }}
+          username: ${{ secrets.u120281604 }}
+          password: ${{ secrets.Psyt@12024 }}
+          local-dir: ./home/u120281604/domains/psytal-bsu.com
+          remote-dir: /public_html
