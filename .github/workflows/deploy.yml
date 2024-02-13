@@ -1,4 +1,4 @@
-name: Deplot to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: git-checkout
         uses: actions/checkout@v3
-
-      - name: Install all dependencies
-        run: npm install
 
       - name: Build
         run: npm run build # The build command of your project
