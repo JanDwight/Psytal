@@ -280,6 +280,15 @@ const handleChangeUnits = (index, value) => {
       contact_person_relationship: preregData.contact_person_relationship,
       pre_reg_status: 'Accepted',
       type_of_student: 'Regular',
+    }).then(response => {
+      // Extract user ID from the response or use preregData.user_id if available
+      const userId = response.data.user_id || preregData.user_id;
+      
+      // Run the second axios call
+      axiosClient.post('/student_subject', {
+          studentData: preregData,
+          subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+      })
     })
     
     //prereg update===============================================================================
@@ -607,15 +616,7 @@ const handleChangeUnits = (index, value) => {
     console.log("Last Name:", preregData.last_name);
     
 
-    //--------------------------// <><><><><>
-
     
-
-    axiosClient.post('/student_subject', {
-      studentData: preregData,
-      subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
-    }).then(data)
-    //--------------------------// <><><><><>
 
   };
 
