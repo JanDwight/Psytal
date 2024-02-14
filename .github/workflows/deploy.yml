@@ -1,33 +1,29 @@
-name: Deploy to Hostinger
+name: Generate a build and push to another branch
 
 on:
   push:
     branches:
-      - main
+      - main # The branch name your are commit the new changes
 
 jobs:
-  deploy:
-    runs-on: windows-latest
-    env:
-      NODE_VERSION: '20'
-
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Push
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: git-checkout
+        uses: actions/checkout@v3
 
-      - name: Install FTP client
-        run: |
-          choco install lftp
+      - name: Install all dependencies
+        run: npm install
 
-      - name: Deploy via FTP
+      - name: Build
+        run: npm run build # The build command of your project
+
+      - name: Push
+        uses: s0/git-publish-subdir-action@develop
         env:
-          FTP_SERVER: ${ftp://153.92.8.51}
-          FTP_USERNAME: ${u120281604}
-          FTP_PASSWORD: ${Psyt@12024}
-        run: |
-          lftp -e "set ssl:verify-certificate no; open -u $u120281604,$Psyt@12024 ${ftp://153.92.8.51}; mirror -R -e -x .git -x .github -x .gitignore /home/u120281604/domains/psytal-bsu.com /public_html; quit"
+          REPO: self
+          BRANCH: build # The branch name where you want to push the assets
+          FOLDER: build # The directory where your assets are generated
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "Build: ({sha}) {msg}" # The commit message
