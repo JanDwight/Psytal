@@ -91,19 +91,7 @@ class AuthController extends Controller
         }
 
         // Create profile based on user role
-        if ($data['role'] == 4) {
-            // Student Profile
-            student_profile::create([
-                'user_id' => $user->id,
-                'student_school_id' => 0,
-                'last_name' => $lastName,
-                'first_name' => $firstName,
-                'middle_name' => $middleName,
-                'email_address' => $data['email'],
-                'archived' => 0
-                // Add other student profile fields here
-            ]);
-        } else {
+        if ($data['role'] != 4) {
             // Employee Profile
             employee_profile::create([
                 'user_id' => $user->id,
@@ -111,9 +99,8 @@ class AuthController extends Controller
                 'last_name' => $lastName,
                 'first_name' => $firstName,
                 'middle_name' => $middleName,
-           ]);
+            ]);
         }
-
         $token = $user->createToken('main')->plainTextToken;
 
         return response([
