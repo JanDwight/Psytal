@@ -76,7 +76,7 @@ export default function Login() {
     setIsVisible(!isVisible);
     
   };
-  
+  console.log('test');
   return (
     <>
       <div className="flex min-h-[100%] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
