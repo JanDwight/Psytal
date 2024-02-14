@@ -9,24 +9,24 @@ import Login from '../../unauthorized_view/views_main/Login';
 export default function LandingPage() {
 
   return (
-    <div className='w-[100%] h-[100%] relative mx-auto'>
+    <div className='w-[100vw] h-[100vh] top-[10vh] relative mx-auto'>
       <video
-        className='w-[100%] h-[100%] object-cover z-0 mx-auto'
+        className='w-[100vw] h-[100vh]  object-cover z-0 mx-auto'
         src={coverVid}
         autoPlay
         loop
         muted
       />
 
-      <div className="absolute flex w-[100%] h-[100%] top-[10%] left-[0%] overflow-hidden">
-        <div className="w-[50%] flex items-center text-white relative">
+      <div className="absolute flex w-[100vw] h-[100vh] top-[10vh] left-[0vw] overflow-hidden">
+        <div className="w-[50vw] flex items-center text-white relative">
           <div className="mx-8">
             <img
-              className="h-24 w-24 absolute top-[0%] left-[40%]"
+              className="h-24 w-24 absolute top-[3vh] left-[20vw]"
               src={schoolLogo}
               alt="BSUlogo"
             />
-            <div className= "absolute top-[6%] left-[13%]">
+            <div className= "absolute top-[16vh] left-[7vw]">
             <h1 className="font-franklin font-extrabold text-2xl text-center">
               WELCOME TO BENGUET STATE UNIVERSITY
             </h1>
@@ -36,23 +36,23 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="absolute w-[90%] h-[100%] top-[-14%] left-[5%] pl-10 pr-5 flex items-center justify-center">
+          <div className="absolute w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 flex items-center justify-center">
             <Carousel />
           </div>
         </div>
       </div>
 
-      <div className="absolute w-[50%] h-[100%] top-[-25%] right-[0%] pl-10 flex items-center justify-center">
+      <div className="absolute w-[50vw] h-[100vh] top-[-3vh] right-[0vw] pl-10 flex items-center justify-center">
             <Login />
       </div>
 
 
-      <div className='w-[100%] h-[100%] pb-10 relative flex items-center justify-center'>
+      <div className='w-[100vw] h-[65vh] pb-10 relative flex items-center justify-center'>
         
-      <div className="w-[75%] h-[100%] float-left">
+      <div className="w-[100vw] h-[50vh] float-left">
       <div className="mx-6 ">
         {/* Green Card 1 */}
-        <div className="bg-[#002408] p-4  shadow-lg">
+        <div className="bg-[#002408] p-4 shadow-lg">
           <h6 className="text-2xl text-white text-center font-bold pt-3">ADMISSION REQUIREMENTS</h6>
           <h4 className="text-xl text-white font-bold pt-3">Applicants</h4>
           <ul className="list-disc pl-6 text-lg text-white">
@@ -87,7 +87,7 @@ export default function LandingPage() {
     </div>
 
       {/*DEPARTMENT OBJECTIVES*/}
-      <div className="w-[25%] h-[100%] float-left ml-4">
+      <div className="w-[50vw] h-[50vh] float-left ml-4">
     
           <p className="text-sm text-center  mr-6">
             <h6 className="text-xl font-bold pt-3">PSYCHOLOGY PROGRAM OBJECTIVES</h6>
@@ -108,7 +108,7 @@ export default function LandingPage() {
       
     
       {/**<!--Footer--> */}
-      <footer className='bg-gray-200 text-center text-gray-500 lg:text-left mt-[1%]'>
+      <footer className='w-[100vw] h-[40vh] bg-gray-200 text-center text-gray-500 lg:text-left mt-10'>
       {/**<!-- Social icons --> */}
       <div className='border-b-2 border-neutral-200 p-2'>
         <div className='container mx-auto px-10'>
@@ -153,7 +153,7 @@ export default function LandingPage() {
 
       {/**<!-- Main footer content --> */}
         <div className="bg-gray-100">
-        <div className='container mx-auto px-4 py-5 justify-center items-center h-[100%]'>
+        <div className='container mx-auto px-4 py-5 justify-center items-center'>
           <div className='mx-6 text-center'>
             <div className='grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-5'>
               <div></div>
