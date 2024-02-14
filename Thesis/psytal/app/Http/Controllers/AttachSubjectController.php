@@ -40,9 +40,10 @@ class AttachSubjectController extends Controller
         // Retrieve the student_profile_id
         $studentProfileID = $student->student_profile_id;
 
+        $subdata = $request->input('subjectData');
+        //$allsub = $subdata['Data'];
 
-        // Create an instance of the student_classes model for each class
-        foreach ($request->input('subjectData') as $subject) {
+        foreach ($subdata as $subject) {
             $studentClasses = new student_classes();
         
             // Set the attributes
@@ -57,11 +58,13 @@ class AttachSubjectController extends Controller
             $studentClasses->instructor_profile = $instructorName;
             // Save the record to the student_classes table
             $studentClasses->save();
-
-            return response()->json(['message' => 'Success']);
         }
 
-        return response()->json(['message' => $studentProfileID]);
+        return response()->json([
+            'message' => 'Success',
+            'Data' => $subdata,
+        ]);
+        //return response()->json(['message' => $studentProfileID]);
     }
 
     public function editGrade(Request $request, $studentName)

@@ -68,7 +68,7 @@ export default function PreRegistrationFormView({prereg}) {
     };
     
     // Changing the input fields
-const handleChangeInput = (index, event) => {
+  const handleChangeInput = (index, event) => {
   const { name, value } = event.target;
   const updatedInputFields = [...inputFields];
 
