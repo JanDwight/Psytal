@@ -5,11 +5,11 @@ import { useStateContext } from '../../../context/ContextProvider';
 
 export default function Home() {
   const {userRole} = useStateContext();
-
+  
   return (
     <div>
       <div className="flex flex-col justify-center items-center ml-10">
-      {userRole === 1 && (
+      {userRole == 1 && (
           <div className="w-full">
             <AddingPost />
           </div>
