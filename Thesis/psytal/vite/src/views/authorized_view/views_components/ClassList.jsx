@@ -112,14 +112,14 @@ handleSaveClassChanges = () => {
         <table className="w-full">
           <tbody >{filteredData.map((subject, index) => (
                 <tr key={index} className='odd:bg-green-100 cursor-pointer'>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.class_code}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.course_title}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.semester}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.class_year}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.class_section}</td>
-                <td className="text-left p-2" onClick={() => this.handleOpenPopUp(subject)}>{subject.instructor_name}</td>
-                <td className="text-left p-2">
+                <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_code}</td>
+                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>
+                <td className="text-center p-2" style={{ width: "30%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_title}</td>
+                <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.semester}</td>
+                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_year}</td>
+                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_section}</td>
+                <td className="text-center p-2" style={{ width: "15%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.instructor_name}</td>
+                <td className="text-center p-2" style={{ width: "10%" }}>
                   <div className="flex items-center">
                     <img
                       src={edit} 

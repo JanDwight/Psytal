@@ -63,10 +63,10 @@ export default function LinksForStudent() {
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200 p-2">Class Code</th>
-                    <th className="text-center bg-gray-200 p-2">Class Description</th>
-                    <th className="text-center bg-gray-200 p-2">Instructor</th>
-                    <th className="text-center bg-gray-200 p-2">Link Code</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Class Code</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Class Description</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Instructor</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Link Code</th>
 		              </tr>
                 </thead>
                 </table>
@@ -76,10 +76,10 @@ export default function LinksForStudent() {
                  <tbody>
                      {filteredData.map((link, index) => (//edited
                       <tr key={index} className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word">{link.class_code.slice(0, 40)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word">{link.class_description.slice(0, 50)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word">{link.instructor_name.slice(0, 50)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word">
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 40)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 50)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "60%" }}>
                             <a href={link.url} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-blue-500">
                            {link.url.slice(0, 50)}... {/* Displaying the first 10 characters */}
                             </a>

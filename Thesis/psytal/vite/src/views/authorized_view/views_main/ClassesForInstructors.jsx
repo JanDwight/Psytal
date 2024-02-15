@@ -45,10 +45,10 @@ export default function ClassesForInstructors(){
         <table className="table w-full table-striped text-gray-700">
           <thead>
             <tr>
-              <th className="text-left bg-gray-200 p-2">Class Code</th>
-              <th className="bg-gray-200 text-left p-2">Course Title</th>
-              <th className="bg-gray-200 text-left p-2">Year</th> 
-              <th className="bg-gray-200 text-left p-2">Section</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Class Code</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "30%" }}>Course Title</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Year</th> 
+              <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Section</th>
             </tr>
           </thead>
           <tbody> 
@@ -57,10 +57,10 @@ export default function ClassesForInstructors(){
                   key={index} 
                   className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}
                 >
-                <td className="text-left p-2" onClick={() => handleOpenPopUp(classList)}>{classList.class_code}</td>
-                <td className="text-left p-2" onClick={() => handleOpenPopUp(classList)}>{classList.course_title}</td>
-                <td className="text-left p-2" onClick={() => handleOpenPopUp(classList)}>{classList.class_year}</td>
-                <td className="text-left p-2" onClick={() => handleOpenPopUp(classList)}>{classList.class_section}</td>
+                <td className="text-left p-2" style={{ width: "10%" }} onClick={() => handleOpenPopUp(classList)}>{classList.class_code}</td>
+                <td className="text-left p-2" style={{ width: "30%" }} onClick={() => handleOpenPopUp(classList)}>{classList.course_title}</td>
+                <td className="text-left p-2" style={{ width: "5%" }} onClick={() => handleOpenPopUp(classList)}>{classList.class_year}</td>
+                <td className="text-left p-2" style={{ width: "5%" }} onClick={() => handleOpenPopUp(classList)}>{classList.class_section}</td>
               </tr>
             ))}
           </tbody>

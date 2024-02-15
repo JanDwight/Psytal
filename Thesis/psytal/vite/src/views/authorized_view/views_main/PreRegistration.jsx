@@ -41,10 +41,10 @@ const handleRowClick = (items) => {
       <table className="table w-full table-striped">
         <thead>
           <tr>
-            <th className="text-left text-gray-700 bg-gray-200 p-2">Name</th>
-            <th className="text-left text-gray-700 bg-gray-200 p-2">Date of Submission</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Name</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Date of Submission</th>
             {/* <th className="text-left text-gray-700 bg-gray-200 p-2">Section</th> */}
-            <th className="text-left text-gray-700 bg-gray-200 p-2">Status</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Status</th>
           </tr>
         </thead>
         </table>
@@ -57,13 +57,13 @@ const handleRowClick = (items) => {
                 key={index} 
                 className={`${index % 2 === 0 ? 'bg-green-100' : 'bg-white'}`}
               >
-              <td className="text-left p-2">
+              <td className="text-left p-2" style={{ width: "20%" }}>
                 <div className="m-2">{item.full_name}</div>
               </td>
-              <td className="text-left p-2">
+              <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="m-2">{item.created_at}</div>
               </td>
-              <td className="text-left p-1">
+              <td className="text-left p-1" style={{ width: "10%" }}>
                 <div className={`${
                     item.pre_reg_status === 'Accepted'
                     ? 'bg-green-600'

@@ -111,21 +111,21 @@ class EmployeeList extends Component {
         <table className="table w-full table-striped text-gray-700">
           <thead>
             <tr>
-              <th className="text-left bg-gray-200 p-2">Employee ID</th>
-              <th className="bg-gray-200 text-left p-2">Name</th>
-              <th className="bg-gray-200 text-left p-2">Email</th>
-              <th className="bg-gray-200 text-left p-2">Role</th>
-              <th className="bg-gray-200 text-left p-2">Action</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Employee ID</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Name</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Email</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Role</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((employee, index) => (
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                <td className="text-left p-2">{employee.employee_id}</td>
-                <td className="text-left p-2">{employee.full_name}</td>
-                <td className="text-left p-2">{employee.email_address}</td>
-                <td className="text-left p-2">{getRoleText(employee.role)}</td>
-                <td className="text-left p-2">
+                <td className="text-left p-2" style={{ width: "10%" }}>{employee.employee_id}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{employee.full_name}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{employee.email_address}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{getRoleText(employee.role)}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="flex items-center">
                   <img
                     src={edit} 
