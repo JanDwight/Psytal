@@ -39,13 +39,13 @@ export default function ClassesForStudent() {
           <table className="table w-full table-striped text-gray-700">
             <thead>
               <tr>
-                <th className="text-left bg-gray-200 p-2">Class Code</th>
-                <th className="text-left bg-gray-200 p-2">Course Code</th>
-                <th className="bg-gray-200 text-left p-2">Course Title</th>
-                <th className="bg-gray-200 text-left p-2">Semester</th>
-                <th className="bg-gray-200 text-left p-2">Year</th> 
-                <th className="bg-gray-200 text-left p-2">Section</th>
-                <th className="bg-gray-200 text-left p-2">Units</th>
+                <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Class Code</th>
+                <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Course Code</th>
+                <th className="bg-gray-200 text-left p-2" style={{ width: "20%" }}>Course Title</th>
+                <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Semester</th>
+                <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Year</th> 
+                <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Section</th>
+                <th className="bg-gray-200 text-left p-2" style={{ width: "5%" }}>Units</th>
               </tr>
             </thead>
             <tbody> {classes.map((classItem, index) => (
@@ -53,13 +53,13 @@ export default function ClassesForStudent() {
                     key={index} 
                     className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}
                   >
-                  <td className="text-left p-2">{classItem.class_code}</td>
-                  <td className="text-left p-2">{classItem.course_code}</td>
-                  <td className="text-left p-2">{classItem.course_title}</td>
-                  <td className="text-left p-2">{classItem.semester}</td>
-                  <td className="text-left p-2">{classItem.class_year}</td>
-                  <td className="text-left p-2">{classItem.class_section}</td>
-                  <td className="text-left p-2">{classItem.units}</td>
+                  <td className="text-left p-2" style={{ width: "10%" }}>{classItem.class_code}</td>
+                  <td className="text-left p-2" style={{ width: "10%" }}>{classItem.course_code}</td>
+                  <td className="text-left p-2" style={{ width: "20%" }}>{classItem.course_title}</td>
+                  <td className="text-left p-2" style={{ width: "5%" }}>{classItem.semester}</td>
+                  <td className="text-left p-2" style={{ width: "5%" }}>{classItem.class_year}</td>
+                  <td className="text-left p-2" style={{ width: "5%" }}>{classItem.class_section}</td>
+                  <td className="text-left p-2" style={{ width: "5%" }}>{classItem.units}</td>
                 </tr>
               ))}
             </tbody>

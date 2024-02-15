@@ -94,15 +94,15 @@ export default function Curriculum(){
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead >
 		              <tr>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Class Year</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Semester</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Course Code</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Units</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Course Title</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Hours/Week</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Lec/Lab</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Pre-Requisite</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2">Action</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Class Year</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Semester</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "7%" }}>Course Code</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Units</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Course Title</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Hours/Week</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "7%" }}>Lec/Lab</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Pre-Requisite</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Action</th>
 		              </tr>
                 </thead>
                 </table>
@@ -115,15 +115,15 @@ export default function Curriculum(){
                         key={index} 
                         className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}
                       >
-                          <td className="text-center p-2">{curriculum.class_year}</td>
-                          <td className="text-center p-2">{curriculum.semester}</td>
-                          <td className="text-center p-2">{curriculum.course_code}</td>
-                          <td className="text-center p-2">{curriculum.units}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word">{curriculum.course_title}</td>
-                          <td className="text-center p-2">{curriculum.hoursperWeek}</td>
-                          <td className="text-center p-2">{curriculum.course_type}</td>
-                          <td className="text-center p-2">{curriculum.preReq}</td>
-                          <td className= "flex items-center p-2">
+                          <td className="text-center p-2" style={{ width: "5%" }}>{curriculum.class_year}</td>
+                          <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.semester}</td>
+                          <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.course_code}</td>
+                          <td className="text-center p-2" style={{ width: "5%" }}>{curriculum.units}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "30%" }}>{curriculum.course_title}</td>
+                          <td className="text-center p-2" style={{ width: "7%" }}>{curriculum.hoursperWeek}</td>
+                          <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.course_type}</td>
+                          <td className="text-center p-2" style={{ width: "15%" }}>{curriculum.preReq}</td>
+                          <td className= "flex items-center p-2" style={{ width: "auto" }}>
                             <button onClick={() => handleEditClick(curriculum)}>
                               <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125' />
                             </button>

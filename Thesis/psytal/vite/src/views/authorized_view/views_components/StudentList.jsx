@@ -93,21 +93,21 @@ class StudentList extends Component {
        <table className="table w-full table-striped text-gray-700">
           <thead>
             <tr>
-              <th className="text-left bg-gray-200 p-2">School ID</th>
-              <th className="text-left bg-gray-200 p-2">Name</th>
-              <th className="text-left bg-gray-200 p-2">Email</th>
-              <th className="text-left bg-gray-200 p-2">Year & Section</th>
-              <th className="text-left bg-gray-200 p-2">Action</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>School ID</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Name</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Email</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Year & Section</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((student, index) => (
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                <td className="text-left p-2">{student.student_school_id}</td>
-                <td className="text-left p-2">{student.full_name}</td>
-                <td className="text-left p-2">{student.email}</td>
-                <td className="text-left p-2">{student.yrsection}</td>
-                <td className="text-left p-2">
+                <td className="text-left p-2" style={{ width: "10%" }}>{student.student_school_id}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{student.full_name}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{student.email}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{student.yrsection}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="flex items-center">
                   <img
                     src={edit} 
