@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function ClassPopUp({ showModal, onClose, subject }) {
 
-    const students = [
-        {name: "Garcia, Eduardo"},
-        {name: "Mendoza, Rosalinda"},
-        {name: "Bautista, Fernando"},
-        {name: "Magno, Emilia"}
-    ]
+  const [data, setData] = useState([]);
+  const id = subject.class_id;
+
+  useEffect(() => {
+    fetchClasses();
+      }, []);
+
+      const fetchClasses = async () => {
+          try {
+              // Fetch data from the Laravel API endpoint
+      axiosClient.put(`/showclassmembers/${subject.class_id}`) // take from student_profiles???
+      .then((response) => {
+        setData(response.data);
+      })
+
+  } catch (error) {
+    console.error(error);
+  }
+  };
 
   if (!showModal) {
     return null;
@@ -40,13 +53,13 @@ export default function ClassPopUp({ showModal, onClose, subject }) {
                     </div>
                 </div>
              
-                {students.map((itemn, index) => (
+                {data.map((itemn, index) => (
                   <div className={index % 2 === 0 ? "bg-[#D9D9D9]" : "bg-white"}>
                     {itemn.name}
                   </div>
                 ))}
                 <div className='text-xs font-bold text-right'>
-                    Total Students: 32
+                    Total Students: {data.length}
                 </div>
             </div>
         </div>

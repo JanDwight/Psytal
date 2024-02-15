@@ -81,6 +81,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/archiveclasses/{id}', [ClassesController::class, 'archiveclasses']); //<><><> archive class
     Route::get('/instructorclasses', [InstructorClassesController::class, 'index']);
     Route::get('/showstudentclasses', [InstructorClassesController::class, 'showStudentClasses']);
+    Route::put('/showclassmembers/{id}', [InstructorClassesController::class, 'showclassmembers']);
 
     //edit/add class modal
     Route::get('/show_instructors', [UserController::class, 'show_instructors']); //<><><><><><><>
