@@ -74,4 +74,40 @@ class InstructorClassesController extends Controller
     
         return response()->json($classDetails);
     }
+
+
+    public function showclassmembers(Request $request, $id)
+    {
+        $sub_id = $id;
+        $user = Auth::user();
+
+        $studentClasses = student_classes::where('archived', 0)
+            ->where('class_id', $sub_id)
+            ->get();
+    
+        if ($studentClasses->isEmpty()) {
+            return response()->json(['message' => 'No classes found for the instructor.', $request], 404);
+        }
+    
+        $classDetails = [];
+    
+        foreach ($studentClasses as $subject) {
+            $student = student_profile::where('archived', 0)
+                ->where('student_profile_id', $subject->student_profile_id)
+                ->first();
+    
+            if ($student) {
+                $middleInitial = strtoupper(substr($student->middle_name, 0, 1));
+                $studentFullName = $student->last_name . ', ' . $student->first_name . ' ' . $middleInitial . '.';
+                
+                // Check if the studentFullName is not already in the array before adding it
+                if (!in_array(['name' => $studentFullName], $classDetails)) {
+                    $classDetails[] = ['name' => $studentFullName];
+                }
+            }
+        }
+    
+        return response()->json($classDetails);
+    }
+
 }
