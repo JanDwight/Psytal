@@ -584,7 +584,6 @@ export default function PreRegistrationForm() {
                     pattern="[a-zA-Z ]+"
                     title="Do not abbreviate."
                     value={lastSchoolAttended}
-                    minLength={10}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
                       setLastSchoolAttended(value);
