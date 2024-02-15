@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 //C:\Thesis\Thesis\psytal\routes\api.php
 
 Route::middleware('auth:sanctum')->group(function() {
-    
+
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/userprofileemailupdate', [UserController::class, 'userprofileemailupdate']);
@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //curriculum Chacklist
     Route::get('/curriculumnCheckListIndex', [ClassesController::class, 'curriculumnCheckListIndex']);
-    
+
     //For Manage User Lists
     Route::get('/studentprofile', [StudentProfileController::class, 'index']); //For Students
     Route::get('/employeeprofile', [EmployeeProfileController::class, 'index']); //For Employees
@@ -62,13 +62,14 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //post
     Route::post('/createposts', [PostController::class, 'createPosts']);
-    Route::get('/posts', [PostController::class, 'getPosts']); 
+    Route::get('/posts', [PostController::class, 'getPosts']);
     Route::put('/posts/{postId}', [PostController::class, 'update']);
     Route::put('/posts/archive/{postId}', [PostController::class, 'archive']);
 
     //manage users tab
     Route::post('/adduser', [AuthController::class, 'adduser']);
     Route::get('/users', [UserController::class, 'index']); //<><><> index users
+
     Route::put('/updateuser/{id}', [UserController::class, 'updateUser']); //<><><> update user
     Route::put('/archiveuser/{id}', [UserController::class, 'archiveUser']); //<><><> archive user
     Route::get('/getuserdetails', [AuthController::class, 'getuserdetails']);
@@ -110,12 +111,12 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //pre-reg attach subjects to student
     Route::post('/student_subject', [AttachSubjectController::class, 'createstudentclasses']);
-    
+
     //curriculum tab
     Route::post('/addcurriculum', [CurriculumController::class, 'addCurriculum']);
     Route::get('/getcurriculum', [CurriculumController::class, 'getCurriculum']);
     Route::put('/updatecurriculum/{id}', [CurriculumController::class, 'updateCurriculum']);
-    Route::put('/archivecurriculum/{id}', [CurriculumController::class, 'archiveCurriculum']); 
+    Route::put('/archivecurriculum/{id}', [CurriculumController::class, 'archiveCurriculum']);
 
     //Routes for LinksController //moved to authenticate to avoid errors in archive, archive restore, and archive delete
     Route::post('/addlink', [LinksController::class, 'addLink']);
@@ -126,7 +127,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //Routes for Sending Emails
     Route::get('/sendstudentaccountpassword', [SendStudentAccountPasswordController::class,'sendstudentaccountpassword']);
 });
-   
+
 
 Route::post('/login', [AuthController::class, 'login']);
 
