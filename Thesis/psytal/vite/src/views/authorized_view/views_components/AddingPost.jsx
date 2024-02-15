@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios';
 import image from "@assets/icons8image.png";
+import { useStateContext } from '../../../context/ContextProvider';
 
 export default function AddingPost() {
+  const { userRole } = useStateContext(); // Access the user role from the context
+
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -10,7 +13,7 @@ export default function AddingPost() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
-
+ 
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -90,7 +93,6 @@ export default function AddingPost() {
 
           setTimeout(() => {
             setSuccessMessage(null);
-            closeModal();
             window.location.reload();
           }, 2000);
           
@@ -109,10 +111,20 @@ export default function AddingPost() {
       setLoading(false); // Add this line to ensure loading is set to false in case of an error.
     }
   };
+  
+  // // if (userRole !== 1) {
+  // //   console.log("the User now is: "+userRole);
+  // //   return null; // If the user is not an admin, do not render the adding post component
+    
+  // }
 
+  console.log("the User now is: "+userRole);
   return (
+
     <>
+    
       {/* Create Post */}
+      {userRole === 1 && (
       <div
         className="bg-gray-200 w-full h-34 rounded-2xl shadow-xl cursor-pointer z-5"
         onClick={resetFormAndOpenModal}
@@ -127,6 +139,8 @@ export default function AddingPost() {
           />
         </div>
       </div>
+        )}
+    
 
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
