@@ -120,8 +120,8 @@ export default function Links() {
                     <th className="text-center bg-gray-200" style={{ width: "10%" }}>Class Code</th>
                     <th className="text-center bg-gray-200" style={{ width: "15%" }}>Class Description</th>
                     <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Instructor</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "30%" }}>Link Code</th>
-                    <th className="text-center bg-gray-200" style={{ width: "auto" }}>Action</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "40%" }}>Link Code</th>
+                    <th className="text-left bg-gray-200" style={{ width: "auto" }}>Action</th>
 		              </tr>
               </thead>
           </table>
@@ -138,21 +138,19 @@ export default function Links() {
                     <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 40)}</td>
                     <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 50)}</td>
                     <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>
-                    <td className="text-left p-2 overflow-hidden overflow-wrap break-word" style={{ width: "20%" }}>
+                    <td className="text-left p-2 overflow-hidden overflow-wrap break-word" style={{ width: "40%" }}>
                       <a href={link.url} target="_blank" rel="noopener noreferrer" 
                       className="hover:underline p-2 hover:text-blue-500 overflow-hidden overflow-wrap break-word">
                       {link.url.slice(0, 40)}... {/* Displaying the first 50 characters */}
                       </a>
                     </td>
-                    <td className= "flex items-center p-2" style={{ width: "auto" }}>
-                      <div>
+                    <td className= "flex items-left p-2" style={{ width: "auto"}}>
                       <button onClick={() => handleEditClick(link)}>
                         <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'/>
                       </button>
                       <button onClick={() => onSubmitarchivelink(true, index)}>
                         <img src={archive} alt='archive' className='h-7 w-7 cursor-pointer transform transition-transform hover:scale-125'/>
                       </button>   
-                      </div>   
                     </td>
 
                   </tr>
