@@ -50,7 +50,7 @@ export default function GuestLayout() {
     <>
       <div>
         <header>
-        <Disclosure as="nav" className="fixed h-[20vh] w-[100vw] z-20 bg-gray-600">
+        <Disclosure as="nav" className="fixed h-[20vh] w-[100vw] z-20 bg-[#739072]">
           {({ open }) => (
             <>
             {/* 1st Header */}
