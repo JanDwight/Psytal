@@ -98,49 +98,6 @@ export default function PreRegistrationForm() {
     ev.preventDefault();
     setError({ __html: "" });
 
-    // if (
-    //   !startOfSchoolYear ||
-    //   !endOfSchoolYear ||
-    //   !studentSchoolId ||
-    //   !learnersReferenceNumber ||
-    //   !lastName ||
-    //   !firstName ||
-    //   !middleName ||
-    //   !academicClassification ||
-    //   !lastSchoolAttended ||
-    //   !addressOfSchoolAttended ||
-    //   !dateOfBirth ||
-    //   !citizenship ||
-    //   !ethnicity ||
-    //   !contactNumber ||
-    //   !placeOfBirth ||
-    //   !sexAtBirth ||
-    //   !email ||
-    //   !homeAddress ||
-    //   !addressWhileStudyingAtBsu ||
-    //   !emergencyContactName ||
-    //   !emergencyContactAddress ||
-    //   !emergencyContactNumber ||
-    //   !relationship ||
-    //   !healthfacilityregistered ||
-    //   !parenthealthfacilitydependent ||
-    //   !technologylevel ||
-    //   !digitalliteracy ||
-    //   !availfreehighereducation ||
-    //   !voluntarycontribution ||
-    //   !contributionamount
-    // ) {
-    //   setError({
-    //     __html: "Please fill in all required fields."
-    //   });
-    //   return;
-      // setSuccessMessage({
-      //   message: 'Please fill in all required fields.',
-      // });
-      
-    //   // return;
-    // }
-
     axiosClient
     .post('/preregincommingtmp', {
       start_of_school_year: parseInt(startOfSchoolYear, 10),
@@ -202,7 +159,7 @@ export default function PreRegistrationForm() {
         closeModal();
       }, 3000);
 
-
+      window.location.reload();
     })
     .catch(( error ) => {
       setSuccessMessage({
