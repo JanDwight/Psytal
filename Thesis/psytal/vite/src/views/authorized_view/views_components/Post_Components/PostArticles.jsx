@@ -69,7 +69,7 @@ export default function PostArticles() {
       {posts.map((post, index) => (
         <div key={post.id} className="px-10 my-8 py-8 bg-gray-200 rounded-2xl shadow-lg">
           {/* Ellipsis Menu */}
-          {userRole === 1 && ( 
+          {userRole == 1 && ( 
           <div
             className="relative"
             onClick={() => toggleMenu(index)}
