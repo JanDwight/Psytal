@@ -17,77 +17,82 @@ export default function LandingPage() {
         loop
         muted
       />
+      <div className='flex'>
+        <div className="absolute flex w-[100vw] h-[100vh] top-[5vh] left-[0vw] overflow-hidden">
+          <div className="w-[50vw] flex items-center text-white relative">
+            <div className="mx-8 hidden sm:inline-block">
+              <div className='flex-shrink-0'>
+              <img
+                className="h-28 w-28 absolute top-[2vh] left-[23vw]"
+                src={schoolLogo}
+                alt="BSUlogo"
+              />
+              </div>
+              
+              <div className= "absolute top-[16vh] left-[8vw] ">
+                <h1 className="font-franklin font-extrabold md:text-3xl text-xl text-center">
+                  WELCOME TO BENGUET STATE UNIVERSITY
+                </h1>
+                <h1 className="font-franklin font-extrabold md:text-5xl text-3xl text-center">
+                  DEPARTMENT OF PSYCHOLOGY
+                </h1>
+              </div>
+            </div>
 
-      <div className="absolute flex w-[100vw] h-[100vh] top-[20vh] left-[0vw] overflow-hidden">
-        <div className="w-[50vw] flex items-center text-white relative">
-          <div className="mx-8">
-            <img
-              className="h-24 w-24 absolute top-[3vh] left-[20vw]"
-              src={schoolLogo}
-              alt="BSUlogo"
-            />
-            <div className= "absolute top-[16vh] left-[7vw]">
-            <h1 className="font-franklin font-extrabold text-2xl text-center">
-              WELCOME TO BENGUET STATE UNIVERSITY
-            </h1>
-            <h1 className="font-franklin font-extrabold text-4xl text-center">
-              DEPARTMENT OF PSYCHOLOGY
-            </h1>
+            <div className="absolute w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 hidden sm:flex items-center justify-center">
+              <Carousel />
             </div>
           </div>
+        </div>
 
-          <div className="absolute w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 flex items-center justify-center">
-            <Carousel />
-          </div>
+        <div className="absolute w-full sm:w-[50vw] h-[100vh] top-[0vh] right-[0vw] pl-10 flex items-center justify-center">
+              <Login />
         </div>
       </div>
-
-      <div className="absolute w-[50vw] h-[100vh] top-[10vh] right-[0vw] pl-10 flex items-center justify-center">
-            <Login />
-      </div>
+      
 
 
-      <div className='w-[100vw] h-[65vh] pb-10 relative flex items-center justify-center'>
+      <div className='pb-10 relative flex flex-col sm:flex-row items-center justify-center mt-10'>
         
-      <div className="w-[100vw] h-[50vh] float-left">
-      <div className="mx-6 ">
-        {/* Green Card 1 */}
-        <div className="bg-[#002408] p-4 shadow-lg">
-          <h6 className="text-2xl text-white text-center font-bold pt-3">ADMISSION REQUIREMENTS</h6>
-          <h4 className="text-xl text-white font-bold pt-3">Applicants</h4>
-          <ul className="list-disc pl-6 text-lg text-white">
-            <li>Senior High School Graduate</li>
-            <li>High school graduates of the old high school curriculum who did not enroll in any degree program in any other school after graduation from high school.</li>
-            <li>Grade 12 as of the application period</li>
-            <li>ALS/PEPT Completers eligible for college admission</li>
-          </ul>
-        </div>
-
-        {/* Flex container for Green Card 2 and 3 */}
-        <div className="flex ">
-          {/* Green Card 2 */}
-          <div className="bg-[#596e5c] p-4 shadow-lg flex-1">
-            <h4 className="text-xl text-white font-bold pt-3">Grade</h4>
-            <ul className="list-disc pl-6 text-white text-lg">
-              <li>General Weighted Average (GWA) must be 86% or better</li>
-              <li>Grades for English, Math, Science must be 86% or better</li>
+      <div className="w-[50vw] sm:w-[70vw] flex sm:mx-6 mx-0">
+        <div className="md:mx-6 mx-0">
+          {/* Green Card 1 */}
+          <div className="bg-[#002408] p-4 shadow-lg">
+            <h6 className="text-2xl text-white text-center font-bold pt-3">ADMISSION REQUIREMENTS</h6>
+            <h4 className="text-xl text-white font-bold pt-3">Applicants</h4>
+            <ul className="list-disc pl-6 text-lg text-white">
+              <li>Senior High School Graduate</li>
+              <li>High school graduates of the old high school curriculum who did not enroll in any degree program in any other school after graduation from high school.</li>
+              <li>Grade 12 as of the application period</li>
+              <li>ALS/PEPT Completers eligible for college admission</li>
             </ul>
           </div>
 
-          {/* Green Card 3 */}
-          <div className="bg-[#648058] p-4 shadow-lg flex-1">
-            <h4 className="text-xl text-white font-bold pt-3">Additional Requirements</h4>
-            <ul className="list-disc pl-6 text-lg text-white">
-              <li>Qualifiers must pass the interview process conducted by the Colleges.</li>
-              <li>Co-curricular and extra-curricular involvement in Senior High School may be considered by the College in the qualification of the applicant.</li>
-            </ul>
+          {/* Flex container for Green Card 2 and 3 */}
+          <div className="flex ">
+            {/* Green Card 2 */}
+            <div className="bg-[#596e5c] p-4 shadow-lg flex-1">
+              <h4 className="text-xl text-white font-bold pt-3">Grade</h4>
+              <ul className="list-disc pl-6 text-white text-lg">
+                <li>General Weighted Average (GWA) must be 86% or better</li>
+                <li>Grades for English, Math, Science must be 86% or better</li>
+              </ul>
+            </div>
+
+            {/* Green Card 3 */}
+            <div className="bg-[#648058] p-4 shadow-lg flex-1">
+              <h4 className="text-xl text-white font-bold pt-3">Additional Requirements</h4>
+              <ul className="list-disc pl-6 text-lg text-white">
+                <li>Qualifiers must pass the interview process conducted by the Colleges.</li>
+                <li>Co-curricular and extra-curricular involvement in Senior High School may be considered by the College in the qualification of the applicant.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
       {/*DEPARTMENT OBJECTIVES*/}
-      <div className="w-[50vw] h-[50vh] float-left ml-4">
+      <div className="w-[50vw] sm:w-[30vw] ml-0">
     
           <p className="text-sm text-center  mr-6">
             <h6 className="text-xl font-bold pt-3">PSYCHOLOGY PROGRAM OBJECTIVES</h6>
