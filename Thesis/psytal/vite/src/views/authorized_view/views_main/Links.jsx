@@ -119,7 +119,7 @@ export default function Links() {
 		              <tr>
                     <th className="text-center bg-gray-200" style={{ width: "10%" }}>Title</th>
                     <th className="text-center bg-gray-200" style={{ width: "15%" }}>Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Email / Contact</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
                     <th className="text-center bg-gray-200 p-2" style={{ width: "40%" }}>Link </th>
                     <th className="text-left bg-gray-200" style={{ width: "auto" }}>Action</th>
 		              </tr>
