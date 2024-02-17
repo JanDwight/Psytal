@@ -14,6 +14,7 @@ export default function PreRegistrationFormView({prereg}) {
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
 
+  console.log('This is the prepreg',prereg);
   //auto fill dropdown
   useEffect(() => {
     async function fetchData() {
@@ -363,9 +364,9 @@ const handleChangeUnits = (index, value) => {
       }
         console.error(error)
     });
+  };
 
-
-
+  const onPrint = () => {
     // PDF modification code======================================================================
     //for new incoming first years
     const fetchPdf = async () => {
@@ -636,8 +637,8 @@ const handleChangeUnits = (index, value) => {
       }
         console.error(error)
     });
-  };
-
+  }
+  
   useEffect(() => {
     let newTotal = 0;
     inputFields.forEach(field => {
@@ -1675,22 +1676,30 @@ const handleChangeUnits = (index, value) => {
             </form>
         </div>
          {/**===========SUMBIT Button============= */}
-          <div className="text-center flex justify-end my-8">
-                  <button onClick={onDecline}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                    Decline
-                  </button>
-                  <button onClick={onReturn}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                    Return
-                  </button>
-                  <button onClick={onClickAccept}
-                    type="submit"
-                    className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                    Accept
-                  </button>
-          </div>
+          {prereg.pre_reg_status !== 'Accepted' && (
+            <div className="text-center flex justify-end my-8">
+              <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                Decline
+              </button>
+              <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                Return
+              </button>
+              <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                Accept
+              </button>
+            </div>
+          )}
         </form>
+
+        {/**=====================================================*/}   
+      {prereg.pre_reg_status === 'Accepted' && (
+            <div className="text-center flex justify-end my-8">
+              
+              <button onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                Print
+              </button>
+            </div>
+          )}
       </div>
       {/**=====================================================*/}   
 
