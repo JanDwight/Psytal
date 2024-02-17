@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function EditUsers({ showModal, onClose, user }) {
-  const [id, setid] = useState(user.id);
-  const [name, setName] = useState(user.name);
+  const [id, setid] = useState(user.student_school_id);
+  const [name, setName] = useState(user.full_name);
   const [role, setRole] = useState(user.role);
   const [email, setEmail] = useState(user.email);
   const [successMessage, setSuccessMessage] = useState(null);
