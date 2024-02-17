@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import edit from "@assets/icons8createpost.png";
 import archive from "@assets/delete.png"
-import EditUsers from '../views_components/EditUsers.jsx';
+import EditUsers2 from '../views_components/EditUsers2.jsx';
 import ArchiveUsers from '../views_components/ArchiveUsers.jsx';
-import axiosClient from '../../../axios.js';
+import axiosClient from '../../../axios.js';2
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -156,7 +156,7 @@ class EmployeeList extends Component {
         )}
 
         {this.state.isEditUsersOpen && (
-          <EditUsers
+          <EditUsers2
             showModal={this.state.isEditUsersOpen}
             onClose={this.handleCloseEditUsers}
             user={selectedEmployee} // Pass the selected employee to EditUsers

@@ -99,6 +99,8 @@ class AuthController extends Controller
                 'last_name' => $lastName,
                 'first_name' => $firstName,
                 'middle_name' => $middleName,
+                'role' => $data['role'],
+                'email_address' => $data['email'],
             ]);
         }
         $token = $user->createToken('main')->plainTextToken;

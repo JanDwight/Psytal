@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function EditUsers({ showModal, onClose, user }) {
-  const [id, setid] = useState(user.student_school_id);
+  const [id, setid] = useState(user.employee_id);
   const [name, setName] = useState(user.full_name);
-  const [yr, setYr] = useState(user.yrsection);
-  const [email, setEmail] = useState(user.email);
+  const [role, setRole] = useState(user.role);
+  const [email, setEmail] = useState(user.email_address);
   const [successMessage, setSuccessMessage] = useState(null);
   const [lastedit, setLastedit] = useState(user.updated_at);
 
@@ -15,13 +15,12 @@ export default function EditUsers({ showModal, onClose, user }) {
     const updatedUser = {
       id,
       name,
-      //used to be role
-      yr,
+      role,
       email,
       lastedit,
     };
 
-     //update here should be on student_profile
+    //update here should be on employee_profile
     try {
       const response = await axiosClient.put(`/updateuser/${user.id}`, updatedUser);
       // Handle success, e.g., show a success message
@@ -55,7 +54,7 @@ export default function EditUsers({ showModal, onClose, user }) {
             <form>
             <div className="mb-4">
                 <label htmlFor="id" className="block text-sm text-gray-700">
-                  School ID:
+                  Employee ID:
                 </label>
                 <input
                   id="id"
@@ -81,17 +80,21 @@ export default function EditUsers({ showModal, onClose, user }) {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="yr" className="block text-sm text-gray-700">
-                  Year and Section:
+                <label htmlFor="role" className="block text-sm text-gray-700">
+                  Role:
                 </label>
-                <input
-                  //used to be role
-                  id="yr"
-                  name="yr"
-                  defaultValue={yr}
-                  onChange={(e) => setYr(e.target.value)}
+                <select
+                  id="role"
+                  name="role"
+                  defaultValue={role}
+                  onChange={(e) => setRole(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                />
+                >
+                  <option value="1">Admin</option>
+                  <option value="2">Staff</option>
+                  <option value="3">Instructor</option>
+                  <option value="4">Student</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm text-gray-700">
