@@ -15,5 +15,7 @@ class employee_profile extends Model
         'last_name',
         'first_name',
         'middle_name',
+        'email_address',
+        'role',
     ];
 }
