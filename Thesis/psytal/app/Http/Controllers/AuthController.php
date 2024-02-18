@@ -104,6 +104,7 @@ class AuthController extends Controller
             ]);
         }
         $token = $user->createToken('main')->plainTextToken;
+        //else here for student profile?
 
         return response([
             'user' => $user,
