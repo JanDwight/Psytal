@@ -59,7 +59,7 @@ export default function AddLinks({closeModal}) {
               id="class_code"
               name="class_code"
               type="text"
-              placeholder='Class Code'
+              placeholder='Title '
               value={formData.class_code}
               onChange={handleChange}
               className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
@@ -70,7 +70,7 @@ export default function AddLinks({closeModal}) {
             id="class_description"
             name="class_description"
             type="text"
-            placeholder='Class Description'
+            placeholder='Description'
             value={formData.class_description}
             onChange={handleChange}
             className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
@@ -81,7 +81,7 @@ export default function AddLinks({closeModal}) {
             id="instructor_name"
             name="instructor_name"
             type="text"
-            placeholder='Instructor'
+            placeholder='Contact'
             value={formData.instructor_name}
             onChange={handleChange}
             className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 

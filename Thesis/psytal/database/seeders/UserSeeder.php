@@ -102,100 +102,64 @@ class UserSeeder extends Seeder
 
         $links = [
         [
-            'class_code' => 'XSS 900',
-            'class_description' => 'ARTS and CRAFTS	',
-            'instructor_name' => 'John Doe martleo@gmail.com',
-            'url'=>'http://localhost:3000/admin/links',
+            'class_code' => 'FB - Department of Psychology',
+            'class_description' => 'Official Facebook Page of the Dep. of Psychology	',
+            'instructor_name' => 'css.psychology@bsu.edu.ph',
+            'url'=>'https://www.facebook.com/psychologybsu',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'CSZ 321',
-            'class_description' => 'Entrepreneurship in the modern world (Lecture)	',
-            'instructor_name' => 'Professor X',
-            'url'=>'https://www.teachenglishabroad.co/ultimate-guide-to-engaged-ells/100-esl-debate-topics-that-will-get-your-students-fired-up',
+            'class_code' => 'FB - College of Social Sciences',
+            'class_description' => 'Official Facebook Page of CSS	',
+            'instructor_name' => 'cas.socialsciences@bsu.edu.ph',
+            'url'=>'https://www.facebook.com/profile.php?id=100064041580505',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'KA 213	',
-            'class_description' => 'Modern Arts Compilation	',
-            'instructor_name' => 'Mean Dean Bean	',
-            'url'=>'https://www.pathofexile.com/trade/search/Ancestor',
+            'class_code' => 'University Registrar - BSU La Trinidad',
+            'class_description' => 'Official Facebook Page of the University Registrar - BSU',
+            'instructor_name' => 'registrar@bsu.edu.ph',
+            'url'=>'https://www.facebook.com/ourbsulatrinidadcampus',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'HJI 092	',
-            'class_description' => 'Industrial Engineering and foresightsz	',
-            'instructor_name' => 'MARY Jane	',
-            'url'=>'https://www.rev.com/blog/transcription-blog/usability-test-questions',
+            'class_code' => 'FB - College of Social Sciences - SG',
+            'class_description' => 'Official Facebook Page of CSS - SG',
+            'instructor_name' => 'TBA',
+            'url'=>'https://www.facebook.com/profile.php?id=100095519648352',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'ZMS 123',
-            'class_description' => 'Psychology Minor 1	',
-            'instructor_name' => 'KRESTY KASTARK',
-            'url'=>'https://www.rev.com/developers',
+            'class_code' => 'BSU Office of Student Services',
+            'class_description' => 'FB - Official Facebook page of BSU Office of Student Services',
+            'instructor_name' => 'oss.director@bsu.edu.ph',
+            'url'=>'https://www.facebook.com/BSU.OSS.LTB',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'YTT 911',
-            'class_description' => 'National Service Training Papers	',
-            'instructor_name' => 'Doctor Pepper	',
-            'url'=>'https://www.rev.com/developers',
+            'class_code' => 'FB - CIS -The Hyperlink',
+            'class_description' => 'Official student publication of the College of Information Sciences.',
+            'instructor_name' => 'TBA',
+            'url'=>'https://www.facebook.com/profile.php?id=61551883948704',
             'archived' => '0'
 
         ],
         [
 
-            'class_code' => 'MSV 699',
-            'class_description' => 'Health and Proper Bandaging	',
-            'instructor_name' => 'MR. Bondage Man	',
-            'url'=>'https://careerfoundry.com/en/blog/ux-design/how-to-write-usability-testing-questions/',
-            'archived' => '0'
-
-        ],
-        [
-
-            'class_code' => 'CSZ 321.1	',
-            'class_description' => 'Entrepreneurship in the modern world (Laboratory)	',
-            'instructor_name' => 'Professor X	',
-            'url'=>'https://careerfoundry.com/en/blog/ux-design/how-to-write-usability-testing-questions/',
-            'archived' => '0'
-
-        ],
-        [
-
-            'class_code' => 'This is a very long title to test if the slice 30 is working, it should cut off a specific amount of text in each table	',
-            'class_description' => 'This is a very long title to test if the slice 30 is working, it should cut off a specific amount of text in each table	',
-            'instructor_name' => 'This is a very long title to test if the slice 30 is working, it should cut off a specific amount of text in each table	',
-            'url'=>'This is a very long title to test if the slice 30 is working, it should cut off a specific amount of text in each table	',
-            'archived' => '0'
-
-        ],
-        [
-
-            'class_code' => 'This is a very long title to test if the slice 30 is working, it should cut off a specific amount of text in each table	',
-            'class_description' => 'History and His Past',
-            'instructor_name' => 'MR Binabalikan',
-            'url'=>'https://www.ionos.com/costs?__lf=Order-Tariff&__sendingdata=1&domainselect.domainname=psytal.net%231&__forcestop=true&__CMD(costs):SELWRP=domainselect',
-            'archived' => '0'
-
-        ],
-        [
-
-            'class_code' => 'ABS 333',
-            'class_description' => 'Physical Education and Body Training',
-            'instructor_name' => 'Dad Bod Pod',
-            'url'=>'https://www.youtube.com/watch?v=QzW03hyw_bU',
+            'class_code' => 'Benguet State University',
+            'class_description' => 'Official Website of BSU',
+            'instructor_name' => 'University President - Comila, Felipe Salaing',
+            'url'=>'http://www.bsu.edu.ph/',
             'archived' => '0'
 
         ],
