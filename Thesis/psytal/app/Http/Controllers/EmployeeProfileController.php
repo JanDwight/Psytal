@@ -40,8 +40,8 @@ class EmployeeProfileController extends Controller
                 'user_id' => $user['user_id'],
                 'employee_id' => $user['employee_id'],
                 'full_name' => $fullName,
-                'email_address' => $userRole ? $userRole['email'] : 'n/a',
-                'role' => $userRole ? $userRole['role'] : 'n/a',
+                'email_address' => $user['email_address'],
+                'role' => $user['role'],
             ];
         }
     
