@@ -130,6 +130,8 @@ class StudentProfileController extends Controller
             }
         
             $userList[] = [
+                'student_profile_id' => $user['student_profile_id'],
+                'user_id' => $user['user_id'],
                 'student_school_id' => $user['student_school_id'],
                 'full_name' => $fullName,
                 'email' => $user['email_address'],
@@ -164,9 +166,65 @@ class StudentProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(student_profile $student_profile)
+    public function edit_student_profile(Request $request, $id)
     {
-        //
+        
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'yr' => 'required|string',
+            'email' => 'required|email|max:255',
+        ]);
+        //explode name and year
+
+        $year_section = $validatedData['yr'];
+        $fullName = $validatedData['name'];
+
+        // Extracting last name from $fullName
+        $lastName = explode(', ', $fullName)[0]; // Extracts last name
+
+        // Extracting first name from $fullName
+        $firstNameWithInitial = explode(', ', $fullName)[1]; // Extracts first name + middle initial
+        $firstName = explode(' ', $firstNameWithInitial)[0]; // Extracts first name only
+
+        // Extracting middle initial from $fullName
+        $middleInitial = explode(' ', $firstNameWithInitial)[1][0]; // Extracts MI
+
+        if (!empty($year_section)) {
+            $year_level = substr($year_section, 0, -1); // Extract year_level (remove last character)
+            $section = substr($year_section, -1); // Extract section (last character)
+        } else {
+            // Handle case when $yearLevel is empty
+        }
+
+        //explode the name
+
+        $student_profile = student_profile::where('user_id', $id)->first();
+
+        if ($student_profile) {
+            // Handle the case where the user with the provided ID is not found
+            $student_profile->update([
+                'student_school_id' => $validatedData['id'],
+                'last_name' => $lastName,
+                'first_name' => $firstName,
+                'middle_name' => $middleInitial,
+                'email_address' => $validatedData['email'],
+                'year_level' => $year_level,
+                'section' => $section,
+            ]);
+            //return response()->json(['message' => 'Class not found'], 404);
+        } else {
+            return response()->json(['message' => 'Class not found'], 404);
+        }
+
+        /*$user = User::create([
+            'name' => $data['name'],
+            'password' => bcrypt($data['password']),
+            'role' => $data['role'],
+            'email' => $data['email'],
+        ]);*/ 
+        //ADD UPDATE FOR USERS TABLE ALSO
+
     }
 
     /**

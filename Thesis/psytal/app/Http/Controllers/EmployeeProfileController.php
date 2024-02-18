@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employee_profile;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class EmployeeProfileController extends Controller
 {
@@ -46,6 +47,58 @@ class EmployeeProfileController extends Controller
         }
     
         return response()->json($userList);
+    }
+
+    public function edit_employee_profile(Request $request, $id)
+    {
+        
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'role' => 'required|integer',
+            'email' => 'required|email|max:255',
+        ]);
+        //explode name and year
+
+        $fullName = $validatedData['name'];
+
+        // Extracting last name from $fullName
+        $lastName = explode(', ', $fullName)[0]; // Extracts last name
+
+        // Extracting first name from $fullName
+        $firstNameWithInitial = explode(', ', $fullName)[1]; // Extracts first name + middle initial
+        $firstName = explode(' ', $firstNameWithInitial)[0]; // Extracts first name only
+
+        // Extracting middle initial from $fullName
+        $middleInitial = explode(' ', $firstNameWithInitial)[1][0]; // Extracts MI
+
+        //explode the name
+
+        $employee_profile = employee_profile::where('user_id', $id)->first();
+
+        if ($employee_profile) {
+            // Handle the case where the user with the provided ID is not found
+            $employee_profile->update([
+                'employee_id' => $validatedData['id'],
+                'last_name' => $lastName,
+                'first_name' => $firstName,
+                'middle_name' => $middleInitial,
+                'email_address' => $validatedData['email'],
+                'role' => $validatedData['role'],
+            ]);
+            //return response()->json(['message' => 'Class not found'], 404);
+        } else {
+            return response()->json(['message' => 'Class not found'], 404);
+        }
+
+        /*$user = User::create([
+            'name' => $data['name'],
+            'password' => bcrypt($data['password']),
+            'role' => $data['role'],
+            'email' => $data['email'],
+        ]);*/ 
+        //ADD UPDATE FOR USERS TABLE ALSO
+
     }
 
 }

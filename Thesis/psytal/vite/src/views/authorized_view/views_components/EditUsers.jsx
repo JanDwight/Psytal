@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function EditUsers({ showModal, onClose, user }) {
+  const [user_id, setUserid] = useState(user.user_id);
   const [id, setid] = useState(user.student_school_id);
   const [name, setName] = useState(user.full_name);
   const [yr, setYr] = useState(user.yrsection);
@@ -13,6 +14,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     e.preventDefault(); // Prevent the default form submission behavior
 
     const updatedUser = {
+      user_id,
       id,
       name,
       //used to be role
@@ -23,7 +25,7 @@ export default function EditUsers({ showModal, onClose, user }) {
 
      //update here should be on student_profile
     try {
-      const response = await axiosClient.put(`/updateuser/${user.id}`, updatedUser);
+      const response = await axiosClient.put(`/updatestudentprofile/${user.user_id}`, updatedUser);
       // Handle success, e.g., show a success message
       setSuccessMessage({
         message: 'Account Updated successfully!',
@@ -50,7 +52,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-full lg:w-1/2 px-4 py-6 shadow-lg rounded-lg">
         <div className="w-full px-4 mx-auto mt-6">
-          <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Update Account Information</p>
+          <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Update Account Information of: {name}</p>
           <div>
             <form>
             <div className="mb-4">
@@ -60,11 +62,11 @@ export default function EditUsers({ showModal, onClose, user }) {
                 <input
                   id="id"
                   name="id"
-                  type="text"
+                  type="number"
                   value={id}
-                  disabled //makes field uneditable
+                  //disabled //makes field uneditable
                   onChange={(e) => setid(e.target.value)}
-                  className="block w-full rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
               <div className="mb-4">
@@ -100,7 +102,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                 <input
                   id="email"
                   name="email"
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"

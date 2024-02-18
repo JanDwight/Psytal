@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function EditUsers({ showModal, onClose, user }) {
+  const [user_id, setUserid] = useState(user.user_id);
   const [id, setid] = useState(user.employee_id);
   const [name, setName] = useState(user.full_name);
   const [role, setRole] = useState(user.role);
@@ -13,6 +14,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     e.preventDefault(); // Prevent the default form submission behavior
 
     const updatedUser = {
+      user_id,
       id,
       name,
       role,
@@ -22,7 +24,7 @@ export default function EditUsers({ showModal, onClose, user }) {
 
     //update here should be on employee_profile
     try {
-      const response = await axiosClient.put(`/updateuser/${user.id}`, updatedUser);
+      const response = await axiosClient.put(`/updateemployeeprofile/${user.user_id}`, updatedUser);
       // Handle success, e.g., show a success message
       setSuccessMessage({
         message: 'Account Updated successfully!',
@@ -59,9 +61,9 @@ export default function EditUsers({ showModal, onClose, user }) {
                 <input
                   id="id"
                   name="id"
-                  type="text"
+                  type="number"
                   value={id}
-                  disabled //makes field uneditable
+                  //disabled //makes field uneditable
                   onChange={(e) => setid(e.target.value)}
                   className="block w-full rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
@@ -103,7 +105,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                 <input
                   id="email"
                   name="email"
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"

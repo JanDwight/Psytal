@@ -74,6 +74,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/archiveuser/{id}', [UserController::class, 'archiveUser']); //<><><> archive user
     Route::get('/getuserdetails', [AuthController::class, 'getuserdetails']);
 
+    Route::put('/updatestudentprofile/{id}', [StudentProfileController::class, 'edit_student_profile']); 
+    Route::put('/updateemployeeprofile/{id}', [EmployeeProfileController::class, 'edit_employee_profile']); 
+
     //classes tab
     Route::post('/addclass', [ClassesController::class, 'addClass']); // <><><> add classes
     Route::get('/classes', [ClassesController::class, 'index']); //<><><> index classes
