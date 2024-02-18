@@ -196,8 +196,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         axiosClient.post('/student_subject', {
           studentData: preregData,
           subjectData: inputFields, // Exclude the last element
-        }).then(data)
-        console.log('This is the Data: ', data)
+        }).then()
         //--------------------------// <><><><><>
     
       
@@ -251,22 +250,28 @@ export default function PreRegistrationForContinuingView({prereg}) {
               student_status: preregData.student_status
             })
 
-            //for sending emails============================================================================
-            // Assuming formData is your FormData object
-            // let formData = new FormData();
 
-            // Append some data to the FormData object
-            // formData.append('lastName', fullName);
-            // formData.append('email', preregData.email_address);
-            // formData.append('password', password);
+    };
+    const onSubmit = (ev) => {
+      ev.preventDefault();
+      setError({ __html: "" });
+      
+      axiosClient
+      .put(`/preregview/${preregData}`)
+      .then(({ data }) => {
+        
+      })
+      .catch(( error ) => {
+        if (error.response) {
+          const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
+          setError({__html: finalErrors.join('<br>')})
+        }
+          console.error(error)
+      });  
+    };
 
-            // Convert FormData to an object
-            // let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
-            //   obj[key] = value;
-            //   return obj;
-            // }, {});
-
-            // PDF modification code======================================================================
+    const onPrint =() => {
+                  // PDF modification code======================================================================
     //for new incoming first years
     const fetchPdf = async () => {
       // Extract the first character of the middle name as the middle initial
@@ -495,25 +500,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     // Call the fetchPdf function directly in your component code
     fetchPdf();
 
-    };
-    const onSubmit = (ev) => {
-      ev.preventDefault();
-      setError({ __html: "" });
-      
-      axiosClient
-      .put(`/preregview/${preregData}`)
-      .then(({ data }) => {
-        
-      })
-      .catch(( error ) => {
-        if (error.response) {
-          const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-          setError({__html: finalErrors.join('<br>')})
-        }
-          console.error(error)
-      });  
-    };
-
+    }
    
   return (
     <>
@@ -1521,18 +1508,30 @@ export default function PreRegistrationForContinuingView({prereg}) {
         </div>
       {/**=====================================================*/}
         {/**===========SUMBIT Button============= */}
-        <div className="text-center flex justify-end my-8">
-          <button onClick={onDecline}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-              Decline
-          </button>
-          <button onClick={onClickAccept}
-            type="submit"
-            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-              Accept
-          </button>
-        </div>
+        {prereg.pre_reg_status !== 'Accepted' && (
+            <div className="text-center flex justify-end my-8">
+              <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                Decline
+              </button>
+              <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                Return
+              </button>
+              <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                Accept
+              </button>
+            </div>
+          )}
       </form>
+
+      {/**=====================================================*/}   
+      {prereg.pre_reg_status === 'Accepted' && (
+            <div className="text-center flex justify-end my-8">
+              
+              <button onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                Print
+              </button>
+            </div>
+          )}
     </main>
     </>
   )
