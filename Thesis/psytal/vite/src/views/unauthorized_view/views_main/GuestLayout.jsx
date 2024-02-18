@@ -48,24 +48,24 @@ export default function GuestLayout() {
 
   return (
     <>
-      <div>
+      <div className='min-h-full'>
         <header>
-        <Disclosure as="nav" className="fixed h-[20vh] w-[100vw] z-20 bg-[#739072]">
+        <Disclosure as="nav" className="bg-viridian">
           {({ open }) => (
             <>
             {/* 1st Header */}
-            <div  className="bg-viridian w-[100vw]"> 
+            <div  className=" w-[100vw]"> 
               <div className="flex justify-center space-x-5 px-10 py-2">
-                <div className="flex items-center">
-                  <a href="/landingpage">
+                <div className="flex static items-center">
+                  <a href="/landingpage" className='flex-shrink-0'>
                     <img
-                      className="h-20 w-20"
+                      className="h-14 w-14"
                       src={logo}
                       alt="Department of Psychology"
                     />
                   </a>
                   <div className="flex items-center px-10">
-                    <p className="font-semibold text-3xl ml-2 font-franklin text-white">
+                    <p className="font-semibold text-lg sm:text-3xl ml-2 font-franklin text-white">
                       DEPARTMENT OF PSYCHOLOGY PORTAL
                     </p>
                   </div>
@@ -73,7 +73,7 @@ export default function GuestLayout() {
                 </div>
                 </div>
               {/* 2nd Header */}
-                <div className="flex justify-center items-center px-10 py-2 bg-[#739072]">
+                <div className="hidden md:flex justify-center items-center px-10 py-2 bg-[#739072]">
                 <div>
                   <div className="ml-10 flex items-baseline space-x-10">
                     {dynamicNavigation.map((item) => (
