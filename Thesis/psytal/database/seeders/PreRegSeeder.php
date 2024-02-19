@@ -62,7 +62,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -113,7 +113,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -164,7 +164,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -215,7 +215,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -266,7 +266,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -317,7 +317,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -368,7 +368,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -419,7 +419,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -470,7 +470,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -521,7 +521,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -572,7 +572,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -623,7 +623,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -674,7 +674,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -725,7 +725,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -776,7 +776,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -827,7 +827,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -878,7 +878,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-12',
                 'updated_at' => null,
             ],
 
@@ -929,7 +929,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //117'
             ],
@@ -981,7 +981,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //118'
             ],
@@ -1033,7 +1033,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //119'
             ],
@@ -1085,7 +1085,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //120'
             ],
@@ -1137,7 +1137,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //121'
             ],
@@ -1189,7 +1189,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //122'
             ],
@@ -1241,7 +1241,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //123'
             ],
@@ -1293,7 +1293,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //124'
             ],
@@ -1345,7 +1345,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //125'
             ],
@@ -1397,7 +1397,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //126'
             ],
@@ -1449,7 +1449,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //127'
             ],
@@ -1501,7 +1501,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //128'
             ],
@@ -1553,7 +1553,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //129'
             ],
@@ -1605,7 +1605,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-13',
                 'updated_at' => null,
 //130'
             ],
@@ -1657,7 +1657,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //131'
             ],
@@ -1709,7 +1709,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //132'
             ],
@@ -1761,7 +1761,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //133'
             ],
@@ -1813,7 +1813,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //134'
             ],
@@ -1865,7 +1865,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //135'
             ],
@@ -1917,7 +1917,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //136'
             ],
@@ -1969,7 +1969,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //137'
             ],
@@ -2021,7 +2021,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //138'
             ],
@@ -2073,7 +2073,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //139'
             ],
@@ -2125,7 +2125,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //140'
             ],
@@ -2177,7 +2177,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //141'
             ],
@@ -2229,7 +2229,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //142'
             ],
@@ -2281,7 +2281,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-14',
                 'updated_at' => null,
 //143'
             ],
@@ -2333,7 +2333,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //144'
             ],
@@ -2385,7 +2385,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //145'
             ],
@@ -2437,7 +2437,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //146'
             ],
@@ -2489,7 +2489,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //147'
             ],
@@ -2541,7 +2541,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //148'
             ],
@@ -2593,7 +2593,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //149'
             ],
@@ -2645,7 +2645,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //150'
             ],
@@ -2697,7 +2697,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //151'
             ],
@@ -2749,7 +2749,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //152'
             ],
@@ -2801,7 +2801,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //153'
             ],
@@ -2852,7 +2852,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //154'
             ],
@@ -2904,7 +2904,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //155'
             ],
@@ -2956,7 +2956,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //156'
             ],
@@ -3008,7 +3008,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //157'
             ],
@@ -3060,7 +3060,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //158'
             ],
@@ -3112,7 +3112,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //159'
             ],
@@ -3164,7 +3164,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //160'
             ],
@@ -3216,7 +3216,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-15',
                 'updated_at' => null,
 //161'
             ],
@@ -3269,7 +3269,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //162'
             ],
@@ -3320,7 +3320,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //163'
             ],
@@ -3372,7 +3372,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //164'
             ],
@@ -3424,7 +3424,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //165'
             ],
@@ -3476,7 +3476,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //166'
             ],
@@ -3528,7 +3528,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-16',
                 'updated_at' => null,
 //167'
             ],
@@ -3580,7 +3580,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-17',
                 'updated_at' => null,
 //168'
             ],
@@ -3632,7 +3632,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-17',
                 'updated_at' => null,
 //169'
             ],
@@ -3684,7 +3684,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-17',
                 'updated_at' => null,
 //170'
             ],
@@ -3735,7 +3735,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-17',
                 'updated_at' => null,
 //171'
             ],
@@ -3787,7 +3787,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-18',
                 'updated_at' => null,
 //172'
             ],
@@ -3839,7 +3839,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-18',
                 'updated_at' => null,
 //173'
             ],
@@ -3891,7 +3891,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-18',
                 'updated_at' => null,
 //174'
             ],
@@ -3943,7 +3943,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-18',
                 'updated_at' => null,
 //175'
             ],
@@ -3995,7 +3995,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-19',
                 'updated_at' => null,
 //176'
             ],
@@ -4047,7 +4047,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-19',
                 'updated_at' => null,
 //177'
             ],
@@ -4099,7 +4099,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-19',
                 'updated_at' => null,
 //178'
             ],
@@ -4151,7 +4151,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-19',
                 'updated_at' => null,
 //179'
             ],
@@ -4203,7 +4203,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //180'
             ],
@@ -4255,7 +4255,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //181'
             ],
@@ -4306,7 +4306,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //182'
             ],
@@ -4358,7 +4358,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //183'
             ],
@@ -4410,7 +4410,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //184'
             ],
@@ -4462,7 +4462,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //185'
             ],
@@ -4514,7 +4514,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //186'
             ],
@@ -4566,7 +4566,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //187'
             ],
@@ -4618,7 +4618,7 @@ class PreRegSeeder extends Seeder
                 'pre_reg_status' => 'Pending',
                 'semester' => '1st Semester',
                 'student_status' =>  'Regular',
-                'created_at' => null,
+                'created_at' => '2024-02-20',
                 'updated_at' => null,
 //188'
             ],
