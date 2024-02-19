@@ -208,7 +208,7 @@ const handleChangeUnits = (index, value) => {
   }
 
   //On Accept Click
-  const onClickAccept = (ev) => {
+  const onClickAccept = async (ev) => {
     ev.preventDefault();
     setError({ __html: "" });
 
@@ -248,51 +248,49 @@ const handleChangeUnits = (index, value) => {
       password: password,
       email: preregData.email_address,
      })
-
-    //Create student profile============================================================================
+     .then (response => {
+      //Create student profile============================================================================
      axiosClient
-    .post(`/createstudentprofile`, {
-      user_id: String(preregData.user_id),
-      start_of_school_year: parseInt(preregData.start_of_school_year),
-      end_of_school_year: parseInt(preregData.end_of_school_year),
-      student_school_id: parseInt(preregData.student_school_id),
-      learners_reference_number: parseInt(preregData.learners_reference_number),
-      last_name: preregData.last_name,
-      first_name: preregData.first_name,
-      middle_name: preregData.middle_name,
-      maiden_name: preregData.maiden_name,
-      academic_classification: preregData.academic_classification,
-      last_school_attended: preregData.last_school_attended,
-      address_of_school_attended: preregData.address_of_school_attended,
-      degree: preregData.degree,
-      date_of_birth: preregData.date_of_birth,
-      place_of_birth: preregData.place_of_birth,
-      citizenship: preregData.citizenship,
-      sex_at_birth: preregData.sex_at_birth,
-      ethnicity: preregData.ethnicity,
-      special_needs: preregData.special_needs,
-      contact_number: parseInt(preregData.contact_number),
-      email_address: preregData.email_address,
-      home_address: preregData.home_address,
-      address_while_studying: preregData.address_while_studying,
-      contact_person_name: preregData.contact_person_name,
-      contact_person_number: parseInt(preregData.contact_person_number), 
-      contact_person_address: preregData.contact_person_address,
-      contact_person_relationship: preregData.contact_person_relationship,
-      pre_reg_status: 'Accepted',
-      type_of_student: 'Regular',
-    }).then(response => {
-      // Extract user ID from the response or use preregData.user_id if available
-      const userId = response.data.user_id || preregData.user_id;
-      
-      // Run the second axios call
-      axiosClient.post('/student_subject', {
-          studentData: preregData,
-          subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
-      })
-    })
-    
-    //prereg update===============================================================================
+     .post(`/createstudentprofile`, {
+       user_id: String(preregData.user_id),
+       start_of_school_year: parseInt(preregData.start_of_school_year),
+       end_of_school_year: parseInt(preregData.end_of_school_year),
+       student_school_id: parseInt(preregData.student_school_id),
+       learners_reference_number: parseInt(preregData.learners_reference_number),
+       last_name: preregData.last_name,
+       first_name: preregData.first_name,
+       middle_name: preregData.middle_name,
+       maiden_name: preregData.maiden_name,
+       academic_classification: preregData.academic_classification,
+       last_school_attended: preregData.last_school_attended,
+       address_of_school_attended: preregData.address_of_school_attended,
+       degree: preregData.degree,
+       date_of_birth: preregData.date_of_birth,
+       place_of_birth: preregData.place_of_birth,
+       citizenship: preregData.citizenship,
+       sex_at_birth: preregData.sex_at_birth,
+       ethnicity: preregData.ethnicity,
+       special_needs: preregData.special_needs,
+       contact_number: parseInt(preregData.contact_number),
+       email_address: preregData.email_address,
+       home_address: preregData.home_address,
+       address_while_studying: preregData.address_while_studying,
+       contact_person_name: preregData.contact_person_name,
+       contact_person_number: parseInt(preregData.contact_person_number), 
+       contact_person_address: preregData.contact_person_address,
+       contact_person_relationship: preregData.contact_person_relationship,
+       pre_reg_status: 'Accepted',
+       type_of_student: 'Regular',
+     }).then(response => {
+       // Extract user ID from the response or use preregData.user_id if available
+       const userId = response.data.user_id || preregData.user_id;
+       
+       // Run the second axios call
+       axiosClient.post('/student_subject', {
+           studentData: preregData,
+           subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+       }).then(response => {
+        //prereg update===============================================================================
     axiosClient
     .put(`/preregcheck/${id}`, {
       start_of_school_year: parseInt(preregData.start_of_school_year),
@@ -334,6 +332,13 @@ const handleChangeUnits = (index, value) => {
       pre_reg_status: 'Accepted',
       type_of_student: 'Regular',
     })
+       })
+     })
+     })
+
+    
+    
+    
 
     //for sending emails============================================================================
     // Assuming formData is your FormData object
