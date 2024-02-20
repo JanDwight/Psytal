@@ -1,14 +1,16 @@
 import React, {useState} from 'react'
 import axiosClient from '../../../../axios';
 
-export const EditEmail = ({ onCloseEditEmail, data }) => {
-    console.log('state: ', onCloseEditEmail);
+export const EditEmail = ({ onCloseEditEmail, data, onClose }) => {
+    //console.log('state: ', onCloseEditEmail);
     //calling the sample data
     const [email, setEmail] = useState(data);
 
     const handleCloseModal = () => {
-       // document.querySelector('.popup').style.display = 'none';
-       console.log('state: ', onCloseEditEmail);
+        //document.querySelector('.popup').style.display = 'none';
+
+        //brute force exit modals>>>
+        window.location.reload();
     };
 
     const handleSubmit = () => {
@@ -16,7 +18,7 @@ export const EditEmail = ({ onCloseEditEmail, data }) => {
             .then((res) => {
             });
 
-        onCloseEditEmail();
+        handleCloseModal();
       };
 
       console.log(email)
