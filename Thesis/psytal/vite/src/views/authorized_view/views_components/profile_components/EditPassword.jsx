@@ -14,7 +14,8 @@ export const EditPassword = ({ onCloseEditPassword, data }) => {
             .then((res) => {
             });
 
-      onClose();
+          onCloseEditPassword();
+          console.log('state: ', onCloseEditPassword);
     };
     //Password can be seen/not
     const [isVisible, setIsVisible] = useState(false);
@@ -52,7 +53,7 @@ export const EditPassword = ({ onCloseEditPassword, data }) => {
                         className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-xl">
                         Confirm
                     </button>
-                    <button onClick={onCloseEditPassword} className="bg-[#E2202C] hover:bg-[#E2202C] text-white font-bold py-2 px-4 rounded-xl">
+                    <button onClick={onCloseEditPassword} className="bg-[#E2202C] hover:bg-[#B30D0F] text-white font-bold py-2 px-4 rounded-xl">
                         Cancel
                     </button>                    
                 </div>
