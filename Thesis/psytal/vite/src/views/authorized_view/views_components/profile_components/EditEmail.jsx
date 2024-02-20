@@ -1,17 +1,22 @@
 import React, {useState} from 'react'
 import axiosClient from '../../../../axios';
 
-export const EditEmail = ({onCloseEditEmail, data}) => {
+export const EditEmail = ({ onCloseEditEmail, data }) => {
+    console.log('state: ', onCloseEditEmail);
     //calling the sample data
     const [email, setEmail] = useState(data);
 
-    //Bahalakana dito hahahha
+    const handleCloseModal = () => {
+       // document.querySelector('.popup').style.display = 'none';
+       console.log('state: ', onCloseEditEmail);
+    };
+
     const handleSubmit = () => {
             axiosClient.post('/userprofileemailupdate', {email: email})
             .then((res) => {
             });
 
-        onClose();
+        onCloseEditEmail();
       };
 
       console.log(email)
@@ -37,7 +42,7 @@ export const EditEmail = ({onCloseEditEmail, data}) => {
                         <input className="appearance-none block bg-gray-300 rounded-md w-full py-1.5 text-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                             type="email"
                             name="newemail"
-                            value={email}
+                            value={email.email}
                             onChange={ev => setEmail(event.target.value)}
                             placeholder="New Email"
                             style={{
@@ -53,7 +58,7 @@ export const EditEmail = ({onCloseEditEmail, data}) => {
                         className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-xl">
                         Confirm
                     </button>
-                    <button onClick={onCloseEditEmail} className="bg-[#E2202C] hover:bg-[#E2202C] text-white font-bold py-2 px-4 rounded-xl">
+                    <button onClick={handleCloseModal} className="bg-[#E2202C] hover:bg-[#B30D0F] text-white font-bold py-2 px-4 rounded-xl">
                         Cancel
                     </button>                    
                 </div>
