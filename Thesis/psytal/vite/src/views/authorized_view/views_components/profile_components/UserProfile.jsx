@@ -151,7 +151,7 @@ export default function UserProfile({closeModal}) {
     >
         <div>
             <EditEmail 
-                onCloseStudentEditEmail={()=> setIsStudentEditEmailOpen (false)}
+                onCloseEditEmail={()=> setIsStudentEditEmailOpen (false)}
                 data={data}/>
         </div>
     </ReactModal>
@@ -177,7 +177,7 @@ export default function UserProfile({closeModal}) {
     >
         <div>
             <StudentUserInformationPopup  
-                onCloseStudentUserInfo={()=> setIsStudentUserInformationOpen (false)} 
+                onCloseEditEmail={()=> setIsStudentUserInformationOpen (false)} 
                 data={data}/></div>
     </ReactModal>
 
