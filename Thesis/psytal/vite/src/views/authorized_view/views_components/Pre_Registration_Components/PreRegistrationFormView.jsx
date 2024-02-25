@@ -5,6 +5,7 @@ import axiosClient from '../../../../axios';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
+import SuccessModal from './SuccessModal';
 
 
 
@@ -16,8 +17,7 @@ export default function PreRegistrationFormView({prereg}) {
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
-  
-  console.log('This is the prepreg',prereg);
+
   //auto fill dropdown
   useEffect(() => {
     async function fetchData() {
@@ -213,6 +213,17 @@ const handleChangeUnits = (index, value) => {
   //On Accept Click
   const onClickAccept = (ev) => {
     ev.preventDefault();
+
+     // Validate COLLEGE radio buttons
+     const yesChecked = document.getElementById("yescompiled").checked;
+     const noChecked = document.getElementById("noavail").checked;
+ 
+     // Check if either Yes or No is selected
+     if (!yesChecked && !noChecked) {
+         alert("Did the Student complied with the Admission Policy?");
+         return; // Exit function without submitting the form
+     }
+
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
@@ -355,7 +366,7 @@ const handleChangeUnits = (index, value) => {
                 params: formDataObject
               })
                 .then(() => {
-                  
+                  setShowSuccessModal(true)
                 })
               
               .catch(( error ) => {
@@ -668,7 +679,7 @@ const handleChangeUnits = (index, value) => {
         <div className='bg-red-500 rounded py-2 px-2 text-white'
           dangerouslySetInnerHTML={error}>
         </div>)}
-        
+        <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
     <main>
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
