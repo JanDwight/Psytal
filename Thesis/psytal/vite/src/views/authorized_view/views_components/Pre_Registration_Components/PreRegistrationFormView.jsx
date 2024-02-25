@@ -17,8 +17,7 @@ export default function PreRegistrationFormView({prereg}) {
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
-  
-  console.log('This is the prepreg',prereg);
+
   //auto fill dropdown
   useEffect(() => {
     async function fetchData() {
@@ -214,6 +213,17 @@ const handleChangeUnits = (index, value) => {
   //On Accept Click
   const onClickAccept = (ev) => {
     ev.preventDefault();
+
+     // Validate COLLEGE radio buttons
+     const yesChecked = document.getElementById("yescompiled").checked;
+     const noChecked = document.getElementById("noavail").checked;
+ 
+     // Check if either Yes or No is selected
+     if (!yesChecked && !noChecked) {
+         alert("Did the Student complied with the Admission Policy?");
+         return; // Exit function without submitting the form
+     }
+
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
