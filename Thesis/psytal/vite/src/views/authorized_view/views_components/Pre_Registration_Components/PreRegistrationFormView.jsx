@@ -5,6 +5,7 @@ import axiosClient from '../../../../axios';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
+import SuccessModal from './SuccessModal';
 
 
 
@@ -355,7 +356,7 @@ const handleChangeUnits = (index, value) => {
                 params: formDataObject
               })
                 .then(() => {
-                  
+                  setShowSuccessModal(true)
                 })
               
               .catch(( error ) => {
@@ -668,7 +669,7 @@ const handleChangeUnits = (index, value) => {
         <div className='bg-red-500 rounded py-2 px-2 text-white'
           dangerouslySetInnerHTML={error}>
         </div>)}
-        
+        <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
     <main>
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
