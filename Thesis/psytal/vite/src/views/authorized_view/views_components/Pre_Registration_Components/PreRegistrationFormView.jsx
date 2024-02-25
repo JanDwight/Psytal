@@ -6,39 +6,16 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 
-//for success message
-const SuccessModal = ({ isSuccessOpen, onClose }) => {
-  return (
-    <>
-      {isOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>Success!</p>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
+
 
 export default function PreRegistrationFormView({prereg}) {
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
-  const [preRegSuccess, setPreRegSuccess] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
-
-  useEffect(() => {
-    if (preRegSuccess) {
-      const timer = setTimeout(() => {
-        setPreRegSuccess(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [preRegSuccess]);
   
   console.log('This is the prepreg',prereg);
   //auto fill dropdown
@@ -268,7 +245,7 @@ const handleChangeUnits = (index, value) => {
       password += getRandomChar(characters);
     }
     
-    const userResponse = await axiosClient.post('/adduser', {
+    const userResponse = axiosClient.post('/adduser', {
       name:fullName,
       role: parseInt(role),
       password: password,
@@ -377,8 +354,8 @@ const handleChangeUnits = (index, value) => {
               .get('/sendstudentaccountpassword', {
                 params: formDataObject
               })
-                .then(({ data }) => {
-                  setPreRegSuccess(true)
+                .then(() => {
+                  
                 })
               
               .catch(( error ) => {
