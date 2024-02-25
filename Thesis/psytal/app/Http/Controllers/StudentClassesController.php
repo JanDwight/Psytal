@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\student_classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentClassesController extends Controller
 {
@@ -12,7 +13,19 @@ class StudentClassesController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        $grades = student_classes::where('student_profile_id', $user['id'])->first();
+
+        if(!$grades){
+            return response()->json([
+                'message' => 'Student Not Found'
+            ]);
+        }
+
+        return response()->json([
+            'data' => $grades
+        ]);
     }
 
     /**

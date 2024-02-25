@@ -8,6 +8,7 @@ use App\Http\Controllers\InstructorClassesController;
 use App\Http\Controllers\LinksController;
 use App\Http\Controllers\PreregistrationIncomingTmpController;
 use App\Http\Controllers\SemesterInformationController;
+use App\Http\Controllers\StudentClassesController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LogsController;
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //grades
     Route::put('/editGrade/{selectedStudent}', [AttachSubjectController::class, 'editGrade']);
+    Route::get('/getgrade', [StudentClassesController::class, 'index']);
 
     //curriculum Chacklist
     Route::get('/curriculumnCheckListIndex', [ClassesController::class, 'curriculumnCheckListIndex']);
