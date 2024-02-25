@@ -6,14 +6,40 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 
+//for success message
+const SuccessModal = ({ isSuccessOpen, onClose }) => {
+  return (
+    <>
+      {isOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Success!</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 export default function PreRegistrationFormView({prereg}) {
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
+  const [preRegSuccess, setPreRegSuccess] = useState(false);
 
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
 
+  useEffect(() => {
+    if (preRegSuccess) {
+      const timer = setTimeout(() => {
+        setPreRegSuccess(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [preRegSuccess]);
+  
   console.log('This is the prepreg',prereg);
   //auto fill dropdown
   useEffect(() => {
@@ -242,128 +268,133 @@ const handleChangeUnits = (index, value) => {
       password += getRandomChar(characters);
     }
     
-    axiosClient.post('/adduser', {
+    const userResponse = await axiosClient.post('/adduser', {
       name:fullName,
       role: parseInt(role),
       password: password,
       email: preregData.email_address,
      })
+     .then (response => {
+      //Create student profile============================================================================
+      axiosClient
+      .post(`/createstudentprofile`, {
+        user_id: String(preregData.user_id),
+        start_of_school_year: parseInt(preregData.start_of_school_year),
+        end_of_school_year: parseInt(preregData.end_of_school_year),
+        student_school_id: parseInt(preregData.student_school_id),
+        learners_reference_number: parseInt(preregData.learners_reference_number),
+        last_name: preregData.last_name,
+        first_name: preregData.first_name,
+        middle_name: preregData.middle_name,
+        maiden_name: preregData.maiden_name,
+        academic_classification: preregData.academic_classification,
+        last_school_attended: preregData.last_school_attended,
+        address_of_school_attended: preregData.address_of_school_attended,
+        degree: preregData.degree,
+        date_of_birth: preregData.date_of_birth,
+        place_of_birth: preregData.place_of_birth,
+        citizenship: preregData.citizenship,
+        sex_at_birth: preregData.sex_at_birth,
+        ethnicity: preregData.ethnicity,
+        special_needs: preregData.special_needs,
+        contact_number: parseInt(preregData.contact_number),
+        email_address: preregData.email_address,
+        home_address: preregData.home_address,
+        address_while_studying: preregData.address_while_studying,
+        contact_person_name: preregData.contact_person_name,
+        contact_person_number: parseInt(preregData.contact_person_number), 
+        contact_person_address: preregData.contact_person_address,
+        contact_person_relationship: preregData.contact_person_relationship,
+        pre_reg_status: 'Accepted',
+        type_of_student: 'Regular',
+      }).then(response => {
+        // Extract user ID from the response or use preregData.user_id if available
+        const userId = response.data.user_id || preregData.user_id;
+        
+        // Run the second axios call
+        axiosClient.post('/student_subject', {
+            studentData: preregData,
+            subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+        }).then(response => {
+          //prereg update===============================================================================
+            axiosClient
+            .put(`/preregcheck/${id}`, {
+              start_of_school_year: parseInt(preregData.start_of_school_year),
+              end_of_school_year: parseInt(preregData.end_of_school_year),
+              student_school_id: parseInt(preregData.student_school_id),
+              learners_reference_number: parseInt(preregData.learners_reference_number),
+              last_name: preregData.last_name,
+              first_name: preregData.first_name,
+              middle_name: preregData.middle_name,
+              maiden_name: preregData.maiden_name,
+              academic_classification: preregData.academic_classification,
+              last_school_attended: preregData.last_school_attended,
+              address_of_school_attended: preregData.address_of_school_attended,
+              degree: preregData.degree,
+              date_of_birth: preregData.date_of_birth,
+              place_of_birth: preregData.place_of_birth,
+              citizenship: preregData.citizenship,
+              sex_at_birth: preregData.sex_at_birth,
+              ethnicity: preregData.ethnicity,
+              special_needs: preregData.special_needs,
+              contact_number: parseInt(preregData.contact_number),
+              email_address: preregData.email_address,
+              home_address: preregData.home_address,
+              address_while_studying: preregData.address_while_studying,
+              contact_person_name: preregData.contact_person_name,
+              contact_person_number: parseInt(preregData.contact_person_number), 
+              contact_person_address: preregData.contact_person_address,
+              contact_person_relationship: preregData.contact_person_relationship,
+              health_facility_registered: preregData.health_facility_registered,
+              parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+              vaccination_status: preregData.vaccination_status,
+              technology_level: preregData.technology_level,
+              digital_literacy: preregData.digital_literacy,
+              avail_free_higher_education: preregData.avail_free_higher_education,
+              voluntary_contribution: preregData.voluntary_contribution,
+              contribution_amount: preregData.contribution_amount,
+              complied_to_admission_policy: preregData.complied_to_admission_policy,
+            
+              pre_reg_status: 'Accepted',
+              type_of_student: 'Regular',
+            }).then(response => {
+              //for sending emails============================================================================
+              // Assuming formData is your FormData object
+              let formData = new FormData();
 
-    //Create student profile============================================================================
-     axiosClient
-    .post(`/createstudentprofile`, {
-      user_id: String(preregData.user_id),
-      start_of_school_year: parseInt(preregData.start_of_school_year),
-      end_of_school_year: parseInt(preregData.end_of_school_year),
-      student_school_id: parseInt(preregData.student_school_id),
-      learners_reference_number: parseInt(preregData.learners_reference_number),
-      last_name: preregData.last_name,
-      first_name: preregData.first_name,
-      middle_name: preregData.middle_name,
-      maiden_name: preregData.maiden_name,
-      academic_classification: preregData.academic_classification,
-      last_school_attended: preregData.last_school_attended,
-      address_of_school_attended: preregData.address_of_school_attended,
-      degree: preregData.degree,
-      date_of_birth: preregData.date_of_birth,
-      place_of_birth: preregData.place_of_birth,
-      citizenship: preregData.citizenship,
-      sex_at_birth: preregData.sex_at_birth,
-      ethnicity: preregData.ethnicity,
-      special_needs: preregData.special_needs,
-      contact_number: parseInt(preregData.contact_number),
-      email_address: preregData.email_address,
-      home_address: preregData.home_address,
-      address_while_studying: preregData.address_while_studying,
-      contact_person_name: preregData.contact_person_name,
-      contact_person_number: parseInt(preregData.contact_person_number), 
-      contact_person_address: preregData.contact_person_address,
-      contact_person_relationship: preregData.contact_person_relationship,
-      pre_reg_status: 'Accepted',
-      type_of_student: 'Regular',
-    }).then(response => {
-      // Extract user ID from the response or use preregData.user_id if available
-      const userId = response.data.user_id || preregData.user_id;
-      
-      // Run the second axios call
-      axiosClient.post('/student_subject', {
-          studentData: preregData,
-          subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
-      })
-    })
+              // Append some data to the FormData object
+              formData.append('lastName', fullName);
+              formData.append('email', preregData.email_address);
+              formData.append('password', password);
+
+              // Convert FormData to an object
+              let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
+                obj[key] = value;
+                return obj;
+              }, {});
+            
+              axiosClient
+              .get('/sendstudentaccountpassword', {
+                params: formDataObject
+              })
+                .then(({ data }) => {
+                  setPreRegSuccess(true)
+                })
+              
+              .catch(( error ) => {
+                console.log('error 1: ', error);
+                  console.error(error)
+              });
+            })
+          })
+        })
+     })
+
     
-    //prereg update===============================================================================
-    axiosClient
-    .put(`/preregcheck/${id}`, {
-      start_of_school_year: parseInt(preregData.start_of_school_year),
-      end_of_school_year: parseInt(preregData.end_of_school_year),
-      student_school_id: parseInt(preregData.student_school_id),
-      learners_reference_number: parseInt(preregData.learners_reference_number),
-      last_name: preregData.last_name,
-      first_name: preregData.first_name,
-      middle_name: preregData.middle_name,
-      maiden_name: preregData.maiden_name,
-      academic_classification: preregData.academic_classification,
-      last_school_attended: preregData.last_school_attended,
-      address_of_school_attended: preregData.address_of_school_attended,
-      degree: preregData.degree,
-      date_of_birth: preregData.date_of_birth,
-      place_of_birth: preregData.place_of_birth,
-      citizenship: preregData.citizenship,
-      sex_at_birth: preregData.sex_at_birth,
-      ethnicity: preregData.ethnicity,
-      special_needs: preregData.special_needs,
-      contact_number: parseInt(preregData.contact_number),
-      email_address: preregData.email_address,
-      home_address: preregData.home_address,
-      address_while_studying: preregData.address_while_studying,
-      contact_person_name: preregData.contact_person_name,
-      contact_person_number: parseInt(preregData.contact_person_number), 
-      contact_person_address: preregData.contact_person_address,
-      contact_person_relationship: preregData.contact_person_relationship,
-      health_facility_registered: preregData.health_facility_registered,
-      parent_health_facility_dependent: preregData.parent_health_facility_dependent,
-      vaccination_status: preregData.vaccination_status,
-      technology_level: preregData.technology_level,
-      digital_literacy: preregData.digital_literacy,
-      avail_free_higher_education: preregData.avail_free_higher_education,
-      voluntary_contribution: preregData.voluntary_contribution,
-      contribution_amount: preregData.contribution_amount,
-      complied_to_admission_policy: preregData.complied_to_admission_policy,
+    
+    
 
-      pre_reg_status: 'Accepted',
-      type_of_student: 'Regular',
-    })
-
-    //for sending emails============================================================================
-    // Assuming formData is your FormData object
-    let formData = new FormData();
-
-    // Append some data to the FormData object
-    formData.append('lastName', fullName);
-    formData.append('email', preregData.email_address);
-    formData.append('password', password);
-
-    // Convert FormData to an object
-    let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
-      obj[key] = value;
-      return obj;
-    }, {});
-
-    axiosClient
-    .get('/sendstudentaccountpassword', {
-      params: formDataObject
-    })
-      .then(({ data }) => {
-      })
-
-    .catch(( error ) => {
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-        setError({__html: finalErrors.join('<br>')})
-      }
-        console.error(error)
-    });
+    
   };
 
   const onPrint = () => {
