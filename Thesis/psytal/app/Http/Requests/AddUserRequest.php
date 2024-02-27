@@ -23,7 +23,9 @@ class AddUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
             'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
             'role' => 'required|integer',
             'email' => 'required|string'

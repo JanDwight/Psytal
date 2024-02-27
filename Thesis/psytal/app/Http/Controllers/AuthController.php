@@ -30,33 +30,7 @@ class AuthController extends Controller
     public function addUser(AddUserRequest $request) {
         $data = $request->validated();
 
-        $name = $request->input('name');
-
-        // Break down the name into firstName, lastName, and middleInitial
-        $nameParts = explode(' ', $name);
-        $firstName = '';
-        $lastName = '';
-        $middleName = '';
-        $middleInitial = '';
-
-        $namePartsCount = count($nameParts);
-
-        if ($namePartsCount > 0) {
-            $lastName = rtrim($nameParts[0], ',');
-        }
-
-        if ($namePartsCount > 1) {
-            // Extract the last word as the middle name
-            $middleName = end($nameParts);
         
-            // Save only the first character as the middle initial
-            $middleInitial = substr($middleName, 0, 1);
-        }
-
-        if ($namePartsCount > 2) {
-            // Remove the middleName from the firstName
-            $firstName = implode(' ', array_slice($nameParts, 1, $namePartsCount - 2));
-        }
         
         // Extract everything after '@' in the email address
         $emailParts = explode('@', $data['email']);
@@ -72,7 +46,8 @@ class AuthController extends Controller
         }
 
         // Update $data['name'] with $lastName, $firstName, $middleName
-        $data['name'] = implode(' ', array_filter([$lastName . ',', $firstName, $middleInitial . '.']));
+        $data['name'] = implode(' ', array_filter([$data['last_name'] . ',', $data['first_name'], ($data['middle_name']) . '.']));
+
 
         $user = User::create([
             'name' => $data['name'],
@@ -96,9 +71,9 @@ class AuthController extends Controller
             employee_profile::create([
                 'user_id' => $user->id,
                 'employee_id' => 0,
-                'last_name' => $lastName,
-                'first_name' => $firstName,
-                'middle_name' => $middleName,
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'middle_name' => $data['middle_name'],
                 'role' => $data['role'],
                 'email_address' => $data['email'],
             ]);

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
-//good for now
 
 export default function AddUsers({ showModal, onClose}) {
 
   //for addusers modal
-  const [fullName, setFullName] = useState(''); // Required by AddUsers
+  const [last_name, setLast_name] = useState(''); // Required by AddUsers
+  const [first_name, setFirst_name] = useState(''); // Required by AddUsers
+  const [middle_name, setMiddle_name] = useState(''); // Required by AddUsers
   const [includeNumbers] = useState(true); // Required by AddUsers
   const [includeSymbols] = useState(true); // Required by AddUsers
   const [selectedRole, setSelectedRole] = useState('1'); // Required by AddUsers
@@ -15,7 +16,9 @@ export default function AddUsers({ showModal, onClose}) {
   const [successMessage, setSuccessMessage] = useState(null);
 
   const resetForm = () => {
-    setFullName('');
+    setLast_name('');
+    setFirst_name('');
+    setMiddle_name('');
     setEmail('');
     setSelectedRole('');
     setSuccessMessage(null);
@@ -24,7 +27,6 @@ export default function AddUsers({ showModal, onClose}) {
   //add users onsubmit
   const onSubmit = (ev) => {
     ev.preventDefault();
-    setError('Error Detected');
 
     //password generator
     const numbers = '0123456789';
@@ -56,7 +58,9 @@ export default function AddUsers({ showModal, onClose}) {
     
     //---------------------------------------------------------------------------
     const formData = {
-      name: fullName,//these are errors
+      last_name,
+      first_name,
+      middle_name,
       password: password,
       role: selectedRole,//'selectedRole',//these are errors
       email: email,//these are errors
@@ -81,10 +85,11 @@ export default function AddUsers({ showModal, onClose}) {
       .catch((error) => {
         console.error(error);
         setError({
-          message: 'This user cannot be added, double check the email domain if it is applicable',
+          message: error.response.data.error,
           
       });
       setTimeout(() => {
+
         resetForm();
         window.location.reload();
         // onClose();
@@ -116,10 +121,10 @@ export default function AddUsers({ showModal, onClose}) {
   //   resetForm();
   //   onClose();
   // };
-
+  
   return (
     <>
-    <ReactModal
+        <ReactModal
       appElement={document.getElementById('root')}
       isOpen={showModal}
       onRequestClose={onClose}
@@ -133,13 +138,37 @@ export default function AddUsers({ showModal, onClose}) {
           <form onSubmit={onSubmit}>
             <div className="mt-10">
               <input
-                id="fullname"
-                name="fullname"
+                id="last_name"
+                name="last_name"
                 type="text"
-                autoComplete="fullname"
-                placeholder="Last Name, First Name, M.I."
+                autoComplete="last_name"
+                placeholder="Last Name"
                 required
-                onChange={ev => setFullName(ev.target.value)}
+                onChange={ev => setLast_name(ev.target.value)}
+                className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                id="first_name"
+                name="first_name"
+                type="text"
+                autoComplete="first_name"
+                placeholder="First Name"
+                required
+                onChange={ev => setFirst_name(ev.target.value)}
+                className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                id="middle_name"
+                name="middle_name"
+                type="text"
+                autoComplete="middle_name"
+                placeholder="Middle Name"
+                required
+                onChange={ev => setMiddle_name(ev.target.value)}
                 className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
               />
             </div>
@@ -179,7 +208,7 @@ export default function AddUsers({ showModal, onClose}) {
 
             </div>
           </form>
-          {successMessage && (
+          {successMessage  && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
             <div className="w-full px-4 mx-auto mt-6">
@@ -205,7 +234,6 @@ export default function AddUsers({ showModal, onClose}) {
     </div>
    
     </ReactModal>
-    
     </>
   );
 }
