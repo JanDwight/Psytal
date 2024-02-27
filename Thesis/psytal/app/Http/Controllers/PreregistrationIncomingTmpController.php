@@ -161,6 +161,7 @@ class PreregistrationIncomingTmpController extends Controller
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
+            $item->type_of_student;
             return $item;
         });
 

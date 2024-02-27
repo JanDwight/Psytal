@@ -35,6 +35,12 @@ const handleRowClick = (items) => {
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
         
+        <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
+              <button
+                  className="bg-[#397439] rounded-2xl  px-7 py-2 text-white font-size ml-10">
+                      {loading ? 'Incoming Student' : 'Continuing Student'}
+              </button>
+        </div>   
       </div>
       <div className="mt-2 mb-5"></div>
       <div >
@@ -44,6 +50,7 @@ const handleRowClick = (items) => {
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Name</th>
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Date of Submission</th>
             {/* <th className="text-left text-gray-700 bg-gray-200 p-2">Section</th> */}
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Status</th>
           </tr>
         </thead>
@@ -62,6 +69,9 @@ const handleRowClick = (items) => {
               </td>
               <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="m-2">{item.created_at}</div>
+              </td>
+              <td className="text-left p-2" style={{ width: "10%" }}>
+                <div className="m-2">{item.type_of_student}</div>
               </td>
               <td className="text-left p-1" style={{ width: "10%" }}>
                 <div className={`${
