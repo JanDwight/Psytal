@@ -60,14 +60,15 @@ export default function UserProfile({closeModal}) {
                 
             </div> 
             
-            <div className="flex flex-col justify-between mx-2 mb-2">
+            {/* For Student Info */}
+            {/* <div className="flex flex-col justify-between mx-2 mb-2">
                 {roleInt > 3 && (
                     <label onClick={()=> setIsStudentUserInformationOpen (true)}
                         className='cursor-pointer mx-3 px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md'>User Information 
                     </label>
                 )}
                 
-            </div>                        
+            </div>                         */}
         </div>
 
         <div className="flex flex-wrap flex-col px-3 mx-16 mt-5 mb-2">
@@ -169,7 +170,7 @@ export default function UserProfile({closeModal}) {
         </div>
     </ReactModal>
 
-    {/**Setting the User Information*/} 
+    {/* *Setting the User Information 
     <ReactModal
     isOpen={isStudentUserInformationOpen}
     onRequestClose={()=> setIsStudentUserInformationOpen(false)}
@@ -179,7 +180,7 @@ export default function UserProfile({closeModal}) {
             <StudentUserInformationPopup  
                 onCloseStudentUserInfo={()=> setIsStudentUserInformationOpen (false)} 
                 data={data}/></div>
-    </ReactModal>
+    </ReactModal> */}
 
     </>
   )
