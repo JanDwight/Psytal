@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import schoolLogo from "@assets/BSUlogo.png";
 import info from "@assets/info.png";
@@ -14,6 +14,19 @@ export default function PreRegistrationForContinuing() {
     const onhandleChange = (event) => {
         setSelectedValue(event.target.value);
       }
+
+  //-----
+  const [disclaimer, setDisclaimer] = useState(false);
+
+  useEffect(() => {
+    setDisclaimer(true); // Set showModal to true when the component mounts
+  }, []); 
+
+  const handleCloseDisclaimer = () => {
+    setDisclaimer(false);
+  };
+
+  //-----
 
       //variables for the user inputs
   const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
@@ -1368,6 +1381,41 @@ export default function PreRegistrationForContinuing() {
             </div>
           </div>
         </div>
+      )}
+    {disclaimer && (
+        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
+        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+        <div className="w-full px-4 mx-auto mt-6">
+            <div className="text-xl text-green-600 font-semibold my-3">
+              
+            <head>
+              <title>Data Privacy Disclaimer</title>
+            </head>
+            <body>
+              <h1 className='text-center'><strong>Disclaimer: Data Privacy for Student Portal</strong></h1>
+              <p>This disclaimer is intended to inform users of the student portal about the handling of their personal data in compliance with the Data Privacy Act of 2012 (Republic Act No. 10173) and its implementing rules and regulations in the Philippines.</p>
+              <br></br>
+              <ol>
+                <li><strong>1. Purpose of Data Collection:</strong> The personal data collected through the student portal is solely for educational and administrative purposes. This includes but is not limited to student enrollment, academic record management, communication with students and guardians, and other related activities necessary for the operation of the educational institution.</li>
+                <li><strong>2. Data Protection Measures:</strong> We are committed to ensuring the security and confidentiality of the personal data entrusted to us. Appropriate technical, organizational, and physical measures are in place to safeguard against unauthorized access, disclosure, alteration, or destruction of personal data.</li>
+                <li><strong>3. Data Usage and Disclosure:</strong> Personal data will only be used for the purposes stated above and will not be disclosed to third parties unless required by law or with explicit consent from the data subject. Access to personal data within the institution is restricted to authorized personnel who require such information for legitimate educational and administrative purposes.</li>
+                <li><strong>4. Data Retention:</strong> Personal data will be retained only for as long as necessary to fulfill the purposes for which it was collected or as required by law. Upon graduation or withdrawal from the institution, personal data will be securely archived or disposed of in accordance with applicable regulations.</li>
+                <li><strong>5. User Consent:</strong> By accessing and using the student portal, users consent to the collection, processing, and storage of their personal data as described in this disclaimer. Users also acknowledge their rights to access, correct, or request the deletion of their personal data in accordance with applicable data privacy laws.</li>
+                <li><strong>6. Updates to Privacy Policy:</strong> This disclaimer and our privacy practices may be updated periodically to reflect changes in legal or regulatory requirements, technological advancements, or institutional policies. Users will be notified of any material changes to the privacy policy.</li>
+                <li><strong>7. Contact Information:</strong> For inquiries, requests, or concerns regarding data privacy in the student portal, users may contact the institution's Data Protection Officer or designated privacy contact.</li>
+              </ol>
+              <br></br>
+              <p>By accessing and using the student portal, users agree to abide by this disclaimer and consent to the collection, processing, and storage of their personal data for educational and administrative purposes in accordance with applicable data privacy laws in the Philippines.</p>
+                <div className='text-center'>
+                  <button
+                    className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full" 
+                    onClick={handleCloseDisclaimer}>I Understand</button>
+                </div>
+            </body>
+            </div>
+          </div>
+        </div>
+      </div>
       )}
     </>
 
