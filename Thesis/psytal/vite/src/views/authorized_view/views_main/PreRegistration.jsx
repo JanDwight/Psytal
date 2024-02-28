@@ -70,7 +70,7 @@ const handleRowClick = (items) => {
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Date of Submission</th>
             {/* <th className="text-left text-gray-700 bg-gray-200 p-2">Section</th> */}
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
-            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Status</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>Status</th>
           </tr>
         </thead>
         </table>
@@ -92,7 +92,7 @@ const handleRowClick = (items) => {
               <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="m-2">{item.new_student}</div>
               </td>
-              <td className="text-left p-1" style={{ width: "10%" }}>
+              <td className="text-center p-1" style={{ width: "10%" }}>
                 <div className={`${
                     item.pre_reg_status === 'Accepted'
                     ? 'bg-green-600'
