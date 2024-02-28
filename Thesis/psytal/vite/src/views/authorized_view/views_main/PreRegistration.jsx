@@ -11,6 +11,17 @@ export default function PreRegistration() {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
 
+  const [filter, setFilter] = useState(null);
+
+  const handleFilter = (filterValue) => {
+      setFilter(filterValue);
+  };
+
+      // // Filter the data based on the selected filter
+      // const filteredData = filter
+      // ? data.filter(item.new_student === filter)
+      // : data;
+
 const handleRowClick = (items) => {
   setIsPreRegFormModalOpen(true);
   setSelectedData(items);
@@ -36,10 +47,18 @@ const handleRowClick = (items) => {
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
         
         <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
-              <button
-                  className="bg-[#397439] rounded-2xl  px-7 py-2 text-white font-size ml-10">
-                      {loading ? 'Incoming Student' : 'Continuing Student'}
-              </button>
+        <button
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10 ${filter === 'Incoming' ? 'bg-[#397439]' : 'bg-gray-400'}`}
+                onClick={() => handleFilter('Incoming')}
+            >
+                Incoming Student
+            </button>
+            <button
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10 ${filter === 'Continuing' ? 'bg-[#397439]' : 'bg-gray-400'}`}
+                onClick={() => handleFilter('Continuing')}
+            >
+                Continuing Student
+            </button>
         </div>   
       </div>
       <div className="mt-2 mb-5"></div>
@@ -71,7 +90,7 @@ const handleRowClick = (items) => {
                 <div className="m-2">{item.created_at}</div>
               </td>
               <td className="text-left p-2" style={{ width: "10%" }}>
-                <div className="m-2">{item.type_of_student}</div>
+                <div className="m-2">{item.new_student}</div>
               </td>
               <td className="text-left p-1" style={{ width: "10%" }}>
                 <div className={`${

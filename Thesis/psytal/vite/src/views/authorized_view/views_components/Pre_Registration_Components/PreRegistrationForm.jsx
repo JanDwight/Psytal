@@ -139,7 +139,6 @@ export default function PreRegistrationForm() {
       pre_reg_status: 'Pending',
       type_of_student: 'Incoming',
       student_status: 'Regular',
-      year_level: '1st Year',
       
     })
     .then(({ data }) => {

@@ -157,11 +157,13 @@ class PreregistrationIncomingTmpController extends Controller
          $PreReg = $PreReg->map(function ($item) {
             // Extract the first character of the middle_name
             $middleInitial = strtoupper(substr($item->middle_name, 0, 1));
+            $year_level = $item->year_level;
+            $semester = $item->semester;
             // Convert created_at to a Carbon instance and format it to display only the date
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            $item->type_of_student;
+            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
             return $item;
         });
 
