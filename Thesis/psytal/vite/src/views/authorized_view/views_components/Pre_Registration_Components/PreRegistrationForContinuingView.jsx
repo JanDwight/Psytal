@@ -1513,9 +1513,9 @@ export default function PreRegistrationForContinuingView({prereg}) {
               <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Decline
               </button>
-              <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+              {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Return
-              </button>
+              </button> */}
               <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Accept
               </button>
