@@ -123,7 +123,7 @@ export default function LandingPage() {
             </div>
             <div className='flex justify-center'>
               {/**FB */}
-              <a href="https://www.facebook.com/psychologybsu" target="_blank" className="mr-6 text-gray-500">
+              <a href="https://www.facebook.com/psychologybsu" target="_blank" className="mr-6 text-gray-500 hover:text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
                     fill="currentColor"
@@ -132,7 +132,7 @@ export default function LandingPage() {
                 </svg>
               </a>
               {/**Twitter */}
-              <a href="https://twitter.com/BenguetStateU" target="_blank" className="mr-6 text-gray-500">
+              <a href="https://twitter.com/BenguetStateU" target="_blank" className="mr-6 text-gray-500 hover:text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
                     fill="currentColor"
@@ -142,7 +142,7 @@ export default function LandingPage() {
               </a>
 
                   {/**Instagram */}
-              <a href="https://www.instagram.com/benguetstateuniversityofficial/" target="_blank" className="mr-6 text-gray-500">
+              <a href="https://www.instagram.com/benguetstateuniversityofficial/" target="_blank" className="mr-6 text-gray-500 hover:text-green-500">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
                     fill="currentColor"
@@ -178,14 +178,14 @@ export default function LandingPage() {
               </div>
           
               {/**---------------COL2------------- */}
-              <div className='mb-4 flex flex-col justify-center font-semibold uppercase md:justify-start'>
+              <div className='mb-4 flex flex-col justify-center font-semibold uppercase md:justify-start '>
                 <h6>
-                  <a href="https://www.google.com/maps/@16.4529815,120.5897683,3a,75y,62.24h,81.21t/data=!3m6!1e1!3m4!1s3g6UBbP1ms4hzPLFCynOug!2e0!7i16384!8i8192?entry=ttu" target="_blank">
+                  <a href="https://www.google.com/maps/@16.4529815,120.5897683,3a,75y,62.24h,81.21t/data=!3m6!1e1!3m4!1s3g6UBbP1ms4hzPLFCynOug!2e0!7i16384!8i8192?entry=ttu" target="_blank" className='hover:text-green-500'>
                   Site Map
                   </a>
                 </h6>
                 <p>
-                  <a href="http://www.bsu.edu.ph/" target="_blank" className=" text-black-200">BSU website</a>
+                  <a href="http://www.bsu.edu.ph/" target="_blank" className=" text-black-200 hover:text-green-500">BSU website</a>
                 </p>
               </div>
               {/**--------------COL3------------- */}
@@ -193,7 +193,7 @@ export default function LandingPage() {
                 <h6 className='mb-4 flex justify-center font-semibold uppercase md:justify-start'>
                   Contact
                 </h6>
-                <p className='mb-4 flex items-center justify-center md:justify-start'>
+                <p className='mb-4 flex items-center justify-center md:justify-start hover:text-green-500'>
                   <svg xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
@@ -201,7 +201,7 @@ export default function LandingPage() {
                     <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"/>
                     <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"/>
                   </svg>
-                  <a href="https://www.google.com/maps/dir//Benguet+State+University,+La+Trinidad,+Benguet/@16.4544374,120.5894334,528m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3391a3bb4279be9b:0xbf6e126a84be4efc!2m2!1d120.5902746!2d16.4543609?entry=ttu" target="_blank" className=" text-black-200">
+                  <a href="https://www.google.com/maps/dir//Benguet+State+University,+La+Trinidad,+Benguet/@16.4544374,120.5894334,528m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3391a3bb4279be9b:0xbf6e126a84be4efc!2m2!1d120.5902746!2d16.4543609?entry=ttu" target="_blank" className=" text-black-200 ">
                   Km.5 La Trinidad, Benguet
                   </a>
                 </p>
