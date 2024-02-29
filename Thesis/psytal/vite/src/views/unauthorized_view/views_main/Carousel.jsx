@@ -6,10 +6,10 @@ const slidesData = [
       <>
         <div className="w-[100%] h-[50vh] relative">
           {/* Remove the image src here */}
-          <div className="absolute inset-x-0 top-0 h-[100%] w-[100%] flex flex-col justify-center items-center text-white p-5">
+          <div className="absolute inset-x-0  h-[100%] w-[100%] flex-col justify-center items-center text-white p-5">
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
-            <h6 className="text-2xl font-bold text-center z-10 relative">BSU Vision</h6>
-            <div className="max-h-60 z-10 relative">
+            <h6 className="text-3xl font-bold text-center z-10 relative">BSU Vision</h6>
+            <div className="max-h-60 z-10 mt-5 relative">
               <p className="text-2xl text-center">BSU as an international Smart University engendering graduates to walk the intergenerational highways.</p>
             </div>
           </div>
@@ -22,12 +22,12 @@ const slidesData = [
       <>
         <div className="w-[100%] h-[50vh] relative">
           {/* Remove the image src here */}
-          <div className="absolute inset-x-0 top-0 h-[100%] w-[100%] flex flex-col justify-center items-center text-white p-5">
+          <div className="absolute inset-x-0 top-0 h-[100%] w-[100%] flex-col justify-center items-center text-white p-5">
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
-            <h6 className="text-2xl font-bold text-center z-10 relative">BSU Mission</h6>
+            <h6 className="text-3xl font-bold text-center z-10 relative">BSU Mission</h6>
             <div className="max-h-60 z-10 mt-5 relative">
-              <p className="text-xl text-center">
-                <ul className="list-disc">
+              <p className="text-2xl text-center">
+                <ul className="list-disc list-inside space-y-2">
                   <li>Challenge Innovation</li>
                   <li>Advance Technology and Facilities</li>
                   <li>Revitalize Administration</li>
@@ -48,9 +48,9 @@ const slidesData = [
           {/* Remove the image src here */}
           <div className="absolute inset-x-0 top-0 h-[100%] w-[100%] flex-col justify-center items-center text-white p-5">
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
-            <h6 className="text-xl font-bold text-center z-10 relative">College of Social Sciences Goals</h6>
+            <h6 className="text-3xl font-bold text-center z-10 relative">College of Social Sciences Goals</h6>
             <div className="max-h-60 z-10 mt-5 relative">
-              <p className="text-lg text-center">
+              <p className="text-2xl text-center">
                 <ul className="list-disc list-inside space-y-2">
                   <li>
                     Promote academic space advocating/mainstreaming indigenous knowledge, cultural and environmental heritage, gender sensitivity, and engaging evidence-based innovation.
