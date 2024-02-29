@@ -157,12 +157,49 @@ class PreregistrationIncomingTmpController extends Controller
          $PreReg = $PreReg->map(function ($item) {
             // Extract the first character of the middle_name
             $middleInitial = strtoupper(substr($item->middle_name, 0, 1));
+            $year_level = $item->year_level;
+            $semester = $item->semester;
             // Convert created_at to a Carbon instance and format it to display only the date
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            return $item;
+            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            return $item ;
+             
         });
+            // Filter the collection to include only 'Incoming' students
+            $PreReg = $PreReg->filter(function ($item) {
+                return $item->new_student === 'Incoming';
+            });
+
+            return $PreReg->toArray();
+    }
+
+    public function index2(Request $request)
+    {
+
+        $PreReg = DB::table('preregistration_incoming_tmps')
+         ->get();
+
+         
+         $PreReg = $PreReg->map(function ($item) {
+            // Extract the first character of the middle_name
+            $middleInitial = strtoupper(substr($item->middle_name, 0, 1));
+            $year_level = $item->year_level;
+            $semester = $item->semester;
+            // Convert created_at to a Carbon instance and format it to display only the date
+            $item->created_at = Carbon::parse($item->created_at)->toDateString();
+            //Combine the last, first and middle name into a fullname
+            $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
+            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            return $item ;
+             
+        });
+
+            // Filter the collection to include only 'Incoming' students
+            $PreReg = $PreReg->filter(function ($item) {
+                return $item->new_student === 'Continuing';
+            });
 
             return $PreReg->toArray();
     }

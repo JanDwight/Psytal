@@ -169,7 +169,10 @@ const handleChangeUnits = (index, value) => {
     contribution_amount: '',
     complied_to_admission_policy: '',
     pre_reg_status: 'Accepted',
-    type_of_student: 'Regular',
+    type_of_student: 'Incoming',
+    student_status: 'Regular',
+    year_level: '1',
+    semester: '1st Semester',
   });
 
   const handleChange = (event) => {

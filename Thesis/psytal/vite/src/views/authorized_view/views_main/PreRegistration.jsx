@@ -11,12 +11,13 @@ export default function PreRegistration() {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
 
-const handleRowClick = (items) => {
-  setIsPreRegFormModalOpen(true);
-  setSelectedData(items);
-}
+  const [filter, setFilter] = useState(null);
 
-  useEffect(() => {
+  const handleFilter = (filterValue) => {
+      setFilter(filterValue);
+  };
+
+  const handleIncoming = () => {
     setLoading(true);
     axiosClient
       .get('/listpreregincoming')
@@ -28,13 +29,64 @@ const handleRowClick = (items) => {
         setLoading(false);
         console.error('Error fetching data:', error);
       });
-  }, []);
+};
+
+const handleContinuing = () => {
+  setLoading(true);
+  axiosClient
+    .get('/listpreregcontinuing')
+    .then((res) => {
+      setLoading(false);
+      setData(res.data);  // Assuming res.data is an array
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('Error fetching data:', error);
+    });
+};
+
+const handleRowClick = (items) => {
+  setIsPreRegFormModalOpen(true);
+  setSelectedData(items);
+}
+
+useEffect(() => {
+  setLoading(true);
+  axiosClient
+    .get('/listpreregincoming')
+    .then((res) => {
+      setData((prevData) => [...prevData, ...res.data]);  // Assuming res.data is an array
+      return axiosClient.get('/listpreregcontinuing');
+    })
+    .then((res) => {
+      setData((prevData) => [...prevData, ...res.data]);  // Assuming res.data is an array
+      setLoading(false);
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('Error fetching data:', error);
+    });
+}, []);
 
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
         
+        <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
+        <button
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10`}
+                onClick={handleIncoming}
+            >
+                Incoming Student
+            </button>
+            <button
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10`}
+                onClick={handleContinuing}
+            >
+                Continuing Student
+            </button>
+        </div>   
       </div>
       <div className="mt-2 mb-5"></div>
       <div >
@@ -44,7 +96,8 @@ const handleRowClick = (items) => {
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Name</th>
             <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Date of Submission</th>
             {/* <th className="text-left text-gray-700 bg-gray-200 p-2">Section</th> */}
-            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Status</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>Status</th>
           </tr>
         </thead>
         </table>
@@ -63,7 +116,10 @@ const handleRowClick = (items) => {
               <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="m-2">{item.created_at}</div>
               </td>
-              <td className="text-left p-1" style={{ width: "10%" }}>
+              <td className="text-left p-2" style={{ width: "10%" }}>
+                <div className="m-2">{item.new_student}</div>
+              </td>
+              <td className="text-center p-1" style={{ width: "10%" }}>
                 <div className={`${
                     item.pre_reg_status === 'Accepted'
                     ? 'bg-green-600'
