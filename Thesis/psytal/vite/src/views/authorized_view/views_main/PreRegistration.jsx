@@ -17,17 +17,7 @@ export default function PreRegistration() {
       setFilter(filterValue);
   };
 
-      // // Filter the data based on the selected filter
-      // const filteredData = filter
-      // ? data.filter(item.new_student === filter)
-      // : data;
-
-const handleRowClick = (items) => {
-  setIsPreRegFormModalOpen(true);
-  setSelectedData(items);
-}
-
-  useEffect(() => {
+  const handleIncoming = () => {
     setLoading(true);
     axiosClient
       .get('/listpreregincoming')
@@ -39,7 +29,44 @@ const handleRowClick = (items) => {
         setLoading(false);
         console.error('Error fetching data:', error);
       });
-  }, []);
+};
+
+const handleContinuing = () => {
+  setLoading(true);
+  axiosClient
+    .get('/listpreregcontinuing')
+    .then((res) => {
+      setLoading(false);
+      setData(res.data);  // Assuming res.data is an array
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('Error fetching data:', error);
+    });
+};
+
+const handleRowClick = (items) => {
+  setIsPreRegFormModalOpen(true);
+  setSelectedData(items);
+}
+
+useEffect(() => {
+  setLoading(true);
+  axiosClient
+    .get('/listpreregincoming')
+    .then((res) => {
+      setData((prevData) => [...prevData, ...res.data]);  // Assuming res.data is an array
+      return axiosClient.get('/listpreregcontinuing');
+    })
+    .then((res) => {
+      setData((prevData) => [...prevData, ...res.data]);  // Assuming res.data is an array
+      setLoading(false);
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('Error fetching data:', error);
+    });
+}, []);
 
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
@@ -48,14 +75,14 @@ const handleRowClick = (items) => {
         
         <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
         <button
-                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10 ${filter === 'Incoming' ? 'bg-[#397439]' : 'bg-gray-400'}`}
-                onClick={() => handleFilter('Incoming')}
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10`}
+                onClick={handleIncoming}
             >
                 Incoming Student
             </button>
             <button
-                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10 ${filter === 'Continuing' ? 'bg-[#397439]' : 'bg-gray-400'}`}
-                onClick={() => handleFilter('Continuing')}
+                className={`bg-[#397439] rounded-2xl px-7 py-2 text-white font-size ml-10`}
+                onClick={handleContinuing}
             >
                 Continuing Student
             </button>
