@@ -167,10 +167,6 @@ class PreregistrationIncomingTmpController extends Controller
             return $item ;
              
         });
-            // Filter the collection to include only 'Incoming' students
-            $PreReg = $PreReg->filter(function ($item) {
-                return $item->new_student === 'Incoming';
-            });
 
             return $PreReg->toArray();
     }
