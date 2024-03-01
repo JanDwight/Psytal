@@ -46,7 +46,7 @@ class AuthController extends Controller
         }
 
         // Update $data['name'] with $lastName, $firstName, $middleName
-        $data['name'] = implode(' ', array_filter([$data['last_name'] . ',', $data['first_name'], ($data['middle_name']) . '.']));
+        $data['name'] = implode(' ', array_filter([$data['last_name'] . ',', $data['first_name'], isset($data['middle_name']) ? strtoupper(substr($data['middle_name'], 0, 1)) . '.' : '']));
 
 
         $user = User::create([

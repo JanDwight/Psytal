@@ -260,7 +260,9 @@ const handleChangeUnits = (index, value) => {
     }
     
     const userResponse = axiosClient.post('/adduser', {
-      name:fullName,
+      last_name: preregData.last_name,
+      first_name: preregData.first_name,
+      middle_name: preregData.middle_name,
       role: parseInt(role),
       password: password,
       email: preregData.email_address,
