@@ -7,6 +7,9 @@ import date from "@assets/calendar.png";
 import axiosClient from '../../../../axios';
 import "../../../../../src/styles.css";
 
+import download from 'downloadjs';
+import { PDFDocument } from 'pdf-lib'
+import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 
 export default function PreRegistrationForm() {
   
@@ -18,6 +21,45 @@ export default function PreRegistrationForm() {
   //-----
   const [disclaimer, setDisclaimer] = useState(false);
 
+  const [preregData, setPreregData] = useState({
+    user_id: '',
+    start_of_school_year: '',   
+    end_of_school_year: '',
+    student_school_id: '',      
+    learners_reference_number: '',
+    last_name: '',              
+    first_name: '',
+    middle_name: '',            
+    maiden_name: '',
+    academic_classification: '',
+    last_school_attended: '',
+    address_of_school_attended: '',
+    degree: 'Bachelor of Science in Psychology',
+    date_of_birth: '',
+    place_of_birth: '',
+    citizenship: '',
+    sex_at_birth: '',
+    ethnicity: '',
+    special_needs: '',
+    contact_number: '',
+    email_address: '',
+    home_address: '',
+    address_while_studying: '',
+    contact_person_name: '',
+    contact_person_number: '',
+    contact_person_address: '',
+    contact_person_relationship: '',
+    health_facility_registered: '',
+    parent_health_facility_dependent: '',
+    vaccination_status: 'Not Vaccinated',
+    technology_level: '',
+    digital_literacy: '',
+    avail_free_higher_education: '',
+    voluntary_contribution: '',
+    contribution_amount: '',
+    complied_to_admission_policy: 'No',
+  });
+
   useEffect(() => {
     setDisclaimer(true); // Set showModal to true when the component mounts
   }, []); 
@@ -28,81 +70,311 @@ export default function PreRegistrationForm() {
 
   //-----
 
-  //variables for the user inputs
-  const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
-  const [endOfSchoolYear, setEndOfSchoolYear] = useState('');   
-  const [studentSchoolId, setStudentSchoolId] = useState(''); 
-  const [learnersReferenceNumber, setLearnersReferenceNumber] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [maidenName, setMaidenName] = useState('');
-  const [academicClassification, setAcademicClassification] = useState('');
-  const [lastSchoolAttended, setLastSchoolAttended] = useState('');
-  const [addressOfSchoolAttended, setAddressOfSchoolAttended] = useState('');
-  const [degree, setDegree] = useState('Bachelor of Science in Psychology');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [citizenship, setCitizenship] = useState('');
-  const [ethnicity, setEthnicity] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [placeOfBirth, setPlaceOfBirth] = useState('');
-  const [sexAtBirth, setSexAtBirth] = useState('');
-  const [specialNeeds, setSpecialNeeds] = useState('');
-  const [email, setEmail] = useState('');
-  const [homeAddress, setHomeAddress] = useState('');
-  const [addressWhileStudyingAtBsu, setAddressWhileStudyingAtBsu] = useState('');
-  const [emergencyContactName, setEmergencyContactName] = useState('');
-  const [emergencyContactAddress, setEmergencyContactAddress] = useState('');
-  const [emergencyContactNumber, setEmergencyContactNumber] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [healthfacilityregistered, sethealthfacilityregistered] = useState('');
-  const [parenthealthfacilitydependent, setparenthealthfacilitydependent] = useState('');
-  const [vaccinationstatus, setvaccinationstatus] = useState('Not Vaccinated');
-  const [technologylevel, settechnologylevel] = useState('');
-  const [digitalliteracy, setdigitalliteracy] = useState('');
-  const [availfreehighereducation, setavailfreehighereducation] = useState('');
-  const [voluntarycontribution, setvoluntarycontribution] = useState('');
-  const [contributionamount, setcontributionamount] = useState('');
-  const [compliedtoadmissionpolicy, setcompliedtoadmissionpolicy] = useState('No');
-  const [userId, setUserId] = useState('1');
+  //----------------For PDF
+  const onPrint = () => {
+    // PDF modification code======================================================================
+    //for new incoming first years
+    const fetchPdf = async () => {
+      // Extract the first character of the middle name as the middle initial
+      const middleInitial = preregData.middle_name ? preregData.middle_name.charAt(0) + '.' : '';
+
+      // Combine last name, first name, and middle initial with comma and dot
+      const fullName = `${preregData.last_name}, ${preregData.first_name} ${middleInitial}`;
+
+      // Convert the integer term to text
+      // Combine two terms start and End
+      const integerstartOfSchoolYear = preregData.start_of_school_year;
+      const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
+      const integerendOfSchoolYear = preregData.end_of_school_year;
+      const textendOfSchoolYear = integerendOfSchoolYear.toString();
+      const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
+
+      // Convert the integer to text before assigning
+      const integerstudentSchoolId = preregData.student_school_id;
+      const textstudentSchoolId = integerstudentSchoolId.toString();
+
+      const integerValuecontactnumber = preregData.contact_number;
+      const textcontactnumber = integerValuecontactnumber.toString();
+
+      const integerValuecontactPersonNumber = preregData.contact_person_number;
+      const textcontactPersonNumber = integerValuecontactPersonNumber.toString();
+
+      const integerValuecontactPersonAddress = preregData.contact_person_address;
+      const textcontactPersonAddress = integerValuecontactPersonAddress.toString();
+
+      const integerValuelearnersReferenceNumber = preregData.learners_reference_number;
+      const textlearnersReferenceNumber = integerValuelearnersReferenceNumber.toString();
+
+      const integerValuecontributionAmount = preregData.contribution_amount;
+      const textcontributionAmount = integerValuecontributionAmount.toString();
+
+      
+      try {
+        const pdfBytes = await fetch(preregFirstYearForm).then((res) => res.arrayBuffer());
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+    
+        const form = pdfDoc.getForm();
+
+
+        const dateField = form.getTextField('text_date_applied');
+        if (dateField) {
+          // Current date
+          const currentDate = new Date();
+
+          // Format of date 'Text-DD-YYYY'
+          const formattedDate = currentDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          });
+          // Set the text of the date field
+          dateField.setText(formattedDate);
+        } else {
+          console.error("Field 'text_date_applied' not found");
+        }
+
+        
+        const Term = form.getTextField('text_term');
+        Term.setText(fullTerm);
+
+
+        const studentSchoolId = form.getTextField('text_student_ID');
+        if (studentSchoolId) {
+          studentSchoolId.setText(textstudentSchoolId);
+        } else {
+          console.error(`Field ${studentSchoolId} not found`);
+        }
+        const name = form.getTextField('text_student_name');
+        const maidenName = form.getTextField('text_student_maiden');
+
+        // Check or uncheck each checkbox based on the value of academicClassification
+        const checkboxSHS = form.getCheckBox('checkbox_SHS');
+        const checkboxHS = form.getCheckBox('checkbox_HS');
+        const checkboxALS = form.getCheckBox('checkbox_ALS');
+        const academicClassification = preregData.academic_classification;
+        if (academicClassification === 'SHS graduate') {
+          checkboxSHS.check();
+        } else {
+          checkboxSHS.uncheck();
+        }
+
+        if (academicClassification === 'HS graduate') {
+          checkboxHS.check();
+        } else {
+          checkboxHS.uncheck();
+        }
+
+        if (academicClassification === 'ALS completer') {
+          checkboxALS.check();
+        } else {
+          checkboxALS.uncheck();
+        }
+
+        const lastSchoolAttended = form.getTextField('text_lastSchool');
+        const addressOfSchoolAttended = form.getTextField('text_lastSchool_address');
+        const degreeProgram = form.getTextField('text_degree_program');
+        const dateOfBirth = form.getTextField('text_date_birth');
+        const citizenship = form.getTextField('text_citizenship');
+        const ethnicity = form.getTextField('text_ethnicity');
+        const placeOfBirth = form.getTextField('text_birth_place');
+        const sexAtBirth = form.getTextField('text_student_sex');
+        const specialNeeds = form.getTextField('text_special_needs');
+        const emailAddress = form.getTextField('text_student_email');
+        
+        const contactNumber = form.getTextField('text_student_contact_num');
+        if (contactNumber) {
+          contactNumber.setText(textcontactnumber);
+        } else {
+          console.error(`Field ${contactNumber} not found`);
+        }
+
+        const permanentAddress = form.getTextField('text_pAddress');
+        const addressWhileStudying = form.getTextField('text_wsAddress');
+
+        //person to contact in case of emergency
+        const contactPersonName = form.getTextField('text_em_name');
+        const contactPersonAddress = form.getTextField('text_em_address'); 
+        if (contactPersonAddress) {
+          contactPersonAddress.setText(textcontactPersonAddress);
+        } else {
+          console.error(`Field ${contactPersonAddress} not found`);
+        }
+
+        const contactPersonNumber = form.getTextField('text_em_number');
+        if (contactPersonNumber) {
+          contactPersonNumber.setText(textcontactPersonNumber);
+        } else {
+          console.error(`Field ${contactPersonNumber} not found`);
+        }
+        const contactPersonRelationship = form.getTextField('text_em_relationship');
+        const healthfacilityregistered = form.getTextField('text_ic_registered');
+        const parentHealthFacilityDependent = form.getTextField('text_ic_dependent');
+        const vaccinationStatus = form.getTextField('text_ic_vax_stat');
+
+        const txttechnologyLevel = preregData.technology_level;
+        const technologylevel = form.getTextField('text_dcl_level');
+        if (txttechnologyLevel === 'category1') {
+          technologylevel.setText('Proficient');
+        } else if (txttechnologyLevel === 'category2') {
+          technologylevel.setText('Advanced');
+        } else if (txttechnologyLevel === 'category3') {
+          technologylevel.setText('Beginner');
+        } else {
+          console.error(`Field ${technologylevel} not found`);
+        }
+
+        const txtdigitalLiteracy = preregData.digital_literacy;
+        const digitalLiteracy = form.getTextField('text_dcl_category');
+        if (txtdigitalLiteracy === 'lvl1') {
+          digitalLiteracy.setText('High Level Technology');
+        }
+        else if (txtdigitalLiteracy === 'lvl2') {
+          digitalLiteracy.setText('Medium Level Technology');
+        }  
+        else if (txtdigitalLiteracy === 'lvl3') {
+          digitalLiteracy.setText('Low Level Technology');
+        }  
+        else {
+          console.error(`Field ${digitalLiteracy} not found`);
+        }
+
+        // Check or uncheck each checkbox based on the value of availFreeHigherEducation
+        const availFreeHigherEducation = preregData.avail_free_higher_education;
+        const checkboxfheavailyes = form.getCheckBox('checkbox_fhe_avail_yes');
+        const checkboxfheavailno = form.getCheckBox('checkbox_fhe_avail_no');
+        if (availFreeHigherEducation === 'YesAvail') {
+          checkboxfheavailyes.check();
+          checkboxfheavailno.uncheck();
+          console.log("checkbox", availFreeHigherEducation);
+        } else {
+          checkboxfheavailyes.uncheck();
+          checkboxfheavailno.check();
+          console.log("checkbox", availFreeHigherEducation);
+        }
+
+        const contributionAmount = form.getTextField('text_fhe_amount');
+        if (contributionAmount) {
+          contributionAmount.setText(textcontributionAmount);
+        } else {
+          console.error(`Field ${contributionAmount} not found`);
+        }
+
+        const voluntaryContribution = preregData.voluntary_contribution;
+        const checkboxYesContribute = form.getCheckBox('checkbox_fhe_con_yes');
+        const checkboxNoContribute = form.getCheckBox('checkbox_fhe_con_no');
+        if (voluntaryContribution === 'YesContribute') {
+          checkboxYesContribute.check();
+          checkboxNoContribute.uncheck();
+          console.log("checkbox", voluntaryContribution);
+        } else {
+          checkboxYesContribute.uncheck();
+          checkboxNoContribute.check();
+          console.log("checkbox", voluntaryContribution);
+        }
+
+        //const compliedToAdmissionPolicy = form.getTextField('text_fhe_complied'); TO ADD, FRONTEND NOT YET FINISHED
+
+        const learnersReferenceNumber = form.getTextField('text_student_lrn');
+        if (learnersReferenceNumber) {
+          learnersReferenceNumber.setText(textlearnersReferenceNumber);
+        } else {
+          console.error(`Field ${learnersReferenceNumber} not found`);
+        }
+        name.setText(fullName)
+        maidenName.setText(preregData.maiden_name);
+        lastSchoolAttended.setText(preregData.last_school_attended);
+        addressOfSchoolAttended.setText(preregData.address_of_school_attended);
+        degreeProgram.setText(preregData.degree);
+        dateOfBirth.setText(preregData.date_of_birth);
+        citizenship.setText(preregData.citizenship);
+        ethnicity.setText(preregData.ethnicity);
+        placeOfBirth.setText(preregData.place_of_birth);
+        sexAtBirth.setText(preregData.sex_at_birth);
+        specialNeeds.setText(preregData.special_needs);
+        emailAddress.setText(preregData.email_address);
+        permanentAddress.setText(preregData.home_address);
+        addressWhileStudying.setText(preregData.address_while_studying);
+        contactPersonName.setText(preregData.contact_person_name);
+        contactPersonRelationship.setText(preregData.contact_person_relationship);
+        healthfacilityregistered.setText(preregData.health_facility_registered);
+        parentHealthFacilityDependent.setText(preregData.parent_health_facility_dependent);
+        vaccinationStatus.setText(preregData.vaccination_status);
+
+        //compliedToAdmissionPolicy.setText(preregData.first_name); TO ADD, FRONTEND NOT YET FINISHED
+        
+        const finalPDF = await pdfDoc.save();
+        
+        download(finalPDF, 'Pre-Registration Form.pdf', 'application/pdf');
+
+        setSuccessMessage({
+          message: 'You have submitted your pre-registration form successfully! Please present the downloaded form to the department within the enrollment period.',
+        });
+
+        setTimeout(() => {
+          setSuccessMessage(null);
+          handleClear();
+          navigate('/landingpage');
+          closeModal();
+        }, 3000);
+  
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+      }
+    };
+    
+    // Call the fetchPdf function directly in your component code
+    fetchPdf();
+
+
+    //put axios here
+    console.log("Pre-Reg Data:", preregData);
+    console.log("Student ID:", preregData.student_school_id);
+    console.log("First Name:", preregData.first_name);
+    console.log("Last Name:", preregData.last_name);
+    
+
+    
+
+  };
 
   //clearing the input fields using the reset button
   const handleClear = () => {
     console.log("Inside handleClear function");
     console.log("Clearing start of school year");
-    setStartOfSchoolYear('');
-    setEndOfSchoolYear('');
-    setStudentSchoolId('');
-    setLearnersReferenceNumber('');
-    setLastName('');
-    setFirstName('');
-    setMiddleName('');
-    setMaidenName('');
-    setAcademicClassification('');
-    setLastSchoolAttended('');
-    setAddressOfSchoolAttended('');
-    setDateOfBirth('');
-    setCitizenship('');
-    setEthnicity('');
-    setContactNumber('');
-    setPlaceOfBirth('');
-    setSexAtBirth('');
-    setSpecialNeeds('');
-    setEmail('');
-    setHomeAddress('');
-    setAddressWhileStudyingAtBsu('');
-    setEmergencyContactName('');
-    setEmergencyContactAddress('');
-    setEmergencyContactNumber('');
-    setRelationship('');
-    sethealthfacilityregistered('');
-    setparenthealthfacilitydependent('');
-    setvaccinationstatus('Not Vaccinated');
-    settechnologylevel('');
-    setdigitalliteracy('');
-    setavailfreehighereducation('');
-    setvoluntarycontribution('');
-    setcontributionamount('');
+    setPreregData({ ...preregData, start_of_school_year: '' });
+    setPreregData({ ...preregData, end_of_school_year: '' });
+    setPreregData({ ...preregData, student_school_id: '' });
+    setPreregData({ ...preregData, learners_reference_number: '' });
+    setPreregData({ ...preregData, last_name: '' });
+    setPreregData({ ...preregData, first_name: '' });
+    setPreregData({ ...preregData, middle_name: '' });
+    setPreregData({ ...preregData, maiden_name: '' });
+    setPreregData({ ...preregData, academic_classification: '' });
+    setPreregData({ ...preregData, last_school_attended: '' });
+    setPreregData({ ...preregData, address_of_school_attended: '' });
+    setPreregData({ ...preregData, degree: '' });
+    setPreregData({ ...preregData, date_of_birth: '' });
+    setPreregData({ ...preregData, place_of_birth: '' });
+    setPreregData({ ...preregData, citizenship: '' });
+    setPreregData({ ...preregData, sex_at_birth: '' });
+    setPreregData({ ...preregData, ethnicity: '' });
+    setPreregData({ ...preregData, special_needs: '' });
+    setPreregData({ ...preregData, contact_number: '' });
+    setPreregData({ ...preregData, email_address: '' });
+    setPreregData({ ...preregData, home_address: '' });
+    setPreregData({ ...preregData, address_while_studying: '' });
+    setPreregData({ ...preregData, contact_person_name: '' });
+    setPreregData({ ...preregData, contact_person_number: '' });
+    setPreregData({ ...preregData, contact_person_address: '' });
+    setPreregData({ ...preregData, contact_person_relationship: '' });
+    setPreregData({ ...preregData, health_facility_registered: '' });
+    setPreregData({ ...preregData, parent_health_facility_dependent: '' });
+    setPreregData({ ...preregData, vaccination_status: 'Not Vaccinated' });
+    setPreregData({ ...preregData, technology_level: '' });
+    setPreregData({ ...preregData, digital_literacy: '' });
+    setPreregData({ ...preregData, avail_free_higher_education: '' });
+    setPreregData({ ...preregData, voluntary_contribution: '' });
+    setPreregData({ ...preregData, contribution_amount: '' });
     console.log("Closing modal");
     setShowModal(false);
   }
@@ -110,68 +382,53 @@ export default function PreRegistrationForm() {
   const onSubmit = (ev) => {
     ev.preventDefault();
     setError({ __html: "" });
-
+    console.log(preregData);
     axiosClient
     .post('/preregincommingtmp', {
-      start_of_school_year: parseInt(startOfSchoolYear, 10),
-      end_of_school_year: parseInt(endOfSchoolYear, 10),
-      user_id: parseInt(userId),
+      start_of_school_year: parseInt(preregData.start_of_school_year, 10),
+      end_of_school_year: parseInt(preregData.end_of_school_year, 10),
+      user_id: 1,
       student_school_id: 0,
-      learners_reference_number: parseInt(learnersReferenceNumber, 10),
-      last_name: lastName,
-      first_name: firstName,
-      middle_name: middleName,
-      maiden_name: maidenName,
-      academic_classification: academicClassification,
-      last_school_attended: lastSchoolAttended,
-      address_of_school_attended: addressOfSchoolAttended,
-      degree: degree,
-      date_of_birth: dateOfBirth,
-      place_of_birth: placeOfBirth,
-      citizenship: citizenship,
-      sex_at_birth: sexAtBirth,
-      ethnicity: ethnicity,
-      special_needs: specialNeeds,
-      contact_number: parseInt(contactNumber, 10),
-      email_address: email,
-      home_address: homeAddress,
-      address_while_studying: addressWhileStudyingAtBsu,
-      contact_person_name: emergencyContactName,
-      contact_person_number: parseInt(emergencyContactNumber, 10), //theres an error here--doesnt accept multiple numbers
-      contact_person_address: emergencyContactAddress,
-      contact_person_relationship: relationship,
-      health_facility_registered: healthfacilityregistered,
-      parent_health_facility_dependent: parenthealthfacilitydependent,
-      vaccination_status: vaccinationstatus,
-      technology_level: technologylevel,
-      digital_literacy: digitalliteracy,
-      avail_free_higher_education: availfreehighereducation,
-      voluntary_contribution: voluntarycontribution,
-      contribution_amount: contributionamount,
-      complied_to_admission_policy: compliedtoadmissionpolicy,
+      learners_reference_number: parseInt(preregData.learners_reference_number, 10),
+      last_name: preregData.last_name,
+      first_name: preregData.first_name,
+      middle_name: preregData.middle_name,
+      maiden_name: preregData.maiden_name,
+      academic_classification: preregData.academic_classification,
+      last_school_attended: preregData.last_school_attended,
+      address_of_school_attended: preregData.address_of_school_attended,
+      degree: 'Bachelor of Science in Psychology',
+      date_of_birth: preregData.date_of_birth,
+      place_of_birth: preregData.place_of_birth,
+      citizenship: preregData.citizenship,
+      sex_at_birth: preregData.sex_at_birth,
+      ethnicity: preregData.ethnicity,
+      special_needs: preregData.special_needs,
+      contact_number: parseInt(preregData.contact_number, 11),
+      email_address: preregData.email_address,
+      home_address: preregData.home_address,
+      address_while_studying: preregData.address_while_studying,
+      contact_person_name: preregData.contact_person_name,
+      contact_person_number: parseInt(preregData.contact_person_number, 11), //theres an error here--doesnt accept multiple numbers
+      contact_person_address: preregData.contact_person_address,
+      contact_person_relationship: preregData.contact_person_relationship,
+      health_facility_registered: preregData.health_facility_registered,
+      parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+      vaccination_status: preregData.vaccination_status,
+      technology_level: preregData.technology_level,
+      digital_literacy: preregData.digital_literacy,
+      avail_free_higher_education: preregData.avail_free_higher_education,
+      voluntary_contribution: preregData.voluntary_contribution,
+      contribution_amount: preregData.contribution_amount,
+      complied_to_admission_policy: preregData.complied_to_admission_policy,
       pre_reg_status: 'Pending',
       type_of_student: 'Incoming',
       student_status: 'Regular',
       
     })
     .then(({ data }) => {
-      //setFamilyName(data.family_name)
-
-      // Check if any required field is empty
-  
-  
-      setSuccessMessage({
-        message: 'You have submitted your pre-registration form successfully!\n Please check your email within zero to three (0-3) working days \n for further instructions.',
-      });
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-        handleClear();
-        navigate('/landingpage');
-        closeModal();
-      }, 3000);
-
-      window.location.reload();
+      onPrint();
+      
     })
     .catch(( error ) => {
       setSuccessMessage({
@@ -289,23 +546,29 @@ export default function PreRegistrationForm() {
                           <img src={date} className='h-5 w-5'/>
                         </div>
                         
-                        <input //Update this to automatically set the min to current year and max to 5 yeas after for better user experience
-                          name="start"
-                          type="text" 
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-                          pattern="\d{0,4}"
-                          placeholder="20XX"
-                          min="2000" // Minimum year
-                          max="2099" // Maximum year
-                          step="1" // Year step
-                          maxLength={4}
-                          value={startOfSchoolYear}
-                          onChange= {ev => {
-                              // Ensure that only numeric values are entered
-                              const value = ev.target.value.replace(/\D/g, '');
-                              setStartOfSchoolYear(value);
-                              setEndOfSchoolYear(parseInt(value) + 1);}}
-                        />
+                      <input
+                        name="start"
+                        type="text" 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                        pattern="\d{0,4}"
+                        placeholder="20XX"
+                        min={new Date().getFullYear()} // Set minimum year to current year
+                        max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
+                        step="1"
+                        maxLength={4}
+                        value={preregData.start_of_school_year}
+                        onChange={ev => {
+                          // Ensure that only numeric values are entered
+                          const value = ev.target.value.replace(/\D/g, '');
+                          const startYear = parseInt(value);
+                          setPreregData({ ...preregData, start_of_school_year: startYear });
+                          setPreregData(prevData => ({
+                            ...prevData,
+                            end_of_school_year: startYear + 1
+                          }));
+                        }}
+                      />
+
                       </div>
                       <span className="mx-4 text-gray-500">to</span>
                       <div className="relative w-fit">
@@ -318,17 +581,23 @@ export default function PreRegistrationForm() {
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
                           pattern="\d{0,4}"
                           placeholder="20XX"
-                          min="2000" 
-                          max="2099" 
+                          min={new Date().getFullYear()} 
+                          max={new Date().getFullYear() + 5} 
                           step="1" 
                           maxLength={4}
-                          value={endOfSchoolYear}
+                          value={preregData.end_of_school_year}
                           onChange={ev => {
-                              // Ensure that only numeric values are entered
-                              const value = ev.target.value.replace(/\D/g, '');
-                              setEndOfSchoolYear(value);
-                              setStartOfSchoolYear(parseInt(value) - 1);}}
+                            // Ensure that only numeric values are entered
+                            const value = ev.target.value.replace(/\D/g, '');
+                            const endYear = parseInt(value);
+                            setPreregData({ ...preregData, end_of_school_year: endYear });
+                            setPreregData(prevData => ({
+                              ...prevData,
+                              start_of_school_year: endYear - 1
+                            }));
+                          }}
                         />
+
                       </div>
                     </div>
                   </div>                 
@@ -350,10 +619,10 @@ export default function PreRegistrationForm() {
                         title="Input numeric characters only. (0 to 9)"
                         inputmode="numeric"
                         maxLength={12}
-                        value={learnersReferenceNumber}
+                        value={preregData.learners_reference_number}
                         onChange={ev => {
                           const value = ev.target.value.replace(/\D/g, '');
-                          setLearnersReferenceNumber(value);}}
+                          setPreregData({ ...preregData, learners_reference_number: value });}}
                         />        
                         <img
                         src={info}
@@ -378,11 +647,11 @@ export default function PreRegistrationForm() {
                     type="text"
                     pattern="[a-zA-Z .]+"
                     title="Input your Legal Last Name with your Suffix, if applicable."
-                    value={lastName}
+                    value={preregData.last_name}
                     maxLength={30}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                      setLastName(value);
+                      setPreregData({ ...preregData, last_name: value });
                     }}
                    />  
                    <img
@@ -408,11 +677,11 @@ export default function PreRegistrationForm() {
                         type="text"
                         pattern="[a-zA-Z .]+"
                         title="Input your Legal Given Name/s."
-                        value={firstName}
+                        value={preregData.first_name}
                         maxLength={50}
                         onChange={ev => {
                           const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                          setFirstName(value);
+                          setPreregData({ ...preregData, first_name: value });
                         }}
                       />
                       <img
@@ -434,11 +703,11 @@ export default function PreRegistrationForm() {
                     type="text" 
                     pattern="[a-zA-Z ]+"
                     title="Input your Legal Middle Name. Leave blank if not applicable."
-                    value={middleName}
+                    value={preregData.middle_name}
                     maxLength={30}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
-                      setMiddleName(value);
+                      setPreregData({ ...preregData, middle_name: value });
                     }}
                     />  
                      <img
@@ -460,11 +729,11 @@ export default function PreRegistrationForm() {
                     type="text" 
                     //pattern="[^a-zA-Z\s/]+"
                     title="Input 'N/A' if not applicable."
-                    value={maidenName}
+                    value={preregData.maiden_name}
                     maxLength={30}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                      setMaidenName(value);
+                      setPreregData({ ...preregData, maiden_name: value });
                     }}
                     />  
                     <img
@@ -493,9 +762,9 @@ export default function PreRegistrationForm() {
                         type="radio"
                         name="typeofacadclass"
                         id="shsgraduate"
-                        checked={academicClassification === 'SHS graduate'}
+                        checked={preregData.academic_classification === 'SHS graduate'}
                         value="SHS graduate" 
-                        onChange={ev => setAcademicClassification(ev.target.value)}
+                        onChange={ev => setPreregData({ ...preregData, academic_classification: ev.target.value })}
                         
                         />
                         <label
@@ -512,8 +781,8 @@ export default function PreRegistrationForm() {
                         name="typeofacadclass"
                         id="hsgraduate"
                         value="HS graduate"
-                        checked={academicClassification === 'HS graduate'}
-                        onChange={ev => setAcademicClassification(ev.target.value)}
+                        checked={preregData.academic_classification === 'HS graduate'}
+                        onChange={ev => setPreregData({ ...preregData, academic_classification: ev.target.value })}
                         />
                       <label
                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -529,8 +798,8 @@ export default function PreRegistrationForm() {
                         name="typeofacadclass"
                         id="alscompleter"
                         value="ALS completer"
-                        checked={academicClassification === 'ALS completer'}
-                        onChange={ev => setAcademicClassification(ev.target.value)}
+                        checked={preregData.academic_classification === 'ALS completer'}
+                        onChange={ev => setPreregData({ ...preregData, academic_classification: ev.target.value })}
                         />
                       <label
                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -552,10 +821,10 @@ export default function PreRegistrationForm() {
                     type="text" 
                     pattern="[a-zA-Z ]+"
                     title="Do not abbreviate."
-                    value={lastSchoolAttended}
+                    value={preregData.last_school_attended}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
-                      setLastSchoolAttended(value);
+                      setPreregData({ ...preregData, last_school_attended: value });
                     }}
                     />  
                     <img
@@ -576,8 +845,8 @@ export default function PreRegistrationForm() {
                     type="text"
                     title="Input the school address using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                     placeholder="Bldg No., Street, Barangay, City/Municipality"
-                    value={addressOfSchoolAttended}
-                    onChange={ev => setAddressOfSchoolAttended(ev.target.value)}/>  
+                    value={preregData.address_of_school_attended}
+                    onChange={ev => setPreregData({ ...preregData, address_of_school_attended: ev.target.value })}/>  
                     <img
                         src={info}
                         alt="info"
@@ -611,8 +880,8 @@ export default function PreRegistrationForm() {
                       id="grid-birthdate" 
                       type="date" 
                       placeholder=""
-                      value={dateOfBirth}
-                      onChange={ev => setDateOfBirth(ev.target.value)}
+                      value={preregData.date_of_birth}
+                      onChange={ev => setPreregData({ ...preregData, date_of_birth: ev.target.value })}
                       />
 
                     <div className="input-container relative">
@@ -625,10 +894,10 @@ export default function PreRegistrationForm() {
                     placeholder=""
                     pattern="[a-zA-Z ]+"
                     title="Input your Legal Citizenship. Example: Filipino"
-                    value={citizenship}
+                    value={preregData.citizenship}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
-                      setCitizenship(value);
+                      setPreregData({ ...preregData, citizenship: value });
                     }}
                     />
                     <img
@@ -648,11 +917,11 @@ export default function PreRegistrationForm() {
                     type="text" 
                     placeholder=""
                     //pattern="[^a-zA-Z\s/]+"
-                    value={ethnicity}
+                    value={preregData.ethnicity}
                     title="Input your Ethnicity or Tribal Affilation. Example: Ilocano"
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                      setEthnicity(value);
+                      setPreregData({ ...preregData, ethnicity: value });
                     }}/>
                     <img
                         src={info}
@@ -671,10 +940,10 @@ export default function PreRegistrationForm() {
                     placeholder="09XXXXXXXXX"
                     title="Input your contact number using the format given. FORMAT: 09XXXXXXXXX"
                     maxLength={11}
-                    value={contactNumber}
+                    value={preregData.contact_number}
                     onChange={ev => {
                         const value = ev.target.value.replace(/\D/g, '');
-                        setContactNumber(value);}}
+                        setPreregData({ ...preregData, contact_number: value });}}
                     /> 
                     <img
                         src={info}
@@ -697,8 +966,8 @@ export default function PreRegistrationForm() {
                     type="text" 
                     placeholder="City/Municipality"
                     title="Input your Legal Place of Birth. This is either a city or municipality."
-                    value={placeOfBirth}
-                    onChange={ev => setPlaceOfBirth(ev.target.value)}/>
+                    value={preregData.place_of_birth}
+                    onChange={ev => setPreregData({ ...preregData, place_of_birth: ev.target.value })}/>
                     <img
                         src={info}
                         alt="info"
@@ -718,10 +987,10 @@ export default function PreRegistrationForm() {
                       pattern="[a-zA-Z]+"
                       maxLength={6}
                       title="Input your Sex at Birth. This is either Male or Female."
-                      value={sexAtBirth}
+                      value={preregData.sex_at_birth}
                       onChange={ev => {
                         const value = ev.target.value.replace(/[^A-Za-z]/g, '');
-                        setSexAtBirth(value);
+                        setPreregData({ ...preregData, sex_at_birth: value });
                       }}/>
                       <img
                         src={info}
@@ -740,8 +1009,8 @@ export default function PreRegistrationForm() {
                     type="text" 
                     placeholder=""
                     title="Input 'N/A' if not applicable."
-                    value={specialNeeds}
-                    onChange={ev => setSpecialNeeds(ev.target.value)}/>
+                    value={preregData.special_needs}
+                    onChange={ev => setPreregData({ ...preregData, special_needs: ev.target.value })}/>
                     <img
                         src={info}
                         alt="info"
@@ -759,10 +1028,10 @@ export default function PreRegistrationForm() {
                     type="text" 
                     pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                     placeholder=""
-                    value={email}
+                    value={preregData.email_address}
                     onChange={ev => {
                       const value = ev.target.value;
-                      setEmail(value); // Update the state with the input value
+                      setPreregData({ ...preregData, email_address: value }); // Update the state with the input value
                   
                       // Custom validation logic
                       const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -793,8 +1062,8 @@ export default function PreRegistrationForm() {
                     type="text" 
                     title="Input your home address using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                     placeholder="Bldg No., Street, Barangay, City/Municipality"
-                    value={homeAddress}
-                    onChange={ev => setHomeAddress(ev.target.value)}/>
+                    value={preregData.home_address}
+                    onChange={ev => setPreregData({ ...preregData, home_address: ev.target.value })}/>
                     <img
                         src={info}
                         alt="info"
@@ -814,8 +1083,8 @@ export default function PreRegistrationForm() {
                     type="text" 
                     title="Input your address while studying at BSU using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                     placeholder="Bldg No., Street, Barangay, City/Municipality"
-                    value={addressWhileStudyingAtBsu}
-                    onChange={ev => setAddressWhileStudyingAtBsu(ev.target.value)}/>
+                    value={preregData.address_while_studying}
+                    onChange={ev => setPreregData({ ...preregData, address_while_studying: ev.target.value })}/>
                     <img
                         src={info}
                         alt="info"
@@ -840,10 +1109,10 @@ export default function PreRegistrationForm() {
                     placeholder="Given Name M.I. Last Name"
                     pattern="[a-zA-Z .]+"
                     title="Input the name of the person to be contacted in case of emergency using the format given. FORMAT: Given Name M.I. Last Name"
-                    value={emergencyContactName}
+                    value={preregData.contact_person_name}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                      setEmergencyContactName(value);
+                      setPreregData({ ...preregData, contact_person_name: value });
                     }}/>
                     <img
                         src={info}
@@ -860,8 +1129,8 @@ export default function PreRegistrationForm() {
                       type="text" 
                       placeholder="Bldg No., Street, Barangay, City/Municipality"
                       title="Input the address of the person to be contacted in case of emergency using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
-                      value={emergencyContactAddress}
-                      onChange={ev => setEmergencyContactAddress(ev.target.value)}/>
+                      value={preregData.contact_person_address}
+                      onChange={ev => setPreregData({ ...preregData, contact_person_address: ev.target.value })}/>
                        <img
                         src={info}
                         alt="info"
@@ -883,10 +1152,10 @@ export default function PreRegistrationForm() {
                     placeholder="09XXXXXXXXX"
                     title="Input the contact number of the person to be contacted in case of emergency using the format given. FORMAT: 09XXXXXXXXX"
                     maxLength={11}
-                    value={emergencyContactNumber}
+                    value={preregData.contact_person_number}
                     onChange={ev => {
                       const value = ev.target.value.replace(/\D/g, '');
-                      setEmergencyContactNumber(value);}}
+                      setPreregData({ ...preregData, contact_person_number: value });}}
                     />
                     <img
                         src={info}
@@ -905,10 +1174,10 @@ export default function PreRegistrationForm() {
                     type="text" 
                     //pattern="[^a-zA-Z\s/]+"
                     title="Input your relationship with the person to be contacted in case of emergency. Example: Parent"
-                    value={relationship}
+                    value={preregData.contact_person_relationship}
                     onChange={ev => {
                       const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                      setRelationship(value);
+                      setPreregData({ ...preregData, contact_person_relationship: value });
                     }}/>
                     <img
                         src={info}
@@ -936,8 +1205,8 @@ export default function PreRegistrationForm() {
                           name="yesregister"
                           id="yesregister"
                           value='Yes' 
-                          checked={healthfacilityregistered === 'Yes'}
-                          onChange={ev => sethealthfacilityregistered(ev.target.value)}
+                          checked={preregData.health_facility_registered === 'Yes'}
+                          onChange={ev => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -951,8 +1220,8 @@ export default function PreRegistrationForm() {
                           name="noregister"
                           id="noregister"
                           value='No'
-                          checked={healthfacilityregistered === 'No'}
-                          onChange={ev => sethealthfacilityregistered(ev.target.value)}
+                          checked={preregData.health_facility_registered === 'No'}
+                          onChange={ev => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -966,8 +1235,8 @@ export default function PreRegistrationForm() {
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
                     <select  className='ml-5'
-                      onChange={ev => setvaccinationstatus(ev.target.value)} 
-                      value={vaccinationstatus}>
+                      onChange={ev => setPreregData({ ...preregData, vaccination_status: ev.target.value })} 
+                      value={preregData.vaccination_status}>
                       <option 
                         value="Not Vaccinated">
                           Not Vaccinated</option>
@@ -993,8 +1262,8 @@ export default function PreRegistrationForm() {
                           name="healthdependent"
                           id="Dependent"
                           value="Yes" 
-                          checked={parenthealthfacilitydependent === 'Yes'}
-                          onChange={ev => setparenthealthfacilitydependent(ev.target.value)}
+                          checked={preregData.parent_health_facility_dependent === 'Yes'}
+                          onChange={ev => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1008,8 +1277,8 @@ export default function PreRegistrationForm() {
                           name="healthdependent"
                           id="Dependent"
                           value="No" 
-                          checked={parenthealthfacilitydependent === 'No'}
-                          onChange={ev => setparenthealthfacilitydependent(ev.target.value)}
+                          checked={preregData.parent_health_facility_dependent === 'No'}
+                          onChange={ev => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1045,8 +1314,8 @@ export default function PreRegistrationForm() {
                                 name="highlvl"
                                 id="highlvl"
                                 value="category1" 
-                                checked={technologylevel === 'category1'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category1'}
+                                onChange={ev => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1062,8 +1331,8 @@ export default function PreRegistrationForm() {
                                 name="mediumlvl"
                                 id="mediumlvl"
                                 value="category2" 
-                                checked={technologylevel === 'category2'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category2'}
+                                onChange={ev => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1079,8 +1348,8 @@ export default function PreRegistrationForm() {
                                 name="lowlvl"
                                 id="lowlvl"
                                 value="category3" 
-                                checked={technologylevel === 'category3'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category3'}
+                                onChange={ev => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1105,8 +1374,8 @@ export default function PreRegistrationForm() {
                               name="proficient"
                               id="proficient"
                               value="lvl1" 
-                              checked={digitalliteracy === 'lvl1'}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl1'}
+                              onChange={ev => setPreregData({ ...preregData, digital_literacy: ev.target.value })}/>
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Proficient
@@ -1119,8 +1388,8 @@ export default function PreRegistrationForm() {
                               name="advanced"
                               id="advanced"
                               value="lvl2" 
-                              checked={digitalliteracy === 'lvl2'}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl2'}
+                              onChange={ev => setPreregData({ ...preregData, digital_literacy: ev.target.value })}/>
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Advanced
@@ -1133,8 +1402,8 @@ export default function PreRegistrationForm() {
                               name="beginner"
                               id="beginner"
                               value="lvl3" 
-                              checked={digitalliteracy === 'lvl3'}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl3'}
+                              onChange={ev => setPreregData({ ...preregData, digital_literacy: ev.target.value })}/>
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Beginner
@@ -1176,8 +1445,8 @@ export default function PreRegistrationForm() {
                                     name="yesavail"
                                     id="yesavail"
                                     value="YesAvail" 
-                                    checked={availfreehighereducation === 'YesAvail'}
-                                    onChange={ev => setavailfreehighereducation(ev.target.value)}
+                                    checked={preregData.avail_free_higher_education === 'YesAvail'}
+                                    onChange={ev => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1191,8 +1460,8 @@ export default function PreRegistrationForm() {
                                     name="noavail"
                                     id="noavail"
                                     value="NoAvail" 
-                                    checked={availfreehighereducation === 'NoAvail'}
-                                    onChange={ev => setavailfreehighereducation(ev.target.value)}
+                                    checked={preregData.avail_free_higher_education === 'NoAvail'}
+                                    onChange={ev => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1215,9 +1484,15 @@ export default function PreRegistrationForm() {
                                         name="yescontribute"
                                         id="yescontribute"
                                         value="YesContribute" 
-                                        checked={voluntarycontribution === 'YesContribute'}
-                                        onChange={ev => {setvoluntarycontribution(ev.target.value);
-                                                        setcontributionamount("");}}
+                                        checked={preregData.voluntary_contribution === 'YesContribute'}
+                                        onChange={ev => {
+                                          const newValue = ev.target.value;
+                                          setPreregData(prevData => ({
+                                              ...prevData,
+                                              voluntary_contribution: newValue,
+                                              contribution_amount: newValue === 'YesContribute' ? "" : 0
+                                          }));
+                                      }}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1231,11 +1506,15 @@ export default function PreRegistrationForm() {
                                         name="nocontribute"
                                         id="nocontribute"
                                         value="NoContribute" 
-                                        checked={voluntarycontribution === 'NoContribute'}
-                                        onChange={ev => {setvoluntarycontribution(ev.target.value);
-                                                        setcontributionamount(0);
-                                                        const inputField = document.getElementById('grid-amtcontibute');
-                                                        inputField.disabled = true;}}
+                                        checked={preregData.voluntary_contribution === 'NoContribute'}
+                                        onChange={ev => {
+                                          const newValue = ev.target.value;
+                                          setPreregData(prevData => ({
+                                              ...prevData,
+                                              voluntary_contribution: newValue,
+                                              contribution_amount: newValue === 'YesContribute' ? "" : 0
+                                          }));
+                                      }}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1258,11 +1537,11 @@ export default function PreRegistrationForm() {
                     maxLength={12}
                     title="Input numeric characters only. (0 to 9)"
                     inputmode="numeric"
-                    value={contributionamount}
+                    value={preregData.contribution_amount}
                     disabled={false}
                     onChange={ev => {
                       const value = ev.target.value.replace(/\D/g, '');
-                      setcontributionamount(value);}}
+                      setPreregData({ ...preregData, contribution_amount: value });}}
                     />
                     <img
                         src={info}
