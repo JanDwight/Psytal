@@ -7,6 +7,7 @@ use App\Models\links;
 use Illuminate\Http\Request;
 use App\Http\Requests\LinksRequest;
 use App\Models\archive;
+use App\Models\logs;
 
 
 class LinksController extends Controller
@@ -24,6 +25,10 @@ class LinksController extends Controller
             'url' => $data['url'],
 
         ]);
+
+        //logs call
+        $this->storeLog( 'Link created', 'link', $data['class_code'], 'links');
+
         return response([
             'links' => $links,
         ]);
@@ -40,7 +45,7 @@ class LinksController extends Controller
         }
     }
 
-        public function archiveLink(Request $request,$linkId)
+    public function archiveLink(Request $request,$linkId)
     {
         try {
             // Find the link by ID or fail with a 404 response if not found
@@ -68,6 +73,8 @@ class LinksController extends Controller
     
             $link->archived = 1;
             $link->save();
+
+            $this->storeLog( 'Link archived', 'link', $link->class_code, 'links');
     
             return response()->json(['message' => 'Link archived successfully']);
         } catch (\Exception $e) {
@@ -89,7 +96,29 @@ class LinksController extends Controller
     $attributes = $request->all();
     
     $link->update($attributes); 
+
+    $this->storeLog( 'Link updated', 'link', $link->class_code, 'links');
+
     return response()->json(['message' => 'Link updated successfully']);
     }
     
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        
+        $id_test = 90;
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
 }

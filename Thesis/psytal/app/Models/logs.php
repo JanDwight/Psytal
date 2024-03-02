@@ -16,10 +16,12 @@ class logs extends Model
     // Define the fillable fields that can be mass-assigned
     protected $fillable = [
         'action_taken',
+        'item_type',
+        'item_name',
+        'item_origin',
         'user_name',
-        'user_role',
-        'location',
-        'date',
+        'user_type',
+        'user_id',
         // Add other columns here
     ];
 }

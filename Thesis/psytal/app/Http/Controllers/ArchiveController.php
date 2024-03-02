@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\archive;
+use App\Models\logs;
 use Illuminate\Support\Facades\File; //<><><><><>
 
 class ArchiveController extends Controller
@@ -121,6 +122,11 @@ class ArchiveController extends Controller
         // Force delete the selected items from the 'archives' table
         archive::whereIn('id', $selectedItems)->forceDelete(); //uncomment after all functions are done
 
+        $string_id = implode(',', $selectedItems);
+
+        //logs call
+        $this->storeLog('Archive/s back up created', 'archive', $string_id , 'archives');
+
         // Respond with a success message
         return response()->json(['message' => 'Items backed up and deleted successfully']);
     } catch (\Exception $e) {
@@ -160,6 +166,11 @@ class ArchiveController extends Controller
 
             // Force delete the selected items from the 'archives' table
             archive::whereIn('id', $selectedItems)->forceDelete();
+
+            $string_id = implode(',', $selectedItems);
+
+            //logs call
+            $this->storeLog('Archive/s restored', 'archive', $string_id , 'archives');
     
             // After processing the selectedItems, return a response indicating success
             return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItems]);
@@ -168,4 +179,22 @@ class ArchiveController extends Controller
             return response()->json(['message' => 'Error restoring items'], 500);
         }
     }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
 }
