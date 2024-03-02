@@ -18,18 +18,18 @@ export default function LandingPage() {
         muted
       />
       <div className='flex'>
-        <div className="absolute flex w-[100vw] h-[100vh] top-[2vh] left-[0vw] overflow-hidden">
+        <div className="absolute flex w-[100vw] h-[100vh] top-[5vh] left-[0vw] overflow-hidden">
           <div className="w-[50vw] flex items-center text-white relative">
             <div className="mx-8 hidden sm:inline-block">
               <div className='flex-shrink-0'>
               <img
-                className="h-28 w-28 absolute top-[0vh] left-[23vw]"
+                className="h-28 w-28 absolute top-[2vh] left-[23vw]"
                 src={schoolLogo}
                 alt="BSUlogo"
               />
               </div>
               
-              <div className= "absolute top-[14vh] left-[8vw] ">
+              <div className= "absolute top-[16vh] left-[8vw] ">
                 <h1 className="font-franklin font-extrabold md:text-3xl text-xl text-center">
                   WELCOME TO BENGUET STATE UNIVERSITY
                 </h1>
@@ -39,7 +39,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="absolute w-[50vw] h-[100vh] top-[-10vh] left-[0vw] pr-5 hidden sm:flex items-center justify-center">
+            <div className="absolute w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 hidden sm:flex items-center justify-center">
               <Carousel />
             </div>
           </div>
