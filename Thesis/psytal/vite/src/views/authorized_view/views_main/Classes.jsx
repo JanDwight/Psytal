@@ -238,7 +238,7 @@ export default function Classes(){
                             <Menu.Item>
                               <button onClick={() => handleSection('B')}
                                 className={'block px-4 py-2 text-sm text-gray-700'}
-                              >
+                              > 
                                 B
                               </button>
                             </Menu.Item>
