@@ -10,7 +10,7 @@ const slidesData = [
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
             <h6 className="text-3xl font-bold text-center z-10 relative">BSU Vision</h6>
             <div className="max-h-60 z-10 mt-5 relative">
-              <p className="text-2xl text-justify">BSU as an international Smart University engendering graduates to walk the intergenerational highways.</p>
+              <p className="text-2xl text-center">BSU as an international Smart University engendering graduates to walk the intergenerational highways.</p>
             </div>
           </div>
         </div>
@@ -26,8 +26,8 @@ const slidesData = [
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
             <h6 className="text-3xl font-bold text-center z-10 relative">BSU Mission</h6>
             <div className="max-h-60 z-10 mt-5 relative">
-              <p className="text-2xl text-justify  ml-10">
-                <ul className="list-disc list-inside space-y-2 ">
+              <p className="text-2xl text-center">
+                <ul className="list-disc list-inside space-y-2">
                   <li>Challenge Innovation</li>
                   <li>Advance Technology and Facilities</li>
                   <li>Revitalize Administration</li>
@@ -50,7 +50,7 @@ const slidesData = [
             <div className="bg-[#739072]/60 w-[100%] h-[100%] absolute inset-0 rounded-3xl"></div>
             <h6 className="text-3xl font-bold text-center z-10 relative">College of Social Sciences Goals</h6>
             <div className="max-h-60 z-10 mt-5 relative">
-              <p className="text-2xl text-justify">
+              <p className="text-2xl text-center">
                 <ul className="list-disc list-inside space-y-2">
                   <li>
                     Promote academic space advocating/mainstreaming indigenous knowledge, cultural and environmental heritage, gender sensitivity, and engaging evidence-based innovation.
@@ -59,7 +59,7 @@ const slidesData = [
                     Produce globally competent graduates imbued with values systems rooted in social justice, freedom, critical thinking.
                   </li>
                 </ul>
-              </p> 
+              </p>
             </div>
           </div>
         </div>
