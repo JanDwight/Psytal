@@ -35,12 +35,26 @@ export default function Classes(){
     const [isClassModalOpen, setIsClassModalOpen] = useState(false);
     const [filterText, setFilterText] = useState(''); // Filter text state
     const [activeTab] = useState(1); // Initialize active tab
+    const [selectedSemester, setSelectedSemester] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
+    const [selectedSection, setSelectedSection] = useState(null);
     
+    //filter semester
+    const handleSemester = (semester) => {
+      setSelectedSemester(semester);
+      setSelectedSemester(semester === 'All' ? null : semester);
+  };
+
     //filter year_level
-    const handleYearSelect = (year) => {
+    const handleYear = (year) => {
       setSelectedYear(year);
-      // Perform any other actions based on the selected year
+      setSelectedYear(year === 'All' ? null : year);
+  };
+
+    //filter section
+    const handleSection = (section) => {
+      setSelectedSection(section);
+      setSelectedSection(section === 'All' ? null : section);
   };
 
 
@@ -81,22 +95,18 @@ export default function Classes(){
             </div>
             <div className="table-container px-4 overflow-x-auto max-h-[400px]">
         <table className="table w-full table-striped text-gray-700 mt-5">
-            <thead >
+            <div>
+              <thead>
               <tr >
                         <th className="text-center bg-gray-200 p-2" style={{ width: "5%" }}>Class Code</th>
                         <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Course Code</th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "30%" }}>Course Title</th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "5%" }}>Semester</th>
-                        {/* <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Year</th>  */}
-                        <th className="bg-gray-200 text-center p-2 z-10" style={{ width: "10%" }}>
-                        <Menu as="div" className="relative block text-left z-10">
-                        <div>
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            Year
+                        <th className="bg-gray-200 text-center p-2" style={{ width: "5%" }}>
+                        <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Semester
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
-                        </div>
-
                         <Transition
                           as={Fragment}
                           enter="transition ease-out duration-100"
@@ -106,97 +116,155 @@ export default function Classes(){
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="relative right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div className="py-1">
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    ALL
-                                  </a>
-                                )}
+                              <button onClick={() => handleSemester('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
                               </Menu.Item>
                             <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    1st Year
-                                  </a>
-                                )}
+                              <button onClick={() => handleSemester('1st')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                1st Semester
+                              </button>
                               </Menu.Item>
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    2nd Year
-                                  </a>
-                                )}
-                              </Menu.Item>
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    3rd Year
-                                  </a>
-                                )}
-                              </Menu.Item>
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    4th Year
-                                  </a>
-                                )}
-                              </Menu.Item>
-                            </div>
+                            <Menu.Item>
+                                <button onClick={() => handleSemester('2nd')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  2nd Semester
+                                </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                                <button onClick={() => handleSemester('Midyear')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  Midyear
+                                </button>
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>
                       </th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Section</th> 
+                        {/* <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Year</th>  */}
+                        <th className="bg-gray-200 text-center p-2 z-10" style={{ width: "10%" }}>
+                        <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Year
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <button onClick={() => handleYear('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('1st')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                1st Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('2nd')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                2nd Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('3rd')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                3rd Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('4th')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                4th Year
+                              </button>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                      </th>
+                        <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>
+                        <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Section
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <button onClick={() => handleSection('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleSection('A')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                A
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleSection('B')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                B
+                              </button>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                          </th> 
                         <th className="bg-gray-200 text-centert p-2" style={{ width: "15%" }}>Instructor</th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Action</th>
                         </tr>
                         </thead>
+                        </div>
                     </table>
                     </div>
-            </div>
-          
-
-                    {/* table */}
-                      <div>
+                     {/* table */}
+                     <div>
                       {activeTab === 1 && (
-                        <ClassList filterText={filterText} />
+                        <ClassList 
+                        filterText={filterText}
+                        selectedSemester={selectedSemester}
+                        selectedYear={selectedYear}
+                        selectedSection={selectedSection} 
+                        />
                       )}
                       </div>
-
-       
-                        
+            </div>                     
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
