@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employee_profile;
 use App\Models\User;
+use App\Models\logs;
 use Illuminate\Http\Request;
 
 class EmployeeProfileController extends Controller
@@ -86,7 +87,10 @@ class EmployeeProfileController extends Controller
                 'email_address' => $validatedData['email'],
                 'role' => $validatedData['role'],
             ]);
-            //return response()->json(['message' => 'Class not found'], 404);
+
+            $this->storeLog('Employee profile updated', 'employee profile', $fullName, 'employee_profiles');
+
+            return response()->json(['message' => 'Profile Updated']);
         } else {
             return response()->json(['message' => 'Class not found'], 404);
         }
@@ -99,6 +103,25 @@ class EmployeeProfileController extends Controller
         ]);*/ 
         //ADD UPDATE FOR USERS TABLE ALSO
 
+    }
+
+    //add archive function
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 
 }

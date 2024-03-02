@@ -8,6 +8,7 @@ use App\Models\curriculum;
 use App\Models\classes;
 use Illuminate\Http\Request;
 use App\Models\archive;
+use App\Models\logs;
 
 class CurriculumController extends Controller
 {
@@ -47,6 +48,12 @@ class CurriculumController extends Controller
         ]);
         //placeholder value is replaced in update classes
         //add class might be removed
+
+        //curriculum created
+        $this->storeLog('Curriculum added', 'curriculum', $data['course_code'], 'curricula');
+
+        //classes autocreated
+        $this->storeLog('Class added', 'classes', $data['course_title'], 'classes');
 
         return response([
             'curriculum' => $curriculum,
@@ -90,6 +97,8 @@ class CurriculumController extends Controller
     
             $curriculum->archived = 1;
             $curriculum->save();
+
+            $this->storeLog('Curriculum archived', 'curriculum', $curriculum->course_code, 'curricula');
             
             return response()->json(['message' => 'Archive course succesfully']);
 
@@ -113,7 +122,10 @@ class CurriculumController extends Controller
         // Extract the attributes from the request
         $attributes = $request->all();
         
-        $curriculumData->update($attributes); 
+        $curriculumData->update($attributes);
+
+        $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
+        
         return response()->json(['message' => 'Curriculum updated successfully']);
     }
 
@@ -135,5 +147,22 @@ class CurriculumController extends Controller
         }
 
         return response()->json($curriculum);
+    }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 }

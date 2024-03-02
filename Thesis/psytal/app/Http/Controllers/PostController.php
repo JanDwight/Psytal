@@ -9,6 +9,7 @@ use App\Models\PostImage;
 use Illuminate\Support\Str;
 use App\Http\Requests\CreatePostRequest;
 use App\Models\archive;
+use App\Models\logs;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -38,6 +39,8 @@ class PostController extends Controller
                 $post->images()->create(['image_path' => $imagePath]);
             }
         }
+
+        $this->storeLog('Post created', 'post', $data['title'], 'posts');
 
         return response(['post' => $post]);
     }
@@ -102,6 +105,9 @@ class PostController extends Controller
 
         $post->touch();
         $post->refresh();
+
+        $this->storeLog('Post updated', 'post', $request->title, 'posts');
+
         return response(['post' => $post->fresh()]);
     }
     
@@ -137,6 +143,8 @@ class PostController extends Controller
             $archive->archiver_name = auth()->user()->name;
             $archive->archiver_role = auth()->user()->role;
             $archive->save();
+
+            $this->storeLog('Post archived', 'post', $post->title, 'posts');
     
             return response(['message' => 'Post and images archived successfully'], 204);
         } catch (\Exception $e) {
@@ -153,4 +161,22 @@ class PostController extends Controller
    
        return $postCount;
        }
+
+       public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+       {
+           // Create a new Log instance
+           $logs = logs::create([
+               'action_taken' => $actionTaken,
+               'item_type' => $itemType,
+               'item_name' => $itemName,
+               'item_origin' => $itemOrigin,
+               'user_name' => auth()->user()->name,
+               'user_id' => auth()->user()->id,
+               'user_type' => auth()->user()->role,
+           ]);
+   
+           // Optionally, you can return the created log instance
+           return $logs;
+       }
+
 }    
