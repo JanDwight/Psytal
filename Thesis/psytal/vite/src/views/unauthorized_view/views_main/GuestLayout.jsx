@@ -50,7 +50,7 @@ export default function GuestLayout() {
     <>
       <div className='min-h-full'>
         <header>
-        <Disclosure as="nav" className="bg-viridian">
+        <Disclosure as="nav" className="bg-viridian w-[100vw]">
           {({ open }) => (
             <>
             {/* 1st Header */}
