@@ -40,9 +40,9 @@ export default function GuestLayout() {
     return <Navigate to='/admin/home' />;
   } else if (userToken && userRole === 2) {
     return <Navigate to='/staff/home' />;
-  } else if (userToken && userRole === 3) {
+  }/* else if (userToken && userRole === 3) {
     return <Navigate to='/instructor/home' />;
-  } else if (userToken && userRole === 4) {
+  } */else if (userToken && userRole === 4) {
     return <Navigate to='/student/home' />;
   }
 

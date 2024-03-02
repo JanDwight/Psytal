@@ -127,24 +127,24 @@ const router = createBrowserRouter([
         ]
     },
     
-    {
-        path: '/instructor',
-        element: <InstructorLayout />,
-        children: [
-            {
-                path: 'home',
-                element: <Home />
-            },
-            {
-                path: 'classes',
-                element: <ClassesForInstructors />
-            },
-            {
-                path: 'links',
-                element: <Links />
-            },
-        ]  
-    },
+    // {
+    //     path: '/instructor',
+    //     element: <InstructorLayout />,
+    //     children: [
+    //         {
+    //             path: 'home',
+    //             element: <Home />
+    //         },
+    //         {
+    //             path: 'classes',
+    //             element: <ClassesForInstructors />
+    //         },
+    //         {
+    //             path: 'links',
+    //             element: <Links />
+    //         },
+    //     ]  
+    // },
 
     {
         path: '/student',
