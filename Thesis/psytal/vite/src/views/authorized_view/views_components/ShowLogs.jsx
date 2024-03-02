@@ -20,6 +20,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
           <thead>
             <tr>
               <th>Action Taken</th>
+              <th>Item</th>
               <th>User Name</th>
               <th>User Role</th>
               <th>Location</th>
@@ -30,10 +31,11 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
             {dataTable.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
                 <td>{item.action_taken}</td>
+                <td>{item.item_name}</td>
                 <td>{item.user_name}</td>
-                <td>{item.user_role}</td>
-                <td>{item.location}</td>
-                <td>{item.date}</td>
+                <td>{item.user_type}</td>
+                <td>{item.item_origin}</td>
+                <td>{item.created_at}</td>
               </tr>
             ))}
           </tbody>

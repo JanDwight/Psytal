@@ -14,7 +14,7 @@ class LogsController extends Controller
     public function index()
     {
         // Retrieve all logs starting from the most recent
-        $logs = logs::orderBy('date', 'desc')->get();
+        $logs = logs::orderBy('created_at', 'desc')->get();
         return response()->json($logs);
     }
 
@@ -70,5 +70,31 @@ class LogsController extends Controller
         //30-90 days lifetime
         //print button
         //delete
+    }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+    public function someAction()
+    {
+        // Your logic here
+        
+        // Call the storeLog function to create a log entry
+        $this->storeLog('Action description', 'Item type', 'Item name', 'Item origin');
+        
+        // Continue with your logic
     }
 }

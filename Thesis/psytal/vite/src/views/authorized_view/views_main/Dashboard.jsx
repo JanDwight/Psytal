@@ -71,10 +71,13 @@ export default function Dashboard() {
 
         const Logs_Table = show_logs.map(log => ({
           action_taken: log.action_taken,
+          item_type: log.item_type,
+          item_name: log.item_name,
+          item_origin: log.item_origin,
           user_name: log.user_name,
-          user_role: log.user_role,
-          location: log.location,
-          date: log.date,
+          user_type: log.user_type,
+          user_id: log.user_id,
+          created_at: log.created_at
         }));
 
         setLogsData(Logs_Table);
@@ -216,7 +219,7 @@ export default function Dashboard() {
         {Logs_Data.slice(0, 3).map((logs_table, index) => (
           <div key={index} className="border p-2">
             <div className="text-sm ">
-              {logs_table.action_taken} at {logs_table.date} by {logs_table.user_name} with role {logs_table.user_role} in {logs_table.location} table
+              {logs_table.created_at}: {logs_table.action_taken} by {logs_table.user_name} at {logs_table.item_origin} table. Item: {logs_table.item_name}
             </div>
           </div>
         ))}
