@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {React, Fragment, useState, useEffect } from "react";
 import axiosClient from '../../../axios';
 import { useStateContext } from '../../../context/ContextProvider.jsx';
 import { Menu, Transition } from '@headlessui/react';
@@ -9,6 +9,7 @@ import edit from "@assets/icons8createpost.png";
 import ArchiveCourse from "../views_components/ArchiveCourse";
 import EditCourse from "../views_components/EditCourse";
 import { useAsyncValue } from 'react-router-dom';
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 export default function Curriculum(){
       //Calling the ArchiveCourse
@@ -44,6 +45,31 @@ export default function Curriculum(){
               console.error(error);
             }
           };
+
+
+          //filters
+          const [selectedSemester, setSelectedSemester] = useState(null);
+          const [selectedYear, setSelectedYear] = useState(null);
+          const [selectedSection, setSelectedSection] = useState(null);
+          
+          //filter semester
+          const handleSemester = (semester) => {
+            setSelectedSemester(semester);
+            setSelectedSemester(semester === 'All' ? null : semester);
+          };
+
+          //filter year_level
+          const handleYear = (year) => {
+            setSelectedYear(year);
+            setSelectedYear(year === 'All' ? null : year);
+          };
+
+          //filter section
+          const handleSection = (section) => {
+            setSelectedSection(section);
+            setSelectedSection(section === 'All' ? null : section);
+          };
+
 
   //for search
   const filteredData = curriculum.filter(
@@ -94,8 +120,109 @@ export default function Curriculum(){
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead >
 		              <tr>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Class Year</th>
-                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Semester</th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>
+                      <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Year
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <button onClick={() => handleYear('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('1st')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                1st Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('2nd')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                2nd Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('3rd')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                3rd Year
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleYear('4th')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                4th Year
+                              </button>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </th>
+                    <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>
+                      <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Semester
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <button onClick={() => handleSemester('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleSemester('1st')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                1st Semester
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                                <button onClick={() => handleSemester('2nd')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  2nd Semester
+                                </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                                <button onClick={() => handleSemester('Midyear')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  Midyear
+                                </button>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </th>
                     <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "7%" }}>Course Code</th>
                     <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>Units</th>
                     <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Course Title</th>
@@ -110,16 +237,20 @@ export default function Curriculum(){
                 <div className="w-full h-[500px] px-4 mx-auto  bg-white   pb-12  table-container overflow-y-auto">
                 <table className="table w-full table-striped text-gray-700 ">
                 <tbody>
-                    {filteredData.map((curriculum, index) => (
+                {filteredData
+                .filter(curriculum => 
+                  (!selectedSemester || curriculum.semester === selectedSemester) &&
+                  (!selectedYear || curriculum.class_year === selectedYear)
+                ).map((curriculum, index) => (
                       <tr 
                         key={index} 
                         className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}
                       >
-                          <td className="text-center p-2" style={{ width: "5%" }}>{curriculum.class_year}</td>
-                          <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.semester}</td>
+                          <td className="text-left p-2" style={{ width: "10%" }}>{curriculum.class_year}</td>
+                          <td className="text-left p-2" style={{ width: "10%" }}>{curriculum.semester}</td>
                           <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.course_code}</td>
-                          <td className="text-center p-2" style={{ width: "5%" }}>{curriculum.units}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "30%" }}>{curriculum.course_title}</td>
+                          <td className="text-left p-2" style={{ width: "5%" }}>{curriculum.units}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "26%" }}>{curriculum.course_title}</td>
                           <td className="text-center p-2" style={{ width: "7%" }}>{curriculum.hoursperWeek}</td>
                           <td className="text-center p-2" style={{ width: "10%" }}>{curriculum.course_type}</td>
                           <td className="text-center p-2" style={{ width: "15%" }}>{curriculum.preReq}</td>
