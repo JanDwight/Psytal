@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailDomains;
 use App\Models\email_domains;
+use App\Models\logs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,6 +37,8 @@ class EmailDomainsController extends Controller
                 'email_domains' => $data['email_domains']
             ]);
 
+            $this->storeLog('Email domain added', 'email domain', $data['email_domains'], 'email_domains');
+
             return response([
                 'success' => 'Email Domain Added',
             ]);
@@ -51,6 +54,9 @@ class EmailDomainsController extends Controller
             $attributes = $request->all();
     
             $emailDomain->update($attributes); 
+
+            $this->storeLog('Email domain updated', 'email domain', $emailDomain->email_domains, 'email_domains');
+
             return response([
                 'success' => 'Email Domain Updated',
             ]);
@@ -73,9 +79,29 @@ class EmailDomainsController extends Controller
         $emailDomain = email_domains::findOrFail($id);
         $emailDomain->delete();
 
+        $this->storeLog('Email domain removed', 'email domain', $emailDomain->email_domains, 'email_domains');
+
         return response()->json(['message' => 'Email Domain deleted successfully']);
         } catch (\Exception $e) {
         return response()->json(['message' => 'Error deleting email domain: ' . $e->getMessage()], 500);
         }
     }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
 }

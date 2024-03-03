@@ -118,8 +118,8 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg">
+    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
+      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg max-h-[80vh] overflow-y-auto">
         {/* Exit (Close) Button */}
 
         <div className="mb-6"> {/* Add margin to the bottom of the table */}
