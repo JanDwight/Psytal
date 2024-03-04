@@ -47,7 +47,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //For Manage User Lists
     Route::get('/studentprofile', [StudentProfileController::class, 'index']); //For Students
+    //add archive to student
     Route::get('/employeeprofile', [EmployeeProfileController::class, 'index']); //For Employees
+    //add archive to employee
 
     //Semester Information
     Route::post('/addsemesterinformation', [SemesterInformationController::class, 'addsemesterinformation']);

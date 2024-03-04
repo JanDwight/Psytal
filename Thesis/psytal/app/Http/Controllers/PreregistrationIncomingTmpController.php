@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PreRegistrationIncomingTmpRequest;
 use App\Models\email_domains;
 use App\Models\preregistration_incoming_tmp;
+use App\Models\logs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,7 @@ class PreregistrationIncomingTmpController extends Controller
             'student_status' => $data['student_status']
         ]);
 
-        
+        $this->storeLog('New pre-registration (Incoming)', 'pre-registration', "User ID: {$data['user_id']}", 'preregistration');
 
         return response([
             'prereg' => $preRegTmpincoming,
@@ -139,6 +140,8 @@ class PreregistrationIncomingTmpController extends Controller
             'student_status' => $data['student_status'],
             'type_of_student' => $data['type_of_student'],
         ]);
+
+        $this->storeLog('New pre-registration (Continuing)', 'pre-registration', "User ID: {$userId}", 'preregistration');
 
         return response([
             'prereg' => $preRegTmpincoming,
@@ -217,6 +220,9 @@ class PreregistrationIncomingTmpController extends Controller
     $data = $request->all();
     
     $preregData->update($data);  
+
+    $this->storeLog('Pre-registration updated', 'pre-registration', "User ID: {$id}", 'preregistration');
+
     return response()->json(['message' => 'User updated successfully']);
     }
 
@@ -232,5 +238,22 @@ class PreregistrationIncomingTmpController extends Controller
     public function destroy(preregistration_incoming_tmp $validatedData)
     {
         //
+    }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 }
