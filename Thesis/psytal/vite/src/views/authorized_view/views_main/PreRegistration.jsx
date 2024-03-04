@@ -10,6 +10,9 @@ export default function PreRegistration() {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [filter, setFilter] = useState(null);
+  const [sortByNameAsc, setSortByNameAsc] = useState(true);
+  const [sortByDateAsc, setSortByDateAsc] = useState(true);
+
   const [filterText, setFilterText] = useState(''); // Filter text state
 
   const handleFilter = (filterValue) => {
@@ -29,7 +32,29 @@ export default function PreRegistration() {
         console.error('Error fetching data:', error);
       });
   }, []); // Empty dependency array ensures the effect runs only once on component mount
-  
+    // Function to toggle sorting by name
+    const handleSortByName = () => {
+      setData((prevData) => {
+        const sortedData = [...prevData].sort((a, b) => {
+          return sortByNameAsc ? a.full_name.localeCompare(b.full_name) : b.full_name.localeCompare(a.full_name);
+        });
+        setSortByNameAsc(!sortByNameAsc);
+        return sortedData;
+      });
+    };
+
+    // Function to toggle sorting by date
+    const handleSortByDate = () => {
+      setData((prevData) => {
+        const sortedData = [...prevData].sort((a, b) => {
+          const dateA = new Date(a.created_at);
+          const dateB = new Date(b.created_at);
+          return sortByDateAsc ? dateA - dateB : dateB - dateA;
+        });
+        setSortByDateAsc(!sortByDateAsc);
+        return sortedData;
+      });
+    };
 
   const handleRowClick = (items) => {
     setIsPreRegFormModalOpen(true);
@@ -59,6 +84,20 @@ export default function PreRegistration() {
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
+        <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
+          <button
+            className={`bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10`}
+            onClick={() => handleFilter('Incoming')}
+          >
+            Incoming Student
+          </button>
+          <button
+            className={`bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10`}
+            onClick={() => handleFilter('Continuing')}
+          >
+            Continuing Student
+          </button>
+        </div>   
           <div className='mt-5 flex flex-row justify-between items-baseline'> 
 
             <div className="my-4 mx-2" id="magnifying_glass">
@@ -90,15 +129,21 @@ export default function PreRegistration() {
               Continuing Student
             </button>
           </div>
-             
+
       </div>
       <div className="mt-2 mb-5"></div>
       <div>
         <table className="table w-full table-striped">
           <thead>
             <tr>
-              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }}>Name</th>
-              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Date of Submission</th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "20%" }} onClick={handleSortByName}>
+              Name
+              {sortByNameAsc ? <span>&#9650;</span> : <span>&#9660;</span>}
+            </th>
+            <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }} onClick={handleSortByDate}>
+              Date of Submission
+              {sortByDateAsc ? <span>&#9650;</span> : <span>&#9660;</span>}
+            </th>
               <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
               <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>Status</th>
             </tr>
