@@ -108,7 +108,7 @@ export default function PreRegistrationForContinuing(prereg) {
     pre_reg_status: 'Accepted',
     type_of_student: 'Incoming',
     student_status: 'Regular',
-    year_level: '1',
+    year_level: '',
     semester: '1st Semester',
     major: '',
     candidate_for_graduation: '',
@@ -190,19 +190,19 @@ export default function PreRegistrationForContinuing(prereg) {
     Term.setText(fullTerm);
 
 
-    // const studentSchoolId = form.getTextField('text_student_ID');
-    // if (studentSchoolId) {
-    // studentSchoolId.setText(textstudentSchoolId);
-    // } else {
-    // console.error(`Field ${studentSchoolId} not found`);
-    // }
+    const studentSchoolId = form.getTextField('text_c_student_ID');
+    if (studentSchoolId) {
+    studentSchoolId.setText(textstudentSchoolId);
+    } else {
+    console.error(`Field ${studentSchoolId} not found`);
+    }
     const name = form.getTextField('text_c_student_name');
     const maidenName = form.getTextField('text_c_student_maiden');
 
     const candidate_for_graduation = form.getTextField('text_c_candidate');
     if (preregData.candidate_for_graduation === 'YesCandidate') {
     candidate_for_graduation.setText('Yes');
-    } if(preregData.candidate_for_graduation === 'NoCandidate'){
+    } else if(preregData.candidate_for_graduation === 'NoCandidate'){
     candidate_for_graduation.setText('No');
     }
     else {
@@ -399,12 +399,10 @@ export default function PreRegistrationForContinuing(prereg) {
       setPreregData({ ...preregData, start_of_school_year: '' });
       setPreregData({ ...preregData, end_of_school_year: '' });
       setPreregData({ ...preregData, student_school_id: '' });
-      // setPreregData({ ...preregData, learners_reference_number: '' });
       setPreregData({ ...preregData, last_name: '' });
       setPreregData({ ...preregData, first_name: '' });
       setPreregData({ ...preregData, middle_name: '' });
       setPreregData({ ...preregData, maiden_name: '' });
-      // setPreregData({ ...preregData, academic_classification: '' });
       setPreregData({ ...preregData, last_school_attended: '' });
       setPreregData({ ...preregData, address_of_school_attended: '' });
       setPreregData({ ...preregData, degree: '' });
@@ -430,6 +428,11 @@ export default function PreRegistrationForContinuing(prereg) {
       setPreregData({ ...preregData, avail_free_higher_education: '' });
       setPreregData({ ...preregData, voluntary_contribution: '' });
       setPreregData({ ...preregData, contribution_amount: '' });
+      setPreregData({ ...preregData, semester: '' });
+      setPreregData({ ...preregData, end_of_term_to_finnish_degree: '' });
+      setPreregData({ ...preregData, last_of_term_to_finnish_degree: '' });
+      setPreregData({ ...preregData, major: '' });
+      setPreregData({ ...preregData, year_level: '' });
       console.log("Closing modal");
       setShowModal(false);
     }
@@ -438,7 +441,7 @@ export default function PreRegistrationForContinuing(prereg) {
       const onSubmit = (ev) => {
         ev.preventDefault();
         setError({ __html: "" });
-        
+        console.log(preregData);
             
         axiosClient
         .post('/preregcontinuingtmp', {
@@ -452,8 +455,8 @@ export default function PreRegistrationForContinuing(prereg) {
           middle_name: preregData.middle_name,
           maiden_name: preregData.maiden_name,
           // academic_classification: preregData.academic_classification,
-          // last_school_attended: preregData.last_school_attended,
-          // address_of_school_attended: preregData.address_of_school_attended,
+           last_school_attended: preregData.last_school_attended,
+           address_of_school_attended: preregData.address_of_school_attended,
           degree: 'Bachelor of Science in Psychology',
           date_of_birth: preregData.date_of_birth,
           place_of_birth: preregData.place_of_birth,
@@ -469,7 +472,7 @@ export default function PreRegistrationForContinuing(prereg) {
           contact_person_number: parseInt(preregData.contact_person_number), 
           contact_person_address: preregData.contact_person_address,
           contact_person_relationship: preregData.contact_person_relationship,
-          year_level: '1',
+          year_level: preregData.year_level,
           pre_reg_status: 'Accepted',
           type_of_student: 'Regular',
           major: preregData.major,
@@ -601,8 +604,8 @@ export default function PreRegistrationForContinuing(prereg) {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                         pattern="\d{0,4}"
                                         placeholder="20XX"
-                                        min="2000" // Minimum year
-                                        max="2099" // Maximum year
+                                        min={new Date().getFullYear()} // Set minimum year to current year
+                                        max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
                                         value={preregData.start_of_school_year}
@@ -629,10 +632,10 @@ export default function PreRegistrationForContinuing(prereg) {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
                                         pattern="\d{0,4}"
                                         placeholder="20XX"
-                                        min="2000" 
-                                        max="2099" 
-                                        step="1" 
-                                        value={preregData.endOfSchoolYear}
+                                        min={new Date().getFullYear()} // Set minimum year to current year
+                                        max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
+                                        step="1" // Year step
+                                        value={preregData.end_of_school_year}
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
                                           const value = ev.target.value.replace(/\D/g, '');
@@ -1655,7 +1658,7 @@ export default function PreRegistrationForContinuing(prereg) {
                     maxLength={12}
                     title="Input numeric characters only. (0 to 9)"
                     inputmode="numeric"
-                    value={preregData.contributionamount}
+                    value={preregData.contribution_amount}
                     disabled={false}
                     onChange={ev => {
                       const value = ev.target.value.replace(/\D/g, '');
