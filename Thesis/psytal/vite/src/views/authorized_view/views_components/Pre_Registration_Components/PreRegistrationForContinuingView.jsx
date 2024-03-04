@@ -243,7 +243,6 @@ export default function PreRegistrationForContinuingView({prereg}) {
               contribution_amount: preregData.contribution_amount,
               complied_to_admission_policy: preregData.complied_to_admission_policy,
               candidate_for_graduation: preregData.candidate_for_graduation,
-
               pre_reg_status: 'Accepted',
               type_of_student: preregData.type_of_student,
               year_level: preregData.year_level,
@@ -289,8 +288,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
        const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
       // Convert the integer to text before assigning TO FIX!!
-      //  const integerstudentSchoolId = preregData.student_school_id;
-      //  const textstudentSchoolId = integerstudentSchoolId.toString();
+       const integerstudentSchoolId = preregData.student_school_id;
+       const textstudentSchoolId = integerstudentSchoolId.toString();
 
        const integerValuecontactnumber = preregData.contact_number;
        const textcontactnumber = integerValuecontactnumber.toString();

@@ -4,8 +4,11 @@ import schoolLogo from "@assets/BSUlogo.png";
 import info from "@assets/info.png";
 import date from "@assets/calendar.png";
 import axiosClient from '../../../../axios';
+import { PDFDocument } from 'pdf-lib'
+import download from 'downloadjs';
+import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
 
-export default function PreRegistrationForContinuing() {
+export default function PreRegistrationForContinuing(prereg) {
 
     const [successMessage, setSuccessMessage] = useState(null);
     const navigate = useNavigate();
@@ -18,6 +21,103 @@ export default function PreRegistrationForContinuing() {
   //-----
   const [disclaimer, setDisclaimer] = useState(false);
 
+  //variables for the user inputs
+  // const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
+  // const [endOfSchoolYear, setEndOfSchoolYear] = useState('');   
+  // const [studentSchoolId, setStudentSchoolId] = useState(''); 
+  // const [learnersReferenceNumber, setLearnersReferenceNumber] = useState(0);
+  // const [lastName, setLastName] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [middleName, setMiddleName] = useState('');
+  // const [maidenName, setMaidenName] = useState('');
+  // const [yearLevel, setYearLevel] = useState('');
+  // const [major, setMajor] = useState('');
+  // const [section, setSection] = useState('B');
+  // const [endOfTermToFinishDegree, setendOfTermToFinishDegree] = useState('');
+  // const [lastOfTermTofinishDegree, setLastOfTermTofinishDegree] = useState('');
+  // const [academicClassification, setAcademicClassification] = useState('');
+  // const [lastSchoolAttended, setLastSchoolAttended] = useState('');
+  // const [addressOfSchoolAttended, setAddressOfSchoolAttended] = useState('');
+  // const [degree, setDegree] = useState('Bachelor of Science in Psychology');
+  // const [dateOfBirth, setDateOfBirth] = useState('');
+  // const [citizenship, setCitizenship] = useState('');
+  // const [ethnicity, setEthnicity] = useState('');
+  // const [contactNumber, setContactNumber] = useState('');
+  // const [placeOfBirth, setPlaceOfBirth] = useState('');
+  // const [sexAtBirth, setSexAtBirth] = useState('');
+  // const [specialNeeds, setSpecialNeeds] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [homeAddress, setHomeAddress] = useState('');
+  // const [addressWhileStudyingAtBsu, setAddressWhileStudyingAtBsu] = useState('');
+  // const [emergencyContactName, setEmergencyContactName] = useState('');
+  // const [emergencyContactAddress, setEmergencyContactAddress] = useState('');
+  // const [emergencyContactNumber, setEmergencyContactNumber] = useState('');
+  // const [relationship, setRelationship] = useState('');
+  // const [healthfacilityregistered, sethealthfacilityregistered] = useState('');
+  // const [parenthealthfacilitydependent, setparenthealthfacilitydependent] = useState('');
+  // const [vaccinationstatus, setvaccinationstatus] = useState('Not Vaccinated');
+  // const [technologylevel, settechnologylevel] = useState('');
+  // const [digitalliteracy, setdigitalliteracy] = useState('');
+  // const [availfreehighereducation, setavailfreehighereducation] = useState('');
+  // const [voluntarycontribution, setvoluntarycontribution] = useState('');
+  // const [contributionamount, setcontributionamount] = useState('');
+  // const [compliedtoadmissionpolicy, setcompliedtoadmissionpolicy] = useState('NO');
+  // const [typeofstudent, setTypeOfStudent] = useState('Continuing');
+  // const [candidateForGraduadtion, setCandidateForGraduadtion] = useState('');
+  // const [semester, setSemester] = useState('');
+  // const [studentStatus, setStudentStatus] = useState('');
+  // const [userId, setUserId] = useState(0);
+
+  const [preregData, setPreregData] = useState( {
+    user_id: '',
+    start_of_school_year: '',   
+    end_of_school_year: '',
+    student_school_id: '',      
+    // learners_reference_number: '',
+    last_name: '',              
+    first_name: '',
+    middle_name: '',            
+    maiden_name: '',
+    // academic_classification: '',
+    // last_school_attended: '',
+    // address_of_school_attended: '',
+    degree: 'Bachelor of Science in Psychology',
+    date_of_birth: '',
+    place_of_birth: '',
+    citizenship: '',
+    sex_at_birth: '',
+    ethnicity: '',
+    special_needs: '',
+    contact_number: '',
+    email_address: '',
+    home_address: '',
+    address_while_studying: '',
+    contact_person_name: '',
+    contact_person_number: '',
+    contact_person_address: '',
+    contact_person_relationship: '',
+    health_facility_registered: '',
+    parent_health_facility_dependent: '',
+    vaccination_status: '',
+    technology_level: '',
+    digital_literacy: '',
+    avail_free_higher_education: '',
+    voluntary_contribution: '',
+    contribution_amount: '',
+    complied_to_admission_policy: 'no',
+    pre_reg_status: 'Accepted',
+    type_of_student: 'Incoming',
+    student_status: 'Regular',
+    year_level: '',
+    semester: '1st Semester',
+    major: '',
+    candidate_for_graduation: '',
+    end_of_term_to_finnish_degree: '',
+    last_of_term_to_finnish_degree: '',
+    section: 'b',
+  });
+
+
   useEffect(() => {
     setDisclaimer(true); // Set showModal to true when the component mounts
   }, []); 
@@ -26,182 +126,381 @@ export default function PreRegistrationForContinuing() {
     setDisclaimer(false);
   };
 
-  //-----
+  const onPrint =() => {
+    // PDF modification code======================================================================
+    //for new incoming first years
+    const fetchPdf = async () => {
+    // Extract the first character of the middle name as the middle initial
+    const middleInitial = preregData.middle_name ? preregData.middle_name.charAt(0) + '.' : '';
 
-      //variables for the user inputs
-  const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
-  const [endOfSchoolYear, setEndOfSchoolYear] = useState('');   
-  const [studentSchoolId, setStudentSchoolId] = useState(''); 
-  const [learnersReferenceNumber, setLearnersReferenceNumber] = useState(0);
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [maidenName, setMaidenName] = useState('');
-  const [yearLevel, setYearLevel] = useState('');
-  const [major, setMajor] = useState('');
-  const [section, setSection] = useState('B');
-  const [endOfTermToFinishDegree, setendOfTermToFinishDegree] = useState('');
-  const [lastOfTermTofinishDegree, setLastOfTermTofinishDegree] = useState('');
-  const [academicClassification, setAcademicClassification] = useState('');
-  const [lastSchoolAttended, setLastSchoolAttended] = useState('');
-  const [addressOfSchoolAttended, setAddressOfSchoolAttended] = useState('');
-  const [degree, setDegree] = useState('Bachelor of Science in Psychology');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [citizenship, setCitizenship] = useState('');
-  const [ethnicity, setEthnicity] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [placeOfBirth, setPlaceOfBirth] = useState('');
-  const [sexAtBirth, setSexAtBirth] = useState('');
-  const [specialNeeds, setSpecialNeeds] = useState('');
-  const [email, setEmail] = useState('');
-  const [homeAddress, setHomeAddress] = useState('');
-  const [addressWhileStudyingAtBsu, setAddressWhileStudyingAtBsu] = useState('');
-  const [emergencyContactName, setEmergencyContactName] = useState('');
-  const [emergencyContactAddress, setEmergencyContactAddress] = useState('');
-  const [emergencyContactNumber, setEmergencyContactNumber] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [healthfacilityregistered, sethealthfacilityregistered] = useState('');
-  const [parenthealthfacilitydependent, setparenthealthfacilitydependent] = useState('');
-  const [vaccinationstatus, setvaccinationstatus] = useState('Not Vaccinated');
-  const [technologylevel, settechnologylevel] = useState('');
-  const [digitalliteracy, setdigitalliteracy] = useState('');
-  const [availfreehighereducation, setavailfreehighereducation] = useState('');
-  const [voluntarycontribution, setvoluntarycontribution] = useState('');
-  const [contributionamount, setcontributionamount] = useState('');
-  const [compliedtoadmissionpolicy, setcompliedtoadmissionpolicy] = useState('NO');
-  const [typeofstudent, setTypeOfStudent] = useState('Continuing');
-  const [candidateForGraduadtion, setCandidateForGraduadtion] = useState('');
-  const [semester, setSemester] = useState('');
-  const [studentStatus, setStudentStatus] = useState('');
-  const [userId, setUserId] = useState(0);
+    // Combine last name, first name, and middle initial with comma and dot
+    const fullName = `${preregData.last_name}, ${preregData.first_name} ${middleInitial}`;
 
-  //clearing the input fields using the reset button
-  const handleClear = () => {
-    setStartOfSchoolYear('');
-    setEndOfSchoolYear('');
-    setStudentSchoolId('');
-    setLastName('');
-    setFirstName('');
-    setMiddleName('');
-    setMaidenName('');
-    setYearLevel('');
-    setMajor('');
-    setendOfTermToFinishDegree('');
-    setLastOfTermTofinishDegree('');
-    setDateOfBirth('');
-    setCitizenship('');
-    setEthnicity('');
-    setContactNumber('');
-    setPlaceOfBirth('');
-    setSexAtBirth('');
-    setSpecialNeeds('');
-    setEmail('');
-    setHomeAddress('');
-    setAddressWhileStudyingAtBsu('');
-    setEmergencyContactName('');
-    setEmergencyContactAddress('');
-    setEmergencyContactNumber('');
-    setRelationship('');
-    sethealthfacilityregistered('');
-    setparenthealthfacilitydependent('');
-    setvaccinationstatus('Not Vaccinated');
-    settechnologylevel('');
-    setdigitalliteracy('');
-    setavailfreehighereducation('');
-    setvoluntarycontribution('');
-    setcontributionamount('');
-    setCandidateForGraduadtion('');
-    setSemester('');
-  }
+    // Convert the integer term to text
+    // Combine two terms start and End
+    const integerstartOfSchoolYear = preregData.start_of_school_year;
+    const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
+    const integerendOfSchoolYear = preregData.end_of_school_year;
+    const textendOfSchoolYear = integerendOfSchoolYear.toString();
+    const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
-    const [inputFields, setInputFields] = useState([
-        { classCode: '', courseCode: '', units: '', bcac: '' },
-      ]);
+    // Convert the integer to text before assigning TO FIX!!
+    const integerstudentSchoolId = preregData.student_school_id;
+    const textstudentSchoolId = integerstudentSchoolId.toString();
 
-    //calling the Form in the adding of classes
-    const handleSubmitCourseUnits = (e) => {
-        e.preventDefault();
-        console.log("InputFields", inputFields);
-      };
-    //Changing the input fields
-    const handleChangeInput = (index, event) => {
-        const values = [...inputFields];
-        values [index][event.target.name] = event.target.value;     
-        setInputFields(values);
-      }
-    //For Adding
-    const handleAddFields = () => {
-        setInputFields([...inputFields, { classCode: '', courseCode: '', units: '', bcac: '' }])
-      }
-    //For removing
-    const handleRemoveFields = (index) => {
-        const values  = [...inputFields];
-        values.splice(index, 1);
-        setInputFields(values);
-      }
-    
+    const integerValuecontactnumber = preregData.contact_number;
+    const textcontactnumber = integerValuecontactnumber.toString();
+
+    const integerValuecontactPersonNumber = preregData.contact_person_number;
+    const textcontactPersonNumber = integerValuecontactPersonNumber.toString();
+
+    const integerValuecontactPersonAddress = preregData.contact_person_address;
+    const textcontactPersonAddress = integerValuecontactPersonAddress.toString();
+
+    const integerValuecontributionAmount = preregData.contribution_amount;
+    const textcontributionAmount = integerValuecontributionAmount.toString();
+
+
+    try {
+    const pdfBytes = await fetch(preregContinuingForm).then((res) => res.arrayBuffer()); 
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+    const form = pdfDoc.getForm();
+
+
+    const dateField = form.getTextField('text_c_date_applied');
+    if (dateField) {
+    // Current date
+    const currentDate = new Date();
+
+    // Format of date 'Text-DD-YYYY'
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    });
+    // Set the text of the date field
+    dateField.setText(formattedDate);
+    } else {
+    console.error("Field 'text_c_date_applied' not found");
+    }
+
+
+    const Term = form.getTextField('text_c_term');
+    Term.setText(fullTerm);
+
+
+    const studentSchoolId = form.getTextField('text_c_student_ID');
+    if (studentSchoolId) {
+    studentSchoolId.setText(textstudentSchoolId);
+    } else {
+    console.error(`Field ${studentSchoolId} not found`);
+    }
+    const name = form.getTextField('text_c_student_name');
+    const maidenName = form.getTextField('text_c_student_maiden');
+
+    const candidate_for_graduation = form.getTextField('text_c_candidate');
+    if (preregData.candidate_for_graduation === 'YesCandidate') {
+    candidate_for_graduation.setText('Yes');
+    } else if(preregData.candidate_for_graduation === 'NoCandidate'){
+    candidate_for_graduation.setText('No');
+    }
+    else {
+    console.error(`Field ${candidate_for_graduation} not found`);
+    }
+    const student_status = form.getTextField('text_10bwea'); //Unedited PDF form, still working
+    const degreeProgram = form.getTextField('text_c_degree');
+    const major = form.getTextField('text_c_major');
+    const end_of_term_to_finnish_degree = form.getTextField('text_c_endTerm');
+    const last_of_term_to_finnish_degree = form.getTextField('text_c_lastTerm');
+    const dateOfBirth = form.getTextField('text_c_date_birth');
+    const citizenship = form.getTextField('text_c_citizenship');
+    const ethnicity = form.getTextField('text_c_ethnicity');
+    const placeOfBirth = form.getTextField('text_c_birth_place');
+    const sexAtBirth = form.getTextField('text_c_student_sex');
+    const specialNeeds = form.getTextField('text_c_special_needs');
+    const emailAddress = form.getTextField('text_c_student_email');
+
+    const contactNumber = form.getTextField('text_c_student_contact_num');
+    if (contactNumber) {
+    contactNumber.setText(textcontactnumber);
+    } else {
+    console.error(`Field ${contactNumber} not found`);
+    }
+
+    const permanentAddress = form.getTextField('text_c_pAddress');
+    const addressWhileStudying = form.getTextField('text_c_wsAddress');
+    const year_level = form.getTextField('text_c_year_level');
+
+    //person to contact in case of emergency
+    const contactPersonName = form.getTextField('text_c_em_name');
+    const contactPersonAddress = form.getTextField('text_c_em_address'); 
+    if (contactPersonAddress) {
+    contactPersonAddress.setText(textcontactPersonAddress);
+    } else {
+    console.error(`Field ${contactPersonAddress} not found`);
+    }
+
+    const contactPersonNumber = form.getTextField('text_c_em_number');
+    if (contactPersonNumber) {
+    contactPersonNumber.setText(textcontactPersonNumber);
+    } else {
+    console.error(`Field ${contactPersonNumber} not found`);
+    }
+    const contactPersonRelationship = form.getTextField('text_c_em_relationship');
+    const healthfacilityregistered = form.getTextField('text_c_ic_registered');
+    const parentHealthFacilityDependent = form.getTextField('text_c_ic_dependent');
+    const vaccinationStatus = form.getTextField('text_c_ic_vax_stat');
+
+    const txttechnologyLevel = preregData.technology_level;
+    const technologylevel = form.getTextField('text_c_dcl_level');
+    if (txttechnologyLevel === 'category1') {
+    technologylevel.setText('Proficient');
+    } else if (txttechnologyLevel === 'category2') {
+    technologylevel.setText('Advanced');
+    } else if (txttechnologyLevel === 'category3') {
+    technologylevel.setText('Beginner');
+    } else {
+    console.error(`Field ${technologylevel} not found`);
+    }
+
+    const txttype_of_student = preregData.type_of_student;
+    const checkbox_c_continuing = form.getCheckBox('checkbox_c_continuing');
+    if (txttype_of_student === 'Regular') {
+    checkbox_c_continuing.check();
+    } else {
+    checkbox_c_continuing.check();
+    console.log("checkbox", txttype_of_student);
+    }
+
+    const txtdigitalLiteracy = preregData.digital_literacy;
+    const digitalLiteracy = form.getTextField('text_c_dcl_category');
+    if (txtdigitalLiteracy === 'lvl1') {
+    digitalLiteracy.setText('High Level Technology');
+    }
+    else if (txtdigitalLiteracy === 'lvl2') {
+    digitalLiteracy.setText('Medium Level Technology');
+    }  
+    else if (txtdigitalLiteracy === 'lvl3') {
+    digitalLiteracy.setText('Low Level Technology');
+    }  
+    else {
+    console.error(`Field ${digitalLiteracy} not found`);
+    }
+
+    // Check or uncheck each checkbox based on the value of availFreeHigherEducation
+    const availFreeHigherEducation = preregData.avail_free_higher_education;
+    const checkboxfheavailyes = form.getCheckBox('checkbox_c_fhe_avail_yes');
+    const checkboxfheavailno = form.getCheckBox('checkbox_c_fhe_avail_no');
+    if (availFreeHigherEducation === 'YesAvail') {
+    checkboxfheavailyes.check();
+    checkboxfheavailno.uncheck();
+    console.log("checkbox", availFreeHigherEducation);
+    } else {
+    checkboxfheavailyes.uncheck();
+    checkboxfheavailno.check();
+    console.log("checkbox", availFreeHigherEducation);
+    }
+
+    const contributionAmount = form.getTextField('text_c_fhe_amount');
+    if (contributionAmount) {
+    contributionAmount.setText(textcontributionAmount);
+    } else {
+    console.error(`Field ${contributionAmount} not found`);
+    }
+
+    const voluntaryContribution = preregData.voluntary_contribution;
+    const checkboxYesContribute = form.getCheckBox('checkbox_c_fhe_con_yes');
+    const checkboxNoContribute = form.getCheckBox('checkbox_c_fhe_con_no');
+    if (voluntaryContribution === 'YesContribute') {
+    checkboxYesContribute.check();
+    checkboxNoContribute.uncheck();
+    console.log("checkbox", voluntaryContribution);
+    } else {
+    checkboxYesContribute.uncheck();
+    checkboxNoContribute.check();
+    console.log("checkbox", voluntaryContribution);
+    }
+
+    name.setText(fullName)
+    maidenName.setText(preregData.maiden_name);
+    degreeProgram.setText(preregData.degree);
+    major.setText(preregData.major);
+    end_of_term_to_finnish_degree.setText(preregData.end_of_term_to_finnish_degree);
+    last_of_term_to_finnish_degree.setText(preregData.last_of_term_to_finnish_degree);
+    dateOfBirth.setText(preregData.date_of_birth);
+    citizenship.setText(preregData.citizenship);
+    ethnicity.setText(preregData.ethnicity);
+    placeOfBirth.setText(preregData.place_of_birth);
+    sexAtBirth.setText(preregData.sex_at_birth);
+    specialNeeds.setText(preregData.special_needs);
+    emailAddress.setText(preregData.email_address);
+    permanentAddress.setText(preregData.home_address);
+    addressWhileStudying.setText(preregData.address_while_studying);
+    year_level.setText(preregData.year_level);
+    contactPersonName.setText(preregData.contact_person_name);
+    contactPersonRelationship.setText(preregData.contact_person_relationship);
+    healthfacilityregistered.setText(preregData.health_facility_registered);
+    parentHealthFacilityDependent.setText(preregData.parent_health_facility_dependent);
+    vaccinationStatus.setText(preregData.vaccination_status);
+    student_status.setText(preregData.student_status);
+
+    const finalPDF = await pdfDoc.save();
+
+    download(finalPDF, 'Student_Continuing.pdf', 'application/pdf');
+    } catch (error) {
+    console.error('Error loading PDF:', error);
+    }
+    };
+
+    // Call the fetchPdf function directly in your component code
+    fetchPdf();
+
+    }
+
+    const handleClear = () => {
+      // setStartOfSchoolYear('');
+      // setEndOfSchoolYear('');
+      // setStudentSchoolId('');
+      // setLastName('');
+      // setFirstName('');
+      // setMiddleName('');
+      // setMaidenName('');
+      // setYearLevel('');
+      // setMajor('');
+      // setendOfTermToFinishDegree('');
+      // setLastOfTermTofinishDegree('');
+      // setDateOfBirth('');
+      // setCitizenship('');
+      // setEthnicity('');
+      // setContactNumber('');
+      // setPlaceOfBirth('');
+      // setSexAtBirth('');
+      // setSpecialNeeds('');
+      // setEmail('');
+      // setHomeAddress('');
+      // setAddressWhileStudyingAtBsu('');
+      // setEmergencyContactName('');
+      // setEmergencyContactAddress('');
+      // setEmergencyContactNumber('');
+      // setRelationship('');
+      // sethealthfacilityregistered('');
+      // setparenthealthfacilitydependent('');
+      // setvaccinationstatus('Not Vaccinated');
+      // settechnologylevel('');
+      // setdigitalliteracy('');
+      // setavailfreehighereducation('');
+      // setvoluntarycontribution('');
+      // setcontributionamount('');
+      // setCandidateForGraduadtion('');
+      // setSemester('');
+      console.log("Inside handleClear function");
+      console.log("Clearing start of school year");
+      setPreregData({ ...preregData, start_of_school_year: '' });
+      setPreregData({ ...preregData, end_of_school_year: '' });
+      setPreregData({ ...preregData, student_school_id: '' });
+      setPreregData({ ...preregData, last_name: '' });
+      setPreregData({ ...preregData, first_name: '' });
+      setPreregData({ ...preregData, middle_name: '' });
+      setPreregData({ ...preregData, maiden_name: '' });
+      setPreregData({ ...preregData, last_school_attended: '' });
+      setPreregData({ ...preregData, address_of_school_attended: '' });
+      setPreregData({ ...preregData, degree: '' });
+      setPreregData({ ...preregData, date_of_birth: '' });
+      setPreregData({ ...preregData, place_of_birth: '' });
+      setPreregData({ ...preregData, citizenship: '' });
+      setPreregData({ ...preregData, sex_at_birth: '' });
+      setPreregData({ ...preregData, ethnicity: '' });
+      setPreregData({ ...preregData, special_needs: '' });
+      setPreregData({ ...preregData, contact_number: '' });
+      setPreregData({ ...preregData, email_address: '' });
+      setPreregData({ ...preregData, home_address: '' });
+      setPreregData({ ...preregData, address_while_studying: '' });
+      setPreregData({ ...preregData, contact_person_name: '' });
+      setPreregData({ ...preregData, contact_person_number: '' });
+      setPreregData({ ...preregData, contact_person_address: '' });
+      setPreregData({ ...preregData, contact_person_relationship: '' });
+      setPreregData({ ...preregData, health_facility_registered: '' });
+      setPreregData({ ...preregData, parent_health_facility_dependent: '' });
+      setPreregData({ ...preregData, vaccination_status: 'Not Vaccinated' });
+      setPreregData({ ...preregData, technology_level: '' });
+      setPreregData({ ...preregData, digital_literacy: '' });
+      setPreregData({ ...preregData, avail_free_higher_education: '' });
+      setPreregData({ ...preregData, voluntary_contribution: '' });
+      setPreregData({ ...preregData, contribution_amount: '' });
+      setPreregData({ ...preregData, semester: '' });
+      setPreregData({ ...preregData, end_of_term_to_finnish_degree: '' });
+      setPreregData({ ...preregData, last_of_term_to_finnish_degree: '' });
+      setPreregData({ ...preregData, major: '' });
+      setPreregData({ ...preregData, year_level: '' });
+      console.log("Closing modal");
+      setShowModal(false);
+    }
+
     //On submit axios
       const onSubmit = (ev) => {
         ev.preventDefault();
         setError({ __html: "" });
-        
+        console.log(preregData);
             
         axiosClient
         .post('/preregcontinuingtmp', {
-            start_of_school_year: parseInt(startOfSchoolYear),
-            end_of_school_year: parseInt(endOfSchoolYear),
-            student_school_id: parseInt(studentSchoolId),
-            user_id: parseInt(userId),
-            learners_reference_number: parseInt(learnersReferenceNumber),
-            last_name: lastName,
-            first_name: firstName,
-            middle_name: middleName,
-            maiden_name: maidenName,
-            degree: degree,
-            major: major,
-            section: section,
-            end_of_term_to_finnish_degree: endOfTermToFinishDegree,
-            last_of_term_to_finnish_degree: lastOfTermTofinishDegree,
-            date_of_birth: dateOfBirth,
-            place_of_birth: placeOfBirth,
-            citizenship: citizenship,
-            sex_at_birth: sexAtBirth,
-            ethnicity: ethnicity,
-            special_needs: specialNeeds,
-            contact_number: parseInt(contactNumber),
-            email_address: email,
-            home_address: homeAddress,
-            address_while_studying: addressWhileStudyingAtBsu,
-            contact_person_name: emergencyContactName,
-            contact_person_number: parseInt(emergencyContactNumber), //theres an error here--doesnt accept multiple numbers
-            contact_person_address: emergencyContactAddress,
-            contact_person_relationship: relationship,
-            health_facility_registered: healthfacilityregistered,
-            parent_health_facility_dependent: parenthealthfacilitydependent,
-            vaccination_status: vaccinationstatus,
-            technology_level: technologylevel,
-            digital_literacy: digitalliteracy,
-            avail_free_higher_education: availfreehighereducation,
-            voluntary_contribution: voluntarycontribution,
-            contribution_amount: contributionamount,
-            complied_to_admission_policy: compliedtoadmissionpolicy,
-            pre_reg_status: 'Pending',
-            student_status: studentStatus,
-            type_of_student: typeofstudent,
-            year_level: yearLevel,
-            semester: semester,
-            candidate_for_graduation: candidateForGraduadtion
-        })
-        .then(({ data }) => {
+          user_id: 1,
+          student_school_id: preregData.student_school_id,
+          start_of_school_year: parseInt(preregData.start_of_school_year),
+          end_of_school_year: parseInt(preregData.end_of_school_year),
+          // learners_reference_number: parseInt(preregData.learners_reference_number),
+          last_name: preregData.last_name,
+          first_name: preregData.first_name,
+          middle_name: preregData.middle_name,
+          maiden_name: preregData.maiden_name,
+          // academic_classification: preregData.academic_classification,
+           last_school_attended: preregData.last_school_attended,
+           address_of_school_attended: preregData.address_of_school_attended,
+          degree: 'Bachelor of Science in Psychology',
+          date_of_birth: preregData.date_of_birth,
+          place_of_birth: preregData.place_of_birth,
+          citizenship: preregData.citizenship,
+          sex_at_birth: preregData.sex_at_birth,
+          ethnicity: preregData.ethnicity,
+          special_needs: preregData.special_needs,
+          contact_number: parseInt(preregData.contact_number),
+          email_address: preregData.email_address,
+          home_address: preregData.home_address,
+          address_while_studying: preregData.address_while_studying,
+          contact_person_name: preregData.contact_person_name,
+          contact_person_number: parseInt(preregData.contact_person_number), 
+          contact_person_address: preregData.contact_person_address,
+          contact_person_relationship: preregData.contact_person_relationship,
+          year_level: preregData.year_level,
+          pre_reg_status: 'Accepted',
+          type_of_student: 'Regular',
+          major: preregData.major,
+          candidate_for_graduation: preregData.candidate_for_graduation,
+          end_of_term_to_finnish_degree: preregData.end_of_term_to_finnish_degree,
+          last_of_term_to_finnish_degree: preregData.last_of_term_to_finnish_degree,
+          health_facility_registered: preregData.health_facility_registered,
+          parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+          vaccination_status: preregData.vaccination_status,
+          technology_level: preregData.technology_level,
+          digital_literacy: preregData.digital_literacy,
+          avail_free_higher_education: preregData.avail_free_higher_education,
+          voluntary_contribution: preregData.voluntary_contribution,
+          contribution_amount: preregData.contribution_amount,
+          complied_to_admission_policy: preregData.complied_to_admission_policy,
+          section: preregData.section,
+          student_status: preregData.student_status,
+        }).then(({ data }) => {
+          onPrint();
           //setFamilyName(data.family_name)
           setSuccessMessage({
-            message: 'You have submitted your pre-registration form successfully!\n Please check your email within zero to three (0-3) working days \n for further instructions.',
+            message: 'This is the printed data',
           });
     
           setTimeout(() => {
             setSuccessMessage(null);
-            handleClear();
-            closeModal();
+            // handleClear();
+            // closeModal();
           }, 3000);
         })
         .catch(( error ) => 
@@ -212,7 +511,7 @@ export default function PreRegistrationForContinuing() {
   
         setTimeout(() => {
           setSuccessMessage(null);
-          closeModal();
+          // closeModal();
         }, 3000);
 
           if (error.response) {
@@ -223,12 +522,19 @@ export default function PreRegistrationForContinuing() {
             });
             setTimeout(() => {
               setSuccessMessage(null);
-              closeModal();
+              // closeModal();
             }, 3000);
           }
             console.error(error)
         });
       };
+      
+
+    
+
+      //clearing the input fields using the reset button
+   
+
 
   return (
     <>
@@ -277,12 +583,9 @@ export default function PreRegistrationForContinuing() {
                               Semester :
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            value={semester}
-                            onChange={ev => {
-                              const value = ev.target.value.replace(/\D/g, '');
-                              setSemester(value);
-                            }}
-                            />
+                            value={preregData.semester}
+                            onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}
+                                        />
                           </div>
                           
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
@@ -301,17 +604,22 @@ export default function PreRegistrationForContinuing() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                         pattern="\d{0,4}"
                                         placeholder="20XX"
-                                        min="2000" // Minimum year
-                                        max="2099" // Maximum year
+                                        min={new Date().getFullYear()} // Set minimum year to current year
+                                        max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        value={startOfSchoolYear}
+                                        value={preregData.start_of_school_year}
                                         onChange={ev => {
-                                            // Ensure that only numeric values are entered
-                                            const value = ev.target.value.replace(/\D/g, '');
-                                            setStartOfSchoolYear(value);
-                                            setEndOfSchoolYear(parseInt(value) + 1);}}
-                                    />
+                                          // Ensure that only numeric values are entered
+                                          const value = ev.target.value.replace(/\D/g, '');
+                                          const startYear = parseInt(value);
+                                          setPreregData({ ...preregData, start_of_school_year: startYear });
+                                          setPreregData(prevData => ({
+                                            ...prevData,
+                                            end_of_school_year: startYear + 1
+                                          }));
+                                        }}
+                                      />
                                     </div>
                                     <span className="mx-4 text-gray-500">to</span>
                                     <div className="relative w-fit">
@@ -324,16 +632,21 @@ export default function PreRegistrationForContinuing() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
                                         pattern="\d{0,4}"
                                         placeholder="20XX"
-                                        min="2000" 
-                                        max="2099" 
-                                        step="1" 
-                                        value={endOfSchoolYear}
+                                        min={new Date().getFullYear()} // Set minimum year to current year
+                                        max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
+                                        step="1" // Year step
+                                        value={preregData.end_of_school_year}
                                         onChange={ev => {
-                                            // Ensure that only numeric values are entered
-                                            const value = ev.target.value.replace(/\D/g, '');
-                                            setEndOfSchoolYear(value);
-                                            setStartOfSchoolYear(parseInt(value) - 1);}}
-                                    />
+                                          // Ensure that only numeric values are entered
+                                          const value = ev.target.value.replace(/\D/g, '');
+                                          const endYear = parseInt(value);
+                                          setPreregData({ ...preregData, end_of_school_year: endYear });
+                                          setPreregData(prevData => ({
+                                            ...prevData,
+                                            start_of_school_year: endYear - 1
+                                          }));
+                                        }}
+                                      />
                                     </div>
                                 </div>
                             </div>                 
@@ -354,12 +667,9 @@ export default function PreRegistrationForContinuing() {
                                 title="Input numeric characters only. (0 to 9)"
                                 inputmode="numeric"
                                 maxLength={7}
-                                value={studentSchoolId}
-                                onChange= {ev => {
-                                  // Ensure that only numeric values are entered
-                                  const value = ev.target.value.replace(/\D/g, '');
-                                  setStudentSchoolId(value);}}
-                                />  
+                                value={preregData.student_school_id}
+                                onChange={(ev) => setPreregData({ ...preregData, student_school_id: ev.target.value })} 
+                                />          
                                 <img
                                   src={info}
                                   alt="info"
@@ -379,13 +689,13 @@ export default function PreRegistrationForContinuing() {
                                 type="text"
                                 pattern="[a-zA-Z .]+"
                                 title="Input your Legal Last Name with your Suffix, if applicable."
-                                value={lastName}
+                                value={preregData.lastName}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                                  setLastName(value);
+                                  setPreregData({ ...preregData, last_name: value });
                                 }}
-                                />  
+                               />   
                                 <img
                                   src={info}
                                   alt="info"
@@ -405,13 +715,13 @@ export default function PreRegistrationForContinuing() {
                                 type="text"
                                 pattern="[a-zA-Z .]+"
                                 title="Input your Legal Given Name/s."
-                                value={firstName}
+                                value={preregData.firstName}
                                 maxLength={50}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                                  setFirstName(value);
+                                  setPreregData({ ...preregData, first_name: value });
                                 }}
-                                />  
+                              />  
                                 <img
                                   src={info}
                                   alt="info"
@@ -431,11 +741,11 @@ export default function PreRegistrationForContinuing() {
                                 type="text" 
                                 pattern="[a-zA-Z ]+"
                                 title="Input your Legal Middle Name. Leave blank if not applicable."
-                                value={middleName}
+                                value={preregData.middleName}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
-                                  setMiddleName(value);
+                                  setPreregData({ ...preregData, middle_name: value });
                                 }}
                                 />  
                                 <img
@@ -457,11 +767,11 @@ export default function PreRegistrationForContinuing() {
                                 type="text" 
                                 //pattern="[^a-zA-Z\s/]+"
                                 title="Input 'N/A' if not applicable."
-                                value={maidenName}
+                                value={preregData.maidenName}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                                  setMaidenName(value);
+                                  setPreregData({ ...preregData, maiden_name: value });
                                 }}
                                 />  
                                 <img
@@ -490,9 +800,9 @@ export default function PreRegistrationForContinuing() {
                                             title="Input numeric characters only. (1 to 4)"
                                             inputmode="numeric"
                                             maxLength={1}
-                                            value={yearLevel}
+                                            value={preregData.yearLevel}
                                             onChange={(ev) => {
-                                              const value = ev.target.value;
+                                              setPreregData({ ...preregData, year_level: ev.target.value })
                                               // Check if the input matches the pattern or if it's an empty string (allowing backspace and delete)
                                               if (/^[1-4]*$/.test(value)) {
                                                 // Update the state with the valid input
@@ -536,8 +846,8 @@ export default function PreRegistrationForContinuing() {
                                         type='text'
                                         placeholder='(optional)'
                                         title="Leave blank if not applicable."
-                                        value={major}
-                                        onChange={ev => setMajor(ev.target.value)}
+                                        value={preregData.major}
+                                        onChange={(ev) => setPreregData({ ...preregData, major: ev.target.value })}
                                     />
                                     <img
                                       src={info}
@@ -563,8 +873,8 @@ export default function PreRegistrationForContinuing() {
                                             name="candidateofgraduation"
                                             id="yes"
                                             value='YesCandidate' 
-                                            checked={candidateForGraduadtion === 'YesCandidate'}
-                                            onChange={ev => setCandidateForGraduadtion(ev.target.value)}
+                                            checked={preregData.candidate_for_graduation === 'YesCandidate'}
+                                            onChange={(ev) => setPreregData({ ...preregData, candidate_for_graduation: ev.target.value })}
                                             />
                                             
                                         <label
@@ -580,8 +890,8 @@ export default function PreRegistrationForContinuing() {
                                             name="candidateofgraduation"
                                             id="no"
                                             value="NoCandidate"
-                                            checked={candidateForGraduadtion === 'NoCandidate'}
-                                            onChange={ev => setCandidateForGraduadtion(ev.target.value)}
+                                            checked={preregData.candidate_for_graduation === 'NoCandidate'}
+                                            onChange={(ev) => setPreregData({ ...preregData, candidate_for_graduation: ev.target.value })}
                                             />
                                             
                                         <label
@@ -602,8 +912,8 @@ export default function PreRegistrationForContinuing() {
                                         type='text'
                                         placeholder='(eg. 2nd Semester, SY: 2026-2027)'
                                         title="Input the end of term using the format given. FORMAT eg.: 2nd Semester, SY: 2026-2027"
-                                        value={endOfTermToFinishDegree}
-                                        onChange={ev => setendOfTermToFinishDegree(ev.target.value)}
+                                        value={preregData.end_of_term_to_finnish_degree}
+                                        onChange={(ev) => setPreregData({ ...preregData, end_of_term_to_finnish_degree: ev.target.value })}
                                     />
                                     <img
                                       src={info}
@@ -629,8 +939,8 @@ export default function PreRegistrationForContinuing() {
                                             name="studentstatus"
                                             id="yes"
                                             value="Regular" 
-                                            checked={studentStatus === 'Regular'}
-                                            onChange={ev => setStudentStatus(ev.target.value)}
+                                            checked={preregData.student_status === 'Regular'}
+                                            onChange={(ev) => setPreregData({ ...preregData, student_status: ev.target.value })}
                                             />
                                         <label
                                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -645,8 +955,8 @@ export default function PreRegistrationForContinuing() {
                                             name="studentstatus"
                                             id="no"
                                             value="Irregular"
-                                            checked={studentStatus === 'Irregular'}
-                                            onChange={ev => setStudentStatus(ev.target.value)}
+                                            checked={preregData.student_status === 'Irregular'}
+                                            onChange={(ev) => setPreregData({ ...preregData, student_status: ev.target.value })}
                                             />
                                         <label
                                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -666,8 +976,8 @@ export default function PreRegistrationForContinuing() {
                                         type='text'
                                         title="Input the last term enrolled using the format given. FORMAT eg.: 2nd Semester, SY: 2022-2023"
                                         placeholder='(eg. 2nd Semester, SY: 2022-2023)'
-                                        value={lastOfTermTofinishDegree}
-                                        onChange={ev => setLastOfTermTofinishDegree(ev.target.value)}
+                                        value={preregData.last_of_term_to_finnish_degree}
+                                        onChange={(ev) => setPreregData({ ...preregData, last_of_term_to_finnish_degree: ev.target.value })}
                                     />
                                     <img
                                       src={info}
@@ -689,8 +999,8 @@ export default function PreRegistrationForContinuing() {
                                 id="grid-birthdate" 
                                 type="date" 
                                 placeholder=""
-                                value={dateOfBirth}
-                                onChange={ev => setDateOfBirth(ev.target.value)}
+                                value={preregData.date_of_birth}
+                                onChange={(ev) => setPreregData({ ...preregData, date_of_birth: ev.target.value })}
                                 />
                         <div className="input-container relative">
                             <label className=" text-gray-700 text-xs font-bold mb-2" htmlFor="citizenship">
@@ -702,10 +1012,10 @@ export default function PreRegistrationForContinuing() {
                             placeholder=""
                             pattern="[a-zA-Z ]+"
                             title="Input your Legal Citizenship. Example: Filipino"
-                            value={citizenship}
+                            value={preregData.citizenship}
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
-                              setCitizenship(value);
+                              setPreregData({ ...preregData, citizenship: value });
                             }}
                             />
                             <img
@@ -725,11 +1035,11 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             placeholder=""
                             //pattern="[^a-zA-Z\s/]+"
-                            value={ethnicity}
+                            value={preregData.ethnicity}
                             title="Input your Ethnicity or Tribal Affilation. Example: Ilocano"
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                              setEthnicity(value);
+                              setPreregData({ ...preregData, ethnicity: value });
                             }}/>
                             <img
                                 src={info}
@@ -748,10 +1058,10 @@ export default function PreRegistrationForContinuing() {
                             placeholder="09XXXXXXXXX"
                             title="Input your contact number using the format given. FORMAT: 09XXXXXXXXX"
                             maxLength={11}
-                            value={contactNumber}
+                            value={preregData.contact_number}
                             onChange={ev => {
                                 const value = ev.target.value.replace(/\D/g, '');
-                                setContactNumber(value);}}
+                                setPreregData({ ...preregData, contact_number: value });}}
                             /> 
                             <img
                                 src={info}
@@ -774,8 +1084,8 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             placeholder="City/Municipality"
                             title="Input your Legal Place of Birth. This is either a city or municipality."
-                            value={placeOfBirth}
-                            onChange={ev => setPlaceOfBirth(ev.target.value)}/>
+                            value={preregData.place_of_birth}
+                            onChange={ev => setPreregData({ ...preregData, place_of_birth: ev.target.value })}/>
                             <img
                                 src={info}
                                 alt="info"
@@ -795,10 +1105,10 @@ export default function PreRegistrationForContinuing() {
                                 pattern="[a-zA-Z]+"
                                 maxLength={6}
                                 title="Input your Sex at Birth. This is either Male or Female."
-                                value={sexAtBirth}
+                                value={preregData.sex_at_birth}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-z]/g, '');
-                                  setSexAtBirth(value);
+                                  setPreregData({ ...preregData, sex_at_birth: value });
                                 }}/>
                                 <img
                                   src={info}
@@ -817,8 +1127,8 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             placeholder=""
                             title="Input 'N/A' if not applicable."
-                            value={specialNeeds}
-                            onChange={ev => setSpecialNeeds(ev.target.value)}/>
+                            value={preregData.special_needs}
+                            onChange={ev => setPreregData({ ...preregData, special_needs: ev.target.value })}/>
                             <img
                                 src={info}
                                 alt="info"
@@ -836,10 +1146,10 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                             placeholder=""
-                            value={email}
+                            value={preregData.email_address}
                             onChange={ev => {
                               const value = ev.target.value;
-                              setEmail(value); // Update the state with the input value
+                              setPreregData({ ...preregData, email_address: value }); // Update the state with the input value
                           
                               // Custom validation logic
                               const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -870,8 +1180,8 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             title="Input your home address using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                             placeholder="Bldg No., Street, Barangay, City/Municipality"
-                            value={homeAddress}
-                            onChange={ev => setHomeAddress(ev.target.value)}/>
+                            value={preregData.home_address}
+                            onChange={ev => setPreregData({ ...preregData, home_address: ev.target.value })}/>
                             <img
                                 src={info}
                                 alt="info"
@@ -891,8 +1201,8 @@ export default function PreRegistrationForContinuing() {
                             type="text" 
                             title="Input your address while studying at BSU using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                             placeholder="Bldg No., Street, Barangay, City/Municipality"
-                            value={addressWhileStudyingAtBsu}
-                            onChange={ev => setAddressWhileStudyingAtBsu(ev.target.value)}/>
+                            value={preregData.address_while_studying}
+                            onChange={ev => setPreregData({ ...preregData, address_while_studying: ev.target.value })}/>
                             <img
                                 src={info}
                                 alt="info"
@@ -917,10 +1227,10 @@ export default function PreRegistrationForContinuing() {
                                 placeholder="Given Name M.I. Last Name"
                                 pattern="[a-zA-Z .]+"
                                 title="Input the name of the person to be contacted in case of emergency using the format given. FORMAT: Given Name M.I. Last Name"
-                                value={emergencyContactName}
+                                value={preregData.contact_person_name}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
-                                  setEmergencyContactName(value);
+                                  setPreregData({ ...preregData, contact_person_name: value });
                                 }}/>
                                 <img
                                     src={info}
@@ -937,8 +1247,8 @@ export default function PreRegistrationForContinuing() {
                                 type="text" 
                                 placeholder="Bldg No., Street, Barangay, City/Municipality"
                                 title="Input the address of the person to be contacted in case of emergency using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
-                                value={emergencyContactAddress}
-                                onChange={ev => setEmergencyContactAddress(ev.target.value)}/>
+                                value={preregData.contact_person_address}
+                                onChange={ev => setPreregData({ ...preregData, contact_person_address: ev.target.value })}/>
                                 <img
                                   src={info}
                                   alt="info"
@@ -960,10 +1270,10 @@ export default function PreRegistrationForContinuing() {
                                 placeholder="09XXXXXXXXX"
                                 title="Input the contact number of the person to be contacted in case of emergency using the format given. FORMAT: 09XXXXXXXXX"
                                 maxLength={11}
-                                value={emergencyContactNumber}
+                                value={preregData.contact_person_number}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/\D/g, '');
-                                  setEmergencyContactNumber(value);}}
+                                  setPreregData({ ...preregData, contact_person_number: value });}}
                                 />
                                 <img
                                     src={info}
@@ -982,10 +1292,10 @@ export default function PreRegistrationForContinuing() {
                                 type="text" 
                                 //pattern="[^a-zA-Z\s/]+"
                                 title="Input your relationship with the person to be contacted in case of emergency. Example: Parent"
-                                value={relationship}
+                                value={preregData.contact_person_relationship}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
-                                  setRelationship(value);
+                                  setPreregData({ ...preregData, contact_person_relationship: value });
                                 }}/>
                                 <img
                                     src={info}
@@ -1013,8 +1323,8 @@ export default function PreRegistrationForContinuing() {
                           name="yesregister"
                           id="yesregister"
                           value='Yes' 
-                          checked={healthfacilityregistered === 'Yes'}
-                          onChange={ev => sethealthfacilityregistered(ev.target.value)}
+                          checked={preregData.health_facility_registered === 'Yes'}
+                          onChange={(ev) => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1028,8 +1338,8 @@ export default function PreRegistrationForContinuing() {
                           name="noregister"
                           id="noregister"
                           value='No'
-                          checked={healthfacilityregistered === 'No'}
-                          onChange={ev => sethealthfacilityregistered(ev.target.value)}
+                          checked={preregData.health_facility_registered === 'No'}
+                          onChange={(ev) => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1043,8 +1353,8 @@ export default function PreRegistrationForContinuing() {
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
                     <select  className='ml-5'
-                      onChange={ev => setvaccinationstatus(ev.target.value)} 
-                      value={vaccinationstatus}>
+                      onChange={(ev) => setPreregData({ ...preregData, vaccination_status: ev.target.value })} 
+                      value={preregData.vaccination_status}>
                       <option 
                         value="Not Vaccinated">
                           Not Vaccinated</option>
@@ -1070,8 +1380,8 @@ export default function PreRegistrationForContinuing() {
                           name="healthdependent"
                           id="Dependent"
                           value="Yes" 
-                          checked={parenthealthfacilitydependent === 'Yes'}
-                          onChange={ev => setparenthealthfacilitydependent(ev.target.value)}
+                          checked={preregData.parent_health_facility_dependent === 'Yes'}
+                          onChange={(ev) => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1085,8 +1395,8 @@ export default function PreRegistrationForContinuing() {
                           name="healthdependent"
                           id="Dependent"
                           value="No" 
-                          checked={parenthealthfacilitydependent === 'No'}
-                          onChange={ev => setparenthealthfacilitydependent(ev.target.value)}
+                          checked={preregData.parent_health_facility_dependent === 'No'}
+                          onChange={(ev) => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1122,8 +1432,8 @@ export default function PreRegistrationForContinuing() {
                                 name="highlvl"
                                 id="highlvl"
                                 value="category1" 
-                                checked={technologylevel === 'category1'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category1'}
+                                onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1139,8 +1449,8 @@ export default function PreRegistrationForContinuing() {
                                 name="mediumlvl"
                                 id="mediumlvl"
                                 value="category2" 
-                                checked={technologylevel === 'category2'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category2'}
+                                onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1156,8 +1466,8 @@ export default function PreRegistrationForContinuing() {
                                 name="lowlvl"
                                 id="lowlvl"
                                 value="category3" 
-                                checked={technologylevel === 'category3'}
-                                onChange={ev => settechnologylevel(ev.target.value)}
+                                checked={preregData.technology_level === 'category3'}
+                                onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
                               className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1182,8 +1492,9 @@ export default function PreRegistrationForContinuing() {
                               name="proficient"
                               id="proficient"
                               value="lvl1" 
-                              checked={digitalliteracy === "lvl1"}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl1'}
+                              onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
+                              />
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Proficient
@@ -1196,8 +1507,9 @@ export default function PreRegistrationForContinuing() {
                               name="advanced"
                               id="advanced"
                               value="lvl2" 
-                              checked={digitalliteracy === 'lvl2'}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl2'}
+                              onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
+                              />
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Advanced
@@ -1210,8 +1522,9 @@ export default function PreRegistrationForContinuing() {
                               name="beginner"
                               id="beginner"
                               value="lvl3" 
-                              checked={digitalliteracy === 'lvl3'}
-                              onChange={ev => setdigitalliteracy(ev.target.value)}/>
+                              checked={preregData.digital_literacy === 'lvl3'}
+                              onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
+                              />
                       <label
                             className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
                             htmlFor="literacy">Beginner
@@ -1252,9 +1565,9 @@ export default function PreRegistrationForContinuing() {
                                     type="radio"
                                     name="yesavail"
                                     id="yesavail"
-                                    value="Yes" 
-                                    checked={availfreehighereducation === 'Yes'}
-                                    onChange={ev => setavailfreehighereducation(ev.target.value)}
+                                    value="YesAvail"
+                                    checked={preregData.avail_free_higher_education === 'YesAvail'}
+                                    onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1267,9 +1580,9 @@ export default function PreRegistrationForContinuing() {
                                     type="radio"
                                     name="noavail"
                                     id="noavail"
-                                    value="No" 
-                                    checked={availfreehighereducation === 'No'}
-                                    onChange={ev => setavailfreehighereducation(ev.target.value)}
+                                    value="NoAvail" 
+                                    checked={preregData.avail_free_higher_education === 'NoAvail'}
+                                    onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1291,10 +1604,16 @@ export default function PreRegistrationForContinuing() {
                                         type="radio"
                                         name="yescontribute"
                                         id="yescontribute"
-                                        value="Yes" 
-                                        checked={voluntarycontribution === 'Yes'}
-                                        onChange={ev => {setvoluntarycontribution(ev.target.value);
-                                                        setcontributionamount("");}}
+                                        value="YesContribute" 
+                                        checked={preregData.voluntary_contribution === 'YesContribute'}
+                                        onChange={ev => {
+                                          const newValue = ev.target.value;
+                                          setPreregData(prevData => ({
+                                              ...prevData,
+                                              voluntary_contribution: newValue,
+                                              contribution_amount: newValue === 'YesContribute' ? "" : 0
+                                          }));
+                                      }}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1307,12 +1626,16 @@ export default function PreRegistrationForContinuing() {
                                         type="radio"
                                         name="nocontribute"
                                         id="nocontribute"
-                                        value="No" 
-                                        checked={voluntarycontribution === 'No'}
-                                        onChange={ev => {setvoluntarycontribution(ev.target.value);
-                                                        setcontributionamount(0);
-                                                        const inputField = document.getElementById('grid-amtcontibute');
-                                                        inputField.disabled = true;}}
+                                        value="NoContribute" 
+                                        checked={preregData.voluntary_contribution === 'NoContribute'}
+                                        onChange={ev => {
+                                          const newValue = ev.target.value;
+                                          setPreregData(prevData => ({
+                                              ...prevData,
+                                              voluntary_contribution: newValue,
+                                              contribution_amount: newValue === 'YesContribute' ? "" : 0
+                                          }));
+                                      }}
                                     />
                                     <label
                                         className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -1335,11 +1658,11 @@ export default function PreRegistrationForContinuing() {
                     maxLength={12}
                     title="Input numeric characters only. (0 to 9)"
                     inputmode="numeric"
-                    value={contributionamount}
+                    value={preregData.contribution_amount}
                     disabled={false}
                     onChange={ev => {
                       const value = ev.target.value.replace(/\D/g, '');
-                      setcontributionamount(value);}}
+                      setPreregData({ ...preregData, contribution_amount: value });}}
                     />
                     <img
                         src={info}
