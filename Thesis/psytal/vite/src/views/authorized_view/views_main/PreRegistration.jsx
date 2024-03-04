@@ -114,20 +114,6 @@ export default function PreRegistration() {
               onChange={(event) => setFilterText(event.target.value)}
               className="h-8 w-32 sm:w-39 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
             ></input>
-
-
-            <button
-              className={`bg-[#397439] rounded-2xl px-3 py-2 text-white font-size ml-5`}
-              onClick={() => handleFilter('Incoming')}
-            >
-              Incoming Student
-            </button>
-            <button
-              className={`bg-[#397439] rounded-2xl px-3 py-2 text-white font-size ml-5`}
-              onClick={() => handleFilter('Continuing')}
-            >
-              Continuing Student
-            </button>
           </div>
 
       </div>
