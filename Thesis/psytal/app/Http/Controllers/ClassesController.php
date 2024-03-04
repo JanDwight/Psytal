@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\classes;
 use App\Http\Requests\AddClassRequest;
 use App\Models\archive;
+use App\Models\logs;
 use Illuminate\Support\Facades\Auth;
 
 class ClassesController extends Controller
@@ -150,6 +151,8 @@ class ClassesController extends Controller
         ]);
         //$token = $class->createToken('main')->plainTextToken;
 
+        $this->storeLog('Class created', 'class', $data['class_code'], 'classes');
+
         return response([
             'class' => $class,
             //'token' => $token,
@@ -175,6 +178,8 @@ class ClassesController extends Controller
 
         // Update the user's information with the validated data
         $subject->update($validatedData);
+
+        $this->storeLog('Class updated', 'class', $subject->class_code, 'classes');
 
         // Return a success response
         return response()->json(['message' => 'Class updated successfully']);
@@ -206,10 +211,29 @@ class ClassesController extends Controller
             $class_id->archived = 1;
             $class_id->save();
     
+            $this->storeLog('Class archived', 'class', $class_id->class_code, 'classes');
+
             return response()->json(['message' => 'Class archived successfully']);
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error archiving user'], 500);
         }
+    }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 }

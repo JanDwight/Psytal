@@ -7,8 +7,8 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg">
+    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
+      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg max-h-full overflow-y-auto">
         {/* Exit (Close) Button */}
         <button
           onClick={onClose}
@@ -20,6 +20,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
           <thead>
             <tr>
               <th>Action Taken</th>
+              <th>Item</th>
               <th>User Name</th>
               <th>User Role</th>
               <th>Location</th>
@@ -30,10 +31,11 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
             {dataTable.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
                 <td>{item.action_taken}</td>
+                <td>{item.item_name}</td>
                 <td>{item.user_name}</td>
-                <td>{item.user_role}</td>
-                <td>{item.location}</td>
-                <td>{item.date}</td>
+                <td>{item.user_type}</td>
+                <td>{item.item_origin}</td>
+                <td>{item.created_at}</td>
               </tr>
             ))}
           </tbody>

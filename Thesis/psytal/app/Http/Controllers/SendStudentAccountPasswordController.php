@@ -6,6 +6,7 @@ use App\Mail\SendPassword;
 use App\Mail\ForgotPasswordInputEmail;
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\logs;
 use Mail;
 
 class SendStudentAccountPasswordController extends Controller
@@ -21,6 +22,9 @@ class SendStudentAccountPasswordController extends Controller
         ];
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
+
+            $this->storeLog('Account password sent', 'student password', $data['title'], 'email');
+
             return response()->json([$studentInfo]);
         }
         catch(Exception $e)
@@ -40,6 +44,8 @@ class SendStudentAccountPasswordController extends Controller
         ];
 
         Mail::to($formData['email'])->send(new ForgotPasswordInputEmail($data)); // Make sure the SendPassword class is correct
+
+        $this->storeLog('Account password: Forgot password request', 'student password', $data['title'], 'email');
 
         // You might want to log a success message or return a different response for success
         return response()->json([
@@ -64,11 +70,30 @@ class SendStudentAccountPasswordController extends Controller
 
         try {
             Mail::to($formData['email'])->send(new SendPassword($data));
+
+            $this->storeLog('Account password: Password changed', 'student password', $data['title'], 'email');
+
             return response()->json(['message' => 'Email sent successfully. Kindly check your email, before going back to this site.']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Email sending failed. Please try again later.']);
         }
     }
 
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
 
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+    //pending test
 }

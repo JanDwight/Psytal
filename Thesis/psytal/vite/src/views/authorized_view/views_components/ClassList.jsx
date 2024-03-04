@@ -93,8 +93,8 @@ handleSaveClassChanges = () => {
   //for search
   render() {
     const { data, selectedClass } = this.state;
-    const { filterText } = this.props; // Receive filterText from parent component
-    
+    const { filterText, selectedSemester, selectedYear, selectedSection }= this.props; // Receive filterText from parent component
+
     // Apply filtering for searchbar
     const filteredData = data.filter(
       (classes) =>
@@ -110,7 +110,12 @@ handleSaveClassChanges = () => {
     return (
       <div className="w-full h-[auto] px-4 mx-auto rounded-b-3xl bg-white shadow-2xl max-h-[400px] overflow-y-auto">
         <table className="w-full">
-          <tbody >{filteredData.map((subject, index) => (
+          <tbody >{filteredData
+            .filter(subject => 
+              (!selectedSemester || subject.semester === selectedSemester) &&
+              (!selectedYear || subject.class_year === selectedYear) &&
+              (!selectedSection || subject.class_section === selectedSection)
+            ).map((subject, index) => (
                 <tr key={index} className='odd:bg-green-100 cursor-pointer'>
                 <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_code}</td>
                 <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>

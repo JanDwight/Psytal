@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\logs;
 use Illuminate\Support\Facades\Auth;
 
 class StudentProfileController extends Controller
@@ -49,9 +50,6 @@ class StudentProfileController extends Controller
     $user = User::where('name', $fullName)->first();
 
     $userId = $user->id;
-
-
-    
 
         $studentprofile = student_profile::create([
             'user_id' => $userId,
@@ -95,6 +93,8 @@ class StudentProfileController extends Controller
     
         // Save the changes to the database
         //$studentprofile->save();
+
+        $this->storeLog('Student profile created', 'student profile', "User ID: {$userId}", 'student_profiles');
 
         return response([
             'prereg' => $studentprofile,
@@ -212,6 +212,9 @@ class StudentProfileController extends Controller
                 'year_level' => $year_level,
                 'section' => $section,
             ]);
+
+            $this->storeLog('Student profile updated', 'student profile', "User ID: {$id}", 'student_profiles');
+
             //return response()->json(['message' => 'Class not found'], 404);
         } else {
             return response()->json(['message' => 'Class not found'], 404);
@@ -241,5 +244,24 @@ class StudentProfileController extends Controller
     public function destroy(student_profile $student_profile)
     {
         //
+    }
+
+    //add archive
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 }

@@ -72,6 +72,8 @@ class UserController extends Controller
         // Update the user's information with the validated data
         $user->update($validatedData);
 
+        $this->storeLog('User information updated', 'user', "User ID: {$id}", 'users');
+
         // Return a success response
         return response()->json(['message' => 'User updated successfully']);
     }
@@ -89,6 +91,8 @@ class UserController extends Controller
         // Update the user's email
         $user->email = $request->input('email');
         $user->save();
+
+        $this->storeLog('User email updated', 'user', "User ID: {$user->id}", 'users');
     
         return response(['success' => 'Email updated successfully']);
     }
@@ -106,6 +110,8 @@ class UserController extends Controller
         // Update the user's password
         $user->password = bcrypt($request->input('password'));
         $user->save();
+
+        $this->storeLog('User password updated', 'user', "User ID: {$user->id}", 'users');
     
         return response(['success' => 'Password updated successfully']);
     }
@@ -132,6 +138,8 @@ class UserController extends Controller
                 }
             
                 // Additional logic if needed
+
+                $this->storeLog('User password changed', 'user', "User ID: {$user->id}", 'users');
             
                 return response()->json(['success' => true, 'message' => 'Password Changed', 'new_password' => $newPassword]);
             } else {
@@ -186,6 +194,8 @@ class UserController extends Controller
 
             $user->archived = 1;
             $user->save();
+
+            $this->storeLog('User archived', 'user', "User ID: {$user->id}", 'users');
     
             return response()->json(['message' => 'User archived successfully']);
         } catch (\Exception $e) {
@@ -194,4 +204,20 @@ class UserController extends Controller
         }
     }
     // COPY FOR ALL CONTROLLERS WITH ARCHIVE
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
 }

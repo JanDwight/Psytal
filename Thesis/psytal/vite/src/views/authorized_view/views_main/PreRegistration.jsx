@@ -12,7 +12,9 @@ export default function PreRegistration() {
   const [filter, setFilter] = useState(null);
   const [sortByNameAsc, setSortByNameAsc] = useState(true);
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
-  
+
+  const [filterText, setFilterText] = useState(''); // Filter text state
+
   const handleFilter = (filterValue) => {
     setFilter(filterValue);
   };
@@ -58,8 +60,25 @@ export default function PreRegistration() {
     setIsPreRegFormModalOpen(true);
     setSelectedData(items);
   }
-  // Filter the data based on the filter value (incoming or continuing)
-  const filteredData = filter ? data.filter(item => item.new_student === filter) : data;
+
+  const filteredData = data.filter(item => {
+      if (filter) {
+        return (
+          item.new_student === filter &&
+          (
+            item.last_name.toLowerCase().includes(filterText.toLowerCase()) ||
+            item.first_name.toLowerCase().includes(filterText.toLowerCase()) ||
+            item.middle_name.toLowerCase().includes(filterText.toLowerCase())
+          )
+        );
+      } else {
+        return (
+          item.last_name.toLowerCase().includes(filterText.toLowerCase()) ||
+          item.first_name.toLowerCase().includes(filterText.toLowerCase()) ||
+          item.middle_name.toLowerCase().includes(filterText.toLowerCase())
+        );
+      }
+  });
 
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
@@ -79,6 +98,38 @@ export default function PreRegistration() {
             Continuing Student
           </button>
         </div>   
+          <div className='mt-5 flex flex-row justify-between items-baseline'> 
+
+            <div className="my-4 mx-2" id="magnifying_glass">
+                <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+              
+            <input
+              id="search_bar"
+              type="text"
+              placeholder="Search..."
+              value={filterText}
+              onChange={(event) => setFilterText(event.target.value)}
+              className="h-8 w-32 sm:w-39 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
+            ></input>
+
+
+            <button
+              className={`bg-[#397439] rounded-2xl px-3 py-2 text-white font-size ml-5`}
+              onClick={() => handleFilter('Incoming')}
+            >
+              Incoming Student
+            </button>
+            <button
+              className={`bg-[#397439] rounded-2xl px-3 py-2 text-white font-size ml-5`}
+              onClick={() => handleFilter('Continuing')}
+            >
+              Continuing Student
+            </button>
+          </div>
+
       </div>
       <div className="mt-2 mb-5"></div>
       <div>
