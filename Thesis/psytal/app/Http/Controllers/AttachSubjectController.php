@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\attachRequest;
 use App\Models\student_profile;
 use App\Models\classes;
+use App\Models\logs;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\Auth;
 
@@ -147,6 +148,8 @@ if ($selectedClass instanceof \Illuminate\Database\Eloquent\Collection) {
     $updatedRecords->push($selectedClass);
 }
 
+    $this->storeLog('Grade updated', 'grades', $studentName, 'student_classes');
+
 // You may want to return a success message or the updated data here
 return response()->json(['message' => 'Grade updated successfully', 'updatedRecords' => $updatedRecords]);
     }
@@ -220,4 +223,22 @@ return response()->json(['message' => 'Grade updated successfully', 'updatedReco
             'bcacs' => $bcacs,
         ], 200);
     }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
 }

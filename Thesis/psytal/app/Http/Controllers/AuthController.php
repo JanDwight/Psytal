@@ -8,6 +8,7 @@ use App\Models\email_domains;
 use App\Models\employee_profile;
 use App\Models\student_profile;
 use App\Models\User;
+use App\Models\logs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -81,6 +82,8 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
         //else here for student profile?
 
+        $this->storeLog('New user created', 'user', $data['name'], 'users');
+
         return response([
             'user' => $user,
             'token' => $token,
@@ -103,6 +106,8 @@ class AuthController extends Controller
         $role = $user->role;
         $userName = $user->name;
 
+        $this->storeLog('User login', 'user', $userName, 'users');
+
         return response([
             'user_name' => $userName,
             'token' => $token,
@@ -114,8 +119,27 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->currentAccessToken()->delete();
 
+        $this->storeLog('User log out', 'user', $user->name, 'users');
+
         return response([
             'success' => true
         ]);
+    }
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
     }
 }

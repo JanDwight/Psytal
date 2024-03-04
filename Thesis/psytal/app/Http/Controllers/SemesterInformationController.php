@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SemesterInformationRequest;
 use App\Models\semester_information;
+use App\Models\logs;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -103,6 +104,8 @@ class SemesterInformationController extends Controller
                 'open_pre_reg' => $data['open_pre_reg']
             ]);
 
+            $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
+
             return response(['success' => 'Semester information updated successfully']);
         } else {
             // Create a new record
@@ -116,6 +119,8 @@ class SemesterInformationController extends Controller
                 'semester' => $data['semester'],
                 'open_pre_reg' => $data['open_pre_reg']
             ]);
+
+            $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
 
             return response(['success' => 'Semester information created successfully']);
         }
@@ -134,8 +139,28 @@ class SemesterInformationController extends Controller
     // Extract the attributes from the request
     $data = $request->all();
     
-    $semesterinfo->update($data);  
+    $semesterinfo->update($data);
+    
+    $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
+
     return response()->json(['message' => 'Pre-Registration is Now Closed']);
     }
 
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+       {
+           // Create a new Log instance
+           $logs = logs::create([
+               'action_taken' => $actionTaken,
+               'item_type' => $itemType,
+               'item_name' => $itemName,
+               'item_origin' => $itemOrigin,
+               'user_name' => auth()->user()->name,
+               'user_id' => auth()->user()->id,
+               'user_type' => auth()->user()->role,
+           ]);
+   
+           // Optionally, you can return the created log instance
+           return $logs;
+       }
+       //pending tests
 }
