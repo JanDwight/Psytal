@@ -1503,6 +1503,34 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                                                
                             </div> 
                     </div>
+                    <div className="overflow-x-auto overflow-y-auto max-h-[500px]">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead>
+                              <tr>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Code</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Title </th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Type</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Year</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Semester</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Units</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Completion Status</th>
+                              </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                          {subjectData.map((item, index) => (
+                              <tr key={index}>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_code}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_title}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_type}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.semester}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">{item.units}</td>
+                                  <td className="px-6 py-4 whitespace-no-wrap">To Complete</td>
+                              </tr>
+                          ))}
+                          </tbody>
+                        </table>
+                    </div>
                 </div>
         </div>
       {/**=====================================================*/}
