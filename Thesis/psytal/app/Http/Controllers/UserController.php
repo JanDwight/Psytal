@@ -6,6 +6,7 @@ use App\Models\employee_profile;
 use App\Models\student_profile;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\logs;
 use App\Models\archive;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
