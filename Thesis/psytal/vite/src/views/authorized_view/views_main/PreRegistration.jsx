@@ -10,12 +10,14 @@ export default function PreRegistration() {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [filter, setFilter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState(''); 
   const [sortByNameAsc, setSortByNameAsc] = useState(true);
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
 
   const [filterText, setFilterText] = useState(''); // Filter text state
 
   const handleFilter = (filterValue) => {
+    setActiveFilter(filterValue); // Update active filter state
     setFilter(filterValue);
   };
 
@@ -85,18 +87,6 @@ export default function PreRegistration() {
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
         <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
-          <button
-            className={`bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10`}
-            onClick={() => handleFilter('Incoming')}
-          >
-            Incoming Student
-          </button>
-          <button
-            className={`bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10`}
-            onClick={() => handleFilter('Continuing')}
-          >
-            Continuing Student
-          </button>
         </div>   
           <div className='mt-5 flex flex-row justify-between items-baseline'> 
 
@@ -112,9 +102,22 @@ export default function PreRegistration() {
               placeholder="Search..."
               value={filterText}
               onChange={(event) => setFilterText(event.target.value)}
-              className="h-8 w-32 sm:w-39 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
+              className="h-8 w-40 sm:w-39 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
             ></input>
           </div>
+
+          <button
+            className={`bg-${activeFilter === 'Incoming' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10`}
+            onClick={() => handleFilter('Incoming')}
+          >
+            Incoming Student
+          </button>
+          <button
+            className={`bg-${activeFilter === 'Continuing' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10`}
+            onClick={() => handleFilter('Continuing')}
+          >
+            Continuing Student
+          </button>
 
       </div>
       <div className="mt-2 mb-5"></div>
