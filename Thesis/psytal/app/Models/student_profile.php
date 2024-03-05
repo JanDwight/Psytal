@@ -11,12 +11,9 @@ class student_profile extends Model
     use HasFactory;
 
     protected $primaryKey = 'student_profile_id';
-    
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
+    protected $table = 'student_profiles'; // Specify the database table name
+
     protected $fillable = [
             'user_id',
             'start_of_school_year',

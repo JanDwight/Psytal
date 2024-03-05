@@ -166,6 +166,26 @@ class UserController extends Controller
 
                 $userProfile->archived = 1;
                 $userProfile->save();
+
+                $userTableName = (new student_profile)->getTable();
+
+                $itemType = class_basename($userProfile);
+                $this->storeLog('User archived', 'user', "User ID: {$user->id}", $itemType);
+
+                 // Create an Archive instance // make one for all archiveable items
+                $archive = new archive;
+                $archive->item_id = $userprofileID;
+                $archive->item_name = $user->name;
+                $archive->item_type = $itemType;
+                $archive->origin_table = $userTableName;
+                $archive->archiver_id = auth()->user()->id; // Assuming you have user authentication 
+                $archive->archiver_name = auth()->user()->name; 
+                $archive->archiver_role = auth()->user()->role; 
+                //save to archives table
+                $archive->save();
+
+                $user->archived = 1;
+                $user->save();
             } else {
                 $userProfile = employee_profile::where('user_id', $userId)->firstOrFail();
                 $userprofileID = $userProfile['id'];
@@ -173,30 +193,37 @@ class UserController extends Controller
 
                 $userProfile->archived = 1;
                 $userProfile->save();
+
+                $userTableName = (new employee_profile)->getTable();
+
+                $itemType = class_basename($userProfile);
+                $this->storeLog('User archived', 'user', "User ID: {$user->id}", $itemType);
+
+                 // Create an Archive instance // make one for all archiveable items
+                $archive = new archive;
+                $archive->item_id = $userprofileID;
+                $archive->item_name = $user->name;
+                $archive->item_type = $itemType;
+                $archive->origin_table = $userTableName;
+                $archive->archiver_id = auth()->user()->id; // Assuming you have user authentication 
+                $archive->archiver_name = auth()->user()->name; 
+                $archive->archiver_role = auth()->user()->role; 
+                //save to archives table
+                $archive->save();
+
+                $user->archived = 1;
+                $user->save();
             }
 
             
-            $userTableName = (new User)->getTable(); //getting table associated w/ User model
+            //$userTableName = (new User)->getTable(); //getting table associated w/ User model
 
             // Get the name of the current model
-            $itemType = class_basename($user);
+            //$itemType = class_basename($user);
 
-            // Create an Archive instance // make one for all archiveable items
-            $archive = new archive;
-            $archive->item_id = $user->id;
-            $archive->item_name = $user->name;
-            $archive->item_type = $itemType;
-            $archive->origin_table = $userTableName;
-            $archive->archiver_id = auth()->user()->id; // Assuming you have user authentication 
-            $archive->archiver_name = auth()->user()->name; 
-            $archive->archiver_role = auth()->user()->role; 
-            //save to archives table
-            $archive->save();
+           
 
-            $user->archived = 1;
-            $user->save();
-
-            $this->storeLog('User archived', 'user', "User ID: {$user->id}", 'users');
+            //$this->storeLog('User archived', 'user', "User ID: {$user->id}", 'users');
     
             return response()->json(['message' => 'User archived successfully']);
         } catch (\Exception $e) {
