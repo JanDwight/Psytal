@@ -83,9 +83,9 @@ class StudentList extends Component {
     const filteredData = data.filter(
       (student) =>
         student.student_school_id.toString().includes(filterText) || // Filter by ID
-        student.name.toLowerCase().includes(filterText.toLowerCase()) ||
-        student.email.toLowerCase().includes(filterText.toLowerCase()) 
-        //add year and section here
+        student.full_name.toLowerCase().includes(filterText.toLowerCase()) ||
+        student.email.toLowerCase().includes(filterText.toLowerCase()) ||
+        student.yrsection.toLowerCase().includes(filterText.toLowerCase()) 
     );
 
     return (

@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('section')->nullable();
             $table->timestamps();
             $table->string('pre_reg_status')->nullable();
-            $table->integer('archived');
+            $table->boolean('archived')->default(0);
         });
     }
 

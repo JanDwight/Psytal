@@ -78,11 +78,26 @@ class AuthController extends Controller
                 'role' => $data['role'],
                 'email_address' => $data['email'],
             ]);
+
+            $this->storeLog('Employee account created', 'user', $data['email'], 'employee_profiles');
+        } else {
+            student_profile::create([
+                'student_profile_id' => $user->id,
+                'student_school_id' => 0,
+                'learners_reference_number' => 0,
+                'user_id' => $user->id,
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'middle_name' => $data['middle_name'],
+                'email_address' => $data['email'],
+            ]);
+
+            $this->storeLog('Student account created', 'user', $data['email'], 'student_profiles');
         }
         $token = $user->createToken('main')->plainTextToken;
         //else here for student profile?
 
-        $this->storeLog('New user created', 'user', $data['name'], 'users');
+        //$this->storeLog('New user created', 'user', $data['name'], 'users');
 
         return response([
             'user' => $user,
