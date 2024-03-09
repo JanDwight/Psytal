@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\classes;
 use App\Models\student_classes;
+use App\Models\student_profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,51 +30,28 @@ class StudentClassesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function studentGradesList(Request $request)
     {
-        //
+        $studentProfileId = $request->query('student_profile_id'); // Fetching 'student_profile_id' from the request
+        
+        $studentSubjects = student_classes::where('student_profile_id', $studentProfileId)->get();
+    
+        $classDetails = [];
+    
+        foreach ($studentSubjects as $subject) {
+            $class = classes::where('archived', 0)
+                        ->where('class_id', $subject->class_id)
+                        ->first();
+    
+            // Assuming 'grade' is a field in 'student_classes' table, you can add it to the class details
+            $class->grade = $subject->grade;
+            $class->student_class_id = $subject->id;
+    
+            // Append the class details along with grade to $classDetails array
+            $classDetails[] = $class;
+        }
+    
+        return response()->json($classDetails);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(student_classes $student_classes)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(student_classes $student_classes)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, student_classes $student_classes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(student_classes $student_classes)
-    {
-        //
-    }
+    
 }

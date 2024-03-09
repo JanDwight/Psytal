@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import StudentGrades from './Manageusers/StudentGrades.jsx';
 
 export default function EditUsers({ showModal, onClose, user }) {
   const [user_id, setUserid] = useState(user.user_id);
@@ -10,6 +12,8 @@ export default function EditUsers({ showModal, onClose, user }) {
   const [successMessage, setSuccessMessage] = useState(null);
   const [lastedit, setLastedit] = useState(user.updated_at);
 
+  const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
+  
   const handleSave = async(e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
@@ -123,15 +127,21 @@ export default function EditUsers({ showModal, onClose, user }) {
                   //old css: block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6
                 />
               </div>
-              <div className="text-center flex justify-end my-7">
-              <button onClick={handleSave} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+            <div className='text-center flex justify-end my-7'>
+                <button onClick={handleSave} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                   Save Changes
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Cancel
                 </button>
-              </div>
+            </div>
             </form>
+
+            <div className='text-center flex justify-end '>
+              <button onClick={() => setIsGradeModalOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                    Grades
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -146,7 +156,20 @@ export default function EditUsers({ showModal, onClose, user }) {
           </div>
         </div>
       )}
+
+      <ReactModal
+        isOpen={isGradeModalOpen}
+        onRequestClose={()=> setIsGradeModalOpen(false)}
+        className="w-full lg:w-8/12 px-4 container h-fit bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5 ">
+        <div className='relative flex flex-col min-w-0 break-words w-full mt-3'>
+          <StudentGrades 
+            showModal={isGradeModalOpen}
+            onClose={()=> setIsGradeModalOpen(false)}
+            selectedStudent={user}
+          />
+        </div>
+      </ReactModal>
+
     </div>
-    // ... (rest of your component code)
   );
 }
