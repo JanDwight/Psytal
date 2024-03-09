@@ -81,7 +81,6 @@ class StudentProfileController extends Controller
             'contact_person_relationship' => $data['contact_person_relationship'],
             'pre_reg_status' => $data['pre_reg_status'],
             'type_of_student' => $data['type_of_student'],
-            'archived' => 0,
         ]);
 
         
