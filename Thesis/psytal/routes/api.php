@@ -39,8 +39,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/userprofilepasswordupdate', [UserController::class, 'userprofilepasswordupdate']);
 
     //grades
-    Route::put('/editGrade/{selectedStudent}', [AttachSubjectController::class, 'editGrade']);
+    // Route::put('/editGrade/{selectedStudent}', [AttachSubjectController::class, 'editGrade']);FOR INSTRUCTOR
+    Route::put('/updatestudentgrades', [AttachSubjectController::class, 'editGrade']);
     Route::get('/getgrade', [StudentClassesController::class, 'index']);
+    Route::get('/getstudentclasses', [StudentClassesController::class, 'studentGradesList']);
 
     //curriculum Chacklist
     Route::get('/curriculumnCheckListIndex', [ClassesController::class, 'curriculumnCheckListIndex']);
@@ -85,7 +87,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/addclass', [ClassesController::class, 'addClass']); // <><><> add classes
     Route::get('/classes', [ClassesController::class, 'index']); //<><><> index classes
     Route::get('/continuingclasses', [ClassesController::class, 'continuingindex']); //<><><> index classes
-    Route::put('/updateclasses/{id}', [ClassesController::class, 'updateClasses']); //<><><> update user
+    // Route::put('/updateclasses/{id}', [ClassesController::class, 'updateClasses']);THIS IS FOR INSTRUCTOR
     Route::put('/archiveclasses/{id}', [ClassesController::class, 'archiveclasses']); //<><><> archive class
     Route::get('/instructorclasses', [InstructorClassesController::class, 'index']);
     Route::get('/showstudentclasses', [InstructorClassesController::class, 'showStudentClasses']);
