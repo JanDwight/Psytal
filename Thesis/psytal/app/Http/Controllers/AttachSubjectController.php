@@ -177,7 +177,10 @@ public function editGrade(Request $request)
             $studentClass = student_classes::find($student_class_id); // Assuming there's a 'class_id' field in student_classes table
 
             if ($studentClass) {
-                $studentClass->update(['grade' => $class['grade']]);
+                $studentClass->update([
+                    'grade' => $class['grade'],
+                    'ongoing' => 1
+                ]);
             } else {
                 // Handle if student class not found
             }

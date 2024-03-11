@@ -21,7 +21,7 @@ class StudentClassesController extends Controller
 
         if(!$grades){
             return response()->json([
-                'message' => 'Student Not Found'
+                'message' => $user
             ]);
         }
 
