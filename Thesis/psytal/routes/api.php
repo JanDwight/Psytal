@@ -114,7 +114,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/listpreregincoming', [PreregistrationIncomingTmpController::class, 'index']);
     Route::get('/listpreregcontinuing', [PreregistrationIncomingTmpController::class, 'index2']);
     Route::put('/preregcheck/{id}', [PreregistrationIncomingTmpController::class, 'update']);
-    Route::post('/createstudentprofile', [StudentProfileController::class, 'create']);
+    Route::post('/createstudentprofile', [StudentProfileController::class, 'updatestudentprofile']);
 
     //pre-reg courses to be enrolled + section
     Route::get('/show_classes', [ClassesController::class, 'index']); //<><><> show for logs

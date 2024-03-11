@@ -35,24 +35,24 @@ class StudentProfileController extends Controller
         return $user->toArray();
     }
 
-    public function create(StudentProfileRequest $request)
+    public function updatestudentprofile(StudentProfileRequest $request)
     {
         $data = $request->validated();
-
-    $fullName = $data['last_name'] . ', ' . $data['first_name'];
-
-    if (!empty($data['middle_name'])) {
-        $middleInitial = substr($data['middle_name'], 0, 1);
-        $fullName .= ' ' . $middleInitial . '.';
-    }
-
-    // Retrieve the user by full name
-    $user = User::where('name', $fullName)->first();
-
-    $userId = $user->id;
-
-        $studentprofile = student_profile::create([
-            'user_id' => $userId,
+    
+        // Retrieve the user by full name
+        $fullName = $data['last_name'] . ', ' . $data['first_name'];
+        if (!empty($data['middle_name'])) {
+            $middleInitial = substr($data['middle_name'], 0, 1);
+            $fullName .= ' ' . $middleInitial . '.';
+        }
+        $user = User::where('name', $fullName)->firstOrFail();
+        $userId = $user->id;
+    
+        // Find the existing student profile by user ID
+        $studentprofile = student_profile::where('user_id', $userId)->firstOrFail();
+    
+        // Update student profile attributes
+        $studentprofile->update([
             'start_of_school_year' => $data['start_of_school_year'],
             'end_of_school_year' => $data['end_of_school_year'],
             'student_school_id' => $data['student_school_id'],
@@ -82,24 +82,15 @@ class StudentProfileController extends Controller
             'pre_reg_status' => $data['pre_reg_status'],
             'type_of_student' => $data['type_of_student'],
         ]);
-
-        
-        
-        
-
-        // Update other data fields
-        //$studentprofile->fill($studentprofile);
     
-        // Save the changes to the database
-        //$studentprofile->save();
-
-        $this->storeLog('Student profile created', 'student profile', "User ID: {$userId}", 'student_profiles');
-
+        $this->storeLog('Student profile updated', 'student profile', "User ID: {$userId}", 'student_profiles');
+    
         return response([
             'prereg' => $studentprofile,
             'user' => $userId,
         ]);
     }
+    
 
     /**
      * Display a listing of the resource.
