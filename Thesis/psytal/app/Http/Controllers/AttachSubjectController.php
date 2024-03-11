@@ -186,6 +186,8 @@ public function editGrade(Request $request)
             }
         }
 
+        $this->storeLog('Grades updated', 'grades', 'Student User ID: ' . $validatedData['student_id'], 'student_classes');
+
         return response()->json(['message' => 'Grades updated successfully'], 200);
     } catch (\Exception $e) {
         // Handle any exceptions that occur during the update process

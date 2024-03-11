@@ -4,6 +4,16 @@ import axiosClient from '../../../axios';
 export default function CurriculumChecklist(){
       const [errors, setErrors] = useState({ __html: '' });
       const [filterText, setFilterText] = useState(''); //for search
+
+      //disclaimers
+      const [disclaimer, setDisclaimer] = useState(false);
+      useEffect(() => {
+        setDisclaimer(true); // Set showModal to true when the component mounts
+            
+      }, []); 
+      const handleCloseDisclaimer = () => {
+        setDisclaimer(false);
+      };
         
     // should be connected to studentclasslist of instructors to update grade values
     // add to admin/staff layout so they can edit the grades during pre-regristration period
@@ -118,7 +128,36 @@ export default function CurriculumChecklist(){
 	                  </table>
                   )}
             </div>
-          </div>     
+          </div>
+          {disclaimer && (
+          <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
+          <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+          <div className="w-full px-4 mx-auto mt-6">
+              <div className="text-xl text-green-600 font-semibold my-3">
+                
+              <head>
+                <title>Student Grades Disclaimer</title>
+              </head>
+              <body>
+                <h1 className='text-center'><strong>Regarding Student Grades</strong></h1>
+                <p></p>
+                <br></br>
+                <ol class="text-justify">
+                  <li>1. Please be aware that the list of numerical grades presented here is for viewing purposes only and is not considered official. </li>
+                  <li>2. Students are reminded to retrieve their official grades from the university registrar's office for enrollment purposes.</li>
+                </ol>
+                <br></br>
+                  <div className='text-center'>
+                    <button
+                      className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full" 
+                      onClick={handleCloseDisclaimer}>I Understand</button>
+                  </div>
+              </body>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}     
         </>
 );
 }

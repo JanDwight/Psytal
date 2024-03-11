@@ -31,7 +31,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
 
 
   // Handle backup
-  const handleBackup = async () => {
+  /*const handleBackup = async () => {
     // Get the data of the selected rows
     const selectedItems = selectedRows.map((index) => dataTable[index].id);
    
@@ -69,7 +69,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     }
 
     //send selectedItems as array to the controller
-  };
+  };*/
 
   const handleRestore = async () => {
     // Get the data of the selected rows
@@ -178,9 +178,9 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
           <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>
-          <button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+          {/*<button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Backup
-          </button>
+              </button>*/}
           
         </div>
       </div>

@@ -1593,7 +1593,7 @@ export default function PreRegistrationForm() {
               <title>Data Privacy Disclaimer</title>
             </head>
             <body>
-              <h1 className='text-center'><strong>Disclaimer: Data Privacy for Student Portal</strong></h1>
+              <h1 className='text-center'><strong>Disclaimer: Data Privacy for Student Pre-Registration</strong></h1>
               <p>This disclaimer is intended to inform users of the student portal about the handling of their personal data in compliance with the Data Privacy Act of 2012 (Republic Act No. 10173) and its implementing rules and regulations in the Philippines.</p>
               <br></br>
               <ol>
