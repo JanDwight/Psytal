@@ -49,7 +49,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         contact_person_number: '',
         contact_person_address: '',
         contact_person_relationship: '',
-        type_of_student: 'Regular',
+        type_of_student: 'Continuing',
         year_level: '',
         student_status: '',
         candidate_for_graduation: '',
@@ -251,6 +251,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
 
     };
+    
     const onSubmit = (ev) => {
       ev.preventDefault();
       setError({ __html: "" });
@@ -409,7 +410,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
          const txttype_of_student = preregData.type_of_student;
          const checkbox_c_continuing = form.getCheckBox('checkbox_c_continuing');
-         if (txttype_of_student === 'Regular') {
+         if (txttype_of_student === 'Continuing') {
           checkbox_c_continuing.check();
         } else {
           checkbox_c_continuing.check();
@@ -500,7 +501,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     fetchPdf();
 
     }
-   
+
   return (
     <>
     <main>

@@ -106,7 +106,7 @@ export default function PreRegistrationForContinuing(prereg) {
     contribution_amount: '',
     complied_to_admission_policy: 'no',
     pre_reg_status: 'Pending',
-    type_of_student: 'Incoming',
+    type_of_student: 'Continuing',
     student_status: 'Regular',
     year_level: '',
     semester: '1st Semester',
@@ -266,7 +266,7 @@ export default function PreRegistrationForContinuing(prereg) {
 
     const txttype_of_student = preregData.type_of_student;
     const checkbox_c_continuing = form.getCheckBox('checkbox_c_continuing');
-    if (txttype_of_student === 'Regular') {
+    if (txttype_of_student === 'Continuing') {
     checkbox_c_continuing.check();
     } else {
     checkbox_c_continuing.check();
@@ -474,7 +474,7 @@ export default function PreRegistrationForContinuing(prereg) {
           contact_person_relationship: preregData.contact_person_relationship,
           year_level: preregData.year_level,
           pre_reg_status: preregData.pre_reg_status,
-          type_of_student: 'Regular',
+          type_of_student: 'Continuing',
           major: preregData.major,
           candidate_for_graduation: preregData.candidate_for_graduation,
           end_of_term_to_finnish_degree: preregData.end_of_term_to_finnish_degree,
@@ -534,7 +534,6 @@ export default function PreRegistrationForContinuing(prereg) {
 
       //clearing the input fields using the reset button
    
-
 
   return (
     <>
