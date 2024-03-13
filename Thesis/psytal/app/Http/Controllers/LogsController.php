@@ -95,6 +95,5 @@ class LogsController extends Controller
         // Call the storeLog function to create a log entry
         $this->storeLog('Action description', 'Item type', 'Item name', 'Item origin');
         
-        // Continue with your logic
     }
 }
