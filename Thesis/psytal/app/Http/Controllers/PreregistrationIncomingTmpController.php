@@ -248,8 +248,8 @@ class PreregistrationIncomingTmpController extends Controller
             'item_type' => $itemType,
             'item_name' => $itemName,
             'item_origin' => $itemOrigin,
-            'user_name' => $itemName,
-            'user_id' => $itemName,
+            'user_name' => "user account pending",
+            'user_id' => "user account pending",
             'user_type' => "Incoming Student",
         ]);
 
