@@ -29,9 +29,46 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     setSelectAll(!selectAll);
   };
 
+  //-----------------------------------Download txt file-----------------------------------------
+
+  // Function to convert data table to text format
+  const convertToText = () => {
+    let textData = '';
+    
+    dataTable.forEach(item => {
+      const row = [
+        item.created_at,
+        ' Action Taken: ', item.action_taken,
+        ' Item: ', item.item_name,
+        ' User name: ',item.user_name,
+        ' User role: ', item.user_type,
+        ' Location Table: ', item.item_origin
+      ];
+      textData += row.join('\t') + '\n';
+    });
+
+    return textData;
+  };
+
+  // Function to handle download logs as text file
+  const handleDownloadLogs = () => {
+    const textContent = convertToText();
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'archive_backup.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  //-----------------------------------Download txt file-----------------------------------------
 
   // Handle backup
-  /*const handleBackup = async () => {
+  const handleBackup = async () => {
     // Get the data of the selected rows
     const selectedItems = selectedRows.map((index) => dataTable[index].id);
    
@@ -50,6 +87,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     try {
       // Make a POST request to your backend endpoint with selectedItems as the request payload
       const response = await axiosClient.post('/backup_archives', { selectedItems });
+      //add function to download as txt file
       setSuccessMessage({
         message: 'Items backed up and deleted successfully!',
       });
@@ -69,7 +107,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     }
 
     //send selectedItems as array to the controller
-  };*/
+  };
 
   const handleRestore = async () => {
     // Get the data of the selected rows
@@ -178,9 +216,12 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
           <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>
-          {/*<button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+          <button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Backup
-              </button>*/}
+          </button>
+          <button onClick={handleDownloadLogs} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+              Download Logs
+          </button>
           
         </div>
       </div>
