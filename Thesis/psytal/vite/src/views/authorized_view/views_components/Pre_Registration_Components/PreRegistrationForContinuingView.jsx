@@ -13,6 +13,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
     const [subjectData, setSubjectData] = useState([]); //<><><><><>
     const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
+    const [showModal, setShowModal] = useState(false);
 
     
 
@@ -21,14 +22,14 @@ export default function PreRegistrationForContinuingView({prereg}) {
         start_of_school_year: '',   
         end_of_school_year: '',
         student_school_id: '',      
-        learners_reference_number: '',
+        // learners_reference_number: '',
         last_name: '',              
         first_name: '',
         middle_name: '',            
         maiden_name: '',
-        academic_classification: '',
-        last_school_attended: '',
-        address_of_school_attended: '',
+        // academic_classification: '',
+        // last_school_attended: '',
+        // address_of_school_attended: '',
         degree: '',
         major:'',
         //section here
@@ -49,7 +50,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         contact_person_number: '',
         contact_person_address: '',
         contact_person_relationship: '',
-        type_of_student: 'Regular',
+        type_of_student: 'Continuing',
         year_level: '',
         student_status: '',
         candidate_for_graduation: '',
@@ -206,14 +207,14 @@ export default function PreRegistrationForContinuingView({prereg}) {
               start_of_school_year: parseInt(preregData.start_of_school_year),
               end_of_school_year: parseInt(preregData.end_of_school_year),
               student_school_id: parseInt(preregData.student_school_id),
-              learners_reference_number: parseInt(preregData.learners_reference_number),
+              // learners_reference_number: parseInt(preregData.learners_reference_number),
               last_name: preregData.last_name,
               first_name: preregData.first_name,
               middle_name: preregData.middle_name,
               maiden_name: preregData.maiden_name,
-              academic_classification: preregData.academic_classification,
-              last_school_attended: preregData.last_school_attended,
-              address_of_school_attended: preregData.address_of_school_attended,
+              // academic_classification: preregData.academic_classification,
+              // last_school_attended: preregData.last_school_attended,
+              // address_of_school_attended: preregData.address_of_school_attended,
               degree: preregData.degree,
               major: preregData.major,
               //section here
@@ -251,6 +252,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
 
     };
+    
     const onSubmit = (ev) => {
       ev.preventDefault();
       setError({ __html: "" });
@@ -333,12 +335,12 @@ export default function PreRegistrationForContinuingView({prereg}) {
          Term.setText(fullTerm);
 
 
-        //  const studentSchoolId = form.getTextField('text_c_student_ID');
-        //  if (studentSchoolId) {
-        //    studentSchoolId.setText(textstudentSchoolId);
-        //  } else {
-        //    console.error(`Field ${studentSchoolId} not found`);
-        //  }
+         const studentSchoolId = form.getTextField('text_c_student_ID');
+         if (studentSchoolId) {
+           studentSchoolId.setText(textstudentSchoolId);
+         } else {
+           console.error(`Field ${studentSchoolId} not found`);
+         }
          const name = form.getTextField('text_c_student_name');
          const maidenName = form.getTextField('text_c_student_maiden');
 
@@ -409,7 +411,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
          const txttype_of_student = preregData.type_of_student;
          const checkbox_c_continuing = form.getCheckBox('checkbox_c_continuing');
-         if (txttype_of_student === 'Regular') {
+         if (txttype_of_student === 'Continuing') {
           checkbox_c_continuing.check();
         } else {
           checkbox_c_continuing.check();
@@ -500,7 +502,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
     fetchPdf();
 
     }
-   
+console.log("This data is:id num " + preregData.student_school_id);
+console.log("This data is:last name "+ preregData.last_name);
   return (
     <>
     <main>
@@ -1248,7 +1251,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     name="yesavail"
                                     id="yesavail"
                                     value="Yes" 
-                                    checked={preregData.avail_free_higher_education === 'Yes'}
+                                    checked={preregData.avail_free_higher_education === 'YesAvail'}
                                     onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
@@ -1263,7 +1266,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     name="noavail"
                                     id="noavail"
                                     value="No" 
-                                    checked={preregData.avail_free_higher_education === 'No'}
+                                    checked={preregData.avail_free_higher_education === 'NoAvail'}
                                     onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
@@ -1287,7 +1290,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                         name="yescontribute"
                                         id="yescontribute"
                                         value="Yes" 
-                                        checked={preregData.voluntary_contribution === 'Yes'}
+                                        checked={preregData.voluntary_contribution === 'YesContribute'}
                                         onChange={(ev) => setPreregData({ ...preregData, voluntary_contribution: ev.target.value })}
                                     />
                                     <label
@@ -1302,7 +1305,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                         name="nocontribute"
                                         id="nocontribute"
                                         value="No" 
-                                        checked={preregData.voluntary_contribution === 'No'}
+                                        checked={preregData.voluntary_contribution === 'NoContribute'}
                                         onChange={(ev) => setPreregData({ ...preregData, voluntary_contribution: ev.target.value })}
                                     />
                                     <label
