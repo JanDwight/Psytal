@@ -29,27 +29,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     setSelectAll(!selectAll);
   };
 
-  //-----------------------------------Download txt file-----------------------------------------
-
-  // Function to convert data table to text format
-  const convertToText = () => {
-    let textData = '';
-    
-    dataTable.forEach(item => {
-      const row = [
-        item.created_at,
-        ' Action Taken: ', item.action_taken,
-        ' Item: ', item.item_name,
-        ' User name: ',item.user_name,
-        ' User role: ', item.user_type,
-        ' Location Table: ', item.item_origin
-      ];
-      textData += row.join('\t') + '\n';
-    });
-
-    return textData;
-  };
-
   // Handle backup
   const handleBackup = async () => {
     // Get the data of the selected rows
@@ -81,8 +60,13 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
               // Set the link's href attribute to the URL of the Blob
               downloadLink.href = window.URL.createObjectURL(blob);
 
-              // Set the filename for the downloaded file
-              downloadLink.download = 'backup_file.txt';
+              // Get the current date and time
+              const currentDate = new Date();
+              const dateString = currentDate.toISOString().slice(0,10).replace(/-/g,"");
+              const timeString = currentDate.toTimeString().slice(0,8).replace(/:/g,"");
+
+              // Set the filename for the downloaded file including current date and time
+              downloadLink.download = `psytal_backup_${dateString}_${timeString}.txt`;
 
               // Append the link to the body
               document.body.appendChild(downloadLink);
