@@ -422,7 +422,7 @@ export default function PreRegistrationForContinuing(prereg) {
           first_name: preregData.first_name,
           middle_name: preregData.middle_name,
           maiden_name: preregData.maiden_name,
-          // academic_classification: preregData.academic_classification,
+          //  academic_classification: preregData.academic_classification,
            last_school_attended: preregData.last_school_attended,
            address_of_school_attended: preregData.address_of_school_attended,
           degree: 'Bachelor of Science in Psychology',
