@@ -248,9 +248,9 @@ class PreregistrationIncomingTmpController extends Controller
             'item_type' => $itemType,
             'item_name' => $itemName,
             'item_origin' => $itemOrigin,
-            'user_name' => auth()->user()->name,
-            'user_id' => auth()->user()->id,
-            'user_type' => auth()->user()->role,
+            'user_name' => "user account pending",
+            'user_id' => "user account pending",
+            'user_type' => "Incoming Student",
         ]);
 
         // Optionally, you can return the created log instance
