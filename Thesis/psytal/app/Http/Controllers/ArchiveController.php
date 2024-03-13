@@ -119,6 +119,17 @@ class ArchiveController extends Controller
         // Close the backup file
         fclose($backupFile);
 
+        //---Send file to frontend---
+            // Read the contents of the backup file
+            $backupFileContents = file_get_contents($backupFilePath);
+
+            // Set the appropriate headers for file download
+            $headers = [
+                'Content-Type' => 'text/plain',
+                'Content-Disposition' => 'attachment; filename="' . $backupFileName . '"',
+            ];
+        //---Send file to frontend---
+
         // Force delete the selected items from the 'archives' table
         archive::whereIn('id', $selectedItems)->forceDelete(); //uncomment after all functions are done
 
@@ -128,7 +139,8 @@ class ArchiveController extends Controller
         $this->storeLog('Archive/s back up created', 'archive', $string_id , 'archives');
 
         // Respond with a success message
-        return response()->json(['message' => 'Items backed up and deleted successfully']);
+        //return response()->json(['message' => 'Items backed up and deleted successfully']);
+        return response()->file($backupFilePath, $headers);
     } catch (\Exception $e) {
         // Handle exceptions, e.g., log the error
         return response()->json(['message' => 'Error processing items'], 500);

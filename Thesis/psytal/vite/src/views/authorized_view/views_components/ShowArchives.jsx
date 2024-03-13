@@ -29,44 +29,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     setSelectAll(!selectAll);
   };
 
-  //-----------------------------------Download txt file-----------------------------------------
-
-  // Function to convert data table to text format
-  const convertToText = () => {
-    let textData = '';
-    
-    dataTable.forEach(item => {
-      const row = [
-        item.created_at,
-        ' Action Taken: ', item.action_taken,
-        ' Item: ', item.item_name,
-        ' User name: ',item.user_name,
-        ' User role: ', item.user_type,
-        ' Location Table: ', item.item_origin
-      ];
-      textData += row.join('\t') + '\n';
-    });
-
-    return textData;
-  };
-
-  // Function to handle download logs as text file
-  const handleDownloadLogs = () => {
-    const textContent = convertToText();
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'archive_backup.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  //-----------------------------------Download txt file-----------------------------------------
-
   // Handle backup
   const handleBackup = async () => {
     // Get the data of the selected rows
@@ -88,6 +50,34 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
       // Make a POST request to your backend endpoint with selectedItems as the request payload
       const response = await axiosClient.post('/backup_archives', { selectedItems });
       //add function to download as txt file
+          //
+              // Create a Blob object from the response data
+              const blob = new Blob([response.data], { type: 'text/plain' });
+
+              // Create a link element
+              const downloadLink = document.createElement('a');
+
+              // Set the link's href attribute to the URL of the Blob
+              downloadLink.href = window.URL.createObjectURL(blob);
+
+              // Get the current date and time
+              const currentDate = new Date();
+              const dateString = currentDate.toISOString().slice(0,10).replace(/-/g,"");
+              const timeString = currentDate.toTimeString().slice(0,8).replace(/:/g,"");
+
+              // Set the filename for the downloaded file including current date and time
+              downloadLink.download = `psytal_backup_${dateString}_${timeString}.txt`;
+
+              // Append the link to the body
+              document.body.appendChild(downloadLink);
+
+              // Click the link to trigger the download
+              downloadLink.click();
+
+              // Remove the link from the body
+              document.body.removeChild(downloadLink);
+          //
+
       setSuccessMessage({
         message: 'Items backed up and deleted successfully!',
       });
@@ -219,10 +209,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
           <button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Backup
           </button>
-          <button onClick={handleDownloadLogs} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Download Logs
-          </button>
-          
+
         </div>
       </div>
       {successMessage && (
