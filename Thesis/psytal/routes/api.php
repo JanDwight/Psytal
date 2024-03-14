@@ -16,6 +16,7 @@ use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\AttachSubjectController; //<><><>
+use App\Http\Controllers\DatabaseController; //<><><>
 use App\Http\Controllers\SendStudentAccountPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -137,6 +138,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Routes for Sending Emails
     Route::get('/sendstudentaccountpassword', [SendStudentAccountPasswordController::class,'sendstudentaccountpassword']);
+
+    //Routes for database backup and restore
+    Route::post('backupDB', [DatabaseController::class, 'databaseBackup']);
 });
 
 
