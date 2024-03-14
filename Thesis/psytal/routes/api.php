@@ -87,7 +87,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/addclass', [ClassesController::class, 'addClass']); // <><><> add classes
     Route::get('/classes', [ClassesController::class, 'index']); //<><><> index classes
     Route::get('/continuingclasses', [ClassesController::class, 'continuingindex']); //<><><> index classes
-    // Route::put('/updateclasses/{id}', [ClassesController::class, 'updateClasses']);THIS IS FOR INSTRUCTOR
+    Route::put('/updateclasses/{id}', [ClassesController::class, 'updateClasses']);
     Route::put('/archiveclasses/{id}', [ClassesController::class, 'archiveclasses']); //<><><> archive class
     Route::get('/instructorclasses', [InstructorClassesController::class, 'index']);
     Route::get('/showstudentclasses', [InstructorClassesController::class, 'showStudentClasses']);
@@ -106,6 +106,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/count_posts', [PostController::class, 'count_posts']); //<><><> counting posts
     Route::get('/count_students', [UserController::class, 'count_students']); //<><><> count students from users table
     Route::get('/count_employee', [UserController::class, 'count_employee']); //<><><> count employees from users table
+    Route::get('/getallbackup', [ArchiveController::class, 'getallbackup']); //<><><> count employees from users table
 
     ////Routes for Pre-Registration Checking
     Route::post('/preregcontinuingtmp', [PreregistrationIncomingTmpController::class, 'createContinuingPreReg']);
