@@ -59,7 +59,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
             <tr>
               <th>Action Taken</th>
               <th>Item</th>
-              <th>User Name</th>
+              <th>User</th>
               <th>User Type</th>
               <th>Location Table</th>
               <th>Date</th>

@@ -82,8 +82,10 @@ class StudentProfileController extends Controller
             'pre_reg_status' => $data['pre_reg_status'],
             'type_of_student' => $data['type_of_student'],
         ]);
+
+        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'];
     
-        $this->storeLog('Student profile updated', 'student profile', "Student User ID: {$userId}", 'student_profiles');
+        $this->storeLog('Student profile updated', 'student profile', $fullName, 'student_profiles');
     
         return response([
             'prereg' => $studentprofile,
@@ -203,7 +205,7 @@ class StudentProfileController extends Controller
                 'section' => $section,
             ]);
 
-            $this->storeLog('Student profile updated', 'student profile', "Student User ID: {$id}", 'student_profiles');
+            $this->storeLog('Student profile updated', 'student profile', $fullName, 'student_profiles');
 
             //return response()->json(['message' => 'Class not found'], 404);
         } else {
