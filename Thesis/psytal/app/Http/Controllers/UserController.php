@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\email_domains;
 use App\Models\employee_profile;
 use App\Models\student_profile;
 use Illuminate\Http\Request;
@@ -81,41 +82,78 @@ class UserController extends Controller
 
     //User profile Update========================================================================
     public function userprofileemailupdate(Request $request){
-        // Retrieve the authenticated user
-        $user = Auth::user();
+        try {
+            // Retrieve the authenticated user
+            $user = Auth::user();
+        
+            // Validate the request data, assuming you have a form field named 'email'
+            $request->validate([
+                'email' => 'required|email|unique:users,email,'.$user->id,
+            ]);
+        
+            // Extract everything after '@' in the email address
+            $emailParts = explode('@', $request['email']);
+            $domain = '@' . end($emailParts);
     
-        // Validate the request data, assuming you have a form field named 'email'
-        $request->validate([
-            'email' => 'required|email|unique:users,email,'.$user->id,
-        ]);
+            // Check if the email domain already exists
+            $existingDomain = email_domains::where('email_domains', $domain)->first();
     
-        // Update the user's email
-        $user->email = $request->input('email');
-        $user->save();
-
-        $this->storeLog('User email updated', 'user', $request['email'], 'users');
+            if (!$existingDomain) {
+                return response([
+                    'success' => false,
+                    'message' => 'Email Domain Not Valid',
+                ]);
+            }
+            
+            // Update the user's email
+            $user->email = $request->input('email');
+            $user->save();
     
-        return response(['success' => 'Email updated successfully']);
+            $this->storeLog('User email updated', 'user', $request['email'], 'users');
+        
+            return response([
+                'success' => true,
+                'message' => 'Email Updated.'
+            ]);
+        } catch (\Exception $e) {
+            // Handle any unexpected errors
+            return response([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ]);
+        }
     }
+    
     
     //User profile Update========================================================================
     public function userprofilepasswordupdate(Request $request){
-        // Retrieve the authenticated user
-        $user = Auth::user();
+        try {
+            // Retrieve the authenticated user
+            $user = Auth::user();
     
-        // Validate the request data, assuming you have a form field named 'password'
-        $request->validate([
-            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
-        ]);
+            // Validate the request data, assuming you have a form field named 'password'
+            $request->validate([
+                'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols()],
+            ]);
     
-        // Update the user's password
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-
-        $this->storeLog('User password updated', 'user', $user->name, 'users');
+            // Update the user's password
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
     
-        return response(['success' => 'Password updated successfully']);
+            $this->storeLog('User password updated', 'user', $user->name, 'users');
+    
+            return response([
+                'success' => true,
+                'message' => 'Password Updated'
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ]);
+        }
     }
+    
     
 
     //Change Password========================================================================

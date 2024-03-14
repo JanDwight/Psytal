@@ -1,22 +1,29 @@
 import React, {useState} from 'react'
 import axiosClient from '../../../../axios';
+import Feedback from '../../../feedback/Feedback';
 
 export const EditPassword = ({ onCloseEditPassword, data }) => {
     //calling the sample data
     const [password, setPassword] = useState(data);
-
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
+    
     const handlePasswordChange = (event) => {
       setPassword(event.target.value);
     };
-  
-    const handleSubmit = () => {
-      axiosClient.post('/userprofilepasswordupdate', {password: password})
-            .then((res) => {
-            });
 
-          onCloseEditPassword();
-          console.log('state: ', onCloseEditPassword);
-    };
+    const handleSubmit = async () => {
+      const response = await axiosClient.post('/userprofilepasswordupdate', {password: password});
+
+      setSuccessMessage(response.data.message);
+      setSuccessStatus(response.data.success);
+  };
+
+  const handleFeedbackClose = () => {
+      setSuccessMessage('');
+      onCloseEditPassword();
+  };
+
     //Password can be seen/not
     const [isVisible, setIsVisible] = useState(false);
 
@@ -26,6 +33,7 @@ export const EditPassword = ({ onCloseEditPassword, data }) => {
 
   return (
     <div className="popup">
+      <Feedback isOpen={successMessage !== ''} onClose={handleFeedbackClose} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className="popup-content">
                 <div className="flex flex-wrap flex-col mx-2 mb-2">
                         
