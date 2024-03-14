@@ -72,9 +72,9 @@ export default function StudentGrades({ selectedStudent }) {
       </table>
 
       <div className='flex justify-end mt-3'>
-      <button onClick={handleSaveGrades} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-        Save Grades
-      </button>
+        <button onClick={handleSaveGrades} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+          Save Grades
+        </button>
       </div>
     </div>
   );
