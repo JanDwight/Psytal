@@ -73,7 +73,7 @@ class UserController extends Controller
         // Update the user's information with the validated data
         $user->update($validatedData);
 
-        $this->storeLog('User information updated', 'user', "User ID: {$id}", 'users');
+        $this->storeLog('User information updated', 'user', $validatedData['name'], 'users');
 
         // Return a success response
         return response()->json(['message' => 'User updated successfully']);
@@ -93,7 +93,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->save();
 
-        $this->storeLog('User email updated', 'user', "User ID: {$user->id}", 'users');
+        $this->storeLog('User email updated', 'user', $request['email'], 'users');
     
         return response(['success' => 'Email updated successfully']);
     }
@@ -112,7 +112,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->save();
 
-        $this->storeLog('User password updated', 'user', "User ID: {$user->id}", 'users');
+        $this->storeLog('User password updated', 'user', $user->name, 'users');
     
         return response(['success' => 'Password updated successfully']);
     }
@@ -140,7 +140,7 @@ class UserController extends Controller
             
                 // Additional logic if needed
 
-                $this->storeLog('User password changed', 'user', "User ID: {$user->id}", 'users');
+                $this->storeLog('User password changed', 'user', $users['name'], 'users');
             
                 return response()->json(['success' => true, 'message' => 'Password Changed', 'new_password' => $newPassword]);
             } else {
@@ -170,7 +170,7 @@ class UserController extends Controller
                 $userTableName = (new student_profile)->getTable();
 
                 $itemType = class_basename($userProfile);
-                $this->storeLog('User archived', 'user', "User ID: {$user->id}", $itemType);
+                $this->storeLog('User archived', 'user', $user->name, $itemType);
 
                  // Create an Archive instance // make one for all archiveable items
                 $archive = new archive;
@@ -197,7 +197,7 @@ class UserController extends Controller
                 $userTableName = (new employee_profile)->getTable();
 
                 $itemType = class_basename($userProfile);
-                $this->storeLog('User archived', 'user', "User ID: {$user->id}", $itemType);
+                $this->storeLog('User archived', 'user', $user->name, $itemType);
 
                  // Create an Archive instance // make one for all archiveable items
                 $archive = new archive;
@@ -220,10 +220,6 @@ class UserController extends Controller
 
             // Get the name of the current model
             //$itemType = class_basename($user);
-
-           
-
-            //$this->storeLog('User archived', 'user', "User ID: {$user->id}", 'users');
     
             return response()->json(['message' => 'User archived successfully']);
         } catch (\Exception $e) {

@@ -72,7 +72,9 @@ class PreregistrationIncomingTmpController extends Controller
             'student_status' => $data['student_status']
         ]);
 
-        $this->storeLog('New pre-registration (Incoming)', 'pre-registration', "User ID: {$data['user_id']}", 'preregistration');
+        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name' . '.'];
+
+        $this->storeLog('New pre-registration (Incoming)', 'pre-registration', $fullName, 'preregistration', $fullName, $data['user_id'], 4 );
 
         return response([
             'prereg' => $preRegTmpincoming,
@@ -141,7 +143,9 @@ class PreregistrationIncomingTmpController extends Controller
             'type_of_student' => $data['type_of_student'],
         ]);
 
-        $this->storeLog('New pre-registration (Continuing)', 'pre-registration', "User ID: {$userId}", 'preregistration');
+        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name' . '.'];
+
+        $this->storeLog('New pre-registration (Continuing)', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
         return response([
             'prereg' => $preRegTmpincoming,
@@ -219,9 +223,11 @@ class PreregistrationIncomingTmpController extends Controller
     // Extract the attributes from the request
     $data = $request->all();
     
-    $preregData->update($data);  
+    $preregData->update($data);
+    
+    $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'];
 
-    $this->storeLog('Pre-registration updated', 'pre-registration', "User ID: {$id}", 'preregistration');
+    $this->storeLog('Pre-registration updated', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
     return response()->json(['message' => 'User updated successfully']);
     }
@@ -240,7 +246,7 @@ class PreregistrationIncomingTmpController extends Controller
         //
     }
 
-    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin, $userName, $userId, $userType)
     {
         // Create a new Log instance
         $logs = logs::create([
@@ -248,9 +254,9 @@ class PreregistrationIncomingTmpController extends Controller
             'item_type' => $itemType,
             'item_name' => $itemName,
             'item_origin' => $itemOrigin,
-            'user_name' => $itemName,
-            'user_id' => $itemName,
-            'user_type' => "Incoming Student",
+            'user_name' => $userName,
+            'user_id' => $userId,
+            'user_type' => $userType,
         ]);
 
         // Optionally, you can return the created log instance

@@ -192,6 +192,36 @@ class ArchiveController extends Controller
         }
     }
 
+    public function getallbackup()
+    {
+        $publicPath = public_path();
+
+    // Get the list of files in the public directory
+    $files = scandir($publicPath);
+
+    // Filter out '.' and '..' entries and files not starting with "psytal_backup_"
+    $filteredFiles = preg_grep('/^psytal_backup_/', $files);
+
+    // Initialize an empty array to store file contents
+    $backupContents = [];
+
+    // Loop through each filtered file
+    foreach ($filteredFiles as $file) {
+        // Read the content of each file
+        $filePath = $publicPath . '/' . $file;
+        $fileContent = file_get_contents($filePath);
+
+        // Add file content to the array
+        $backupContents[] = [
+            'filename' => $file,
+            'content' => $fileContent
+        ];
+    }
+
+    // Return the array of file contents as JSON response
+    return response()->json($backupContents);
+    }
+
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
     {
         // Create a new Log instance
