@@ -5,23 +5,6 @@ import axiosClient from '../../../axios.js';
 
 export default function Dashboard() {
 
-  const handleBackup  = () => {
-    axiosClient.post('/backupDB')
-            .then(response => {
-                //alert(response.data.message);
-            })
-            .catch(error => {
-                //console.error('Backup failed:', error);
-                //alert('Backup failed. Please try again.');
-            });
-  }
-
-  const handleRestore  = () => {
-    
-  }
-
-
-
   const [dash, setDash] = useState({
     totalStudents: 0,
     totalEmployees: 0,
@@ -140,40 +123,6 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
-
-  const downloadAll = () => {
-    axiosClient
-      .get('/getallbackup')
-      .then((res) => {
-        // Loop through each backup object in the response
-        if (res.data.length === 0) {
-            console.log("No backup files available.")
-            // Concatenate all file contents into a single string
-            const allBackupContents = res.data.reduce((accumulator, backupFile) => {
-              return accumulator + `${backupFile.content}\n\n`;
-            }, '');
-
-            const currentDate = new Date();
-            const formattedDate = currentDate.toISOString().replace(/:/g, '-').split('.')[0]; // Format: YYYY-MM-DDTHH-MM-SS
-            const filename = `psytal_backup_${formattedDate}.txt`;
-          
-            // Create a Blob object from the concatenated file contents
-            const blob = new Blob([allBackupContents], { type: 'text/plain' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = window.URL.createObjectURL(blob);
-            downloadLink.download = filename;
-
-            // Append the link to the body
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-
-            document.body.removeChild(downloadLink);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  };
   
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
@@ -280,18 +229,6 @@ export default function Dashboard() {
               More Logs...
             </button>
           </div>
-        </div>
-        <br></br>
-        <div className="pt-5 flex justify-end space-x-3">
-          <button onClick={handleBackup} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Backup Database --- Must be downloadable after the fact
-          </button>
-          <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Restore Database Contents
-          </button>
-          <button onClick={downloadAll} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Download All Backups [will download all backup archive, currently downloading separately]
-          </button>
         </div>
     </div>
       {/* Show Modals */}
