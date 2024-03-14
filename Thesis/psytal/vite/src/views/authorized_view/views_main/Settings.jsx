@@ -75,16 +75,18 @@ export default function Settings() {
                     </button>
                 </div>
                 <br></br>
-                <div className="pt-5 flex justify-end space-x-3">
+                <div className="pt-5 flex justify-start space-x-3">
                     <button onClick={handleBackup} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-                        Backup Database --- Must be downloadable after the fact
+                        Backup Database
                     </button>
-                    <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+                    <input type="file" onChange={handleRestore} className="hidden" id="fileInput"/>
+                    <label for="fileInput" class="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">Load Backup File</label>
+                    {/*<button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                         Restore Database Contents
-                    </button>
-                    <button onClick={downloadAll} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+                    </button>*/}
+                    {/*<button onClick={downloadAll} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                         Download All Backups [will download all backup archive, currently downloading separately]
-                    </button>
+                    </button>*/}
                 </div>
             </div>
         </div>
