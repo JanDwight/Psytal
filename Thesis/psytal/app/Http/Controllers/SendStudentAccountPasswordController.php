@@ -24,7 +24,8 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
-            $this->storeLog('Account password sent', 'student password', $data['title'], 'email');
+            $this->storeLog('Account password sent', 'student password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], 4 );
+            //test if id exists
 
             return response()->json([$studentInfo]);
         }
@@ -43,7 +44,6 @@ class SendStudentAccountPasswordController extends Controller
 
             if (!$email){
                 return response()->json([
-
                 ]);
             }
 
@@ -83,7 +83,7 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($formData['email'])->send(new SendPassword($data));
 
-            $this->storeLog('Account password: Password changed', 'student password', $data['title'], 'email');
+            $this->storeLog('Account password: Password changed', 'user password', $formData['email'], 'users', 'new password', 'new password', 'user');
 
             return response()->json([
                 'success' => true,
@@ -93,7 +93,7 @@ class SendStudentAccountPasswordController extends Controller
         }
     }
 
-    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role)
     {
         // Create a new Log instance
         $logs = logs::create([
