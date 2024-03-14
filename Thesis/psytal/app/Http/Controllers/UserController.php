@@ -140,7 +140,7 @@ class UserController extends Controller
             
                 // Additional logic if needed
 
-                $this->storeLog('User password changed', 'user', "User ID: {$user->id}", 'users');
+                //$this->storeLog('User password changed', 'user', "User ID: {$user->id}", 'users');
             
                 return response()->json(['success' => true, 'message' => 'Password Changed', 'new_password' => $newPassword]);
             } else {

@@ -5,6 +5,7 @@ export default function InputCode({ closeModal, propData}) {
   const [userCode, setUserCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
+  const [successStatus, setSuccessStatus] = useState('')
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
@@ -34,6 +35,7 @@ export default function InputCode({ closeModal, propData}) {
         setSuccessMessage({
           message: 'Your password was changed successfully!\n Please check your email for your new password.',
         });
+        setSuccessStatus(true)
 
         setTimeout(() => {
           setSuccessMessage(null);
@@ -47,8 +49,14 @@ export default function InputCode({ closeModal, propData}) {
       }
     } else {
       // Code is incorrect, handle accordingly
-      console.log("This is the code" + propData.code);
-      // Add your logic for incorrect code
+      setSuccessMessage({
+        message: 'Incorrect code.',
+      });
+      setSuccessStatus(false)
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
     }
   };
 
@@ -84,9 +92,9 @@ export default function InputCode({ closeModal, propData}) {
       </div>
       {successMessage && (
         <div className="fixed top-0 left-0 w-[100%] h-[100%] overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+        <div className={`lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit rounded-xl mt-[10%] mx-auto p-5 ${successStatus === false ? 'bg-red-500' : 'bg-green-500'}`}>
             <div className="w-[100%] px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
+              <div className="text-center text-xl text-white font-semibold my-3">
                 {successMessage.message}
               </div>
             </div>
