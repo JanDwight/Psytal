@@ -79,12 +79,6 @@ export default function AddUsers({ onClose}) {
         setSuccessMessage(response2.data.message);
         setSuccessStatus(response2.data.success);
   
-        // setTimeout(() => {
-        //   setSuccessMessage(null);
-        //   resetForm();
-        //   window.location.reload();
-        //   // onClose();
-        // }, 2000);
       } else {
         setSuccessMessage(response.data.message);
         setSuccessStatus(response.data.success);

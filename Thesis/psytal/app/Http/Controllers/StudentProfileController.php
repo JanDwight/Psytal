@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentProfileRequest;
+use App\Models\email_domains;
 use App\Models\student_profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -169,6 +170,21 @@ class StudentProfileController extends Controller
         ]);
         //explode name and year
 
+        // Extract everything after '@' in the email address
+        $emailParts = explode('@', $validatedData['email']);
+        $domain = '@' . end($emailParts);
+
+        // Check if the email domain already exists
+        $existingDomain = email_domains::where('email_domains', $domain)->first();
+
+        if (!$existingDomain) {
+            return response([
+                'success' => false,
+                'message' => 'Email Domain Not Valid',
+            ]);
+        }
+
+                
         $year_section = $validatedData['yr'];
         $fullName = $validatedData['name'];
 
@@ -207,19 +223,14 @@ class StudentProfileController extends Controller
 
             $this->storeLog('Student profile updated', 'student profile', $fullName, 'student_profiles');
 
-            //return response()->json(['message' => 'Class not found'], 404);
+            return response()->json([
+                'success' => true,
+                'message' => 'User Updated Successfully']);
         } else {
-            return response()->json(['message' => 'Class not found'], 404);
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found']);
         }
-
-        /*$user = User::create([
-            'name' => $data['name'],
-            'password' => bcrypt($data['password']),
-            'role' => $data['role'],
-            'email' => $data['email'],
-        ]);*/ 
-        //ADD UPDATE FOR USERS TABLE ALSO
-
     }
 
     /**
