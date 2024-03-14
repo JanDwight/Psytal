@@ -3,10 +3,10 @@ import ReactModal from 'react-modal';
 
 export default function Feedback({ isOpen, onClose, successMessage, status, refresh }) {
     const [modalClosedManually, setModalClosedManually] = useState(false);
-
+    console.log(status);
     useEffect(() => {
         let timeoutId;
-        if ((status === true && isOpen && refresh==true) || (modalClosedManually && refresh==true)) {
+        if ((status === true && isOpen && refresh===true) || (modalClosedManually && refresh===true)) {
             // Set timeout to reload the page after 5 seconds only if status is success and modal is still open
             timeoutId = setTimeout(() => {
                 window.location.reload();

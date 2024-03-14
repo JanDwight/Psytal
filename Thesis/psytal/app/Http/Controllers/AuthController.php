@@ -11,8 +11,6 @@ use App\Models\User;
 use App\Models\logs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthController extends Controller
 {
@@ -31,8 +29,15 @@ class AuthController extends Controller
     public function addUser(AddUserRequest $request) {
         $data = $request->validated();
 
-        
-        
+        // Check if the email already exists in the user table
+        $existingUser = User::where('email', $data['email'])->first();
+        if ($existingUser) {
+            return response([
+                'success' => false,
+                'message' => 'Email already registered',
+            ]);
+        }
+
         // Extract everything after '@' in the email address
         $emailParts = explode('@', $data['email']);
         $domain = '@' . end($emailParts);
@@ -42,8 +47,9 @@ class AuthController extends Controller
 
         if (!$existingDomain) {
             return response([
-                'error' => 'Email Domain Not Valid',
-            ], 422);
+                'success' => false,
+                'message' => 'Email Domain Not Valid',
+            ]);
         }
 
         // Update $data['name'] with $lastName, $firstName, $middleName
@@ -62,8 +68,9 @@ class AuthController extends Controller
         
         if ($users->isEmpty()) {
             return response([
+                'success' => false,
                 'message' => 'No users found with the provided name.',
-            ], 404);
+            ]);
         }
 
         // Create profile based on user role
@@ -100,6 +107,8 @@ class AuthController extends Controller
         //$this->storeLog('New user created', 'user', $data['name'], 'users');
 
         return response([
+            'success' => true,
+            'message' => 'User Successfully Added.',
             'user' => $user,
             'token' => $token,
             'domain' => $domain
