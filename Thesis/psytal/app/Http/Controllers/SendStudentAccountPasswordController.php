@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendPassword;
 use App\Mail\ForgotPasswordInputEmail;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\logs;
@@ -35,28 +36,38 @@ class SendStudentAccountPasswordController extends Controller
     }
 
     public function forgotpasswordsendemail(Request $request)
-{
-    try {
-        $formData = $request->query(); // Ensure you're getting the email correctly
+    {
+        try {
+            $formData = $request->query(); // Ensure you're getting the email correctly
 
-        $data = [
-            'title' => 'PSYTAL: FORGOT PASSWORD REQUEST',
-            'body'  => 'You have requested to change your password. To verify this action use this code. "' . $formData['code']. '" Thank you.'
-        ];
+            $email = User::where('email', $formData['email'])->firstOrFail();
 
-        Mail::to($formData['email'])->send(new ForgotPasswordInputEmail($data)); // Make sure the SendPassword class is correct
+            if (!$email){
+                return response()->json([
+                ]);
+            }
 
-        $this->storeLog('Account password: Forgot password request', 'user password', $formData['email'], 'users', $formData['email'], 'forgot password request', 'user');
+            $data = [
+                'title' => 'PSYTAL: FORGOT PASSWORD REQUEST',
+                'body'  => 'You have requested to change your password. To verify this action use this code. "' . $formData['code']. '" Thank you.'
+            ];
 
-        // You might want to log a success message or return a different response for success
-        return response()->json([
-            'success' => true,
-            'message' => 'Email sent successfully. Kindly check your email, before going back to this site.'
-        ]);
-    } catch (Exception $e) {
-        return response()->json(['error' => 'Error, Please try again later.']);
+            Mail::to($formData['email'])->send(new ForgotPasswordInputEmail($data)); // Make sure the SendPassword class is correct
+
+            $this->storeLog('Account password: Forgot password request', 'user password', $formData['email'], 'users', $formData['email'], 'forgot password request', 'user');
+
+            // You might want to log a success message or return a different response for success
+            return response()->json([
+                'success' => true,
+                'message' => 'Email sent successfully. Kindly check your email, before going back to this site.'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email is not Registered'
+            ]);
+        }
     }
-}
 
     public function sendnewpassword(Request $request)
     {
@@ -74,7 +85,9 @@ class SendStudentAccountPasswordController extends Controller
 
             $this->storeLog('Account password: Password changed', 'user password', $formData['email'], 'users', $formData['email'], 'new password', 'user');
 
-            return response()->json(['message' => 'Email sent successfully. Kindly check your email, before going back to this site.']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Your password was changed successfully!\n Please check your email for your new password.']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Email sending failed. Please try again later.']);
         }

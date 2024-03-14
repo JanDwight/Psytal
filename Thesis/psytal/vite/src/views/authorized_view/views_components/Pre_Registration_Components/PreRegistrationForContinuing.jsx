@@ -12,7 +12,7 @@ export default function PreRegistrationForContinuing(prereg) {
 
     const [successMessage, setSuccessMessage] = useState(null);
     const navigate = useNavigate();
-
+    const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState({__html: ""});
     const onhandleChange = (event) => {
         setSelectedValue(event.target.value);
@@ -106,7 +106,7 @@ export default function PreRegistrationForContinuing(prereg) {
     contribution_amount: '',
     complied_to_admission_policy: 'no',
     pre_reg_status: 'Pending',
-    type_of_student: 'Incoming',
+    type_of_student: 'Continuing',
     student_status: 'Regular',
     year_level: '',
     semester: '1st Semester',
@@ -266,7 +266,7 @@ export default function PreRegistrationForContinuing(prereg) {
 
     const txttype_of_student = preregData.type_of_student;
     const checkbox_c_continuing = form.getCheckBox('checkbox_c_continuing');
-    if (txttype_of_student === 'Regular') {
+    if (txttype_of_student === 'Continuing') {
     checkbox_c_continuing.check();
     } else {
     checkbox_c_continuing.check();
@@ -359,82 +359,50 @@ export default function PreRegistrationForContinuing(prereg) {
     }
 
     const handleClear = () => {
-      // setStartOfSchoolYear('');
-      // setEndOfSchoolYear('');
-      // setStudentSchoolId('');
-      // setLastName('');
-      // setFirstName('');
-      // setMiddleName('');
-      // setMaidenName('');
-      // setYearLevel('');
-      // setMajor('');
-      // setendOfTermToFinishDegree('');
-      // setLastOfTermTofinishDegree('');
-      // setDateOfBirth('');
-      // setCitizenship('');
-      // setEthnicity('');
-      // setContactNumber('');
-      // setPlaceOfBirth('');
-      // setSexAtBirth('');
-      // setSpecialNeeds('');
-      // setEmail('');
-      // setHomeAddress('');
-      // setAddressWhileStudyingAtBsu('');
-      // setEmergencyContactName('');
-      // setEmergencyContactAddress('');
-      // setEmergencyContactNumber('');
-      // setRelationship('');
-      // sethealthfacilityregistered('');
-      // setparenthealthfacilitydependent('');
-      // setvaccinationstatus('Not Vaccinated');
-      // settechnologylevel('');
-      // setdigitalliteracy('');
-      // setavailfreehighereducation('');
-      // setvoluntarycontribution('');
-      // setcontributionamount('');
-      // setCandidateForGraduadtion('');
-      // setSemester('');
       console.log("Inside handleClear function");
-      console.log("Clearing start of school year");
-      setPreregData({ ...preregData, start_of_school_year: '' });
-      setPreregData({ ...preregData, end_of_school_year: '' });
-      setPreregData({ ...preregData, student_school_id: '' });
-      setPreregData({ ...preregData, last_name: '' });
-      setPreregData({ ...preregData, first_name: '' });
-      setPreregData({ ...preregData, middle_name: '' });
-      setPreregData({ ...preregData, maiden_name: '' });
-      setPreregData({ ...preregData, last_school_attended: '' });
-      setPreregData({ ...preregData, address_of_school_attended: '' });
-      setPreregData({ ...preregData, degree: '' });
-      setPreregData({ ...preregData, date_of_birth: '' });
-      setPreregData({ ...preregData, place_of_birth: '' });
-      setPreregData({ ...preregData, citizenship: '' });
-      setPreregData({ ...preregData, sex_at_birth: '' });
-      setPreregData({ ...preregData, ethnicity: '' });
-      setPreregData({ ...preregData, special_needs: '' });
-      setPreregData({ ...preregData, contact_number: '' });
-      setPreregData({ ...preregData, email_address: '' });
-      setPreregData({ ...preregData, home_address: '' });
-      setPreregData({ ...preregData, address_while_studying: '' });
-      setPreregData({ ...preregData, contact_person_name: '' });
-      setPreregData({ ...preregData, contact_person_number: '' });
-      setPreregData({ ...preregData, contact_person_address: '' });
-      setPreregData({ ...preregData, contact_person_relationship: '' });
-      setPreregData({ ...preregData, health_facility_registered: '' });
-      setPreregData({ ...preregData, parent_health_facility_dependent: '' });
-      setPreregData({ ...preregData, vaccination_status: 'Not Vaccinated' });
-      setPreregData({ ...preregData, technology_level: '' });
-      setPreregData({ ...preregData, digital_literacy: '' });
-      setPreregData({ ...preregData, avail_free_higher_education: '' });
-      setPreregData({ ...preregData, voluntary_contribution: '' });
-      setPreregData({ ...preregData, contribution_amount: '' });
-      setPreregData({ ...preregData, semester: '' });
-      setPreregData({ ...preregData, end_of_term_to_finnish_degree: '' });
-      setPreregData({ ...preregData, last_of_term_to_finnish_degree: '' });
-      setPreregData({ ...preregData, major: '' });
-      setPreregData({ ...preregData, year_level: '' });
-      console.log("Closing modal");
-      setShowModal(false);
+      window.location.reload();
+    setPreregData(prevData => ({
+    ...prevData,
+    start_of_school_year: '',
+    end_of_school_year: '',
+    student_school_id: '',
+    last_name: '',
+    first_name: '',
+    middle_name: '',
+    maiden_name: '',
+    last_school_attended: '',
+    address_of_school_attended: '',
+    degree: '',
+    date_of_birth: '',
+    place_of_birth: '',
+    citizenship: '',
+    sex_at_birth: '',
+    ethnicity: '',
+    special_needs: '',
+    contact_number: '',
+    email_address: '',
+    home_address: '',
+    address_while_studying: '',
+    contact_person_name: '',
+    contact_person_number: '',
+    contact_person_address: '',
+    contact_person_relationship: '',
+    health_facility_registered: '',
+    parent_health_facility_dependent: '',
+    vaccination_status: 'Not Vaccinated',
+    technology_level: '',
+    digital_literacy: '',
+    avail_free_higher_education: '',
+    voluntary_contribution: '',
+    contribution_amount: '',
+    semester: '',
+    end_of_term_to_finnish_degree: '',
+    last_of_term_to_finnish_degree: '',
+    major: '',
+    year_level: ''
+    }));
+    console.log("Closing modal");
+    setShowModal(false);
     }
 
     //On submit axios
@@ -454,7 +422,7 @@ export default function PreRegistrationForContinuing(prereg) {
           first_name: preregData.first_name,
           middle_name: preregData.middle_name,
           maiden_name: preregData.maiden_name,
-          // academic_classification: preregData.academic_classification,
+          //  academic_classification: preregData.academic_classification,
            last_school_attended: preregData.last_school_attended,
            address_of_school_attended: preregData.address_of_school_attended,
           degree: 'Bachelor of Science in Psychology',
@@ -474,7 +442,7 @@ export default function PreRegistrationForContinuing(prereg) {
           contact_person_relationship: preregData.contact_person_relationship,
           year_level: preregData.year_level,
           pre_reg_status: preregData.pre_reg_status,
-          type_of_student: 'Regular',
+          type_of_student: 'Continuing',
           major: preregData.major,
           candidate_for_graduation: preregData.candidate_for_graduation,
           end_of_term_to_finnish_degree: preregData.end_of_term_to_finnish_degree,
@@ -494,19 +462,19 @@ export default function PreRegistrationForContinuing(prereg) {
           onPrint();
           //setFamilyName(data.family_name)
           setSuccessMessage({
-            message: 'This is the printed data',
+            message: 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
           });
     
           setTimeout(() => {
             setSuccessMessage(null);
-            // handleClear();
+            handleClear();
             // closeModal();
-          }, 3000);
+          }, 5000);
         })
         .catch(( error ) => 
         
         {setSuccessMessage({
-          message: 'Missing Data, please double check.',
+          message: 'Missing Data or invalid email, please double check.',
         });
   
         setTimeout(() => {
@@ -534,7 +502,6 @@ export default function PreRegistrationForContinuing(prereg) {
 
       //clearing the input fields using the reset button
    
-
 
   return (
     <>
@@ -564,12 +531,33 @@ export default function PreRegistrationForContinuing(prereg) {
                     </h6>
                     <button className="bg-blue-600 text-white active:bg-blue-800 font-bold uppercase text-xs px-4 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" 
                             type="button"
-                            onClick={handleClear}>
+                            onClick={() => setShowModal(true)}>
                         RESET
                     </button>
                 </div>         
         </div>
-
+        {/* Modal for reset button*/}
+        {showModal ? (
+                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                            <div className="bg-white rounded-lg z-50 p-5">
+                                <h2 className="text-xl font-bold mb-3">Are you sure you want to reset?</h2>
+                                <div className="flex justify-end">
+                                    <button 
+                                        className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-2 rounded mr-2"
+                                        onClick={() => setShowModal(false)}>
+                                          
+                                        Cancel
+                                    </button>
+                                    <button 
+                                        className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-2 rounded"
+                                        onClick={handleClear}>
+                                        Confirm Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
         {/**=========================== 2 ==========================*/}      
         {/**Start of Filling the FORM */}
         <div className="w-full lg:w-8/12 px-4 container mx-auto">

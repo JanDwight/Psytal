@@ -340,43 +340,49 @@ export default function PreRegistrationForm() {
   //clearing the input fields using the reset button
   const handleClear = () => {
     console.log("Inside handleClear function");
-    console.log("Clearing start of school year");
-    setPreregData({ ...preregData, start_of_school_year: '' });
-    setPreregData({ ...preregData, end_of_school_year: '' });
-    setPreregData({ ...preregData, student_school_id: '' });
-    setPreregData({ ...preregData, learners_reference_number: '' });
-    setPreregData({ ...preregData, last_name: '' });
-    setPreregData({ ...preregData, first_name: '' });
-    setPreregData({ ...preregData, middle_name: '' });
-    setPreregData({ ...preregData, maiden_name: '' });
-    setPreregData({ ...preregData, academic_classification: '' });
-    setPreregData({ ...preregData, last_school_attended: '' });
-    setPreregData({ ...preregData, address_of_school_attended: '' });
-    setPreregData({ ...preregData, degree: '' });
-    setPreregData({ ...preregData, date_of_birth: '' });
-    setPreregData({ ...preregData, place_of_birth: '' });
-    setPreregData({ ...preregData, citizenship: '' });
-    setPreregData({ ...preregData, sex_at_birth: '' });
-    setPreregData({ ...preregData, ethnicity: '' });
-    setPreregData({ ...preregData, special_needs: '' });
-    setPreregData({ ...preregData, contact_number: '' });
-    setPreregData({ ...preregData, email_address: '' });
-    setPreregData({ ...preregData, home_address: '' });
-    setPreregData({ ...preregData, address_while_studying: '' });
-    setPreregData({ ...preregData, contact_person_name: '' });
-    setPreregData({ ...preregData, contact_person_number: '' });
-    setPreregData({ ...preregData, contact_person_address: '' });
-    setPreregData({ ...preregData, contact_person_relationship: '' });
-    setPreregData({ ...preregData, health_facility_registered: '' });
-    setPreregData({ ...preregData, parent_health_facility_dependent: '' });
-    setPreregData({ ...preregData, vaccination_status: 'Not Vaccinated' });
-    setPreregData({ ...preregData, technology_level: '' });
-    setPreregData({ ...preregData, digital_literacy: '' });
-    setPreregData({ ...preregData, avail_free_higher_education: '' });
-    setPreregData({ ...preregData, voluntary_contribution: '' });
-    setPreregData({ ...preregData, contribution_amount: '' });
-    console.log("Closing modal");
-    setShowModal(false);
+    setPreregData(prevData => ({
+    ...prevData,
+    learners_reference_number:'',
+    start_of_school_year: '',
+    end_of_school_year: '',
+    student_school_id: '',
+    last_name: '',
+    first_name: '',
+    middle_name: '',
+    maiden_name: '',
+    last_school_attended: '',
+    address_of_school_attended: '',
+    degree: '',
+    date_of_birth: '',
+    place_of_birth: '',
+    citizenship: '',
+    sex_at_birth: '',
+    ethnicity: '',
+    special_needs: '',
+    contact_number: '',
+    email_address: '',
+    home_address: '',
+    address_while_studying: '',
+    contact_person_name: '',
+    contact_person_number: '',
+    contact_person_address: '',
+    contact_person_relationship: '',
+    health_facility_registered: '',
+    parent_health_facility_dependent: '',
+    vaccination_status: 'Not Vaccinated',
+    technology_level: '',
+    digital_literacy: '',
+    avail_free_higher_education: '',
+    voluntary_contribution: '',
+    contribution_amount: '',
+    semester: '',
+    end_of_term_to_finnish_degree: '',
+    last_of_term_to_finnish_degree: '',
+    major: '',
+    year_level: ''
+  }));
+  console.log("Closing modal");
+  setShowModal(false);
   }
   //the onSubmit function
   const onSubmit = (ev) => {
@@ -428,7 +434,14 @@ export default function PreRegistrationForm() {
     })
     .then(({ data }) => {
       onPrint();
-      
+      setSuccessMessage({
+        message: 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
+      });
+      setTimeout(() => {
+        setSuccessMessage(null);
+        handleClear();
+        // closeModal();
+      }, 5000);
     })
     .catch(( error ) => {
       setSuccessMessage({
@@ -437,7 +450,7 @@ export default function PreRegistrationForm() {
 
       setTimeout(() => {
         setSuccessMessage(null);
-        closeModal();
+        // closeModal();
       }, 3000);
       if (error.response) {
         const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
@@ -449,7 +462,7 @@ export default function PreRegistrationForm() {
 
         setTimeout(() => {
           setSuccessMessage(null);
-          closeModal();
+          // closeModal();
         }, 2000);
 
       }
