@@ -24,8 +24,13 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
-            //$this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], 4 );
-            //test if id exists
+            if ($studentInfo['from'] === 'addUser'){
+                $fullName = $studentInfo['last_name'] . ', ' . $studentInfo['first_name'] . ' ' . $studentInfo['middle_name'];
+
+                $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $fullName, $fullName, $studentInfo['role'] );
+            } else {
+                $this->storeLog('Account password sent', 'user password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], $studentInfo['role'] );
+            }
 
             return response()->json([
                 'success' => true,
@@ -36,7 +41,7 @@ class SendStudentAccountPasswordController extends Controller
         {
           return response()->json([
             'success' => false,
-            'message' => 'Somthing Went Wrong. Please Try Again Later',
+            'message' => 'Somthing Went Wrong. Please Try Again Later', $e
           ]);
         } 
     }
