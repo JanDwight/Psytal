@@ -4,6 +4,24 @@ import ShowArchives from "../views_components/ShowArchives";
 import axiosClient from '../../../axios.js';
 
 export default function Dashboard() {
+
+  const handleBackup  = () => {
+    axiosClient.post('/backupDB')
+            .then(response => {
+                //alert(response.data.message);
+            })
+            .catch(error => {
+                //console.error('Backup failed:', error);
+                //alert('Backup failed. Please try again.');
+            });
+  }
+
+  const handleRestore  = () => {
+    
+  }
+
+
+
   const [dash, setDash] = useState({
     totalStudents: 0,
     totalEmployees: 0,
@@ -265,15 +283,15 @@ export default function Dashboard() {
         </div>
         <br></br>
         <div className="pt-5 flex justify-end space-x-3">
-          {/*<button className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Backup Database
-          </button>*/}
-          {/*<button className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+          <button onClick={handleBackup} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+              Backup Database --- Must be downloadable after the fact
+          </button>
+          <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
               Restore Database Contents
-          </button>*/}
-          {/*<button onClick={downloadAll} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Download All Backups [will download all backup archive as one file---currently downloading separately]
-        </button>*/}
+          </button>
+          <button onClick={downloadAll} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+              Download All Backups [will download all backup archive, currently downloading separately]
+          </button>
         </div>
     </div>
       {/* Show Modals */}
