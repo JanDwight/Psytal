@@ -3,6 +3,7 @@ import AddUsers from '../views_components/AddUsers.jsx';
 import StudentList from '../views_components/StudentList.jsx';
 import EmployeeList from '../views_components/EmployeeList.jsx';
 import { useStateContext } from '../../../context/ContextProvider';
+import ReactModal from 'react-modal';
 
 {/*Tab Highlight */}
 const Tab = ({ label, isActive, onClick }) => {
@@ -106,10 +107,17 @@ export default function ManageUsers() {
           
         </div>
       </div>
+      <ReactModal
+        appElement={document.getElementById('root')}
+        isOpen={isModalOpen}i
+        onRequestClose={() => setIsModalOpen(false)}
+        className="w-[20%] h-fit mt-[10%] mx-auto" //it just works don't question
+      >
         <AddUsers
-          showModal={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
+            
+      </ReactModal>
   </div>
     </>
   );

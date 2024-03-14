@@ -24,14 +24,20 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
-            $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], 4 );
+            //$this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], 4 );
             //test if id exists
 
-            return response()->json([$studentInfo]);
+            return response()->json([
+                'success' => true,
+                'message' => 'User Successfully Created',
+            ]);
         }
         catch(Exception $e)
         {
-          return response()->json([$studentInfo]);
+          return response()->json([
+            'success' => false,
+            'message' => 'Somthing Went Wrong. Please Try Again Later',
+          ]);
         } 
     }
 
