@@ -195,7 +195,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
       
         <button
           onClick={handleCloseModal}
-          className="absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
+          className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
         >
           X
         </button>

@@ -18,9 +18,34 @@ class DatabaseController extends Controller
         }
     }
 
-    public function databaseRestore()
+    public function databaseRestore(Request $request)
     {
-        // Implement database restore logic
+        $request->validate([
+            'backup_file' => 'required|file|max:10240',// Adjust max file size as needed
+        ]);
+    
+        // Move the uploaded file to a temporary location
+        $backupFile = $request->file('backup_file');
+        $backupFileName = $backupFile->getClientOriginalName();
+        $backupFilePath = $backupFile->storeAs('temp', $backupFileName);
+    
+        try {
+            // Connect to the database using PDO
+            $pdo = new PDO('mysql:host='.env('DB_HOST').';dbname='.env('DB_DATABASE'), env('DB_USERNAME'), env('DB_PASSWORD'));
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            // Read SQL statements from the backup file and execute them
+            $sqlStatements = file_get_contents(storage_path('app/' . $backupFilePath));
+            $pdo->exec($sqlStatements);
+    
+            // Once database is restored, you can delete the temporary file
+            unlink(storage_path('app/' . $backupFilePath));
+    
+            return response()->json(['message' => 'Database restored successfully']);
+        } catch (PDOException $e) {
+            // Handle database connection or query execution errors
+            return response()->json(['error' => 'Database restore failed: ' . $e->getMessage()], 500);
+        }
     }
 
     public function databaseDelete()
@@ -67,13 +92,6 @@ class DatabaseController extends Controller
 
             // Loop through each table and export its structure and data
             foreach ($tables as $table) {
-                // Export table structure
-                $statement = $pdo->prepare("SHOW CREATE TABLE $table");
-                $statement->execute();
-                $createTableSQL = $statement->fetchColumn(1);
-                fwrite($backupFile, "-- Table structure for table `$table`\n\n");
-                fwrite($backupFile, "$createTableSQL;\n\n");
-
                 // Export table data
                 $statement = $pdo->prepare("SELECT * FROM $table");
                 $statement->execute();
@@ -81,8 +99,14 @@ class DatabaseController extends Controller
                 if ($rows) {
                     fwrite($backupFile, "-- Data dump for table `$table`\n\n");
                     foreach ($rows as $row) {
-                        $rowValues = implode("', '", array_map([$pdo, 'quote'], $row));
-                        fwrite($backupFile, "INSERT INTO $table VALUES ('$rowValues');\n");
+                        // Quote and escape each value in the row
+                        $escapedValues = [];
+                        foreach ($row as $value) {
+                            $escapedValues[] = $pdo->quote($value);
+                        }
+                        // Implode the escaped values with commas
+                        $rowValues = implode(", ", $escapedValues);
+                        fwrite($backupFile, "INSERT INTO $table VALUES ($rowValues);\n");
                     }
                     fwrite($backupFile, "\n");
                 }

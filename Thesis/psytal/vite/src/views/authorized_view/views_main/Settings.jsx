@@ -17,13 +17,31 @@ export default function Settings() {
                     //console.error('Backup failed:', error);
                     //alert('Backup failed. Please try again.');
                 });
-      }
+    }
     
-      const handleRestore  = () => {
-        
-      }
+    const handleRestore = (event) => {
+        const file = event.target.files[0]; // Get the selected file
+
+        // Create a FormData object to store the file data
+        const formData = new FormData();
+        formData.append('backup_file', file);
+        // Send the file to the backend using Axios
+        axiosClient.post('/restoreDB', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Set content type header for FormData
+            }
+        })
+        .then(response => {
+            // Handle successful response from the backend
+            console.log(response.data.message); // You can display a success message or perform any other action
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error.message);
+        });
+    };
     
-    const downloadAll = () => {
+    /*const downloadAll = () => {
         axiosClient
           .get('/getallbackup')
           .then((res) => {
@@ -54,9 +72,8 @@ export default function Settings() {
           })
           .catch((error) => {
             console.error('Error fetching data:', error);
-          });
-      };
-
+            });
+    };*/
   return (
     <>
         <div className="w-full h-full px-4 mx-auto rounded-3xl bg-white pt-5 pb-12  table-container ">{/*For the Container*/}
@@ -79,7 +96,7 @@ export default function Settings() {
                     <button onClick={handleBackup} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                         Backup Database
                     </button>
-                    <input type="file" onChange={handleRestore} className="hidden" id="fileInput"/>
+                    <input type="file" onChange={handleRestore} className="hidden" id="fileInput" accept=".sql"/>
                     <label for="fileInput" class="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">Load Backup File</label>
                     {/*<button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                         Restore Database Contents
