@@ -381,8 +381,8 @@ export default function PreRegistrationForm() {
     major: '',
     year_level: ''
   }));
-  console.log("Closing modal");
-  setShowModal(false);
+    console.log("Closing modal");
+    setShowModal(false);
   }
   //the onSubmit function
   const onSubmit = (ev) => {
@@ -490,6 +490,7 @@ export default function PreRegistrationForm() {
               <span className="text-sm">(NEW FIRST YEAR STUDENT)</span>
               <p className="text-sm font-semibold">Instructions: </p>
               <p className="text-sm italic"> Please fill out the form in</p>
+              <p className="text-sm font-semibold">***NOTE: ALL FIELDS ARE REQUIRED. INPUT 'N/A' IF NOT APPLICABLE***</p>
             </div> 
           </section>             
         </div>          
@@ -658,12 +659,12 @@ export default function PreRegistrationForm() {
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-studentLastname"
                     type="text"
-                    pattern="[a-zA-Z .]+"
-                    title="Input your Legal Last Name with your Suffix, if applicable."
+                    pattern="[A-Za-zñÑ -]+"
+                    title="Input your Legal Last Name."
                     value={preregData.last_name}
                     maxLength={30}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
                       setPreregData({ ...preregData, last_name: value });
                     }}
                    />  
@@ -671,7 +672,7 @@ export default function PreRegistrationForm() {
                         src={info}
                         alt="info"
                         className="absolute right-3 top-[50%] h-6 w-6"
-                        title="Input your Legal Last Name with your Suffix, if applicable."
+                        title="Input your Legal Last Name."
                       />
                   </div>
                   </div>
@@ -688,12 +689,12 @@ export default function PreRegistrationForm() {
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-10"
                         id="grid-studentFirstname"
                         type="text"
-                        pattern="[a-zA-Z .]+"
-                        title="Input your Legal Given Name/s."
+                        pattern="[A-Za-zñÑ .-]+"
+                        title="Input your Legal Given Name/s with your Suffix, if applicable."
                         value={preregData.first_name}
                         maxLength={50}
                         onChange={ev => {
-                          const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
+                          const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
                           setPreregData({ ...preregData, first_name: value });
                         }}
                       />
@@ -701,7 +702,7 @@ export default function PreRegistrationForm() {
                         src={info}
                         alt="info"
                         className="absolute right-3 top-[50%] h-6 w-6"
-                        title="Input your Legal Given Name/s."
+                        title="Input your Legal Given Name/s with your Suffix, if applicable."
                       />
                   </div>
                   </div>
@@ -714,12 +715,12 @@ export default function PreRegistrationForm() {
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-studentMiddlename" 
                     type="text" 
-                    pattern="[a-zA-Z ]+"
-                    title="Input your Legal Middle Name. Leave blank if not applicable."
+                    pattern="[A-Za-zñÑ -]+"
+                    title="Input your Legal Middle Name."
                     value={preregData.middle_name}
                     maxLength={30}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
                       setPreregData({ ...preregData, middle_name: value });
                     }}
                     />  
@@ -727,7 +728,7 @@ export default function PreRegistrationForm() {
                         src={info}
                         alt="info"
                         className="absolute right-3 top-[50%] h-6 w-6"
-                        title="Input your Legal Middle Name. Leave blank if not applicable."
+                        title="Input your Legal Middle Name."
                       />
                   </div>
                   </div>
@@ -740,12 +741,12 @@ export default function PreRegistrationForm() {
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-studentMaidenname" 
                     type="text" 
-                    //pattern="[^a-zA-Z\s/]+"
+                    //pattern="[A-Za-zñÑ .\\/-]+"
                     title="Input 'N/A' if not applicable."
                     value={preregData.maiden_name}
                     maxLength={30}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ .\/-]/g, '');
                       setPreregData({ ...preregData, maiden_name: value });
                     }}
                     />  
@@ -832,11 +833,11 @@ export default function PreRegistrationForm() {
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-lastschoolattended" 
                     type="text" 
-                    pattern="[a-zA-Z ]+"
+                    pattern="[A-Za-zñÑ ]+"
                     title="Do not abbreviate."
                     value={preregData.last_school_attended}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
                       setPreregData({ ...preregData, last_school_attended: value });
                     }}
                     />  
@@ -894,7 +895,21 @@ export default function PreRegistrationForm() {
                       type="date" 
                       placeholder=""
                       value={preregData.date_of_birth}
-                      onChange={ev => setPreregData({ ...preregData, date_of_birth: ev.target.value })}
+                      onChange={(ev) => {
+                        const inputBdate = new Date(ev.target.value);
+                        const currentDate = new Date();
+                        const minDate = new Date(
+                          currentDate.getFullYear() - 17,
+                          currentDate.getMonth(),
+                          currentDate.getDate()
+                        );
+                      
+                        if (inputBdate > minDate) {
+                          alert("Age must be 17 or above.");
+                        } else {
+                          setPreregData({ ...preregData, date_of_birth: ev.target.value });
+                        }
+                      }}
                       />
 
                     <div className="input-container relative">
@@ -905,11 +920,11 @@ export default function PreRegistrationForm() {
                     id="grid-nationality" 
                     type="text" 
                     placeholder=""
-                    pattern="[a-zA-Z ]+"
+                    pattern="[A-Za-zñÑ ]+"
                     title="Input your Legal Citizenship. Example: Filipino"
                     value={preregData.citizenship}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^A-Za-z ]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
                       setPreregData({ ...preregData, citizenship: value });
                     }}
                     />
@@ -929,11 +944,11 @@ export default function PreRegistrationForm() {
                     id="grid-ethnicity" 
                     type="text" 
                     placeholder=""
-                    //pattern="[^a-zA-Z\s/]+"
+                    //pattern="[A-Za-zñÑ ]+"
                     value={preregData.ethnicity}
                     title="Input your Ethnicity or Tribal Affilation. Example: Ilocano"
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
                       setPreregData({ ...preregData, ethnicity: value });
                     }}/>
                     <img
@@ -993,23 +1008,23 @@ export default function PreRegistrationForm() {
                     <label className=" text-gray-700 text-xs font-bold mb-2" htmlFor="sexatbirth">
                       Sex at Birth :
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                      id="grid-sexatbirth" 
-                      type="text" 
-                      placeholder="Male/Female"
-                      pattern="[a-zA-Z]+"
-                      maxLength={6}
-                      title="Input your Sex at Birth. This is either Male or Female."
-                      value={preregData.sex_at_birth}
-                      onChange={ev => {
-                        const value = ev.target.value.replace(/[^A-Za-z]/g, '');
-                        setPreregData({ ...preregData, sex_at_birth: value });
-                      }}/>
-                      <img
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
+                    <select  className='"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
+                      onChange={ev => setPreregData({ ...preregData, sex_at_birth: ev.target.value })} 
+                      value={preregData.sex_at_birth}>
+                      <option 
+                        value="Male">
+                          Male</option>
+                      <option 
+                        value="Female">
+                          Female</option>
+                    </select>
+                  </div>
+                  <img
                         src={info}
                         alt="info"
-                        className="absolute right-3 top-[50%] h-6 w-6"
-                        title="Input your Sex at Birth. This is either Male or Female."
+                        className="absolute right-[45%] top-[50%] h-6 w-6"
+                        title="Select your Sex at Birth."
                       />
                   </div>
                     
@@ -1120,11 +1135,11 @@ export default function PreRegistrationForm() {
                     id="grid-contactname" 
                     type="text" 
                     placeholder="Given Name M.I. Last Name"
-                    pattern="[a-zA-Z .]+"
+                    pattern="[A-Za-zñÑ .-]+"
                     title="Input the name of the person to be contacted in case of emergency using the format given. FORMAT: Given Name M.I. Last Name"
                     value={preregData.contact_person_name}
                     onChange={ev => {
-                      const value = ev.target.value.replace(/[^A-Za-z .]/g, '');
+                      const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
                       setPreregData({ ...preregData, contact_person_name: value });
                     }}/>
                     <img
