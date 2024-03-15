@@ -56,10 +56,10 @@ export default function ArchiveClasses({ showModal, onClose, subject }) {
             <p>Are you sure you want to proceeed?</p>
           </form>
           <div className="flex items-center justify-center my-7 space-x-4">
-            <button onClick={handleSave} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+            <button onClick={handleSave} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                 Delete
             </button>
-            <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+            <button onClick={onClose} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Cancel
             </button>
             </div>

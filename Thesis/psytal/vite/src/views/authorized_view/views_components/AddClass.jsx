@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactModal from 'react-modal';
 import { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 
 export default function AddClass({closeModal}) {
   const [selected_subject, setSelectedSubject] = useState(''); // state for the selected subject
   const [class_section, setSection] = useState(''); // Define state for section
+  const [class_section_error, setSectionError] = useState(''); 
   const [class_code, setClassCode] = useState(''); // Define state for class code
   const [instructor_name, setInstructor] = useState(''); // Define state for instructor
   const [subjectData, setSubjectData] = useState([]);
@@ -75,7 +75,12 @@ export default function AddClass({closeModal}) {
   const handleSubmit = (ev) => {
     ev.preventDefault(); // Prevent the default form submission behavior
 
-    
+    if (!validateYearSection(class_section)) {
+      setSectionError('Section should be a Letter (ex.A).');
+      return;
+    } else {
+      setSectionError('');
+    }
 
       // Create a formData object and send it using axios
       const formData = {
@@ -116,11 +121,14 @@ export default function AddClass({closeModal}) {
       });
   };
 
- 
 
+  const validateYearSection = (class_section) => {
+    return /^[A-Za-z]$/.test(class_section);
+  };
+  
+  
   return (
-    <>
-    <ReactModal appElement={document.getElementById('root')} className="custom-modal"> </ReactModal>
+    <div>
         {/*For creating sections 1 class = 2 or more sections * 2 if there is both lec and lab 
         meaning one subject can potentially have 4 classes minimum*/}
         <div className='flex justify-center font-bold text-4xl text-[#525252] mt-1'>
@@ -128,8 +136,8 @@ export default function AddClass({closeModal}) {
         </div>
         
         {/*----------*/}
-        <div>
-          <form onSubmit={handleSubmit}>
+        <div className='w-full'>
+          <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
             <div className="mt-5">
               <select
                 id="course_title"
@@ -170,7 +178,7 @@ export default function AddClass({closeModal}) {
                 className="block w-[49%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
                 required
             />
-              <label htmlFor="course_code" className="block text-sm text-gray-700">
+              <label htmlFor="course_code" className="mx-1 block text-sm text-gray-700">
               Type:
               </label>
               <input
@@ -209,32 +217,46 @@ export default function AddClass({closeModal}) {
                 className="block w-[49%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               />
             </div>
-            <div className="mt-5 flex flex-col-2 justify-between">
-            <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
-              Year:
-            </label>
-            <input
-                id="yrlvl"
-                type="text"
-                name="yrlvl"
-                placeholder='Year Level'
-                value={selectedData.class_year}
-                disabled // makes field uneditable
-                className="block w-[49%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              />
-              <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
-              Section:
-              </label>
-              <input
-                      id="section"
-                      name="section"
-                      type="text"
-                      maxLength={1}
-                      placeholder='Section'
-                      onChange={(ev) => setSection(ev.target.value.toUpperCase())}
-                      className="block w-[49%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
-                      required
-                    />
+            <div className="mt-3 flex flex-col-2 justify-center">
+              <div className="mx-5">
+                <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
+                  Year:
+                </label>
+                <input
+                    id="yrlvl"
+                    type="text"
+                    name="yrlvl"
+                    placeholder='Year Level'
+                    value={selectedData.class_year}
+                    disabled // makes field uneditable
+                    className="block w-[50%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  />
+              </div>
+              <div className="mx-5">
+                <label htmlFor="section" className="block text-sm text-gray-700 px-2">
+                  Section:
+                </label>
+                  <input
+                    id="section"
+                    name="section"
+                    type="text"
+                    maxLength={1}
+                    placeholder='Section'
+                    required 
+                    onChange={(e) => {
+                      const value = e.target.value.toUpperCase();
+                      setSection(value);
+                    }}
+                    
+                    className={`block w-[50%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ${
+                      class_section_error ? 'border-red-500' : ''
+                    }`}
+                  />
+                  {class_section_error && (
+                    <p className="text-red-500 text-sm mt-1">{class_section_error}</p>
+                  )}
+              </div>
+
             </div>
             <div className="mt-5 flex flex-col-2 justify-between">
             <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
@@ -281,6 +303,6 @@ export default function AddClass({closeModal}) {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
