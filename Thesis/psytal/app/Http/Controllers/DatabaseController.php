@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File; 
 use PDO;
 use PDOException;
 
@@ -16,6 +18,7 @@ class DatabaseController extends Controller
         } else {
             return response()->json(['error' => 'Unsupported database driver'], 500);
         }
+        //should return file name so users can search
     }
 
     public function databaseRestore(Request $request)
@@ -48,11 +51,6 @@ class DatabaseController extends Controller
         }
     }
 
-    public function databaseDelete()
-    {
-        // Implement database delete logic
-    }
-
     protected function backupMySQLDatabase()
     {
         // Database connection parameters
@@ -63,17 +61,17 @@ class DatabaseController extends Controller
         $password = config('database.connections.mysql.password');
 
         // Backup file name
-        $backupFileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
+        $backupFileName = 'psytal_backup_' . date('Y-m-d_H-i-s') . '.sql';
 
-        // Directory to store backups
-        $backupDirectory = storage_path('backups');
+        // Directory to store backups (relative path from the public directory)
+        $backupDirectory = 'backups';
 
-        // Create the directory if it doesn't exist
-        if (!file_exists($backupDirectory)) {
-            mkdir($backupDirectory, 0755, true);
+        // Create the directory if it doesn't exist in the public directory
+        if (!file_exists(public_path($backupDirectory))) {
+            mkdir(public_path($backupDirectory), 0755, true);
         }
 
-        // Backup file path
+        // Backup file path (relative to the backup directory)
         $backupFilePath = $backupDirectory . '/' . $backupFileName;
 
         try {
@@ -123,4 +121,79 @@ class DatabaseController extends Controller
             return false;
         }
     }
+
+    public function listBackupFiles()
+    {
+        // Directory where backups are stored
+        $backupDirectory = ('backups');
+
+        // Check if the directory exists
+        if (!file_exists($backupDirectory)) {
+            return response()->json(['error' => 'Backup directory not found'], 404);
+        }
+
+        // Scan the backup directory for files
+        $backupFiles = scandir($backupDirectory);
+
+        // Remove "." and ".." from the list
+        $backupFiles = array_filter($backupFiles, function ($file) {
+            return !in_array($file, ['.', '..']);
+        });
+
+        // Reset array keys to start from 0
+        $backupFiles = array_values($backupFiles);
+
+        // Return the list of backup files
+        return response()->json(['backup_files' => $backupFiles], 200);
+    }
+
+    public function backupDelete(Request $request)
+    {
+        $selectedItems = $request->input('selectedItems');
+        $backupDirectory = 'backups'; // Relative path from the public directory
+
+        try {
+            foreach ($selectedItems as $fileName) {
+                $filePath = public_path($backupDirectory . '/' . $fileName);
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                }
+            }
+            return response()->json(['message' => 'Selected items deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete selected items: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function backupExport(Request $request)
+    {
+        $selectedItems = $request->input('selectedItems');
+
+        // Directory where backups are stored
+        $backupDirectory = 'backups'; // Relative path from the public directory
+
+        // Initialize an array to store the relative file paths of existing files
+        $existingFiles = [];
+
+        // Iterate through each selected file name
+        foreach ($selectedItems as $fileName) {
+            // Construct the relative file path
+            $filePath = $backupDirectory . '/' . $fileName;
+
+            // Check if the file exists
+            if (file_exists(public_path($filePath))) {
+                // If the file exists, add its relative path to the existingFiles array
+                $existingFiles[] = $filePath;
+            }
+        }
+
+        // Return the array of existing relative file paths
+        return response()->json(['files' => $existingFiles]);
+    }
+
+    public function databaseDelete()
+    {
+        // Implement database delete logic
+    }
+
 }
