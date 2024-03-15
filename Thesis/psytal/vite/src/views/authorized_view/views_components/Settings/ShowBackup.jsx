@@ -106,14 +106,14 @@ export default function ShowBackup({closeModal}) {
                         onChange={() => toggleRowSelection(index)}
                       />
                     </td>
-                    <td className='text-center' >{fileName}</td>
+                    <td className='text-center'>{fileName}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             </div>
                 <input type="checkbox" className="ml-5" checked={selectAll} onChange={toggleSelectAll}/>
-                <label className="ml-2">Select All</label> {/*should be outside the div for overflow x*/}
+                <label className="ml-2">Select All</label>
                 <button onClick={closeModal} className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
                         X
                 </button>
