@@ -166,7 +166,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
             </thead>
             <tbody>
               {dataTable.map((item, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
+                <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''} onClick={() => toggleRowSelection(index)}>
                   <td className='text-center'>
                     <input
                       type="checkbox"

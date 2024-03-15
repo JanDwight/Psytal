@@ -73,6 +73,7 @@ export default function Settings() {
                     <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
                         View Backup Files
                     </button>
+                    {/* Warning this will wipe the database clean and insert the restore data. Please use modular restore for conditional restore.*/}
                     <input type="file" onChange={handleRestore} className="hidden" id="fileInput" accept=".sql"/>
                     <label for="fileInput" className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">Import Backup File</label>
                 </div>

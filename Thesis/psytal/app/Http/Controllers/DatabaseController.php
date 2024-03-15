@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use App\Models\logs;
 use PDO;
 use PDOException;
 
@@ -14,7 +15,9 @@ class DatabaseController extends Controller
     public function databaseBackup(Request $request)
     {
         if (config('database.default') === 'mysql') {
+
             $result = $this->backupMySQLDatabase();
+
             return response()->json(['message' => 'Database backup completed successfully'], 200);
         } else {
             return response()->json(['error' => 'Unsupported database driver'], 500);
@@ -44,6 +47,8 @@ class DatabaseController extends Controller
     
             // Once database is restored, you can delete the temporary file
             unlink(storage_path('app/' . $backupFilePath));
+
+            $this->storeLog('Database restored', 'SQL Restore', $backupFileName, 'file import');
     
             return response()->json(['message' => 'Database restored successfully']);
         } catch (PDOException $e) {
@@ -63,6 +68,7 @@ class DatabaseController extends Controller
 
         // Backup file name
         $backupFileName = 'psytal_backup_' . date('Y-m-d_H-i-s') . '.sql';
+        $this->storeLog('Backup for database created', 'SQL Backup', $backupFileName, 'public path');
 
         // Directory to store backups (relative path from the public directory)
         $backupDirectory = 'backups';
@@ -86,8 +92,29 @@ class DatabaseController extends Controller
             $statement->execute();
             $tables = $statement->fetchAll(PDO::FETCH_COLUMN);
 
+            // List of tables to filter out
+            $tablesToFilterOut = ['personal_access_tokens', 'password_reset_tokens', 'failed_jobs']; // Replace with your actual table names
+
+            // Filter out tables
+            $tables = array_diff($tables, $tablesToFilterOut);
+
             // Open the backup file for writing
             $backupFile = fopen($backupFilePath, 'w');
+
+            // Loop through each table and delete its contents
+            foreach ($tables as $table) {
+                // Delete data from the table
+                fwrite($backupFile, "DELETE FROM `$table`;\n");
+            }
+
+             // Remove 'archives' table if it exists and add it to the end
+            if (($key = array_search('archives', $tables)) !== false) {
+                unset($tables[$key]);
+                $tables[] = 'archives';
+            }
+
+            // Insert a separator between delete and insert statements
+            fwrite($backupFile, "\n");
 
             // Loop through each table and export its structure and data
             foreach ($tables as $table) {
@@ -115,7 +142,7 @@ class DatabaseController extends Controller
             fclose($backupFile);
 
             // Return success
-            return true;
+            return $backupFileName;
         } catch (PDOException $e) {
             // Handle any errors
             echo "Backup failed: " . $e->getMessage();
@@ -141,6 +168,9 @@ class DatabaseController extends Controller
             return !in_array($file, ['.', '..']);
         });
 
+        // Reverse the array to arrange files in backwards fashion
+        $backupFiles = array_reverse($backupFiles);
+
         // Reset array keys to start from 0
         $backupFiles = array_values($backupFiles);
 
@@ -160,6 +190,9 @@ class DatabaseController extends Controller
                     File::delete($filePath);
                 }
             }
+
+            $this->storeLog('Backup file/s deleted', 'SQL backup file', $backupFileName, 'public path');
+
             return response()->json(['message' => 'Selected items deleted successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete selected items: ' . $e->getMessage()], 500);
@@ -181,5 +214,22 @@ class DatabaseController extends Controller
     {
         // Implement database delete logic
     }
-    
+
+    public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $itemName,
+            'item_origin' => $itemOrigin,
+            'user_name' => auth()->user()->name,
+            'user_id' => auth()->user()->id,
+            'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
 }
