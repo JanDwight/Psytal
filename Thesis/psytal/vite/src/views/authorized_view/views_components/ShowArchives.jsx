@@ -167,19 +167,19 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
             <tbody>
               {dataTable.map((item, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                  <td>
+                  <td className='text-center'>
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(index)}
                       onChange={() => toggleRowSelection(index)}
                     />
                   </td>
-                  <td>{item.item_type}</td>
-                  <td>{item.item_name}</td>
-                  <td>{item.origin_table}</td>
-                  <td>{item.archiver_name}</td>
-                  <td>{item.archiver_role}</td>
-                  <td>{item.archived_at}</td>
+                  <td className='text-center'>{item.item_type}</td>
+                  <td className='text-center'>{item.item_name}</td>
+                  <td className='text-center'>{item.origin_table}</td>
+                  <td className='text-center'>{item.archiver_name}</td>
+                  <td className='text-center'>{item.archiver_role}</td>
+                  <td className='text-center'>{item.archived_at}</td>
                 </tr>
               ))}
             </tbody>
