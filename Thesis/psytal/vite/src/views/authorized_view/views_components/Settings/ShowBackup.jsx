@@ -3,7 +3,7 @@ import axiosClient from '../../../../axios';
 
 export default function ShowBackup({closeModal}) {
     const [selectedRows, setSelectedRows] = useState([]);
-    //const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     const [selectAll, setSelectAll] = useState(false);
     const [backupFiles, setBackupFiles] = useState([]);
   
@@ -121,9 +121,9 @@ export default function ShowBackup({closeModal}) {
                 <button onClick={handleExport} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Export
                 </button>
-                <button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+                {/*<button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Delete
-                </button>
+                </button>*/}
             </div>
         </div>
     </div>
