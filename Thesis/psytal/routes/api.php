@@ -141,6 +141,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Routes for database backup and restore
     Route::post('backupDB', [DatabaseController::class, 'databaseBackup']);
+    Route::post('restoreDB', [DatabaseController::class, 'databaseRestore']);
 });
 
 
