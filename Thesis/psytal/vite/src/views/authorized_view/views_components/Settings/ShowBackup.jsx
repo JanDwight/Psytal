@@ -40,34 +40,35 @@ export default function ShowBackup({closeModal}) {
 
     const handleExport = async () => {
         const selectedItems = selectedRows.map((index) => backupFiles[index]);
+    
         if (selectedItems.length === 0) {
             console.log('No Selected Items.');
-            //change with succes/error message later
+            // Change with success/error message later
         } else {
             try {
-                const response = await axiosClient.post('/export_backup', { selectedItems });
-                const files = response.data.files;
+                for (const fileName of selectedItems) {
+                    const response = await axiosClient.get(`/download_backup/${fileName}`);
+                    console.log('File downloaded:', fileName);
     
-                // Iterate through each file path and create a download link
-                files.forEach((filePath) => {
-                    // Create an anchor element
+                    const blob = new Blob([response.data], { type: response.headers['content-type'] });
+    
+                    // Create a link element
                     const link = document.createElement('a');
-                    link.href = filePath;
-                    link.setAttribute('download', '');
-                    link.style.display = 'none';
-                    document.body.appendChild(link);
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
     
-                    // Programmatically click the link to trigger download
+                    // Append the link to the document body and programmatically click it
+                    document.body.appendChild(link);
                     link.click();
     
-                    // Clean up: remove the link from the DOM after download
+                    // Clean up
                     document.body.removeChild(link);
-                });
+                }
             } catch (error) {
                 console.error('Error exporting items:', error);
             }
         }
-    }
+    };
 
     const handleDelete = () => {
         const selectedItems = selectedRows.map((index) => backupFiles[index]);
@@ -75,9 +76,9 @@ export default function ShowBackup({closeModal}) {
             console.log('No Selected Items.')
             //change with succes/error message later
         } else {
-            const response = axiosClient.post('/delete_backup', { selectedItems });
             try{
-
+                const response = axiosClient.post('/delete_backup', { selectedItems });
+                
             } catch (error) {
                 console.error('Error deleting items:', error);
             }
@@ -86,7 +87,7 @@ export default function ShowBackup({closeModal}) {
   
     return (
     <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
-        <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[80vh] overflow-y-auto">
+        <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[80vh] overflow-y-auto min-w-[30vw] min-h-[20vh]">
           <div className="mb-6"> 
             <table className="min-w-full">
               <thead>
@@ -98,20 +99,20 @@ export default function ShowBackup({closeModal}) {
               <tbody>
                 {backupFiles.map((fileName, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                    <td>
+                    <td className='text-center'>
                       <input
                         type="checkbox"
                         checked={selectedRows.includes(index)}
                         onChange={() => toggleRowSelection(index)}
                       />
                     </td>
-                    <td>{fileName}</td>
+                    <td className='text-center'>{fileName}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        <input type="checkbox" checked={selectAll} onChange={toggleSelectAll}/>
+        <input type="checkbox" className="ml-5" checked={selectAll} onChange={toggleSelectAll}/>
         <label className="ml-2">Select All</label>
         <button onClick={closeModal} className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
                 X
@@ -120,9 +121,9 @@ export default function ShowBackup({closeModal}) {
                 <button onClick={handleExport} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Export
                 </button>
-                <button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+                {/*<button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Delete
-                </button>
+                </button>*/}
             </div>
         </div>
     </div>

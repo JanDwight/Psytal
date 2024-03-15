@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use PDO;
 use PDOException;
 
@@ -165,35 +166,20 @@ class DatabaseController extends Controller
         }
     }
 
-    public function backupExport(Request $request)
+    public function download($filename)
     {
-        $selectedItems = $request->input('selectedItems');
+        $path = public_path('backups/' . $filename);
 
-        // Directory where backups are stored
-        $backupDirectory = 'backups'; // Relative path from the public directory
-
-        // Initialize an array to store the relative file paths of existing files
-        $existingFiles = [];
-
-        // Iterate through each selected file name
-        foreach ($selectedItems as $fileName) {
-            // Construct the relative file path
-            $filePath = $backupDirectory . '/' . $fileName;
-
-            // Check if the file exists
-            if (file_exists(public_path($filePath))) {
-                // If the file exists, add its relative path to the existingFiles array
-                $existingFiles[] = $filePath;
-            }
+        if (!file_exists($path)) {
+            abort(404);
         }
 
-        // Return the array of existing relative file paths
-        return response()->json(['files' => $existingFiles]);
+        return Response::download($path);
     }
 
     public function databaseDelete()
     {
         // Implement database delete logic
     }
-
+    
 }
