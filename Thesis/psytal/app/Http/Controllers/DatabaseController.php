@@ -22,7 +22,13 @@ class DatabaseController extends Controller
         } else {
             return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
         }
-        //should return file name so users can search
+    }
+
+    public function autoBackup(Request $request)
+    {
+        //run this function every 24 hours
+
+        $result = $this->backupMySQLDatabase();
     }
 
     public function databaseRestore(Request $request)
@@ -53,7 +59,7 @@ class DatabaseController extends Controller
             return response()->json(['message' => 'Database restored successfully!', 'success' => true]);
         } catch (PDOException $e) {
             // Handle database connection or query execution errors
-            return response()->json(['error' => 'Database restore failed. ', 'success' => true]);
+            return response()->json(['message' => 'Database restore failed. ', 'success' => false]);
         }
     }
 
@@ -107,7 +113,7 @@ class DatabaseController extends Controller
                 fwrite($backupFile, "DELETE FROM `$table`;\n");
             }
 
-             // Remove 'archives' table if it exists and add it to the end
+            // Remove 'archives' table if it exists and add it to the end
             if (($key = array_search('archives', $tables)) !== false) {
                 unset($tables[$key]);
                 $tables[] = 'archives';
@@ -193,9 +199,9 @@ class DatabaseController extends Controller
 
             $this->storeLog('Backup file/s deleted', 'SQL backup file', $backupFileName, 'public path');
 
-            return response()->json(['message' => 'Selected items deleted successfully']);
+            return response()->json(['message' => 'Selected items deleted successfully', 'success' => true]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete selected items: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to delete selected items: ', 'success' => false]);
         }
     }
 
@@ -213,6 +219,71 @@ class DatabaseController extends Controller
     public function databaseDelete()
     {
         // Implement database delete logic
+    }
+
+    public function rollbackDB (Request $request){
+        $publicPath = public_path('backups/');
+
+        $sqlFiles = File::glob($publicPath . '/*.sql');
+
+        usort($sqlFiles, function($a, $b) {
+            return filemtime($b) - filemtime($a);
+        });
+
+        if (!empty($sqlFiles)) {
+            // Get the path of the most recent SQL file
+            $latestSqlFile = $sqlFiles[0];
+
+            // Get database connection parameters
+            $host = config('database.connections.mysql.host');
+            $port = config('database.connections.mysql.port');
+            $databaseName = config('database.connections.mysql.database');
+            $username = config('database.connections.mysql.username');
+            $password = config('database.connections.mysql.password');
+
+            // Connect to the database using PDO
+            try {
+                $dsn = "mysql:host=$host;port=$port;dbname=$databaseName";
+                $pdo = new PDO($dsn, $username, $password);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                // Read the SQL file contents
+                $sql = file_get_contents($latestSqlFile);
+
+                // Execute the SQL queries to rollback the database
+                $pdo->exec($sql);
+
+                return response()->json(['message' => 'Database Rolled Back Successfully!', 'success' => true]);
+            } catch (PDOException $e) {
+                // Handle PDO exceptions
+                return response()->json(['message' => 'Rollback Error! PDO Exception.', 'success' => false]);
+            }
+        } else {
+            return response()->json(['message' => 'No SQL backup files found!', 'success' => false]);
+        }
+    }
+
+    public function latestBackup (Request $request){
+        $publicPath = public_path('backups/');
+        
+        $sqlFiles = File::glob($publicPath . '/*.sql');
+
+        usort($sqlFiles, function($a, $b) {
+            return filemtime($b) - filemtime($a);
+        });
+
+        // If there are SQL files found, rollback using the most recent one
+        if (!empty($sqlFiles)) {
+            // Get the path of the most recent SQL file
+            $latestSqlFile = $sqlFiles[0];
+            
+            // Extract only the file name from the path
+            $latestSqlFileName = basename($latestSqlFile);
+
+            return response()->json($latestSqlFileName);
+        } else {
+            return response()->json('No Backup Found');
+        }
     }
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
