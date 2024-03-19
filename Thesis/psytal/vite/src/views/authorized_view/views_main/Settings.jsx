@@ -4,21 +4,25 @@ import OpenPreRegModal from '../views_components/Settings/OpenPreRegModal'
 import EmailDomainModal from '../views_components/Settings/EmailDomainModal'
 import ShowBackup from '../views_components/Settings/showBackup.jsx';
 import axiosClient from '../../../axios.js';
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function Settings() {
     const [showOpenPreRegModal, setShowOpenPreRegModal]= useState(false);
     const [showEmailDomainModal, setShowEmailDomainModal]= useState(false);
     const [showshowBackup, setShowBackup]= useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
    
 
     const handleBackup  = () => {
         axiosClient.post('/backupDB')
                 .then(response => {
-                    //alert(response.data.message);
-                    //reload?
+                    console.log(response);
+                    setSuccessMessage(response.data.message);
+                    setSuccessStatus(response.data.success);
                 })
                 .catch(error => {
-                    //console.error('Backup failed:', error);
+                    console.error('Backup failed:', error);
                     //alert('Backup failed. Please try again.');
                 });
     }
@@ -48,6 +52,7 @@ export default function Settings() {
   return (
     <>
         <div className="w-full h-full px-4 mx-auto rounded-3xl bg-white pt-5 pb-12  table-container ">{/*For the Container*/}
+            <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
             <div>
                 <hr></hr>
                 <strong>Pre-registration</strong>
@@ -78,7 +83,7 @@ export default function Settings() {
                     <label for="fileInput" className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">Import Backup File</label>
                 </div>
                 <br></br>
-                <strong className='ml-5'>Modular Backup and Restore</strong>
+                {/*<strong className='ml-5'>Modular Backup and Restore</strong>
                 <div className='pt-4'>
                     <button className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
                         Modular Backup
@@ -87,7 +92,7 @@ export default function Settings() {
                     <label for="fileInput" className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">Load Modular Backup</label>
                 </div>
                 <br></br>
-                <hr></hr>
+                <hr></hr>*/}
             </div>
         </div>
 
