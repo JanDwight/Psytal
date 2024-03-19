@@ -18,9 +18,9 @@ class DatabaseController extends Controller
 
             $result = $this->backupMySQLDatabase();
 
-            return response()->json(['message' => 'Database backup completed successfully'], 200);
+            return response()->json(['message' => "Database backup '{$result}' created successfully", 'success' => true]);
         } else {
-            return response()->json(['error' => 'Unsupported database driver'], 500);
+            return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
         }
         //should return file name so users can search
     }
@@ -231,5 +231,4 @@ class DatabaseController extends Controller
         // Optionally, you can return the created log instance
         return $logs;
     }
-
 }
