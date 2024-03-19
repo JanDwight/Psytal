@@ -50,10 +50,10 @@ class DatabaseController extends Controller
 
             $this->storeLog('Database restored', 'SQL Restore', $backupFileName, 'file import');
     
-            return response()->json(['message' => 'Database restored successfully']);
+            return response()->json(['message' => 'Database restored successfully!', 'success' => true]);
         } catch (PDOException $e) {
             // Handle database connection or query execution errors
-            return response()->json(['error' => 'Database restore failed: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Database restore failed. ', 'success' => true]);
         }
     }
 
