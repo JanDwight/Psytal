@@ -17,6 +17,7 @@ class posts extends Model
     protected $fillable = [
         'title',
         'description',
+        'archived'
         
     ];
 

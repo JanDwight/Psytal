@@ -24,11 +24,11 @@ class DatabaseController extends Controller
         }
     }
 
-    public function autoBackup(Request $request)
+    public function autoBackup()
     {
-        //run this function every 24 hours
+        $auto = $this->backupMySQLDatabase();
 
-        $result = $this->backupMySQLDatabase();
+        return response()->json(['message' => 'Database backup auto generated successfully!', 'success' => true]);
     }
 
     public function databaseRestore(Request $request)
