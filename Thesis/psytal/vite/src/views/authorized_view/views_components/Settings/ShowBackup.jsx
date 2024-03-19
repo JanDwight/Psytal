@@ -3,7 +3,7 @@ import axiosClient from '../../../../axios';
 
 export default function ShowBackup({closeModal}) {
     const [selectedRows, setSelectedRows] = useState([]);
-    //const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     const [selectAll, setSelectAll] = useState(false);
     const [backupFiles, setBackupFiles] = useState([]);
   
@@ -86,8 +86,8 @@ export default function ShowBackup({closeModal}) {
     }
   
     return (
-    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
-        <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[80vh] overflow-y-auto min-w-[30vw] min-h-[20vh]">
+    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+        <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[90vh] overflow-auto min-w-[30vw] min-h-[20vh]">
           <div className="mb-6"> 
             <table className="min-w-full">
               <thead>
@@ -98,7 +98,7 @@ export default function ShowBackup({closeModal}) {
               </thead>
               <tbody>
                 {backupFiles.map((fileName, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
+                  <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''} onClick={() => toggleRowSelection(index)}>
                     <td className='text-center'>
                       <input
                         type="checkbox"
@@ -111,13 +111,13 @@ export default function ShowBackup({closeModal}) {
                 ))}
               </tbody>
             </table>
-          </div>
-        <input type="checkbox" className="ml-5" checked={selectAll} onChange={toggleSelectAll}/>
-        <label className="ml-2">Select All</label>
-        <button onClick={closeModal} className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
-                X
-        </button>
-            <div className="absolute bottom-2 right-2 flex space-x-3">
+            </div>
+                <input type="checkbox" className="ml-5" checked={selectAll} onChange={toggleSelectAll}/>
+                <label className="ml-2">Select All</label>
+                <button onClick={closeModal} className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
+                        X
+                </button>
+            <div className="justify-end flex space-x-3">
                 <button onClick={handleExport} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Export
                 </button>
