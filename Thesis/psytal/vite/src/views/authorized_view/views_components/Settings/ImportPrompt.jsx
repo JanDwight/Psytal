@@ -28,6 +28,10 @@ export default function ImportPrompt({closeModal}) {
         .then(response => {
             setSuccessMessage(response.data.message);
             setSuccessStatus(response.data.success);
+
+            setTimeout(() => {
+                closeModal();
+            }, 3000);
         });
     };
   

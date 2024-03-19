@@ -6,14 +6,18 @@ import ShowBackup from '../views_components/Settings/showBackup.jsx';
 import axiosClient from '../../../axios.js';
 import Feedback from '../../feedback/Feedback.jsx';
 import ImportPrompt from '../views_components/Settings/ImportPrompt.jsx';
+import RollBackPrompt from '../views_components/Settings/RollBackPrompt.jsx';
 
 export default function Settings() {
     const [showOpenPreRegModal, setShowOpenPreRegModal]= useState(false);
     const [showEmailDomainModal, setShowEmailDomainModal]= useState(false);
     const [showshowBackup, setShowBackup]= useState(false);
     const [showPrompt, setShowPrompt]= useState(false);
+    const [showRollBack, setShowRollBack]= useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
+    const [latestBackup, setLatestBackup] = useState('Loading...');
+    const [shown, setShown] = useState(false);
 
     const handleBackup  = () => {
         axiosClient.post('/backupDB')
@@ -22,9 +26,27 @@ export default function Settings() {
                     setSuccessMessage(response.data.message);
                     setSuccessStatus(response.data.success);
                 });
+        fetchLatestBackup();
+    }
+
+    useEffect(() => {
+        fetchLatestBackup();
+    }, []);
+
+    const fetchLatestBackup = async () => {
+        try {
+            const response = await axiosClient.get('/latestBackup');
+            setLatestBackup(response.data);
+        } catch (error) {
+            console.error('Error fetching latest backup:', error);
+        }
+    };
+
+    const handleView = () => {
+        setShown(!shown);
     }
     
-  return (
+    return (
     <>
         <div className="w-full h-full px-4 mx-auto rounded-3xl bg-white pt-5 pb-12  table-container ">{/*For the Container*/}
             <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
@@ -50,12 +72,34 @@ export default function Settings() {
                     <button onClick={handleBackup} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
                         Backup Database
                     </button>
-                    <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
-                        View Backup Files
+                    <button onClick={() => setShowRollBack(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                        Rollback To Most Recent Backup
                     </button>
-                    <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
-                        Import Backup File
-                    </button>
+                    <label className='ml-5'>Latest Backup: </label>
+                        <input
+                            id="latestbackup"
+                            name="latestbackup"
+                            type="text"
+                            value={latestBackup}
+                            disabled //makes field uneditable
+                            className="min-w-[20vw] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                        />
+                </div>
+                <div className='pt-4'>
+                    <input onChange={handleView} type="checkbox" id="showOption" className='ml-7'/>
+                    <label for="showOption" className='ml-2' >Advanced Options</label>
+                </div>
+                <br></br>
+                <div id="advanced" hidden={!shown}>
+                    <strong className='ml-5'>Import/Export</strong>
+                        <div className='pt-3'>
+                            <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
+                                Download Backup Files
+                            </button>
+                            <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                                Import Backup File
+                            </button>
+                        </div>
                 </div>
             </div>
         </div>
@@ -102,6 +146,18 @@ export default function Settings() {
             <div>
                 <ImportPrompt
                     closeModal={() => setShowPrompt(false)}
+                />
+            </div>
+        </ReactModal>
+
+        <ReactModal
+            isOpen={showRollBack}
+            onRequestClose={() => setShowRollBack(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <RollBackPrompt
+                    closeModal={() => setShowRollBack(false)}
                 />
             </div>
         </ReactModal>

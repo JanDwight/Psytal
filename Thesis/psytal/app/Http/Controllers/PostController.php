@@ -115,40 +115,31 @@ class PostController extends Controller
     
     public function archive(Request $request, $postId)
     {
-        \Log::info('Archiving post. Post ID: ' . $postId);
-        if (!$postId) {
-            return response(['error' => 'Invalid post ID'], 400);
-        }
     
         try {
-            // Find the post to archive
-            $post = posts::with('images')->findOrFail($postId);
-    
-            // Archive the post itself
-            $post->archived = true;
-            $post->save();
-    
-            foreach ($post->images as $image) {
-                // Archive each associated image
-                $image->archived = true;
-                $image->save();
-            }
+            $post = posts::findOrFail($postId);
+
+            $postTableName = (new posts)->getTable(); //getting table associated w/ posts model
+
+            $itemType = class_basename($post);
     
             $archive = new archive;
             $archive->item_id = $post->id;
             $archive->item_name = $post->title; 
-            $archive->item_type = class_basename($post);
-            $archive->origin_table = $post->getTable();
+            $archive->item_type = $itemType;
+            $archive->origin_table = $postTableName;
             $archive->archiver_id = auth()->user()->id;
             $archive->archiver_name = auth()->user()->name;
             $archive->archiver_role = auth()->user()->role;
             $archive->save();
 
+            $post->archived = 1;
+            $post->save();
+
             $this->storeLog('Post archived', 'post', $post->title, 'posts');
     
-            return response(['message' => 'Post and images archived successfully'], 204);
-        } catch (\Exception $e) {
-            \Log::error('Error archiving the post: ' . $e->getMessage());
+            return response(['message' => 'Post archived successfully', 'success' => true]);
+        } catch (Exception $e) {
             return response(['error' => 'Error archiving the post'], 500);
         }
     }

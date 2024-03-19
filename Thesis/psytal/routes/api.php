@@ -145,6 +145,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('listBackupFiles', [DatabaseController::class, 'listBackupFiles']);
     Route::post('delete_backup', [DatabaseController::class, 'backupDelete']);
     Route::get('download_backup/{filename}', [DatabaseController::class, 'download']);
+    Route::post('rollbackDB', [DatabaseController::class, 'rollbackDB']);
+    Route::get('latestBackup', [DatabaseController::class, 'latestBackup']);
 
 });
 

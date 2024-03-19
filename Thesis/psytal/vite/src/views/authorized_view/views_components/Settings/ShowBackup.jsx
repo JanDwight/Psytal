@@ -119,7 +119,7 @@ export default function ShowBackup({closeModal}) {
                 </button>
             <div className="justify-end flex space-x-3">
                 <button onClick={handleExport} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-                    Export
+                    Download
                 </button>
                 {/*<button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Delete

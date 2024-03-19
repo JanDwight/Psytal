@@ -8,13 +8,7 @@ export default function ArchivePost({ showArchivepost, onClose, postId, onArchiv
   const confirmArchive = async () => {
     try {
       const response = await axiosClient.put(`/posts/archive/${postId}`);
-      if (response.status === 204) {
-        // Post archived successfully, inform the parent component
-        onArchiveSuccess();
-
-      } else {
-        throw new Error('Error Network response');
-      }
+      onArchiveSuccess();
     } catch (error) {
       console.error('Error archiving the post: ', error);
     } finally {
@@ -23,14 +17,14 @@ export default function ArchivePost({ showArchivepost, onClose, postId, onArchiv
   };
 
   const handleArchive = async () => {
-            setSuccessMessage({
+          confirmArchive();
+          setSuccessMessage({
           message: 'Deleting this post was successful!',
         });
 
         setTimeout(() => {
           setSuccessMessage(null);
           setIsArchiving(true);
-          confirmArchive();
         }, 2000);
     
 
