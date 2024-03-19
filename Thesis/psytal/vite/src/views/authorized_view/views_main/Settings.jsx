@@ -5,14 +5,15 @@ import EmailDomainModal from '../views_components/Settings/EmailDomainModal'
 import ShowBackup from '../views_components/Settings/showBackup.jsx';
 import axiosClient from '../../../axios.js';
 import Feedback from '../../feedback/Feedback.jsx';
+import ImportPrompt from '../views_components/Settings/ImportPrompt.jsx';
 
 export default function Settings() {
     const [showOpenPreRegModal, setShowOpenPreRegModal]= useState(false);
     const [showEmailDomainModal, setShowEmailDomainModal]= useState(false);
     const [showshowBackup, setShowBackup]= useState(false);
+    const [showPrompt, setShowPrompt]= useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
-   
 
     const handleBackup  = () => {
         axiosClient.post('/backupDB')
@@ -20,34 +21,8 @@ export default function Settings() {
                     console.log(response);
                     setSuccessMessage(response.data.message);
                     setSuccessStatus(response.data.success);
-                })
-                .catch(error => {
-                    console.error('Backup failed:', error);
-                    //alert('Backup failed. Please try again.');
                 });
     }
-    
-    const handleRestore = (event) => {
-        const file = event.target.files[0]; // Get the selected file
-
-        // Create a FormData object to store the file data
-        const formData = new FormData();
-        formData.append('backup_file', file);
-        // Send the file to the backend using Axios
-        axiosClient.post('/restoreDB', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data' // Set content type header for FormData
-            }
-        })
-        .then(response => {
-            // Handle successful response from the backend
-            console.log(response.data.message); // You can display a success message or perform any other action
-        })
-        .catch(error => {
-            // Handle errors
-            console.error('Error:', error.message);
-        });
-    };
     
   return (
     <>
@@ -78,21 +53,10 @@ export default function Settings() {
                     <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
                         View Backup Files
                     </button>
-                    {/* Warning this will wipe the database clean and insert the restore data. Please use modular restore for conditional restore.*/}
-                    <input type="file" onChange={handleRestore} className="hidden" id="fileInput" accept=".sql"/>
-                    <label for="fileInput" className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">Import Backup File</label>
-                </div>
-                <br></br>
-                {/*<strong className='ml-5'>Modular Backup and Restore</strong>
-                <div className='pt-4'>
-                    <button className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
-                        Modular Backup
+                    <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                        Import Backup File
                     </button>
-                    <input type="file" onChange={handleRestore} className="hidden" id="fileInput" accept=".sql"/>
-                    <label for="fileInput" className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">Load Modular Backup</label>
                 </div>
-                <br></br>
-                <hr></hr>*/}
             </div>
         </div>
 
@@ -126,6 +90,18 @@ export default function Settings() {
             <div>
                 <ShowBackup
                     closeModal={() => setShowBackup(false)}
+                />
+            </div>
+        </ReactModal>
+
+        <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <ImportPrompt
+                    closeModal={() => setShowPrompt(false)}
                 />
             </div>
         </ReactModal>

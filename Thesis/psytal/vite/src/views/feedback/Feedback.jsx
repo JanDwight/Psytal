@@ -10,7 +10,7 @@ export default function Feedback({ isOpen, onClose, successMessage, status, refr
             // Set timeout to reload the page after 5 seconds only if status is success and modal is still open
             timeoutId = setTimeout(() => {
                 window.location.reload();
-            }, 2000);
+            }, 1000);
         }
 
         // Cleanup function to clear timeout when component unmounts or modal is closed manually
@@ -29,7 +29,7 @@ export default function Feedback({ isOpen, onClose, successMessage, status, refr
                 setModalClosedManually(true);
                 onClose();
             }}
-            className={`w-full md:w-[30%] h-fit rounded-3xl ring-1 ring-black shadow-2xl mt-[20%] mx-auto p-5 ${modalBgColor}`}
+            className={`text-center w-full md:w-[30%] h-fit rounded-3xl ring-1 ring-black shadow-2xl mt-[20%] mx-auto p-5 ${modalBgColor}`}
         >
             <div>{successMessage}</div>
         </ReactModal>
