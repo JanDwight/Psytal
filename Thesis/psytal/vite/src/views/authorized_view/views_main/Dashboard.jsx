@@ -220,7 +220,7 @@ export default function Dashboard() {
         {Logs_Data.slice(0, 3).map((logs_table, index) => (
           <div key={index} className="border p-2">
             <div className="text-sm ">
-              {logs_table.created_at}: {logs_table.action_taken} by {logs_table.user_name} at {logs_table.item_origin} table. Item: {logs_table.item_name}
+              {logs_table.created_at}: {logs_table.action_taken} by {logs_table.user_name} at {logs_table.item_origin}. Item: {logs_table.item_name}
             </div>
           </div>
         ))}

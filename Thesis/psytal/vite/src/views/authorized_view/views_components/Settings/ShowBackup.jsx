@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axiosClient from '../../../../axios';
+import Feedback from '../../../feedback/Feedback';
 
 export default function ShowBackup({closeModal}) {
     const [selectedRows, setSelectedRows] = useState([]);
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
     const [selectAll, setSelectAll] = useState(false);
     const [backupFiles, setBackupFiles] = useState([]);
   
@@ -48,7 +50,6 @@ export default function ShowBackup({closeModal}) {
             try {
                 for (const fileName of selectedItems) {
                     const response = await axiosClient.get(`/download_backup/${fileName}`);
-                    console.log('File downloaded:', fileName);
     
                     const blob = new Blob([response.data], { type: response.headers['content-type'] });
     
@@ -64,6 +65,9 @@ export default function ShowBackup({closeModal}) {
                     // Clean up
                     document.body.removeChild(link);
                 }
+                setSuccessMessage('Download Success!');
+                setSuccessStatus(true);
+                //closeModal();
             } catch (error) {
                 console.error('Error exporting items:', error);
             }
@@ -76,17 +80,17 @@ export default function ShowBackup({closeModal}) {
             console.log('No Selected Items.')
             //change with succes/error message later
         } else {
-            try{
-                const response = axiosClient.post('/delete_backup', { selectedItems });
-                
-            } catch (error) {
-                console.error('Error deleting items:', error);
-            }
+           axiosClient.post('/delete_backup', { selectedItems })
+                      .then(response=> {
+                        setSuccessMessage(response.data.message);
+                        setSuccessStatus(response.data.success);
+                      })
         }
     }
   
     return (
     <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+        <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[90vh] overflow-auto min-w-[30vw] min-h-[20vh]">
           <div className="mb-6"> 
             <table className="min-w-full">
@@ -121,9 +125,9 @@ export default function ShowBackup({closeModal}) {
                 <button onClick={handleExport} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Download
                 </button>
-                {/*<button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+                <button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
                     Delete
-                </button>*/}
+                </button>
             </div>
         </div>
     </div>
