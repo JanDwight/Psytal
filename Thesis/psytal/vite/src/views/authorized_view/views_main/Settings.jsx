@@ -53,37 +53,41 @@ export default function Settings() {
             <div>
                 <hr></hr>
                 <strong>Pre-registration</strong>
-                <div className='pt-2'>
+                <div>
                     {/**For opening the pre-registration and recoding what semester */}
                     <button onClick={() => setShowOpenPreRegModal(true)} 
-                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                             Configure Pre-Registration
                     </button>
                     {/**Forsaving the valid email domains */}
                     <button onClick={() => setShowEmailDomainModal(true)} 
-                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                             Add Email Domains
                     </button>
                 </div>
                 <br></br>
                 <hr></hr>
                 <strong>Data Backup and Restore</strong>
-                <div className='pt-2'>
-                    <button onClick={handleBackup} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
+                <div>
+                    <button onClick={handleBackup} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                         Backup Database
                     </button>
-                    <button onClick={() => setShowRollBack(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
-                        Rollback To Most Recent Backup
+                </div>
+                <br></br>
+                <strong className='ml-3'>Latest Backup:</strong>
+                <div>
+                    <input
+                        id="latestbackup"
+                        name="latestbackup"
+                        type="text"
+                        value={latestBackup}
+                        disabled //makes field uneditable
+                        className="min-w-[20vw] rounded-md border border-gray-300 bg-gray-100 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mt-2 ml-3"
+                    />
+                    <button onClick={() => setShowRollBack(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
+                        Restore To Latest Backup
                     </button>
-                    <label className='ml-5'>Latest Backup: </label>
-                        <input
-                            id="latestbackup"
-                            name="latestbackup"
-                            type="text"
-                            value={latestBackup}
-                            disabled //makes field uneditable
-                            className="min-w-[20vw] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                        />
+                    {/*<label for="latestbackup" className='ml-4'>Latest Backup: </label>*/}
                 </div>
                 <div className='pt-4'>
                     <input onChange={handleView} type="checkbox" id="showOption" className='ml-7'/>
@@ -91,10 +95,10 @@ export default function Settings() {
                 </div>
                 <br></br>
                 <div id="advanced" hidden={!shown}>
-                    <strong className='ml-5'>Import/Export</strong>
+                    <strong className='ml-3'>Import/Export</strong>
                         <div className='pt-3'>
-                            <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-5">
-                                Download Backup Files
+                            <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                                View Backup Files
                             </button>
                             <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
                                 Import Backup File

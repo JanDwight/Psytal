@@ -18,7 +18,7 @@ class DatabaseController extends Controller
 
             $result = $this->backupMySQLDatabase();
 
-            return response()->json(['message' => "Database backup '{$result}' created successfully", 'success' => true]);
+            return response()->json(['message' => "Database backup '{$result}' created successfully.", 'success' => true]);
         } else {
             return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
         }
@@ -26,9 +26,9 @@ class DatabaseController extends Controller
 
     public function autoBackup()
     {
-        $auto = $this->backupMySQLDatabase();
+        //$auto = $this->backupMySQLDatabase();
 
-        return response()->json(['message' => 'Database backup auto generated successfully!', 'success' => true]);
+        //return response()->json(['message' => 'Database backup auto generated successfully!', 'success' => true]);
     }
 
     public function databaseRestore(Request $request)
@@ -54,7 +54,7 @@ class DatabaseController extends Controller
             // Once database is restored, you can delete the temporary file
             unlink(storage_path('app/' . $backupFilePath));
 
-            $this->storeLog('Database restored', 'SQL Restore', $backupFileName, 'file import');
+            //$this->storeLog('Database restored', 'SQL Restore', $backupFileName, 'file import');
     
             return response()->json(['message' => 'Database restored successfully!', 'success' => true]);
         } catch (PDOException $e) {
@@ -74,7 +74,6 @@ class DatabaseController extends Controller
 
         // Backup file name
         $backupFileName = 'psytal_backup_' . date('Y-m-d_H-i-s') . '.sql';
-        $this->storeLog('Backup for database created', 'SQL Backup', $backupFileName, 'public path');
 
         // Directory to store backups (relative path from the public directory)
         $backupDirectory = 'backups';
@@ -86,6 +85,8 @@ class DatabaseController extends Controller
 
         // Backup file path (relative to the backup directory)
         $backupFilePath = $backupDirectory . '/' . $backupFileName;
+
+        $this->storeLog('Backup for database created', 'SQL Backup', $backupFileName, $backupFilePath);
 
         try {
             // Connect to the database
@@ -114,10 +115,15 @@ class DatabaseController extends Controller
             }
 
             // Remove 'archives' table if it exists and add it to the end
-            if (($key = array_search('archives', $tables)) !== false) {
+            /*if (($key = array_search('archives', $tables)) !== false) {
                 unset($tables[$key]);
                 $tables[] = 'archives';
+            }*/
+
+            if (($key = array_search('users', $tables)) !== false) {
+                unset($tables[$key]); // Remove 'users' if it exists
             }
+            array_unshift($tables, 'users'); // Add 'users' to the beginning of the array
 
             // Insert a separator between delete and insert statements
             fwrite($backupFile, "\n");
@@ -180,8 +186,27 @@ class DatabaseController extends Controller
         // Reset array keys to start from 0
         $backupFiles = array_values($backupFiles);
 
+        $parsedFiles = [];
+
+        foreach ($backupFiles as &$file) {
+            // Extract date from file name
+            preg_match('/(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})/', $file, $matches);
+            // If a match is found, update $file with the extracted date
+            if (!empty($matches)) {
+                $date_created = $matches[0];
+                $parsedFiles[] = [
+                    'file_name' => $file,
+                    'date_created' => $date_created
+                ];
+            }
+        }
         // Return the list of backup files
-        return response()->json(['backup_files' => $backupFiles], 200);
+        return response()->json(['backup_files' => $parsedFiles]);
+
+        return response()->json([
+            'backup_files' => $backupFiles,
+        ], 200);
+
     }
 
     public function backupDelete(Request $request)
@@ -194,12 +219,11 @@ class DatabaseController extends Controller
                 $filePath = public_path($backupDirectory . '/' . $fileName);
                 if (File::exists($filePath)) {
                     File::delete($filePath);
+                    $this->storeLog('Backup file/s deleted', 'SQL backup file', $fileName, $filePath);
                 }
             }
 
-            $this->storeLog('Backup file/s deleted', 'SQL backup file', $backupFileName, 'public path');
-
-            return response()->json(['message' => 'Selected items deleted successfully', 'success' => true]);
+            return response()->json(['message' => 'Selected items deleted successfully.', 'success' => true]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete selected items: ', 'success' => false]);
         }
