@@ -166,9 +166,9 @@ export default function EditUsers({ showModal, onClose, user }) {
       <ReactModal
         isOpen={isGradeModalOpen}
         onRequestClose={() => setIsGradeModalOpen(false)}
-        className="w-full lg:w-8/12 px-4 container h-fit bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5 "
+        className="w-full lg:w-8/12 px-4 container h-fit bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[2%] mx-auto p-5 "
       >
-        <div className="relative flex flex-col min-w-0 break-words w-full mt-3">
+        <div className="max-h-[40vw] relative flex flex-col min-w-0 break-words w-full mt-3">
           <StudentGrades
             showModal={isGradeModalOpen}
             onClose={() => setIsGradeModalOpen(false)}
