@@ -18,7 +18,7 @@ class DatabaseController extends Controller
 
             $result = $this->backupMySQLDatabase();
 
-            return response()->json(['message' => "Database backup '{$result}' created successfully", 'success' => true]);
+            return response()->json(['message' => "Database backup '{$result}' created successfully.", 'success' => true]);
         } else {
             return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
         }
@@ -186,8 +186,27 @@ class DatabaseController extends Controller
         // Reset array keys to start from 0
         $backupFiles = array_values($backupFiles);
 
+        $parsedFiles = [];
+
+        foreach ($backupFiles as &$file) {
+            // Extract date from file name
+            preg_match('/(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})/', $file, $matches);
+            // If a match is found, update $file with the extracted date
+            if (!empty($matches)) {
+                $date_created = $matches[0];
+                $parsedFiles[] = [
+                    'file_name' => $file,
+                    'date_created' => $date_created
+                ];
+            }
+        }
         // Return the list of backup files
-        return response()->json(['backup_files' => $backupFiles], 200);
+        return response()->json(['backup_files' => $parsedFiles]);
+
+        return response()->json([
+            'backup_files' => $backupFiles,
+        ], 200);
+
     }
 
     public function backupDelete(Request $request)
@@ -204,7 +223,7 @@ class DatabaseController extends Controller
                 }
             }
 
-            return response()->json(['message' => 'Selected items deleted successfully', 'success' => true]);
+            return response()->json(['message' => 'Selected items deleted successfully.', 'success' => true]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete selected items: ', 'success' => false]);
         }

@@ -74,7 +74,7 @@ export default function Settings() {
                     </button>
                 </div>
                 <br></br>
-                <strong className='ml-3'>Latest Backup</strong>
+                <strong className='ml-3'>Latest Backup:</strong>
                 <div>
                     <input
                         id="latestbackup"
