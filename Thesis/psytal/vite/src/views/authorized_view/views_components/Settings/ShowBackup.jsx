@@ -8,6 +8,7 @@ export default function ShowBackup({closeModal}) {
     const [successStatus, setSuccessStatus] = useState('');
     const [selectAll, setSelectAll] = useState(false);
     const [backupFiles, setBackupFiles] = useState([]);
+    const [showLoad, setShowLoad] = useState(false)
   
     //For backup file list
     useEffect(() => {
@@ -15,6 +16,7 @@ export default function ShowBackup({closeModal}) {
         .get('/listBackupFiles')
         .then((res) => {
             setBackupFiles(res.data.backup_files);  // Assuming res.data is an array
+            setShowLoad(!showLoad);
         })
         .catch((error) => {
             console.error('Error fetching backup files:', error);
@@ -118,8 +120,12 @@ export default function ShowBackup({closeModal}) {
                     <td className='text-center border border-gray-300'>{fileName.date_created}</td>
                   </tr>
                 ))}
+               
               </tbody>
             </table>
+            <div hidden={showLoad} className='mt-7 text-center justify-center'>
+              Loading Backup Files...
+            </div>
             </div>
                 <input id='allselect' type="checkbox" className="ml-5" checked={selectAll} onChange={toggleSelectAll}/>
                 <label for='allselect' className="ml-2">Select All</label>

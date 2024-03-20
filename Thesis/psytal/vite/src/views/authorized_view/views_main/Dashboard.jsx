@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
 
   const [semesterInformation, setSemesterInformation] = useState('');
+  const [showLoad, setShowLoad] = useState (false);
 
   //For Ongoing Semester and School Year
   useEffect(() => {
@@ -59,6 +60,8 @@ export default function Dashboard() {
           fetchTables('/show_logs'),
           fetchTables('/show_archives'),
         ]);
+
+        setShowLoad(!showLoad);
         
         const dashcountData = {
           totalStudents: count_student,
@@ -208,6 +211,9 @@ export default function Dashboard() {
               </div>
             </div>
           ))}
+           <div hidden={showLoad} className='text-gray-500 mt-7 text-center justify-center'>
+              Loading Archives...
+            </div>
           <div className="flex justify-between items-center">
             <button onClick={openArchiveModal} className="text-gray-500 hover:text-black text-sm p-2 rounded ml-auto">
               More Archives...
@@ -224,6 +230,9 @@ export default function Dashboard() {
             </div>
           </div>
         ))}
+            <div hidden={showLoad} className='text-gray-500 mt-7 text-center justify-center'>
+              Loading Logs...
+            </div>
           <div className="flex justify-between items-center">
             <button onClick={openLogModal} className="text-gray-500 hover:text-black text-sm p-2 rounded ml-auto">
               More Logs...
