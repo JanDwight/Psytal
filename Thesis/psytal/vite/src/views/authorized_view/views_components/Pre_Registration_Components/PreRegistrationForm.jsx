@@ -38,7 +38,7 @@ export default function PreRegistrationForm() {
     date_of_birth: '',
     place_of_birth: '',
     citizenship: '',
-    sex_at_birth: '',
+    sex_at_birth: 'Male',
     ethnicity: '',
     special_needs: '',
     contact_number: '',
