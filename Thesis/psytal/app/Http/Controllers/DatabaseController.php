@@ -258,6 +258,8 @@ class DatabaseController extends Controller
             // Get the path of the most recent SQL file
             $latestSqlFile = $sqlFiles[0];
 
+            $latestSqlFileName = pathinfo($latestSqlFile, PATHINFO_FILENAME);
+
             // Get database connection parameters
             $host = config('database.connections.mysql.host');
             $port = config('database.connections.mysql.port');
@@ -277,7 +279,9 @@ class DatabaseController extends Controller
                 // Execute the SQL queries to rollback the database
                 $pdo->exec($sql);
 
-                return response()->json(['message' => 'Database Rolled Back Successfully!', 'success' => true]);
+                $this->storeLog('Database restored to most recent backup.', 'SQL Backup', $latestSqlFileName, $publicPath);
+
+                return response()->json(['message' => 'Database Restored Successfully!', 'success' => true]);
             } catch (PDOException $e) {
                 // Handle PDO exceptions
                 return response()->json(['message' => 'Rollback Error! PDO Exception.', 'success' => false]);

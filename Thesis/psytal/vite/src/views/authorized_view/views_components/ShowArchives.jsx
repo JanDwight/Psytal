@@ -206,7 +206,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
           <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>
-          <button onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
+          <button hidden={true} onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Backup
           </button>
 

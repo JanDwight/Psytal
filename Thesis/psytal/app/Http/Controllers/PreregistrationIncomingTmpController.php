@@ -72,7 +72,7 @@ class PreregistrationIncomingTmpController extends Controller
             'student_status' => $data['student_status']
         ]);
 
-        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name' . '.'];
+        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'] . '.';
 
         $this->storeLog('New pre-registration (Incoming)', 'pre-registration', $fullName, 'preregistration', $fullName, $data['user_id'], 4 );
 
@@ -143,7 +143,7 @@ class PreregistrationIncomingTmpController extends Controller
             'type_of_student' => $data['type_of_student'],
         ]);
 
-        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name' . '.'];
+        $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'] . '.';
 
         $this->storeLog('New pre-registration (Continuing)', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 

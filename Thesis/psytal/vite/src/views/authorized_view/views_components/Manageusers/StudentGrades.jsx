@@ -41,7 +41,7 @@ export default function StudentGrades({ selectedStudent }) {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
+    <div className='overflow-y-auto'>
       <h2>Student Grades</h2>
       <table className="table w-full table-striped text-gray-700">
         <thead>

@@ -19,7 +19,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
         ' Item: ', item.item_name,
         ' User name: ',item.user_name,
         ' User role: ', item.user_type,
-        ' Location Table: ', item.item_origin
+        ' Location: ', item.item_origin
       ];
       textData += row.join('\t') + '\n';
     });
