@@ -14,6 +14,10 @@ export default function Links() {
   const [isAchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const [filterText, setFilterText] = useState(''); //for search
 
+  const handleCloseArchiveModal = () => {
+    setSelectedLink(null);
+    setIsArchiveModalOpen(false);
+  }
 
     const addLinks = async (linkData) => {
       try {
@@ -180,18 +184,25 @@ export default function Links() {
       >
       {/* Archive Modal*/}  
       <ArchiveLinks
-       onClose={handleCloseEditLinks}
-      selected={selectedLink}
+        onClose={handleCloseArchiveModal}
+        selected={selectedLink}
               />
 
       {/* Edit/Update Modal         */}
       </ReactModal>
+
+      <ReactModal
+      isOpen={showEditlink}
+      onRequestClose={() => setshowEditlink(false)}
+      className=" h-0 w-0"
+      >
         < EditLinks
               showEditlink={showEditlink}
               onClose={() => setshowEditlink(false)}
               selected={selectedLink}
             />
-            
+      </ReactModal>
+        
       </>
 
     

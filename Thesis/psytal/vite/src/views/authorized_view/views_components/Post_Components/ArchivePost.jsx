@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../../axios';
+import ReactModal from 'react-modal';
+import ArchiveWarning from '../ArchiveWarning';
 
 export default function ArchivePost({ showArchivepost, onClose, postId, onArchiveSuccess }) {
   const [isArchiving, setIsArchiving] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   const confirmArchive = async () => {
     try {
@@ -44,7 +47,7 @@ export default function ArchivePost({ showArchivepost, onClose, postId, onArchiv
             {/* YES */}
             <button
               type="button"
-              onClick={handleArchive}
+              onClick={() => setShowWarning(true)}
               className={`${
                 isArchiving ? 'opacity-50 cursor-not-allowed' : ''
               } bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 w-full rounded-full`}
@@ -63,6 +66,18 @@ export default function ArchivePost({ showArchivepost, onClose, postId, onArchiv
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showWarning}
+            onRequestClose={() => setShowWarning(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <ArchiveWarning
+                    closeModal={() => setShowWarning(false)}
+                    handleSave={handleArchive}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
