@@ -26,7 +26,7 @@ export default function LinksForStudent() {
   // //for search
   const filteredData = links.filter(
     (link) =>
-      link.class_code.toString().includes(filterText) ||
+      link.class_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
       link.class_description.toLowerCase().includes(filterText.toLowerCase()) ||
       link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
       link.url.toLowerCase().includes(filterText.toLowerCase())
@@ -63,10 +63,10 @@ export default function LinksForStudent() {
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Class Code</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Class Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Instructor</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Link Code</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Title</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Description</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Links</th>
 		              </tr>
                 </thead>
                 </table>

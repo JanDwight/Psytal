@@ -48,7 +48,7 @@ export default function ImportPrompt({closeModal}) {
             <strong>Warning</strong>
                 <p>
                     Important Notice: 
-                    Proceeding with the backup restore will replace the contents of your existing database. 
+                    Proceeding with the backup restore will delete then replace the contents of your existing database. 
                     Any modifications made after the backup file was created will be permanently lost. 
                     Are you sure you want to continue?
                 </p>
