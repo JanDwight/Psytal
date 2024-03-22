@@ -1,7 +1,7 @@
 import React, {useState,useContext, } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
-import ArchiveWarning from './ArchiveWarning.jsx';
+import ArchiveWarning from '../prompts/ArchiveWarning.jsx';
 
 export default function ArchiveUsers({ showModal, onClose, user }) {
   const [successMessage, setSuccessMessage] = useState(null);

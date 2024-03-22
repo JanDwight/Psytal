@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
-import ArchiveWarning from './ArchiveWarning.jsx';
+import ArchiveWarning from '../prompts/ArchiveWarning.jsx';
 
 
 export default function ArchiveClasses({ showModal, onClose, subject }) {

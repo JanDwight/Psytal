@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../../axios';
 import ReactModal from 'react-modal';
-import ArchiveWarning from '../ArchiveWarning';
+import ArchiveWarning from '../../prompts/ArchiveWarning';
 
 export default function ArchivePost({ showArchivepost, onClose, postId, onArchiveSuccess }) {
   const [isArchiving, setIsArchiving] = useState(false);
