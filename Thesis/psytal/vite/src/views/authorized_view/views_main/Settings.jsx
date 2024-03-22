@@ -7,43 +7,43 @@ import axiosClient from '../../../axios.js';
 import Feedback from '../../feedback/Feedback.jsx';
 import ImportPrompt from '../views_components/Settings/ImportPrompt.jsx';
 import RollBackPrompt from '../views_components/Settings/RollBackPrompt.jsx';
+import BackupPrompt from '../views_components/Settings/BackupPrompt.jsx';
 
 export default function Settings() {
     const [showOpenPreRegModal, setShowOpenPreRegModal]= useState(false);
     const [showEmailDomainModal, setShowEmailDomainModal]= useState(false);
     const [showshowBackup, setShowBackup]= useState(false);
     const [showPrompt, setShowPrompt]= useState(false);
-    const [showRollBack, setShowRollBack]= useState(false);
+    const [showBackupPrompt, setShowBackupPrompt]= useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
-    const [latestBackup, setLatestBackup] = useState('Loading...');
-    const [shown, setShown] = useState(false);
 
     const handleBackup  = () => {
+
+        const currentDate = new Date();
+        const formattedDateTime = currentDate.toISOString().slice(0, 19).replace(/[-T]/g, '_').replace(/:/g, '-');
+        const filename = `psytal_backup_${formattedDateTime}.sql`;
+
         axiosClient.post('/backupDB')
                 .then(response => {
-                    console.log(response);
-                    setSuccessMessage(response.data.message);
-                    setSuccessStatus(response.data.success);
+                    const blob = new Blob([response.data], { type: 'application/sql' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                    
+                    setSuccessMessage('Please press Save to download.');
+                    setSuccessStatus(true);
+                })
+                .catch(error => {
+                    console.error('Backup creation failed:', error);
+                    setErrorMessage('Failed to export database backup.');
+                    setErrorStatus(false);
                 });
-        fetchLatestBackup();
-    }
-
-    useEffect(() => {
-        fetchLatestBackup();
-    }, []);
-
-    const fetchLatestBackup = async () => {
-        try {
-            const response = await axiosClient.get('/latestBackup');
-            setLatestBackup(response.data);
-        } catch (error) {
-            console.error('Error fetching latest backup:', error);
-        }
-    };
-
-    const handleView = () => {
-        setShown(!shown);
     }
     
     return (
@@ -69,42 +69,14 @@ export default function Settings() {
                 <hr></hr>
                 <strong>Data Backup and Restore</strong>
                 <div>
-                    <button onClick={handleBackup} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
+                    <button onClick={() => setShowBackupPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                         Backup Database
                     </button>
-                </div>
-                <br></br>
-                <strong className='ml-3'>Latest Backup:</strong>
-                <div>
-                    <input
-                        id="latestbackup"
-                        name="latestbackup"
-                        type="text"
-                        value={latestBackup}
-                        disabled //makes field uneditable
-                        className="min-w-[20vw] rounded-md border border-gray-300 bg-gray-100 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mt-2 ml-3"
-                    />
-                    <button onClick={() => setShowRollBack(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
-                        Restore To Latest Backup
+                    <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                        Import Backup File
                     </button>
-                    {/*<label for="latestbackup" className='ml-4'>Latest Backup: </label>*/}
-                </div>
-                <div className='pt-4'>
-                    <input onChange={handleView} type="checkbox" id="showOption" className='ml-7'/>
-                    <label for="showOption" className='ml-2' >Advanced Options</label>
                 </div>
                 <br></br>
-                <div id="advanced" hidden={!shown}>
-                    <strong className='ml-3'>Import/Export</strong>
-                        <div className='pt-3'>
-                            <button onClick={() => setShowBackup(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
-                                View Backup Files
-                            </button>
-                            <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
-                                Import Backup File
-                            </button>
-                        </div>
-                </div>
             </div>
         </div>
 
@@ -155,13 +127,14 @@ export default function Settings() {
         </ReactModal>
 
         <ReactModal
-            isOpen={showRollBack}
-            onRequestClose={() => setShowRollBack(false)}
+            isOpen={showBackupPrompt}
+            onRequestClose={() => setShowBackupPrompt(false)}
             className="md:w-[1%]"
         >
             <div>
-                <RollBackPrompt
-                    closeModal={() => setShowRollBack(false)}
+                <BackupPrompt
+                    closeModal={() => setShowBackupPrompt(false)}
+                    handleSave={handleBackup}
                 />
             </div>
         </ReactModal>

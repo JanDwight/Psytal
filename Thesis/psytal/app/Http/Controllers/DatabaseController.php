@@ -18,17 +18,21 @@ class DatabaseController extends Controller
 
             $result = $this->backupMySQLDatabase();
 
-            return response()->json(['message' => "Database backup '{$result}' created successfully.", 'success' => true]);
+            //------------------------
+            $path = public_path('backups/' . $result);
+
+            if (!file_exists($path)) {
+                abort(404);
+            }
+    
+
+            return Response::download($path);
+            //------------------------
+
+            //return response()->json(['message' => "Database backup '{$result}' created successfully.", 'success' => true]);
         } else {
-            return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
+            //return response()->json(['message' => 'Unsupported database driver. Requires SQL.', 'success' => false]);
         }
-    }
-
-    public function autoBackup()
-    {
-        //$auto = $this->backupMySQLDatabase();
-
-        //return response()->json(['message' => 'Database backup auto generated successfully!', 'success' => true]);
     }
 
     public function databaseRestore(Request $request)
