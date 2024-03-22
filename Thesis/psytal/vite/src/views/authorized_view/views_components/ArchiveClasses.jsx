@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import ArchiveWarning from './ArchiveWarning.jsx';
+
 
 export default function ArchiveClasses({ showModal, onClose, subject }) {
 
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
   const handleSave = async() => {
     //Create new migration w/ the archivde field
     try {
@@ -53,10 +57,13 @@ export default function ArchiveClasses({ showModal, onClose, subject }) {
             </div>
             <br></br>
             <p>Deleting a class will make it uneditable and hidden from low level users. </p>
-            <p>Are you sure you want to proceeed?</p>
           </form>
           <div className="flex items-center justify-center my-7 space-x-4">
-            <button onClick={handleSave} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+            <button 
+              //onClick={handleSave}
+              onClick={() => setShowWarning(true)}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+            >
                 Delete
             </button>
             <button onClick={onClose} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
@@ -65,6 +72,18 @@ export default function ArchiveClasses({ showModal, onClose, subject }) {
             </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showWarning}
+            onRequestClose={() => setShowWarning(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <ArchiveWarning
+                    closeModal={() => setShowWarning(false)}
+                    handleSave={handleSave}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
