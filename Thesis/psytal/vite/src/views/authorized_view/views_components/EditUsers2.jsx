@@ -23,9 +23,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     setShowPrompt(true);
   }
 
-  const handleSave = async(e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-
+  const handleSave = async() => {
     const updatedUser = {
       user_id,
       id,
@@ -47,7 +45,7 @@ export default function EditUsers({ showModal, onClose, user }) {
         setSuccessMessage(null);
         // Close the modal
         onClose();
-        window.location.reload(); // Consider if you really need to reload the page
+        //window.location.reload(); // Consider if you really need to reload the page
       }, 2000);
 
     } catch (error) {

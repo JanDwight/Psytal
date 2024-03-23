@@ -38,6 +38,12 @@ export default function ManageUsers() {
     setIsModalOpen(true);
   };
 
+  const handleAddUserClose = () => {
+    console.log('ModalClosed');
+    setIsModalOpen(false);
+    window.location.reload(); // Reload the page
+  };
+
   return (
     <>
   <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">{/**WHole container */}
@@ -109,12 +115,12 @@ export default function ManageUsers() {
       </div>
       <ReactModal
         appElement={document.getElementById('root')}
-        isOpen={isModalOpen}i
+        isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         className="w-[20%] h-fit mt-[10%] mx-auto" //it just works don't question
       >
         <AddUsers
-          onClose={() => setIsModalOpen(false)}
+          onClose={handleAddUserClose}
         />
             
       </ReactModal>

@@ -97,14 +97,8 @@ export default function AddUsers({ onClose}) {
       console.error('Error:', error);
       // Handle error here
     }
+    onClose();
   };
-  
-
-  // const handleCloseModal = () => {
-  //   // Reset input field values when the modal is closed
-  //   resetForm();
-  //   onClose();
-  // };
   
   return (
     <>
@@ -174,7 +168,7 @@ export default function AddUsers({ onClose}) {
                 >
                   <option value="1">Admin</option>
                   <option value="2">Staff</option>
-                  <option value="3">Instructor</option>
+                  <option hidden={true} value="3">Instructor</option>
                   <option value="4">Student</option>
                 </select>
                 <div className="text-center flex justify-center">

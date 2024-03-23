@@ -59,6 +59,7 @@ class StudentList extends Component {
     this.setState({
       isArchiveUsersOpen: false,
     });
+    this.fetchData();
   };
 
   //<><><> Close EditUsers modal
@@ -67,12 +68,7 @@ class StudentList extends Component {
     this.setState({
       isEditUsersOpen: false,
     });
-  };
-
-  //<><><> Handle saving user changes from EditUsers modal
-  handleSaveUserChanges = (updatedUser) => {
-    // saving
-    console.log('User Changes Saved:', updatedUser);
+    this.fetchData();
   };
 
   render() {
