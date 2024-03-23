@@ -37,7 +37,35 @@ export default function Dashboard() {
     setIsArchiveModalOpen(true);
   };
   
-  const closeArchiveModal = () => {
+  async function closeArchiveModal() {
+    const [newLogs, newArchives] = await Promise.all([
+      fetchTables('/show_logs'),
+      fetchTables('/show_archives')
+  ]);
+
+    const Archives_Table = newArchives.map( archive => ({
+      id: archive.id,
+      item_name: archive.item_name,
+      item_type: archive.item_type,
+      origin_table: archive.origin_table,
+      archiver_name: archive.archiver_name,
+      archiver_role: archive.archiver_role,
+      archived_at: archive.created_at,
+    }));
+    setArchiveData(Archives_Table);
+
+    const Logs_Table = newLogs.map(log => ({
+      action_taken: log.action_taken,
+      item_type: log.item_type,
+      item_name: log.item_name,
+      item_origin: log.item_origin,
+      user_name: log.user_name,
+      user_type: log.user_type,
+      user_id: log.user_id,
+      created_at: log.created_at
+    }));
+    setLogsData(Logs_Table);
+
     setIsArchiveModalOpen(false);
   };
 
@@ -50,82 +78,81 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    
-    async function fetchData() {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const [count_student, count_employee, count_posts, show_logs, show_archive] = await Promise.all([
+        fetchDataCount('/count_students'),
+        fetchDataCount('/count_employee'),
+        fetchDataCount('/count_posts'),
+        fetchTables('/show_logs'),
+        fetchTables('/show_archives'),
+      ]);
+
+      setShowLoad(!showLoad);
+      
+      const dashcountData = {
+        totalStudents: count_student,
+        totalEmployees: count_employee,
+        totalPosts: count_posts,
+        totalLogins: count_employee+count_student,
+        
+      };
+      
+      setDash(dashcountData);
+
+      const Logs_Table = show_logs.map(log => ({
+        action_taken: log.action_taken,
+        item_type: log.item_type,
+        item_name: log.item_name,
+        item_origin: log.item_origin,
+        user_name: log.user_name,
+        user_type: log.user_type,
+        user_id: log.user_id,
+        created_at: log.created_at
+      }));
+
+      setLogsData(Logs_Table);
+
+      const Archives_Table = show_archive.map( archive => ({
+        id: archive.id,
+        item_name: archive.item_name,
+        item_type: archive.item_type,
+        origin_table: archive.origin_table,
+        archiver_name: archive.archiver_name,
+        archiver_role: archive.archiver_role,
+        archived_at: archive.created_at,
+      }));
+
+      setArchiveData(Archives_Table);
+
+    } catch (error) {
+      // Handle any errors that occurred during the fetch
+      console.error('Error in useEffect:', error);
+    }
+  }
+
+   //fetch all data counts
+    async function fetchDataCount(endpoint) {
       try {
-        const [count_student, count_employee, count_posts, show_logs, show_archive] = await Promise.all([
-          fetchDataCount('/count_students'),
-          fetchDataCount('/count_employee'),
-          fetchDataCount('/count_posts'),
-          fetchTables('/show_logs'),
-          fetchTables('/show_archives'),
-        ]);
-
-        setShowLoad(!showLoad);
-        
-        const dashcountData = {
-          totalStudents: count_student,
-          totalEmployees: count_employee,
-          totalPosts: count_posts,
-          totalLogins: count_employee+count_student,
-          
-        };
-        
-        setDash(dashcountData);
-
-        const Logs_Table = show_logs.map(log => ({
-          action_taken: log.action_taken,
-          item_type: log.item_type,
-          item_name: log.item_name,
-          item_origin: log.item_origin,
-          user_name: log.user_name,
-          user_type: log.user_type,
-          user_id: log.user_id,
-          created_at: log.created_at
-        }));
-
-        setLogsData(Logs_Table);
-
-        const Archives_Table = show_archive.map( archive => ({
-          id: archive.id,
-          item_name: archive.item_name,
-          item_type: archive.item_type,
-          origin_table: archive.origin_table,
-          archiver_name: archive.archiver_name,
-          archiver_role: archive.archiver_role,
-          archived_at: archive.created_at,
-        }));
-
-        setArchiveData(Archives_Table);
-
+        const response = await axiosClient.get(endpoint);
+        return response.data;
       } catch (error) {
-        // Handle any errors that occurred during the fetch
-        console.error('Error in useEffect:', error);
+        console.error('Error fetching data from the database:', error);
       }
     }
 
-     //fetch all data counts
-      async function fetchDataCount(endpoint) {
-        try {
-          const response = await axiosClient.get(endpoint);
-          return response.data;
-        } catch (error) {
-          console.error('Error fetching data from the database:', error);
-        }
+    //fetch all tables
+    async function fetchTables(endpoint) {
+      try {
+        const response = await axiosClient.get(endpoint);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching data from the database:', error);
       }
-
-      //fetch all tables
-      async function fetchTables(endpoint) {
-        try {
-          const response = await axiosClient.get(endpoint);
-          return response.data;
-        } catch (error) {
-          console.error('Error fetching data from the database:', error);
-        }
-      }
-
-    fetchData();
-  }, []);
+    }
   
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
