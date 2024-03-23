@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function AddClass({closeModal}) {
   const [selected_subject, setSelectedSubject] = useState(''); // state for the selected subject
@@ -12,6 +14,9 @@ export default function AddClass({closeModal}) {
   const [instructorData, setInstructorData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Add New Class?";
 
   
   function handleDropdownChange(selected_subject) {
@@ -72,8 +77,17 @@ export default function AddClass({closeModal}) {
       fetchData();
   }, []);
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault(); // Prevent the default form submission behavior
+  //<><><><><><>
+  const addprompt = (ev) => {
+    ev.preventDefault();
+    //const concatname = last_name + ', ' + first_name + ' ' + middle_name + '.';
+    const concatmessage = 'A new class for the subject: "' + selectedData['course_title'] + '" will be created. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
+
+  const handleSubmit = () => {
+    // Prevent the default form submission behavior
 
     if (!validateYearSection(class_section)) {
       setSectionError('Section should be a Letter (ex.A).');
@@ -137,7 +151,7 @@ export default function AddClass({closeModal}) {
         
         {/*----------*/}
         <div className='w-full'>
-          <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
+          <form onSubmit={addprompt} className='flex flex-col justify-center'>
             <div className="mt-5">
               <select
                 id="course_title"
@@ -292,6 +306,20 @@ export default function AddClass({closeModal}) {
           </form>
         </div>
         {/*----------*/}
+        <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+        </ReactModal>
         {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
