@@ -57,6 +57,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     } catch (error) {
 
     }
+    onClose();
   };
 
   const validateYearSection = (yr) => {
@@ -163,7 +164,7 @@ export default function EditUsers({ showModal, onClose, user }) {
               </div>
             </form>
 
-            <div className="text-center flex justify-end">
+            <div className="text-center flex justify-start">
               <button
                 onClick={() => setIsGradeModalOpen(true)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full"

@@ -46,6 +46,7 @@ class EmployeeList extends Component {
     this.setState({
       isArchiveUsersOpen: false,
     });
+    this.componentDidMount();
   };
 
   //<><><> Open EditUsers modal
@@ -63,13 +64,7 @@ class EmployeeList extends Component {
     this.setState({
       isEditUsersOpen: false,
     });
-  };
-
-  //<><><> Handle saving user changes from EditUsers modal
-  handleSaveUserChanges = (updatedUser) => {
-    // Handle saving the changes to the user data
-    console.log('User Changes Saved:', updatedUser);
-    // You can update your data or perform other actions here
+    this.componentDidMount();
   };
 
   render() {
@@ -160,7 +155,6 @@ class EmployeeList extends Component {
             showModal={this.state.isEditUsersOpen}
             onClose={this.handleCloseEditUsers}
             user={selectedEmployee} // Pass the selected employee to EditUsers
-            onSave={this.handleSaveUserChanges} // Pass the save function
           />
         )}
 
