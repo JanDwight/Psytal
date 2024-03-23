@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../../axios';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../../prompts/CreatePrompt.jsx'
 
 export default function EditPostModal({ selectedPost, closeModal, handleSave }) {
   const [editedPost, setEditedPost] = useState({
@@ -11,6 +13,9 @@ export default function EditPostModal({ selectedPost, closeModal, handleSave }) 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Edit Post?";
 
   useEffect(() => {
     if (selectedPost) {
@@ -72,6 +77,14 @@ export default function EditPostModal({ selectedPost, closeModal, handleSave }) 
       }
     }
   };
+
+  //<><><><><>
+const editprompt = (ev) => {
+  ev.preventDefault();
+  const concatmessage = 'Changes to the post "' + selectedPost.title + '" will be saved. Do you wish to proceed?';
+  setPromptMessage(concatmessage);
+  setShowPrompt(true);
+}
 
   const savePost = async () => {
     setLoading(true);
@@ -224,7 +237,7 @@ export default function EditPostModal({ selectedPost, closeModal, handleSave }) 
           <div className="text-center flex justify-end my-7">
             <button
               type="button"
-              onClick={savePost}
+              onClick={editprompt}
               className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full"
             >
               {loading ? 'Updating...' : 'Update'}
@@ -238,6 +251,20 @@ export default function EditPostModal({ selectedPost, closeModal, handleSave }) 
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={savePost}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">

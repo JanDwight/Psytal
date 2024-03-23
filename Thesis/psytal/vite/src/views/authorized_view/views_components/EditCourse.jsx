@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [class_year, setClassYear] = useState(curriculum.class_year);
@@ -11,9 +13,19 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [course_type, setCourseType] = useState(curriculum.course_type);
   const [preReq, setPrereq] = useState(curriculum.preReq);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Edit Course?";
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
+  //<><><><><>
+  const editprompt = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'Changes to the course "' + curriculum.course_code + '-' + curriculum.course_title + '" will be saved. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
+
+  const handleSubmit = async() => {
     // Create an object with the updated curriculum data
     const updatedCourse = {
       // Assuming curriculumId is still the same
@@ -60,7 +72,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
               Edit Course
           </div>
           <div>
-            <form>
+            <form onSubmit={editprompt}>
                 <div className='mt-2 flex flex-col-2 justify-between'>
                     <label htmlFor="class_year" className="block text-sm text-gray-700">
                     Year:
@@ -194,7 +206,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                     />
                 </div>
               <div className="text-center flex justify-center my-7">
-                <button onClick={handleSubmit} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                   Save
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
@@ -205,6 +217,20 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">

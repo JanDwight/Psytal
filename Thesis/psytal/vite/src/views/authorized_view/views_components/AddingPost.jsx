@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios';
 import image from "@assets/icons8image.png";
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function AddingPost() {
   const [error, setError] = useState('');
@@ -10,6 +12,9 @@ export default function AddingPost() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Create New Post?";
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -44,8 +49,15 @@ export default function AddingPost() {
     setSelectedImages(newImages);
   };
 
-  const onSubmit = async (ev) => {
+  //<><><><><><>
+  const addprompt = (ev) => {
     ev.preventDefault();
+    const concatmessage = 'A new post with the title: "' + title + '" will be created. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
+
+  const onSubmit = async () => {
     setError('');
     setLoading(true);
 
@@ -132,7 +144,7 @@ export default function AddingPost() {
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
             <div className="w-full px-4 mx-auto mt-6">
-              <form onSubmit={onSubmit}>
+              <form onSubmit={addprompt}>
                 {/* Attach Photo / File */}
                 {/* {<div className="rounded-md bg-transparent p-3 w-30 h-30">
                   <label htmlFor="upload" className="flex flex-row items-center gap-2 cursor-pointer">
@@ -192,6 +204,7 @@ export default function AddingPost() {
                     name="title"
                     type="text"
                     value={title}
+                    required
                     onChange={(ev) => setTitle(ev.target.value)}
                     className="block w-1/2 rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
                     placeholder="Title"
@@ -204,6 +217,7 @@ export default function AddingPost() {
                     id="description"
                     name="description"
                     value={description}
+                    required
                     onChange={(ev) => setDescription(ev.target.value)}
                     className="block w-full rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
                     rows="4"
@@ -229,6 +243,20 @@ export default function AddingPost() {
           </div>
         </div>
       )}
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={onSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">

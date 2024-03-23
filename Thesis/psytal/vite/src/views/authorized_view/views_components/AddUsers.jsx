@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import Feedback from '../../feedback/Feedback.jsx';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function AddUsers({ onClose}) {
 
@@ -16,6 +17,9 @@ export default function AddUsers({ onClose}) {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Add New User?";
 
 
   const resetForm = () => {
@@ -26,11 +30,17 @@ export default function AddUsers({ onClose}) {
     setSelectedRole('');
     setSuccessMessage(null);
   };
+
+  const addprompt = (ev) => {
+    ev.preventDefault();
+    const concatname = last_name + ', ' + first_name + ' ' + middle_name + '.';
+    const concatmessage = 'A new user account with user name: "' + concatname + '" will be created. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
   
   //add users onsubmit
-  const onSubmit = async (ev) => {
-    ev.preventDefault();
-  
+  const onSubmit = async () => {
     // Password generator
     const numbers = '0123456789';
     const symbols = '!@#$%^&*()_+{}[]~-';
@@ -105,7 +115,7 @@ export default function AddUsers({ onClose}) {
             <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>
             Add User
             </div>
-              <form onSubmit={onSubmit}>
+              <form onSubmit={addprompt}>
                 <div className="mt-10">
                   <input
                     id="last_name"
@@ -177,8 +187,21 @@ export default function AddUsers({ onClose}) {
                   </button>
                 </div>
               </form>
-
           </div>
+          <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={onSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+          </ReactModal>
         </div>
 
     </>
