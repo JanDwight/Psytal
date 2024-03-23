@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function EditUsers({ showModal, onClose, user }) {
   const [user_id, setUserid] = useState(user.user_id);
@@ -9,6 +11,17 @@ export default function EditUsers({ showModal, onClose, user }) {
   const [email, setEmail] = useState(user.email_address);
   const [successMessage, setSuccessMessage] = useState(null);
   const [lastedit, setLastedit] = useState(user.updated_at);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Edit Employee Account?";
+
+  //<><><><><>
+  const editprompt = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'Changes to the user account of "' + user.full_name + '" will be saved. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
 
   const handleSave = async(e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -53,7 +66,7 @@ export default function EditUsers({ showModal, onClose, user }) {
         <div className="w-full px-4 mx-auto mt-6">
           <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Update Account Information</p>
           <div>
-            <form>
+            <form onSubmit={editprompt}>
             <div className="mb-4">
                 <label htmlFor="id" className="block text-sm text-gray-700">
                   Employee ID:
@@ -111,7 +124,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div className="mb-4">
+              <div hidden={true} className="mb-4">
                 <label htmlFor="lastedit" className="block text-sm text-gray-700">
                   Last Update:
                 </label>
@@ -127,7 +140,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                 />
               </div>
               <div className="text-center flex justify-end my-7">
-              <button onClick={handleSave} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+              <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                   Save Changes
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
@@ -138,6 +151,20 @@ export default function EditUsers({ showModal, onClose, user }) {
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSave}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
