@@ -56,7 +56,8 @@ class CurriculumController extends Controller
         $this->storeLog('Class added', 'classes', $data['course_title'], 'classes');
 
         return response([
-            'curriculum' => $curriculum,
+            'success' => true,
+            'message' => 'Course created successfully'
         ]);
     }
 
@@ -122,11 +123,23 @@ class CurriculumController extends Controller
         // Extract the attributes from the request
         $attributes = $request->all();
         
-        $curriculumData->update($attributes);
+        try{
+            $curriculumData->update($attributes);
 
-        $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
-        
-        return response()->json(['message' => 'Curriculum updated successfully']);
+            $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
+            
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Course updated successfully'
+                ]);
+        }
+        catch (\Exception $e) 
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
+        }
     }
 
     //show for add classes dropdown

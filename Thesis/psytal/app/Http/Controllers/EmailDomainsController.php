@@ -6,7 +6,6 @@ use App\Http\Requests\EmailDomains;
 use App\Models\email_domains;
 use App\Models\logs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EmailDomainsController extends Controller
 {
@@ -28,8 +27,9 @@ class EmailDomainsController extends Controller
         if ($existingDomain) {
             // Email domain already exists, return an error response
             return response([
-                'error' => 'Email Domain already exists',
-            ], 422); // You can choose an appropriate HTTP status code
+                'message' => 'Email Domain already exists',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
 
         } else {
             // Email domain doesn't exist, proceed with creating a new one
@@ -40,7 +40,8 @@ class EmailDomainsController extends Controller
             $this->storeLog('Email domain added', 'email domain', $data['email_domains'], 'email_domains');
 
             return response([
-                'success' => 'Email Domain Added',
+                'message' => 'Email Domain Added',
+                'success' => true
             ]);
         }
     }
