@@ -78,7 +78,7 @@ class EmailDomainsController extends Controller
             ]);
         }
     }
-    
+  
     public function getAllEmailDomains()
     {
         // Retrieve all email domains from the database using the model
