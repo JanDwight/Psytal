@@ -48,7 +48,7 @@ class EmailDomainsController extends Controller
 
     public function updateemaildomain(Request $request, $id)
     {
-        try {
+        try { 
             $emailDomain = email_domains::findOrFail($id);
     
             // Extract the attributes from the request
