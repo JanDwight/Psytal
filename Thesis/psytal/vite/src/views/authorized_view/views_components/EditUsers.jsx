@@ -153,7 +153,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                   type="submit"
                   className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full"
                 >
-                  Save Changes
+                  Update
                 </button>
                 <button
                   onClick={onClose}

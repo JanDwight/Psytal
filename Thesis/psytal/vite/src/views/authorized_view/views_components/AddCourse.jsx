@@ -215,7 +215,7 @@ export default function AddCourse({closeModal}) {
 
                 <div className="text-center flex justify-center my-7">
                     <button type="submit" className="bg-[#0FE810] hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                         Add
+                         Save
                     </button>
 
                     <button onClick={closeModal} className="bg-[#f34450] hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
