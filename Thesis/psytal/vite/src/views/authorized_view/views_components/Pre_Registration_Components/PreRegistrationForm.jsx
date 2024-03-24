@@ -1262,7 +1262,7 @@ export default function PreRegistrationForm() {
                   {/*column2*/}
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
-                    <select  className='ml-5'
+                    <select  className="appearance-none block w-[50%] bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       onChange={ev => setPreregData({ ...preregData, vaccination_status: ev.target.value })} 
                       value={preregData.vaccination_status}>
                       <option 
