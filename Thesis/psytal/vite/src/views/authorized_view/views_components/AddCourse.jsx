@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function AddCourse({closeModal}) {
   const [formData, setFormData] = useState({
@@ -12,7 +13,8 @@ export default function AddCourse({closeModal}) {
     course_type: '',
     preReq: '',
   });
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,38 +24,29 @@ export default function AddCourse({closeModal}) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted!');  // Add this line
-    // Make a POST request to your backend endpoint (/addlink)
-    axiosClient.post('/addcurriculum', formData)
-      .then(response => {
-        // Handle success, e.g., show a success message
-        console.log(response.data);
-        
+        try {
+          const response = await axiosClient.post('/addcurriculum', formData);
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
 
-          setSuccessMessage({
-            message: 'The COURSE was added successfully!',
-          });
-
-          setTimeout(() => {
-            setSuccessMessage(null);
-            closeModal();
-            window.location.reload();
-          }, 2000);
-      })
-      .catch(error => {
-        // Handle errors, including validation errors
-        if (error.response.status === 422) {
-          console.log(error.response.data.errors);
-        } else {
-          console.error(error.response.data);
+          // setTimeout(() => {
+          //   setSuccessMessage(null);
+          //   closeModal();
+          //   window.location.reload();
+          // }, 2000);
+        } catch (error) {
+            setSuccessMessage(error.response.data.message)
+            setSuccessStatus(false)
         }
-      });
   };
+
+
 
   return (
     <> 
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         <div className='flex justify-center font-bold text-4xl text-[#525252]'>
         Add Course
         </div>
@@ -105,7 +98,8 @@ export default function AddCourse({closeModal}) {
                     <input
                       id="units"
                       name="units"
-                      type="text"
+                      type="number"
+                      min="0"
                       placeholder='(eg. 3)'
                       value={formData.units}
                       onChange={handleChange}
@@ -135,7 +129,8 @@ export default function AddCourse({closeModal}) {
                     <input
                       id="hoursperWeek"
                       name="hoursperWeek"
-                      type="text"
+                      type="number"
+                      min="0"
                       placeholder='(eg. 4)'
                       value={formData.hoursperWeek}
                       onChange={handleChange}
@@ -200,17 +195,6 @@ export default function AddCourse({closeModal}) {
                 </div>
             </form> 
         </div>
-        {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

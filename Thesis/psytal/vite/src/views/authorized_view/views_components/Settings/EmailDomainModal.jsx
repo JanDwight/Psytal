@@ -5,10 +5,12 @@ import archive from "@assets/delete.png"
 import ReactModal from 'react-modal';
 import EditEmailDomain from './EditEmailDomain';
 import DeleteEmailDomainModal from './DeleteEmailDomainModal';
+import Feedback from '../../../feedback/Feedback';
 
 export default function EmailDomainModal({closeModal}) {
     const [error, setError] = useState({__html: ""});
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
 
     const [emailDomain, setEmailDomain] = useState('');
     const [emailDomainList, setEmailDomainList] = useState([]);
@@ -49,65 +51,33 @@ export default function EmailDomainModal({closeModal}) {
       }, []);    
 
     //For saving the Email Domain to the data base
-    const onSubmit = (ev) => {
+    const onSubmit = async (ev) => {
         ev.preventDefault();
         setError({ __html: "" });
+     
+         try {
+          const response = await axiosClient.post('/addemaildomains', {email_domains: (emailDomain)});
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
 
-         // Check if the updated email domain already exists
-         const isDuplicate = existingEmailDomains.some(domain => domain.email_domains === emailDomain);
-
-         if (isDuplicate) {
-             setSuccessMessage({ message: "Email Domain Already Exists." });
-             setTimeout(() => {
-                 setSuccessMessage(null); 
-               }, 1500);
-             return; // Exit the function 
-         }
-        
-        axiosClient
-        .post('/addemaildomains', {
-            email_domains: (emailDomain)
-        })
-        .then(({ data }) => {
-          // Handle success, e.g., show a success message
-          console.log(data);
-    
-          setSuccessMessage({
-            message: 'Email domain added successfully!',
-          });
+            // Assuming the server response contains the newly added email domain
+            const updatedEmailDomains = [...existingEmailDomains, {
+              id: data.id,
+              email_domains: data.email_domains,
+              created_at: data.created_at,
+              updated_at: data.updated_at,
+              
+            }]; console.log(updatedEmailDomains);//NOT WORKING
           
-          // Assuming the server response contains the newly added email domain
-          const updatedEmailDomains = [...existingEmailDomains, {
-            id: data.id,
-            email_domains: data.email_domains,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
-            
-          }]; console.log(updatedEmailDomains);//NOT WORKING
-
-        //   setExistingEmailDomains(prevEmailDomains => [
-        //     ...prevEmailDomains,
-        //     {
-        //         id: data.id,
-        //         email_domains: data.email_domains,
-        //         created_at: data.created_at,
-        //         updated_at: data.updated_at,
-        //         deleted_at: data.deleted_at,
-        //     }
-        // ]);
-
-          
-
-          setTimeout(() => {
-            setSuccessMessage(null);
-            setExistingEmailDomains(updatedEmailDomains);
-          }, 2000);
-        })
-        .catch((error) => {
-          // Handle errors, including validation errors
-          console.error('Error sending data:', error);
-          
-        });
+          // setTimeout(() => {
+          //   setSuccessMessage(null);
+          //   closeModal();
+          //   window.location.reload();
+          // }, 2000);
+        } catch (error) {
+            setSuccessMessage(error.response.data.message)
+            setSuccessStatus(false)
+        }
     };
 
     //For Updating Email Domains
@@ -124,6 +94,7 @@ export default function EmailDomainModal({closeModal}) {
 
   return (
     <>
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         <div>
             <form onSubmit={onSubmit}>
                 <label className='pr-2'>
@@ -136,6 +107,7 @@ export default function EmailDomainModal({closeModal}) {
                     placeholder="@example.com"
                     value={emailDomain}
                     onChange={ev => setEmailDomain(ev.target.value)}
+                    required
                 />
 
                 {/**===========SUMBIT Button============= */}
@@ -179,17 +151,6 @@ export default function EmailDomainModal({closeModal}) {
                     ))}
                 </tbody>
             </table> 
-        {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
         </div>
 
         <ReactModal

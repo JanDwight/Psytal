@@ -30,7 +30,8 @@ class LinksController extends Controller
         $this->storeLog( 'Link created', 'link', $data['class_code'], 'links');
 
         return response([
-            'links' => $links,
+            'message' => 'Link created successfuly',
+            'success' => true
         ]);
     }
 
@@ -99,7 +100,10 @@ class LinksController extends Controller
 
     $this->storeLog( 'Link updated', 'link', $link->class_code, 'links');
 
-    return response()->json(['message' => 'Link updated successfully']);
+        return response()->json([
+            'message' => 'Link updated successfully',
+            'success' => true
+        ]);
     }
     
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)

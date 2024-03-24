@@ -1,5 +1,6 @@
 import React, { useState, } from 'react';
 import axiosClient from '../../../axios.js';
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function AddLinks({closeModal}) { 
   const [formData, setFormData] = useState({
@@ -9,8 +10,8 @@ export default function AddLinks({closeModal}) {
     url: '',
     
   });
-
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,37 +21,27 @@ export default function AddLinks({closeModal}) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted!');  // Add this line
-    // Make a POST request to your backend endpoint (/addlink)
-    axiosClient.post('/addlink', formData)
-      .then(response => {
-        // Handle success, e.g., show a success message
-        console.log(response.data);
-        setSuccessMessage({
-          message: 'The LINK was added successfully!',
-        });
+      try {
+        const response = await axiosClient.post('/addlink', formData);
+        setSuccessMessage(response.data.message);
+        setSuccessStatus(response.data.success);
 
-        setTimeout(() => {
-          setSuccessMessage(null);
-          closeModal();
-          window.location.reload();
-        }, 2000);
-      })
-      .catch(error => {
-        // Handle errors, including validation errors
-        if (error.response.status === 422) {
-          console.log(error.response.data.errors);
-        } else {
-          console.error(error.response.data);
-        }
-      });
+        // setTimeout(() => {
+        //   setSuccessMessage(null);
+        //   closeModal();
+        //   window.location.reload();
+        // }, 2000);
+      } catch (error) {
+          setSuccessMessage(error.response.data.message)
+          setSuccessStatus(false)
+      }
   };
 
   return (
     <>
-      {/* ... your JSX ... */}
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>Add Link</div>
     <div>
       <form onSubmit={handleSubmit}>
@@ -114,18 +105,6 @@ export default function AddLinks({closeModal}) {
         </div>
           </form>
         </div>
-
-        {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
     
   );
