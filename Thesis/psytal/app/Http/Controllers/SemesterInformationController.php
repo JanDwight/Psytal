@@ -33,7 +33,8 @@ class SemesterInformationController extends Controller
             // Check if the current date is equal to or greater than end_of_school_year
             if ($currentDate >= $firstSemester['end_of_school_year']) {
                 // Update open_pre_reg value to 0
-                semester_information::update(['open_pre_reg' => 0]); //may error dito <><><><><><><>
+                semester_information::query()->update(['open_pre_reg' => 0]);
+                return response(['The school year has ended.']);
             } else {
                 // Return the ongoing semester without updating open_pre_reg
                 return response([$ongoingSemester]);
