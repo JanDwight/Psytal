@@ -395,11 +395,11 @@ export default function PreRegistrationForContinuing(prereg) {
     avail_free_higher_education: '',
     voluntary_contribution: '',
     contribution_amount: '',
-    semester: '1st Semester',
+    semester: '',
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
     major: '',
-    year_level: '1'
+    year_level: ''
     }));
     console.log("Closing modal");
     setShowModal(false);
@@ -571,19 +571,10 @@ export default function PreRegistrationForContinuing(prereg) {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2 mb-2" htmlFor="grid-schoolyear">
                               Semester :
                             </label>
-                            <select  className='"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
-                              value={preregData.semester}
-                              onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}>
-                              <option 
-                                value="1st Semester">
-                                  1st Semester</option>
-                              <option 
-                                value="2nd Semester">
-                                  2nd Semester</option>
-                                  <option 
-                                value="Mid Year">
-                                  Mid Year</option>
-                            </select>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            value={preregData.semester}
+                            onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}
+                                        />
                           </div>
                           
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
@@ -665,11 +656,8 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input numeric characters only. (0 to 9)"
                                 inputmode="numeric"
                                 maxLength={7}
-                                value={preregData.student_school_id}     
-                                onChange={ev => {
-                                    const value = ev.target.value.replace(/\D/g, '');
-                                    setPreregData({ ...preregData, student_school_id: value });}}
-                                    
+                                value={preregData.student_school_id}
+                                onChange={(ev) => setPreregData({ ...preregData, student_school_id: ev.target.value })} 
                                 />          
                                 <img
                                   src={info}
@@ -794,27 +782,28 @@ export default function PreRegistrationForContinuing(prereg) {
                             <div className="input-container relative">
                                 <span className= "text-sm font-semibold">Year Level : </span> <hr className="w-[40%]"/>
                                 <div className='mt-2'>
-                                      <select  className="appearance-none block w-[50%] bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        value={preregData.yearLevel}
-                                        onChange={(ev) => setPreregData({  ...preregData, year_level: ev.target.value })}>
-                                            <option 
-                                              value="1">
-                                                1st Year</option>
-                                            <option 
-                                              value="2">
-                                                2nd Year</option>
-                                            <option 
-                                              value="3">
-                                                3rd Year</option>
-                                            <option 
-                                              value="4">
-                                                4th Year</option>
-                                      </select>
+                                    <input name="yearlevel"
+                                            className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
+                                            type="text"
+                                            pattern="^[1-4]$"
+                                            title="Input numeric characters only. (1 to 4)"
+                                            inputmode="numeric"
+                                            maxLength={1}
+                                            value={preregData.yearLevel}
+                                            onChange={(ev) => {
+                                              setPreregData({ ...preregData, year_level: ev.target.value })
+                                              // Check if the input matches the pattern or if it's an empty string (allowing backspace and delete)
+                                              if (/^[1-4]*$/.test(value)) {
+                                                // Update the state with the valid input
+                                                setYearLevel(value);
+                                              }
+                                            }}
+                                            />
                                             <img
                                               src={info}
                                               alt="info"
-                                              className="absolute left-[55%] top-[50%] h-6 w-6"
-                                              title="Select your year level."
+                                              className="absolute right-3 top-[50%] h-6 w-6"
+                                              title="Input numeric characters only. (1 to 4)"
                                             />
                                 </div> 
                                 </div>                            
@@ -1114,7 +1103,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             Sex at Birth :
                           </label>
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
-                          <select  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          <select  className='"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
                             onChange={ev => setPreregData({ ...preregData, sex_at_birth: ev.target.value })} 
                             value={preregData.sex_at_birth}>
                             <option 
@@ -1367,7 +1356,7 @@ export default function PreRegistrationForContinuing(prereg) {
                   {/*column2*/}
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
-                    <select  className="appearance-none block w-[50%] bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    <select  className='ml-5'
                       onChange={(ev) => setPreregData({ ...preregData, vaccination_status: ev.target.value })} 
                       value={preregData.vaccination_status}>
                       <option 

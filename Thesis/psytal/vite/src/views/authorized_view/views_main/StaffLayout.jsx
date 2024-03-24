@@ -77,7 +77,7 @@ export default function StaffLayout() {
                         {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                        <div className="absolute right-0 mt-2 w-48 origin-top-right"><h4 className="font-medium text-gray-800 dark:text-gray-600">WELCOME, {currentUser}</h4></div>
+                        <div className="absolute right-0 mt-2 w-48 origin-top-right"><h4 className="font-medium text-gray-800 dark:text-gray-600">{currentUser}</h4></div>
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full shadow-2xl shadow-black text-sm  focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>

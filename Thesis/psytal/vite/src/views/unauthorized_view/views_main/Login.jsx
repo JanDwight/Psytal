@@ -87,13 +87,13 @@ export default function Login() {
             src={PsychLogo}
             alt="psychology logo"
           />
-          <h2 className="mt-3 text-center text-3xl font-franklin leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-3 text-center text-2xl font-franklin leading-9 tracking-tight text-gray-900">
             Login to PSYTAL
           </h2>
 
           <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST"> 
             <div>
-              <label htmlFor="fullName" className="mt-5 block text-m font-medium leading-6 text-gray-900">
+              <label htmlFor="fullName" className="mt-5 block text-sm font-medium leading-6 text-gray-900">
                 Full Name
               </label>
               <div className="mt-2"> 
@@ -113,7 +113,7 @@ export default function Login() {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-m font-medium leading-6 text-gray-900">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
 
@@ -129,8 +129,8 @@ export default function Login() {
                   onChange={ev => setPassword(ev.target.value)}
                   className="block w-[100%] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <div className='flex justify-end'>
-                  <label onClick={toggleVisibility} className={`text-${isVisible ? 'gray-900' : 'white'}  text-m text px-2 mb-2 font-semibold hover:border-b-2 border-indigo-600`}>
+                <div>
+                  <label onClick={toggleVisibility} className='text-blue-400 text-sm text px-2 mb-2'>
                     {isVisible ? "Hide Password" : "Show Password"}
                   </label>
                 </div>
@@ -139,8 +139,8 @@ export default function Login() {
             <div className='bg-red-500 rounded py-2 px-2 text-white' dangerouslySetInnerHTML={error}></div>
           )}
             </div>
-            <div className='flex justify-center'>
-            <label onClick={() => setIsModalOpen(true)} className="font-bold text-m text-white hover:border-b-2 border-indigo-600 hover:text-indigo-600">
+            <div className="text-sm">
+            <label onClick={() => setIsModalOpen(true)} className="font-semibold text-indigo-600 hover:text-indigo-500">
               Forgot password?
             </label>
             </div>
@@ -149,14 +149,14 @@ export default function Login() {
         type="submit"
         className={`flex w-[100%] justify-center rounded-md ${
           attempts === 3 ? 'bg-gray-500' : 'bg-[#397439]'
-        } px-3 py-1.5 text-m font-semibold leading-6 text-white shadow-sm hover:bg-[#367E18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+        } px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#367E18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
         disabled={attempts === 3 && countdown > 0} // Disable the button when attempts are 3 and countdown is not zero
         onClick={onSubmit}
       >
                 Sign in
               </button>
               {attempts === 3 && displayTime && (
-        <p className="text-m text-white mt-2">
+        <p className="text-sm text-gray-600 mt-2">
           Please wait {Math.floor(countdown / 60)}:{countdown % 60} before trying again.
         </p>
       )}
