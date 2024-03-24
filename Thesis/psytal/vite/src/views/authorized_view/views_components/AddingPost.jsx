@@ -229,7 +229,7 @@ export default function AddingPost() {
                     type="submit"
                     className="bg-lime-600 hover-bg-lime-700 text-white font-bold py-2 px-4 rounded-full"
                   >
-                    {loading ? 'Posting...' : 'Post'}
+                    {loading ? 'Posting...' : 'Save Post'}
                   </button>
                   <button
                     onClick={closeModal}

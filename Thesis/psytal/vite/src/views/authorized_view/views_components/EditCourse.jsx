@@ -207,7 +207,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                 </div>
               <div className="text-center flex justify-center my-7">
                 <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                  Save
+                  Update
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Cancel

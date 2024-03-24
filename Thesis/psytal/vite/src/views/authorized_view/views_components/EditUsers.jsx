@@ -134,7 +134,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div hidden={true}className="mb-4">
+              <div hidden={true} className="mb-4">
                 <label htmlFor="lastedit" className="block text-sm text-gray-700">
                   Last Update:
                 </label>
@@ -153,7 +153,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                   type="submit"
                   className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full"
                 >
-                  Save Changes
+                  Update
                 </button>
                 <button
                   onClick={onClose}
