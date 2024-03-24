@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 
 export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const course_title = subject.course_title;
@@ -13,6 +15,9 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const [class_section_error, setSectionError] = useState(''); 
   const [class_code, setClass_Code] = useState(class_code_old);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Edit Class?";
   
   const [instructorsTable, setInstructorsTable] = useState([]);
 
@@ -43,8 +48,15 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
 
   },[])
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
+  //<><><><><>
+  const editprompt = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'Changes to the class "' + course_code + '-' + course_title + '" will be saved. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
+
+  const handleSubmit = async() => {
     // Create an object with the updated class data
     
     if (!validateYearSection(class_section)) {
@@ -94,7 +106,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
         <div className="w-full px-4 mx-auto mt-6">
           <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Assign Class Information</p>
           <div>
-            <form>
+            <form onSubmit={editprompt} >
             <div className="mb-4">
                 <label htmlFor="class" className="block text-sm text-gray-700">
                   Course Title:
@@ -120,7 +132,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                   //value={class_code_old}
                   onChange={(ev) => setClass_Code(ev.target.value.toUpperCase())}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                  required
+                  //required
                 />
               </div>
              {/*User Input*/}
@@ -133,6 +145,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                   name="instructor"
                   type="text"
                   onChange={(e) => setInstructor(e.target.value)}
+                  //required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 >
                   <option value="" disabled selected>
@@ -155,7 +168,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                       type="text"
                       maxLength={10}
                       placeholder={section_old}
-                      required
+                      //required
                       //onChange={(ev) => setClass_Section(ev.target.value.toUpperCase())}
                       onChange={(e) => {
                         const value = e.target.value.toUpperCase();
@@ -170,8 +183,8 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                     )}
               </div>
               <div className="text-center flex justify-end my-7">
-                <button onClick={handleSubmit} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                  Save Changes
+                <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                  Update
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Cancel
@@ -181,6 +194,20 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">

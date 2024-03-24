@@ -35,18 +35,18 @@ export default function EmailDomainModal({closeModal}) {
         });
     }, []);
 
+    const fetchData = async () => {
+      try {
+        const response = await axiosClient.get('/emaildomainindex');
+        setEmailDomainList(response.data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     //For fetching the list of the saved Email Domain from the Database
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axiosClient.get('/emaildomainindex');
-            setEmailDomainList(response.data[0]);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
+        
         fetchData();
       }, []);    
 

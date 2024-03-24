@@ -13,7 +13,6 @@ export default function ArchiveWarning({ closeModal, handleSave}) {
             <div className="mb-6 text-center"> 
             <strong>Warning</strong>
                 <p>
-                  Important Notice:
                   Proceeding with this action will hide the selected item from view. 
                   It cannot be modified unless restored from the <b>Dashboard</b> by an admin user.
                   Are you sure you want to continue?

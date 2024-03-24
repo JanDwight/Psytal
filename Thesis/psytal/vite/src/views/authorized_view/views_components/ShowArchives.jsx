@@ -86,7 +86,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
         setSuccessMessage(null);
         setSelectedRows([]);
         onClose();
-        window.location.reload();
+        //window.location.reload();
       }, 3000);
       // Handle the response from the backend as needed
       console.log('Response from backend:', response.data);
@@ -128,7 +128,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
         setSuccessMessage(null);
         setSelectedRows([]);
         onClose();
-        window.location.reload();
       }, 3000);
   
       // Reset selectedRows when handling restore
@@ -140,9 +139,9 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   };
 
   const handleCloseModal = () => {
+    setSelectAll(false);
     setSelectedRows([]);
     onClose();
-    window.location.reload();
   };
 
   return (

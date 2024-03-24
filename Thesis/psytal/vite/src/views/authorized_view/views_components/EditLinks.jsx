@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../prompts/CreatePrompt.jsx'
 import Feedback from '../../feedback/Feedback.jsx';
 
 export default function EditLinks({ showEditlink, onClose, selected }) {
    // Initialize state with default values or values from 'link' if it's defined
-   const [class_code, setClassCode] = useState(selected.class_code || '');
-   const [class_description, setClassDescription] = useState(selected.class_description || '');
-   const [instructor_name, setInstructorName] = useState(selected.instructor_name || '');
-   const [url, setUrl] = useState(selected.url || '');
-   const [successMessage, setSuccessMessage] = useState('');
+    const [class_code, setClassCode] = useState(selected.class_code || '');
+    const [class_description, setClassDescription] = useState(selected.class_description || '');
+    const [instructor_name, setInstructorName] = useState(selected.instructor_name || '');
+    const [url, setUrl] = useState(selected.url || '');
+    const [successMessage, setSuccessMessage] = useState('');
    const [successStatus, setSuccessStatus] = useState('');
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [promptMessage, setPromptMessage] = useState('');
+    const action = "Confirm Edit Link?";
 
  // Set initial values when modal is opened
  useEffect(() => {
@@ -21,9 +26,16 @@ export default function EditLinks({ showEditlink, onClose, selected }) {
   }
 }, [selected]);
 
+//<><><><><>
+const editprompt = (ev) => {
+  ev.preventDefault();
+  const concatmessage = 'Changes to the link "' + selected.class_code + '" will be saved. Do you wish to proceed?';
+  setPromptMessage(concatmessage);
+  setShowPrompt(true);
+}
+
    
-    const handleSave = async(e) => {
-      e.preventDefault();
+    const handleSave = async() => {
       const updatedUserLinks = {
         class_code,
         class_description, 
@@ -60,7 +72,7 @@ export default function EditLinks({ showEditlink, onClose, selected }) {
         <div className="w-full px-4 mx-auto mt-6">
           <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Update Links Information</p>
           <div>
-            <form onSubmit={handleSave}>
+            <form onSubmit={editprompt}>
               <div className="mb-4">
                 <label htmlFor="class_code" className="block text-sm text-gray-700">
                   Class Code:
@@ -121,8 +133,8 @@ export default function EditLinks({ showEditlink, onClose, selected }) {
                 />
               </div>
               <div className="text-center flex justify-end my-7">
-              <button className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                  Save Changes
+              <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                  Update
                 </button>
                 <button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Cancel
@@ -132,6 +144,20 @@ export default function EditLinks({ showEditlink, onClose, selected }) {
           </div>
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSave}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
     </div>
   );
 }
