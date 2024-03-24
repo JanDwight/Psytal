@@ -139,7 +139,6 @@ export default function AddClass({closeModal}) {
     return /^[A-Za-z]$/.test(class_section);
   };
   
-  
   return (
     <> 
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
