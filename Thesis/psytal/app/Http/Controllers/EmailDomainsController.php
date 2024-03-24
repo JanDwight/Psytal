@@ -48,24 +48,37 @@ class EmailDomainsController extends Controller
 
     public function updateemaildomain(Request $request, $id)
     {
-        $emailDomain = email_domains::find($id);
-
-        if($emailDomain){
-             // Extract the attributes from the request
-            $attributes = $request->all();
+        try { 
+            $emailDomain = email_domains::findOrFail($id);
     
-            $emailDomain->update($attributes); 
+            // Extract the attributes from the request
+            $attributes = $request->all();
+            
+            $emailtoupdate = email_domains::where('email_domains', $attributes)->first();
 
+            if($emailtoupdate != null){
+                return response([
+                    'message' => 'Email already exists',
+                    'success' => $emailtoupdate
+                ]);
+            }
+            
+            $emailDomain->update($attributes);
+    
             $this->storeLog('Email domain updated', 'email domain', $emailDomain->email_domains, 'email_domains');
-
+    
             return response([
-                'success' => 'Email Domain Updated',
+                'message' => 'Email Domain Updated',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'Something Went Wrong: ' . $e->getMessage(),
+                'success' => false
             ]);
         }
-        return response([
-            'error' => 'something Went Wrong',
-        ]);
     }
+  
     public function getAllEmailDomains()
     {
         // Retrieve all email domains from the database using the model
