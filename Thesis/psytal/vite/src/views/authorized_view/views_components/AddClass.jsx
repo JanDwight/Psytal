@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../prompts/CreatePrompt.jsx'
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function AddClass({closeModal}) {
   const [selected_subject, setSelectedSubject] = useState(''); // state for the selected subject
@@ -13,10 +14,12 @@ export default function AddClass({closeModal}) {
   const [subjectData, setSubjectData] = useState([]);
   const [instructorData, setInstructorData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Add New Class?";
+
+  const [successStatus, setSuccessStatus] = useState('');
 
   
   function handleDropdownChange(selected_subject) {
@@ -88,13 +91,16 @@ export default function AddClass({closeModal}) {
 
   const handleSubmit = () => {
     // Prevent the default form submission behavior
-
+    
+    
     if (!validateYearSection(class_section)) {
       setSectionError('Section should be a Letter (ex.A).');
       return;
     } else {
       setSectionError('');
     }
+    
+    
 
       // Create a formData object and send it using axios
       const formData = {
@@ -113,25 +119,18 @@ export default function AddClass({closeModal}) {
   
     axiosClient.post('/addclass', formData)
       .then((response) => {
+        
         // Handle a successful response here
         console.log('Data sent successfully:', response.data);
 
         // Close the modal or perform any other action as needed
-   
+        setSuccessMessage(response.data.message);
+        setSuccessStatus(response.data.success);
 
-        setSuccessMessage({
-          message: 'The CLASS was added successfully!',
-        });
-
-        setTimeout(() => {
-          setSuccessMessage(null);
-          closeModal();
-          window.location.reload();
-        }, 2000);
       })
       .catch((error) => {
-        // Handle errors here
-        console.error('Error sending data:', error);
+        setSuccessMessage(error.response.data.message)
+        setSuccessStatus(false)
       });
   };
 
@@ -142,7 +141,9 @@ export default function AddClass({closeModal}) {
   
   
   return (
-    <div>
+    <> 
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
+       <div>
         {/*For creating sections 1 class = 2 or more sections * 2 if there is both lec and lab 
         meaning one subject can potentially have 4 classes minimum*/}
         <div className='flex justify-center font-bold text-4xl text-[#525252] mt-1'>
@@ -320,17 +321,7 @@ export default function AddClass({closeModal}) {
                 />
             </div>
         </ReactModal>
-        {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+  </>
   )
 }

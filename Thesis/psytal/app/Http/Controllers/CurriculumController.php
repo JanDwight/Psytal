@@ -18,6 +18,16 @@ class CurriculumController extends Controller
 
         /** @var \App\Models\curriculum $curriculum */
 
+        $existingCurriculum = curriculum::where('course_code', $data['course_code'])->first();
+
+        if ($existingCurriculum) {
+            // Course code already exists, return an error response
+            return response([
+                'message' => 'Course code already exists',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
+        }
+
         $curriculum = curriculum::create([
             'class_year' => $data['class_year'],
             'semester' => $data['semester'],
@@ -111,9 +121,10 @@ class CurriculumController extends Controller
 
     public function updateCurriculum(Request $request, $curriculumId)
     {
-        //also update corresponding classes in classess table
+
 
             $curriculumData = curriculum::find($curriculumId);
+            
             
         if (!$curriculumData) {
             // Handle the case where the preregID with the provided ID is not found
@@ -121,17 +132,51 @@ class CurriculumController extends Controller
         }
 
         // Extract the attributes from the request
-        $attributes = $request->all();
-        
-        try{
-            $curriculumData->update($attributes);
+        $newAttributes = $request->all();
 
+        // Check if the course code is being changed
+        if (isset($newAttributes['course_code']) && $newAttributes['course_code'] !== $curriculumData->course_code) {
+            // Check if the new course code already exists
+            $existingCurriculum = curriculum::where('course_code', $newAttributes['course_code'])->first();
+
+            if ($existingCurriculum) {
+                // New course code already exists, return an error response
+                return response()->json([
+                    'success' => false,
+                    'message' => 'New course code is already used by another curriculum'
+                ]);
+            }
+        }
+
+        // try{
+        //     $curriculumData->update($attributes);
+
+        //     $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
+            
+        //         return response()->json([
+        //             'success' => true,
+        //             'message' => 'Course updated successfully'
+        //         ]);
+        // }
+        try {
+            // Update the curriculum
+            $curriculumData->update($newAttributes);
+
+            // Log the update
             $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
             
+            // Check if any changes were made
+            if ($curriculumData->wasChanged()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Course updated successfully'
                 ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No changes made'
+                ]);
+            }
         }
         catch (\Exception $e) 
         {
