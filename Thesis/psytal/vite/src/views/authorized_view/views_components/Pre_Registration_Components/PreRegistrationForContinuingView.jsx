@@ -547,7 +547,10 @@ console.log("This data is:last name "+ preregData.last_name);
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2 mb-2" htmlFor="grid-schoolyear">
                                     School year :
                                 </label>
-                                <span className="text-sm mt-2 pl-10"> First Semester </span> 
+                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                  value={preregData.semester}
+                                  onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}
+                                />
                             </div>
                             
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">

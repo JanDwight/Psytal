@@ -60,6 +60,7 @@ class preregistration_incoming_tmp extends Model
             'section',
             'pre_reg_status',
             'student_status',
+            'semester'
         ];
 
     /**

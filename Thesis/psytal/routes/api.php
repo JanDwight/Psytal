@@ -148,6 +148,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('rollbackDB', [DatabaseController::class, 'rollbackDB']);
     Route::get('latestBackup', [DatabaseController::class, 'latestBackup']);
 
+    //Route for prereg continuing form and form view
+    Route::get('studentData', [StudentProfileController::class, 'studentData']);
+
+
 });
 
 

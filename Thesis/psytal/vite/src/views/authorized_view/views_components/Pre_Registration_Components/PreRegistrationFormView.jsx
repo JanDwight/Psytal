@@ -271,6 +271,7 @@ const handleChangeUnits = (index, value) => {
       //Create student profile============================================================================
       axiosClient
       .post(`/createstudentprofile`, {
+        semester: preregData.semester,
         user_id: String(preregData.user_id),
         start_of_school_year: parseInt(preregData.start_of_school_year),
         end_of_school_year: parseInt(preregData.end_of_school_year),
@@ -402,11 +403,12 @@ const handleChangeUnits = (index, value) => {
 
       // Convert the integer term to text
       // Combine two terms start and End
+      const semesterTxt = preregData.semester;
       const integerstartOfSchoolYear = preregData.start_of_school_year;
       const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
       const integerendOfSchoolYear = preregData.end_of_school_year;
       const textendOfSchoolYear = integerendOfSchoolYear.toString();
-      const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
+      const fullTerm = semesterTxt + ' ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
       // Convert the integer to text before assigning
       const integerstudentSchoolId = preregData.student_school_id;
@@ -727,7 +729,8 @@ const handleChangeUnits = (index, value) => {
                       Semester :
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                     value= "First Semester"
+                      value={preregData.semester}
+                      onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}
                      />
                 </div>
                 
