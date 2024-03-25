@@ -48,8 +48,8 @@ export default function GuestLayout() {
 
   return (
     <>
-      <div className='min-h-full'>
-        <header>
+      <div className='min-h-[15vh]'>
+        <header className='fixed z-50'>
         <Disclosure as="nav" className="bg-viridian">
           {({ open }) => (
             <>
