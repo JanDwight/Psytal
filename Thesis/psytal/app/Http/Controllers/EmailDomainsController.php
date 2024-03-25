@@ -6,7 +6,6 @@ use App\Http\Requests\EmailDomains;
 use App\Models\email_domains;
 use App\Models\logs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EmailDomainsController extends Controller
 {
@@ -28,8 +27,9 @@ class EmailDomainsController extends Controller
         if ($existingDomain) {
             // Email domain already exists, return an error response
             return response([
-                'error' => 'Email Domain already exists',
-            ], 422); // You can choose an appropriate HTTP status code
+                'message' => 'Email Domain already exists',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
 
         } else {
             // Email domain doesn't exist, proceed with creating a new one
@@ -40,31 +40,45 @@ class EmailDomainsController extends Controller
             $this->storeLog('Email domain added', 'email domain', $data['email_domains'], 'email_domains');
 
             return response([
-                'success' => 'Email Domain Added',
+                'message' => 'Email Domain Added',
+                'success' => true
             ]);
         }
     }
 
     public function updateemaildomain(Request $request, $id)
     {
-        $emailDomain = email_domains::find($id);
-
-        if($emailDomain){
-             // Extract the attributes from the request
-            $attributes = $request->all();
+        try { 
+            $emailDomain = email_domains::findOrFail($id);
     
-            $emailDomain->update($attributes); 
+            // Extract the attributes from the request
+            $attributes = $request->all();
+            
+            $emailtoupdate = email_domains::where('email_domains', $attributes)->first();
 
+            if($emailtoupdate != null){
+                return response([
+                    'message' => 'Email already exists',
+                    'success' => $emailtoupdate
+                ]);
+            }
+            
+            $emailDomain->update($attributes);
+    
             $this->storeLog('Email domain updated', 'email domain', $emailDomain->email_domains, 'email_domains');
-
+    
             return response([
-                'success' => 'Email Domain Updated',
+                'message' => 'Email Domain Updated',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'Something Went Wrong: ' . $e->getMessage(),
+                'success' => false
             ]);
         }
-        return response([
-            'error' => 'something Went Wrong',
-        ]);
     }
+  
     public function getAllEmailDomains()
     {
         // Retrieve all email domains from the database using the model

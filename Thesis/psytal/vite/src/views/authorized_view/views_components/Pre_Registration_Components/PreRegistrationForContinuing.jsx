@@ -366,7 +366,7 @@ export default function PreRegistrationForContinuing(prereg) {
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
     major: '',
-    year_level: ''
+    year_level: '1'
     }));
     console.log("Closing modal");
     setShowModal(false);
@@ -631,8 +631,11 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input numeric characters only. (0 to 9)"
                                 inputmode="numeric"
                                 maxLength={7}
-                                value={preregData.student_school_id}
-                                onChange={(ev) => setPreregData({ ...preregData, student_school_id: ev.target.value })} 
+                                value={preregData.student_school_id}     
+                                onChange={ev => {
+                                    const value = ev.target.value.replace(/\D/g, '');
+                                    setPreregData({ ...preregData, student_school_id: value });}}
+                                    
                                 />          
                                 <img
                                   src={info}
@@ -1068,7 +1071,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             Sex at Birth :
                           </label>
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
-                          <select  className='"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
+                          <select  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             onChange={ev => setPreregData({ ...preregData, sex_at_birth: ev.target.value })} 
                             value={preregData.sex_at_birth}>
                             <option 

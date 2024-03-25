@@ -138,6 +138,27 @@ class ClassesController extends Controller
 
         /** @var \App\Models\classes $class */
 
+         // Check if the class code already exists
+        $existingClassCode = classes::where('class_code', $data['class_code'])->first();
+        if ($existingClassCode) {
+            // Class code already exists, return an error response
+            return response([
+                'message' => 'Class code already exists',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
+        }
+
+        // // Check if the course code already exists
+        // $existingCourseCode = classes::where('course_code', $data['course_code'])->first();
+        // if ($existingCourseCode) {
+        //     // Course code already exists, return an error response
+        //     return response([
+        //         'message' => 'Course code already exists',
+        //         'success' => false
+        //     ]); // You can choose an appropriate HTTP status code
+        // }
+    
+
         $class = classes::create([
             'course_title' => $data['course_title'],
             'class_code' => $data['class_code'],
@@ -154,8 +175,10 @@ class ClassesController extends Controller
         $this->storeLog('Class created', 'class', $data['class_code'], 'classes');
 
         return response([
-            'class' => $class,
-            //'token' => $token,
+            // 'class' => $class,
+            // 'token' => $token,
+            'success' => true,
+            'message' => 'Class created successfully'
         ]);
     }
     //update class
@@ -176,13 +199,36 @@ class ClassesController extends Controller
             return response()->json(['message' => 'Class not found'], 404);
         }
 
+        // Check if the class code is not changed or is already a given
+        if ($validatedData['class_code'] === $subject->class_code) {
+            // Return an error response indicating that the class code is not changed or is already given
+            return response([
+                'message' => 'Class code is the same. Class code was not changed',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
+        }
+
+        // Check if the class code already exists
+        $existingClass = classes::where('class_code', $validatedData['class_code'])->first();
+        if ($existingClass) {
+            // Return an error response indicating that the class code already exists
+            return response([
+                'message' => 'Class code already exists',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
+        }
+
         // Update the user's information with the validated data
         $subject->update($validatedData);
 
         $this->storeLog('Class updated', 'class', $subject->class_code, 'classes');
 
         // Return a success response
-        return response()->json(['message' => 'Class updated successfully']);
+          return response([
+            'message' => 'Class code updated successfully!',
+            'success' => true
+        ]); // You can choose an appropriate HTTP status code
+    
     }
     //archive
     public function archiveclasses(Request $request, $class_id)

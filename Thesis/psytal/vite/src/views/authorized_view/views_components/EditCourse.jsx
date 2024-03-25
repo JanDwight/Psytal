@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../prompts/CreatePrompt.jsx'
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [class_year, setClassYear] = useState(curriculum.class_year);
@@ -12,7 +13,8 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [hoursperWeek, setHoursperWeek] = useState(curriculum.hoursperWeek);
   const [course_type, setCourseType] = useState(curriculum.course_type);
   const [preReq, setPrereq] = useState(curriculum.preReq);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Edit Course?";
@@ -39,25 +41,13 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
       preReq,
     };
   
-    axiosClient
-      .put(`/updatecurriculum/${curriculum.id}`, updatedCourse)
-      .then(({ data }) => {
-        // Handle success, e.g., show a success message
-        setSuccessMessage({
-          message: 'Course Edited successfully!',
-        });
-  
-        setTimeout(() => {
-          setSuccessMessage(null);
-          window.location.reload();
-        }, 2000);
-        
-      })
-      .catch((error) => {
-        // Handle errors, including validation errors
-        console.error('Error sending data:', error);
-        
-      });
+    try {
+      const response = await axiosClient.put(`/updatecurriculum/${curriculum.id}`, updatedCourse);
+      setSuccessMessage(response.data.message);
+      setSuccessStatus(response.data.success);
+    } catch (error) {
+
+    }
   };
 
   if (!showEditcourse) {
@@ -66,6 +56,8 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
+
       <div className="w-[20%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5">
         <div className="w-full px-4 mx-auto mt-6">
           <div className='flex justify-center font-bold text-4xl text-[#525252]'>
@@ -121,7 +113,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                     <input
                       id="units"
                       name="units"
-                      type="text"
+                      type="number"
                       placeholder={curriculum.units}
                       value={units}
                       onChange={(e) => setUnits(e.target.value)}
@@ -151,7 +143,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                     <input
                       id="hoursperWeek"
                       name="hoursperWeek"
-                      type="text"
+                      type="number"
                       placeholder={curriculum.hoursperWeek}
                       value={hoursperWeek}
                       onChange={(e) => setHoursperWeek(e.target.value)}
@@ -231,17 +223,6 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                 />
             </div>
       </ReactModal>
-      {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
     
   );

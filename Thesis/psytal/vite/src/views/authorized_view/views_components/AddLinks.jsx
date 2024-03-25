@@ -2,6 +2,7 @@ import React, { useState, } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../prompts/CreatePrompt.jsx'
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function AddLinks({closeModal}) { 
 
@@ -16,8 +17,8 @@ export default function AddLinks({closeModal}) {
     url: '',
     
   });
-
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,36 +37,26 @@ export default function AddLinks({closeModal}) {
     setShowPrompt(true);
   }
 
-  const handleSubmit = () => {
-    console.log('Form submitted!');  // Add this line
-    // Make a POST request to your backend endpoint (/addlink)
-    axiosClient.post('/addlink', formData)
-      .then(response => {
-        // Handle success, e.g., show a success message
-        console.log(response.data);
-        setSuccessMessage({
-          message: 'The LINK was added successfully!',
-        });
+  const handleSubmit = async () => {
+      try {
+        const response = await axiosClient.post('/addlink', formData);
+        setSuccessMessage(response.data.message);
+        setSuccessStatus(response.data.success);
 
-        setTimeout(() => {
-          setSuccessMessage(null);
-          closeModal();
-          window.location.reload();
-        }, 2000);
-      })
-      .catch(error => {
-        // Handle errors, including validation errors
-        if (error.response.status === 422) {
-          console.log(error.response.data.errors);
-        } else {
-          console.error(error.response.data);
-        }
-      });
+        // setTimeout(() => {
+        //   setSuccessMessage(null);
+        //   closeModal();
+        //   window.location.reload();
+        // }, 2000);
+      } catch (error) {
+          setSuccessMessage(error.response.data.message)
+          setSuccessStatus(false)
+      }
   };
 
   return (
     <>
-      {/* ... your JSX ... */}
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>Add Link</div>
     <div>
       <form onSubmit={addprompt}>

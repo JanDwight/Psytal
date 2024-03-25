@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../prompts/CreatePrompt.jsx'
+import Feedback from '../../feedback/Feedback.jsx';
 
 export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const course_title = subject.course_title;
@@ -14,12 +15,14 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const [class_section, setClass_Section] = useState(section_old);
   const [class_section_error, setSectionError] = useState(''); 
   const [class_code, setClass_Code] = useState(class_code_old);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Edit Class?";
   
   const [instructorsTable, setInstructorsTable] = useState([]);
+  
+  const [successStatus, setSuccessStatus] = useState('');
 
   useEffect(() => {
 
@@ -76,21 +79,19 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
     axiosClient
       .put(`/updateclasses/${subject.class_id}`, updatedClass)
       .then((response) => {
-        console.log('Class Updated Successfully');
-        setSuccessMessage({
-          message: 'The Class was Updated successfully!',
-        });
+         // Handle a successful response here
+         console.log('Data sent successfully:', response.data);
 
-        setTimeout(() => {
-          setSuccessMessage(null);
-          onSave();
-          window.location.reload();
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+         // Close the modal or perform any other action as needed
+         setSuccessMessage(response.data.message);
+         setSuccessStatus(response.data.success);
+ 
+       })
+       .catch((error) => {
+         setSuccessMessage(error.response.data.message)
+         setSuccessStatus(false)
+       });
+   };
 
   if (!showModal) {
     return null;
@@ -101,6 +102,8 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   };
 
   return (
+    <> 
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-full lg:w-1/2 px-4 py-6 shadow-lg rounded-lg">
         <div className="w-full px-4 mx-auto mt-6">
@@ -208,18 +211,10 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                 />
             </div>
       </ReactModal>
-      {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
     
-  );
+  
+</>
+  )
 }
