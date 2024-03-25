@@ -226,12 +226,12 @@ export default function PreRegistrationForContinuingView({prereg}) {
               sex_at_birth: preregData.sex_at_birth,
               ethnicity: preregData.ethnicity,
               special_needs: preregData.special_needs,
-              contact_number: parseInt(preregData.contact_number),
+              contact_number: preregData.contact_number,
               email_address: preregData.email_address,
               home_address: preregData.home_address,
               address_while_studying: preregData.address_while_studying,
               contact_person_name: preregData.contact_person_name,
-              contact_person_number: parseInt(preregData.contact_person_number), 
+              contact_person_number: preregData.contact_person_number, 
               contact_person_address: preregData.contact_person_address,
               contact_person_relationship: preregData.contact_person_relationship,
               health_facility_registered: preregData.health_facility_registered,
@@ -860,7 +860,7 @@ console.log("This data is:last name "+ preregData.last_name);
                             <label className=" text-gray-700 text-xs font-bold mb-2" htmlFor="grid-contactnumber">Contact Number :</label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-contactnumber" 
-                            type="number" 
+                            type="text" 
                             placeholder=""
                             value={preregData.contact_number}
                             onChange={(ev) => setPreregData({ ...preregData, contact_number: ev.target.value })}
@@ -973,7 +973,7 @@ console.log("This data is:last name "+ preregData.last_name);
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="grid-contactnum" 
-                                type="number" 
+                                type="text" 
                                 placeholder=""
                                 value={preregData.contact_person_number}
                                 onChange={(ev) => setPreregData({ ...preregData, contact_person_number: ev.target.value })}

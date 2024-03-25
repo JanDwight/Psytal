@@ -410,12 +410,12 @@ export default function PreRegistrationForm() {
       sex_at_birth: preregData.sex_at_birth,
       ethnicity: preregData.ethnicity,
       special_needs: preregData.special_needs,
-      contact_number: parseInt(preregData.contact_number, 11),
+      contact_number: preregData.contact_number,
       email_address: preregData.email_address,
       home_address: preregData.home_address,
       address_while_studying: preregData.address_while_studying,
       contact_person_name: preregData.contact_person_name,
-      contact_person_number: parseInt(preregData.contact_person_number, 11), //theres an error here--doesnt accept multiple numbers
+      contact_person_number: preregData.contact_person_number, //theres an error here--doesnt accept multiple numbers
       contact_person_address: preregData.contact_person_address,
       contact_person_relationship: preregData.contact_person_relationship,
       health_facility_registered: preregData.health_facility_registered,
