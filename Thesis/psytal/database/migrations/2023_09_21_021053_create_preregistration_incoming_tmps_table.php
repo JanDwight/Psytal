@@ -35,7 +35,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('citizenship');
             $table->string('ethnicity');
-            $table->bigInteger('contact_number');
+            $table->string('contact_number');
             $table->string('place_of_birth');
             $table->string('sex_at_birth');
             $table->string('special_needs')->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('home_address');
             $table->string('address_while_studying');
             $table->string('contact_person_name');
-            $table->bigInteger('contact_person_number');
+            $table->string('contact_person_number');
             $table->string('contact_person_address');
             $table->string('contact_person_relationship');
             $table->string("health_facility_registered");

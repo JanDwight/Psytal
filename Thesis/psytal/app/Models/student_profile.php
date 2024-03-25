@@ -50,7 +50,8 @@ class student_profile extends Model
             'contact_person_relationship',
             'section',
             'pre_reg_status',
-            'archived'
+            'archived',
+            'semester'
     ];
 
 /**

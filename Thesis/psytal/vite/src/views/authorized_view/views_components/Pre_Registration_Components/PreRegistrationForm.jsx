@@ -22,6 +22,7 @@ export default function PreRegistrationForm() {
   const [disclaimer, setDisclaimer] = useState(false);
 
   const [preregData, setPreregData] = useState({
+    semester: '1st Semester',
     user_id: '',
     start_of_school_year: '',   
     end_of_school_year: '',
@@ -83,11 +84,12 @@ export default function PreRegistrationForm() {
 
       // Convert the integer term to text
       // Combine two terms start and End
+      const semesterTxt = preregData.semester;
       const integerstartOfSchoolYear = preregData.start_of_school_year;
       const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
       const integerendOfSchoolYear = preregData.end_of_school_year;
       const textendOfSchoolYear = integerendOfSchoolYear.toString();
-      const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
+      const fullTerm = semesterTxt + ' ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
       // Convert the integer to text before assigning
       const integerstudentSchoolId = preregData.student_school_id;
@@ -375,7 +377,7 @@ export default function PreRegistrationForm() {
     avail_free_higher_education: '',
     voluntary_contribution: '',
     contribution_amount: '',
-    semester: '',
+    semester: '1st Semester',
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
     major: '',
@@ -394,6 +396,7 @@ export default function PreRegistrationForm() {
       start_of_school_year: parseInt(preregData.start_of_school_year, 10),
       end_of_school_year: parseInt(preregData.end_of_school_year, 10),
       user_id: 1,
+      semester: preregData.semester,
       student_school_id: 0,
       learners_reference_number: parseInt(preregData.learners_reference_number, 10),
       last_name: preregData.last_name,
@@ -410,12 +413,12 @@ export default function PreRegistrationForm() {
       sex_at_birth: preregData.sex_at_birth,
       ethnicity: preregData.ethnicity,
       special_needs: preregData.special_needs,
-      contact_number: parseInt(preregData.contact_number, 11),
+      contact_number: preregData.contact_number,
       email_address: preregData.email_address,
       home_address: preregData.home_address,
       address_while_studying: preregData.address_while_studying,
       contact_person_name: preregData.contact_person_name,
-      contact_person_number: parseInt(preregData.contact_person_number, 11), //theres an error here--doesnt accept multiple numbers
+      contact_person_number: preregData.contact_person_number, //theres an error here--doesnt accept multiple numbers
       contact_person_address: preregData.contact_person_address,
       contact_person_relationship: preregData.contact_person_relationship,
       health_facility_registered: preregData.health_facility_registered,
@@ -545,9 +548,17 @@ export default function PreRegistrationForm() {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2 mb-2" htmlFor="grid-schoolyear">
                       Semester :
                     </label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                     value= "First Semester"
-                     />
+                    <select
+                        name="semester"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        onChange={ev => {
+                            setPreregData({ ...preregData, semester: ev.target.value });
+                        }}
+                    >
+                        <option value="1st Semester">1st Semester</option>
+                        <option value="2nd Semester">2nd Semester</option>
+                        <option value="Midyear">Midyear</option>
+                    </select>
                   </div>
                   
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">

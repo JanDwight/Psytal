@@ -69,7 +69,8 @@ class PreregistrationIncomingTmpController extends Controller
             'complied_to_admission_policy' => $data['complied_to_admission_policy'],
             'pre_reg_status' => $data['pre_reg_status'],
             'type_of_student' => $data['type_of_student'],
-            'student_status' => $data['student_status']
+            'student_status' => $data['student_status'],
+            'semester' => $data['semester']
         ]);
 
         $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'] . '.';
@@ -103,6 +104,8 @@ class PreregistrationIncomingTmpController extends Controller
         $preRegTmpincoming = preregistration_incoming_tmp::create([
             'start_of_school_year' => $data['start_of_school_year'],
             'end_of_school_year' => $data['end_of_school_year'],
+            'student_school_id' => $data['student_school_id'],
+            'semester' => $data['semester'],
             'user_id'=> $userId,
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
@@ -132,15 +135,15 @@ class PreregistrationIncomingTmpController extends Controller
             'avail_free_higher_education' => $data['avail_free_higher_education'],
             'voluntary_contribution' => $data['voluntary_contribution'],
             'contribution_amount' => $data['contribution_amount'],
-            'complied_to_admission_policy' => $data['complied_to_admission_policy'],
+            'complied_to_admission_policy' => $data['complied_to_admission_policy'], //
             'contact_person_name' => $data['contact_person_name'],
             'contact_person_number' => $data['contact_person_number'],
             'contact_person_address' => $data['contact_person_address'],
             'contact_person_relationship' => $data['contact_person_relationship'],
             'section' => $data['section'],
             'pre_reg_status' => $data['pre_reg_status'],
-            'student_status' => $data['student_status'],
-            'type_of_student' => $data['type_of_student'],
+            'student_status' => $data['student_status'], //
+            'type_of_student' => $data['type_of_student'], 
         ]);
 
         $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'] . '.';

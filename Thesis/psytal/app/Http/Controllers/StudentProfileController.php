@@ -250,6 +250,16 @@ class StudentProfileController extends Controller
     }
 
     //add archive
+    
+    public function studentData ()
+    {
+        $student = auth()->user()->id;
+
+        $user = student_profile::where('user_id', $student)->first();
+
+        return response()->json($user);
+
+    }
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
     {

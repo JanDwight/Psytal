@@ -11,62 +11,28 @@ import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINU
 export default function PreRegistrationForContinuing(prereg) {
 
     const [successMessage, setSuccessMessage] = useState(null);
-    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState({__html: ""});
-    const onhandleChange = (event) => {
-        setSelectedValue(event.target.value);
-      }
 
   //-----
   const [disclaimer, setDisclaimer] = useState(false);
 
-  //variables for the user inputs
-  // const [startOfSchoolYear, setStartOfSchoolYear] = useState('');
-  // const [endOfSchoolYear, setEndOfSchoolYear] = useState('');   
-  // const [studentSchoolId, setStudentSchoolId] = useState(''); 
-  // const [learnersReferenceNumber, setLearnersReferenceNumber] = useState(0);
-  // const [lastName, setLastName] = useState('');
-  // const [firstName, setFirstName] = useState('');
-  // const [middleName, setMiddleName] = useState('');
-  // const [maidenName, setMaidenName] = useState('');
-  // const [yearLevel, setYearLevel] = useState('');
-  // const [major, setMajor] = useState('');
-  // const [section, setSection] = useState('B');
-  // const [endOfTermToFinishDegree, setendOfTermToFinishDegree] = useState('');
-  // const [lastOfTermTofinishDegree, setLastOfTermTofinishDegree] = useState('');
-  // const [academicClassification, setAcademicClassification] = useState('');
-  // const [lastSchoolAttended, setLastSchoolAttended] = useState('');
-  // const [addressOfSchoolAttended, setAddressOfSchoolAttended] = useState('');
-  // const [degree, setDegree] = useState('Bachelor of Science in Psychology');
-  // const [dateOfBirth, setDateOfBirth] = useState('');
-  // const [citizenship, setCitizenship] = useState('');
-  // const [ethnicity, setEthnicity] = useState('');
-  // const [contactNumber, setContactNumber] = useState('');
-  // const [placeOfBirth, setPlaceOfBirth] = useState('');
-  // const [sexAtBirth, setSexAtBirth] = useState('');
-  // const [specialNeeds, setSpecialNeeds] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [homeAddress, setHomeAddress] = useState('');
-  // const [addressWhileStudyingAtBsu, setAddressWhileStudyingAtBsu] = useState('');
-  // const [emergencyContactName, setEmergencyContactName] = useState('');
-  // const [emergencyContactAddress, setEmergencyContactAddress] = useState('');
-  // const [emergencyContactNumber, setEmergencyContactNumber] = useState('');
-  // const [relationship, setRelationship] = useState('');
-  // const [healthfacilityregistered, sethealthfacilityregistered] = useState('');
-  // const [parenthealthfacilitydependent, setparenthealthfacilitydependent] = useState('');
-  // const [vaccinationstatus, setvaccinationstatus] = useState('Not Vaccinated');
-  // const [technologylevel, settechnologylevel] = useState('');
-  // const [digitalliteracy, setdigitalliteracy] = useState('');
-  // const [availfreehighereducation, setavailfreehighereducation] = useState('');
-  // const [voluntarycontribution, setvoluntarycontribution] = useState('');
-  // const [contributionamount, setcontributionamount] = useState('');
-  // const [compliedtoadmissionpolicy, setcompliedtoadmissionpolicy] = useState('NO');
-  // const [typeofstudent, setTypeOfStudent] = useState('Continuing');
-  // const [candidateForGraduadtion, setCandidateForGraduadtion] = useState('');
-  // const [semester, setSemester] = useState('');
-  // const [studentStatus, setStudentStatus] = useState('');
-  // const [userId, setUserId] = useState(0);
+ //For backup file list
+  useEffect(() => {
+    axiosClient
+    .get('/studentData')
+    .then((res) => {
+        console.log(res.data);
+        setPreregData(res.data);
+        setPreregData(prevState => ({
+          ...prevState, // Spread the previous state
+          vaccination_status: 'Not Vaccinated' // Update the vaccination_status property
+        }));
+    })
+    .catch((error) => {
+        console.error('Error fetching backup files:', error);
+    });
+  }, []);
 
   const [preregData, setPreregData] = useState( {
     user_id: '',
@@ -85,7 +51,7 @@ export default function PreRegistrationForContinuing(prereg) {
     date_of_birth: '',
     place_of_birth: '',
     citizenship: '',
-    sex_at_birth: 'Male',
+    sex_at_birth: '',
     ethnicity: '',
     special_needs: '',
     contact_number: '',
@@ -98,7 +64,7 @@ export default function PreRegistrationForContinuing(prereg) {
     contact_person_relationship: '',
     health_facility_registered: '',
     parent_health_facility_dependent: '',
-    vaccination_status: 'Not Vaccinated',
+    vaccination_status: '',
     technology_level: '',
     digital_literacy: '',
     avail_free_higher_education: '',
@@ -109,12 +75,12 @@ export default function PreRegistrationForContinuing(prereg) {
     type_of_student: 'Continuing',
     student_status: 'Regular',
     year_level: '',
-    semester: '1st Semester',
+    semester: '', //<><><>
     major: '',
     candidate_for_graduation: '',
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
-    section: 'b',
+    section: 'A',
   });
 
 
@@ -138,11 +104,12 @@ export default function PreRegistrationForContinuing(prereg) {
 
     // Convert the integer term to text
     // Combine two terms start and End
+    const semesterTxt = preregData.semester;
     const integerstartOfSchoolYear = preregData.start_of_school_year;
     const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
     const integerendOfSchoolYear = preregData.end_of_school_year;
     const textendOfSchoolYear = integerendOfSchoolYear.toString();
-    const fullTerm = 'First Semester, ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
+    const fullTerm = semesterTxt + ' ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
     // Convert the integer to text before assigning TO FIX!!
     const integerstudentSchoolId = preregData.student_school_id;
@@ -389,13 +356,13 @@ export default function PreRegistrationForContinuing(prereg) {
     contact_person_relationship: '',
     health_facility_registered: '',
     parent_health_facility_dependent: '',
-    vaccination_status: 'Not Vaccinated',
+    vaccination_status: '',
     technology_level: '',
     digital_literacy: '',
     avail_free_higher_education: '',
     voluntary_contribution: '',
     contribution_amount: '',
-    semester: '1st Semester',
+    semester: '', //<><><>
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
     major: '',
@@ -432,16 +399,16 @@ export default function PreRegistrationForContinuing(prereg) {
           sex_at_birth: preregData.sex_at_birth,
           ethnicity: preregData.ethnicity,
           special_needs: preregData.special_needs,
-          contact_number: parseInt(preregData.contact_number),
+          contact_number: preregData.contact_number,
           email_address: preregData.email_address,
           home_address: preregData.home_address,
           address_while_studying: preregData.address_while_studying,
           contact_person_name: preregData.contact_person_name,
-          contact_person_number: parseInt(preregData.contact_person_number), 
+          contact_person_number: preregData.contact_person_number, 
           contact_person_address: preregData.contact_person_address,
           contact_person_relationship: preregData.contact_person_relationship,
           year_level: preregData.year_level,
-          pre_reg_status: preregData.pre_reg_status,
+          pre_reg_status: 'Pending',
           type_of_student: 'Continuing',
           major: preregData.major,
           candidate_for_graduation: preregData.candidate_for_graduation,
@@ -455,9 +422,10 @@ export default function PreRegistrationForContinuing(prereg) {
           avail_free_higher_education: preregData.avail_free_higher_education,
           voluntary_contribution: preregData.voluntary_contribution,
           contribution_amount: preregData.contribution_amount,
-          complied_to_admission_policy: preregData.complied_to_admission_policy,
+          complied_to_admission_policy: 'no',
           section: preregData.section,
           student_status: preregData.student_status,
+          semester: preregData.semester
         }).then(({ data }) => {
           onPrint();
           //setFamilyName(data.family_name)
@@ -571,21 +539,19 @@ export default function PreRegistrationForContinuing(prereg) {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2 mb-2" htmlFor="grid-schoolyear">
                               Semester :
                             </label>
-                            <select  className='"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
-                              value={preregData.semester}
-                              onChange={(ev) => setPreregData({ ...preregData, semester: ev.target.value })}>
-                              <option 
-                                value="1st Semester">
-                                  1st Semester</option>
-                              <option 
-                                value="2nd Semester">
-                                  2nd Semester</option>
-                                  <option 
-                                value="Mid Year">
-                                  Mid Year</option>
+                            <select
+                                name="semester"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                value={preregData.semester}
+                                onChange={ev => {
+                                    setPreregData({ ...preregData, semester: ev.target.value });
+                                }}
+                            >
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                                <option value="Midyear">Midyear</option>
                             </select>
                           </div>
-                          
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2 mb-2" htmlFor="grid-schoolyear">
                               School Year :
@@ -606,7 +572,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        value={preregData.start_of_school_year}
+                                        //value={preregData.start_of_school_year}
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
                                           const value = ev.target.value.replace(/\D/g, '');
@@ -690,7 +656,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="text"
                                 pattern="[A-Za-zñÑ -]+"
                                 title="Input your Legal Last Name."
-                                value={preregData.lastName}
+                                value={preregData.last_name}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
@@ -716,7 +682,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="text"
                                 pattern="[A-Za-zñÑ .-]+"
                                 title="Input your Legal Given Name/s, with your Suffix, if applicable."
-                                value={preregData.firstName}
+                                value={preregData.first_name}
                                 maxLength={50}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
@@ -742,7 +708,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="text" 
                                 pattern="[A-Za-zñÑ -]+"
                                 title="Input your Legal Middle Name. Leave blank if not applicable."
-                                value={preregData.middleName}
+                                value={preregData.middle_name}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
@@ -768,7 +734,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="text" 
                                 //pattern="[A-Za-zñÑ .\\/-]+"
                                 title="Input 'N/A' if not applicable."
-                                value={preregData.maidenName}
+                                value={preregData.maiden_name}
                                 maxLength={30}
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .\/-]/g, '');
@@ -794,28 +760,19 @@ export default function PreRegistrationForContinuing(prereg) {
                             <div className="input-container relative">
                                 <span className= "text-sm font-semibold">Year Level : </span> <hr className="w-[40%]"/>
                                 <div className='mt-2'>
-                                      <select  className="appearance-none block w-[50%] bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        value={preregData.yearLevel}
-                                        onChange={(ev) => setPreregData({  ...preregData, year_level: ev.target.value })}>
-                                            <option 
-                                              value="1">
-                                                1st Year</option>
-                                            <option 
-                                              value="2">
-                                                2nd Year</option>
-                                            <option 
-                                              value="3">
-                                                3rd Year</option>
-                                            <option 
-                                              value="4">
-                                                4th Year</option>
-                                      </select>
-                                            <img
-                                              src={info}
-                                              alt="info"
-                                              className="absolute left-[55%] top-[50%] h-6 w-6"
-                                              title="Select your year level."
-                                            />
+                                <select 
+                                    name="yearlevel"
+                                    className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                    value={preregData.year_level}
+                                    onChange={(ev) => {
+                                        setPreregData({ ...preregData, year_level: ev.target.value })
+                                    }}
+                                >
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                </select>
                                 </div> 
                                 </div>                            
                             </div>
@@ -1367,9 +1324,10 @@ export default function PreRegistrationForContinuing(prereg) {
                   {/*column2*/}
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
-                    <select  className="appearance-none block w-[50%] bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      onChange={(ev) => setPreregData({ ...preregData, vaccination_status: ev.target.value })} 
-                      value={preregData.vaccination_status}>
+                    <select  className='ml-5'
+                      required
+                      value="Not Vaccinated"
+                      onChange={(ev) => setPreregData({ ...preregData, vaccination_status: ev.target.value })}>
                       <option 
                         value="Not Vaccinated">
                           Not Vaccinated</option>
@@ -1694,17 +1652,17 @@ export default function PreRegistrationForContinuing(prereg) {
                 </div>
 
                   {/**===========SUMBIT Button============= */}
-        <div className="text-center items-center my-8">
-            <button 
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                  Cancel
-            </button>
-            <button 
-                type="submit"
-                className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                  Submit
-            </button>
-        </div>  
+                <div className="text-center items-center my-8">
+                    <button 
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                          Cancel
+                    </button>
+                    <button 
+                        type="submit"
+                        className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                          Submit
+                    </button>
+                </div>  
             </form>        
         </div>
         {/*moved 'section/course(s) to be enrolled' to formviews*/}
