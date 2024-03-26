@@ -121,7 +121,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
 
 
       setSuccessMessage({
-        message: 'This ITEM has been restored successfully!',
+        message: 'This ITEM/S has been restored successfully!',
       });
 
       setTimeout(() => {

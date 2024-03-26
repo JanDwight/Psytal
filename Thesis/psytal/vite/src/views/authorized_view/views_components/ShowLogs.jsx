@@ -38,7 +38,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
     const seconds = ('0' + currentDate.getSeconds()).slice(-2);
 
     const formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
-    const filename = `psytal_backup_${formattedDateTime}.sql`;
+    const filename = `psytal_backup_${formattedDateTime}.txt`;
 
     const textContent = convertToText();
     const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
