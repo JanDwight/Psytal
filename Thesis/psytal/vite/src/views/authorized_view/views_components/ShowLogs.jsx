@@ -29,13 +29,24 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
 
   // Function to handle download logs as text file
   const handleDownloadLogs = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + currentDate.getDate()).slice(-2);
+    const hours = ('0' + currentDate.getHours()).slice(-2);
+    const minutes = ('0' + currentDate.getMinutes()).slice(-2);
+    const seconds = ('0' + currentDate.getSeconds()).slice(-2);
+
+    const formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+    const filename = `psytal_backup_${formattedDateTime}.sql`;
+
     const textContent = convertToText();
     const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'logs.txt';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -46,7 +57,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
 
   return (
     <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
-      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg max-h-full overflow-y-auto">
+      <div className="relative bg-white w-full lg:w-4/5 xl:w-5/6 px-4 py-6 shadow-lg rounded-lg max-h-full overflow-y-auto">
         {/* Exit (Close) Button */}
         <button
           onClick={onClose}
@@ -57,23 +68,23 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
         <table className="min-w-full">
           <thead>
             <tr>
+              <th>Date</th>
               <th>Action Taken</th>
               <th>Item</th>
-              <th>User</th>
+              <th>User Name</th>
               <th>User Type</th>
               <th>Location Table/Source</th>
-              <th>Date</th>
             </tr>
           </thead>
           <tbody>
             {dataTable.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                <td className='text-center'>{item.action_taken}</td>
-                <td className='text-center'>{item.item_name}</td>
-                <td className='text-center'>{item.user_name}</td>
-                <td className='text-center'>{item.user_type}</td>
-                <td className='text-center'>{item.item_origin}</td>
-                <td className='text-center'>{item.created_at}</td>
+                <td className='text-center px-2'>{item.created_at}</td>
+                <td className='text-center px-2'>{item.action_taken}</td>
+                <td className='text-center px-2'>{item.item_name}</td>
+                <td className='text-center px-2'>{item.user_name}</td>
+                <td className='text-center px-2'>{item.user_type}</td>
+                <td className='text-center px-2'>{item.item_origin}</td>
               </tr>
             ))}
           </tbody>

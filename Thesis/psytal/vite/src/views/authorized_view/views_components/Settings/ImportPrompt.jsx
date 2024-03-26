@@ -45,20 +45,19 @@ export default function ImportPrompt({closeModal}) {
         <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         <div className="relative bg-white px-4 py-6 shadow-lg rounded-lg max-h-[90vh] overflow-auto min-w-[10vw] max-w-[65vw] min-h-[20vh]">
             <div className="mb-6 text-center"> 
-            <strong>Warning</strong>
-                <p>
-                    Important Notice: 
-                    Proceeding with the backup restore will delete then replace the contents of your existing database. 
-                    Any modifications made after the backup file was created will be permanently lost. 
+            <strong>Important Notice:</strong>
+                <p> 
+                    Restoring the backup will replace your current data with the data from the backup file.
+                    Any changes made since the backup was created will be lost.
                     Are you sure you want to continue?
                 </p>
             </div>
             <div id="decision" hidden={false} className='text-center space-x-3'>
                 <button onClick={handleProceed} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size">
-                    I understand
+                    Yes
                 </button>
                 <button onClick={closeModal} className="bg-red-600 hover:bg-red-700 rounded-2xl  px-7 py-2 text-white font-size">
-                    Leave
+                    No
                 </button>
             </div>
             <div id="importFile" hidden={true} className='text-center space-x-3'>
