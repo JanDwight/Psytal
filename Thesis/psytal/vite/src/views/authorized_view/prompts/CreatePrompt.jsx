@@ -18,10 +18,10 @@ export default function ArchiveWarning({closeModal, handleSave, action, promptMe
             </div>
             <div id="decision" className='text-center space-x-3'>
                 <button onClick={handleYes} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size">
-                    Proceed
+                    Yes
                 </button>
                 <button onClick={closeModal} className="bg-red-600 hover:bg-red-700 rounded-2xl  px-7 py-2 text-white font-size">
-                    Cancel
+                    No
                 </button>
             </div>
       </div>

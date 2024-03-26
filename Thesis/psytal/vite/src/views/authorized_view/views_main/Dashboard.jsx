@@ -21,6 +21,27 @@ export default function Dashboard() {
   const [semesterInformation, setSemesterInformation] = useState('');
   const [showLoad, setShowLoad] = useState (false);
 
+  const mapUserRoleToString = (userRole) => {
+    switch (userRole) {
+        case "1":
+            return "Administrator";
+        case "2":
+            return "Staff";
+        case "3":
+            return "Instructor";
+        case "4":
+            return "Student";
+    }
+  };
+
+  function convertToManilaTime(timestamp) {
+    const created_at = new Date(timestamp); // Convert the timestamp to a Date object
+    const offset = 8 * 60; // Manila timezone offset is UTC+8
+    const manilaTime = new Date(created_at.getTime() + offset * 60000); // Adjust the timestamp for Manila timezone
+
+    return manilaTime.toISOString().replace('T', ' ').substr(0, 19); // Format the timestamp
+  }
+
   //For Ongoing Semester and School Year
   useEffect(() => {
     axiosClient
@@ -49,8 +70,8 @@ export default function Dashboard() {
       item_type: archive.item_type,
       origin_table: archive.origin_table,
       archiver_name: archive.archiver_name,
-      archiver_role: archive.archiver_role,
-      archived_at: archive.created_at,
+      archiver_role: mapUserRoleToString(archive.archiver_role),
+      archived_at: convertToManilaTime(archive.created_at)
     }));
     setArchiveData(Archives_Table);
 
@@ -60,9 +81,9 @@ export default function Dashboard() {
       item_name: log.item_name,
       item_origin: log.item_origin,
       user_name: log.user_name,
-      user_type: log.user_type,
+      user_type: mapUserRoleToString(log.user_type),
       user_id: log.user_id,
-      created_at: log.created_at
+      created_at: convertToManilaTime(log.created_at)
     }));
     setLogsData(Logs_Table);
 
@@ -109,9 +130,9 @@ export default function Dashboard() {
         item_name: log.item_name,
         item_origin: log.item_origin,
         user_name: log.user_name,
-        user_type: log.user_type,
+        user_type: mapUserRoleToString(log.user_type),
         user_id: log.user_id,
-        created_at: log.created_at
+        created_at: convertToManilaTime(log.created_at)
       }));
 
       setLogsData(Logs_Table);
@@ -122,8 +143,8 @@ export default function Dashboard() {
         item_type: archive.item_type,
         origin_table: archive.origin_table,
         archiver_name: archive.archiver_name,
-        archiver_role: archive.archiver_role,
-        archived_at: archive.created_at,
+        archiver_role: mapUserRoleToString(archive.archiver_role),
+        archived_at: convertToManilaTime(archive.created_at)
       }));
 
       setArchiveData(Archives_Table);

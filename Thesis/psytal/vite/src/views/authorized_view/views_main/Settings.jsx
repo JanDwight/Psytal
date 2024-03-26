@@ -21,7 +21,14 @@ export default function Settings() {
     const handleBackup  = () => {
 
         const currentDate = new Date();
-        const formattedDateTime = currentDate.toISOString().slice(0, 19).replace(/[-T]/g, '_').replace(/:/g, '-');
+        const year = currentDate.getFullYear();
+        const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        const day = ('0' + currentDate.getDate()).slice(-2);
+        const hours = ('0' + currentDate.getHours()).slice(-2);
+        const minutes = ('0' + currentDate.getMinutes()).slice(-2);
+        const seconds = ('0' + currentDate.getSeconds()).slice(-2);
+
+        const formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
         const filename = `psytal_backup_${formattedDateTime}.sql`;
 
         axiosClient.post('/backupDB')
