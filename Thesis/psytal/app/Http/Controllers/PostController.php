@@ -17,6 +17,18 @@ class PostController extends Controller
     public function createPosts(CreatePostRequest $request)
     {
         $data = $request->validated();
+        
+        // Check if the post already exists
+        $postExists = posts::where('title', $data['title'])->first();
+
+        if ($postExists) {
+            // Post already exists, return an error response
+            return response([
+                'message' => 'Post already exists',
+                'success' => false
+            ], 500);
+
+        }
 
         $post = auth()->user()->posts()->create([
             'title' => $data['title'],
@@ -42,7 +54,10 @@ class PostController extends Controller
 
         $this->storeLog('Post created', 'post', $data['title'], 'posts');
 
-        return response(['post' => $post]);
+        return response([
+            'message' => 'Post successful',
+            'success' => true
+        ]);
     }
 
 
@@ -69,7 +84,9 @@ class PostController extends Controller
         ]);
  
         if ($validator->fails()) {
-            return response(['errors' => $validator->errors()], 400);
+            return response([
+                'message' => $validator->errors(),
+                'success' => true]);
         }
         $post = posts::findOrFail($id);
         \Log::info('Request Data: ' . json_encode($request->all()));
@@ -108,7 +125,10 @@ class PostController extends Controller
 
         $this->storeLog('Post updated', 'post', $request->title, 'posts');
 
-        return response(['post' => $post->fresh()]);
+        return response([
+            'message' => 'Post updated',
+            'success' => true
+        ]);
     }
     
     
@@ -138,7 +158,9 @@ class PostController extends Controller
 
             $this->storeLog('Post archived', 'post', $post->title, 'posts');
     
-            return response(['message' => 'Post archived successfully', 'success' => true]);
+            return response([
+                'message' => 'Post archived successfully', 
+                'success' => true]);
         } catch (Exception $e) {
             return response(['error' => 'Error archiving the post'], 500);
         }
