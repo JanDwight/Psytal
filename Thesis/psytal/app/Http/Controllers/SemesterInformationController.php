@@ -107,7 +107,10 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
 
-            return response(['success' => 'Semester information updated successfully']);
+            return response([
+                'message' => 'Semester information updated successfully',
+                'success' => true
+            ]);
         } else {
             // Create a new record
             $semesterinformation = semester_information::create([
@@ -123,7 +126,9 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
 
-            return response(['success' => 'Semester information created successfully']);
+            return response([
+                'message' => 'Semester information created successfully',
+                'success' => true]);
         }
     }
 
@@ -132,19 +137,25 @@ class SemesterInformationController extends Controller
         
         $semesterinfo = semester_information::find($id);
         
-    if (!$semesterinfo) {
-        // Handle the case where the preregID with the provided ID is not found
-        return response()->json(['message' => 'Something Went Wrong'], 404);
-    }
+        if (!$semesterinfo) {
+            // Handle the case where the preregID with the provided ID is not found
+            return response()->json([
+                'message' => 'Pre-registration information is not found. Please set the information first',
+                'success' => false
+            ]);
+        }
 
-    // Extract the attributes from the request
-    $data = $request->all();
-    
-    $semesterinfo->update($data);
-    
-    $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
+        // Extract the attributes from the request
+        $data = $request->all();
 
-    return response()->json(['message' => 'Pre-Registration is Now Closed']);
+        $semesterinfo->update($data);
+
+        $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
+
+        return response()->json([
+            'message' => 'Pre-Registration is Now Closed',
+            'success' => true
+        ]);
     }
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
