@@ -76,7 +76,7 @@ export default function PreRegistrationForContinuing(prereg) {
     student_status: 'Regular',
     year_level: '',
     semester: '', //<><><>
-    major: '',
+    major: 'N/A',
     candidate_for_graduation: '',
     end_of_term_to_finnish_degree: '',
     last_of_term_to_finnish_degree: '',
@@ -543,6 +543,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 name="semester"
                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 value={preregData.semester}
+                                required
                                 onChange={ev => {
                                     setPreregData({ ...preregData, semester: ev.target.value });
                                 }}
@@ -573,6 +574,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         step="1" // Year step
                                         maxLength={4}
                                         //value={preregData.start_of_school_year}
+                                        required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
                                           const value = ev.target.value.replace(/\D/g, '');
@@ -600,6 +602,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         value={preregData.end_of_school_year}
+                                        required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
                                           const value = ev.target.value.replace(/\D/g, '');
@@ -632,6 +635,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 inputmode="numeric"
                                 maxLength={7}
                                 value={preregData.student_school_id}     
+                                required
                                 onChange={ev => {
                                     const value = ev.target.value.replace(/\D/g, '');
                                     setPreregData({ ...preregData, student_school_id: value });}}
@@ -658,6 +662,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Last Name."
                                 value={preregData.last_name}
                                 maxLength={30}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
                                   setPreregData({ ...preregData, last_name: value });
@@ -684,6 +689,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Given Name/s, with your Suffix, if applicable."
                                 value={preregData.first_name}
                                 maxLength={50}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
                                   setPreregData({ ...preregData, first_name: value });
@@ -710,6 +716,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Middle Name. Leave blank if not applicable."
                                 value={preregData.middle_name}
                                 maxLength={30}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
                                   setPreregData({ ...preregData, middle_name: value });
@@ -736,6 +743,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input 'N/A' if not applicable."
                                 value={preregData.maiden_name}
                                 maxLength={30}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .\/-]/g, '');
                                   setPreregData({ ...preregData, maiden_name: value });
@@ -764,6 +772,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                     name="yearlevel"
                                     className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                     value={preregData.year_level}
+                                    required
                                     onChange={(ev) => {
                                         setPreregData({ ...preregData, year_level: ev.target.value })
                                     }}
@@ -831,6 +840,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                             id="yes"
                                             value='YesCandidate' 
                                             checked={preregData.candidate_for_graduation === 'YesCandidate'}
+                                            required
                                             onChange={(ev) => setPreregData({ ...preregData, candidate_for_graduation: ev.target.value })}
                                             />
                                             
@@ -848,6 +858,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                             id="no"
                                             value="NoCandidate"
                                             checked={preregData.candidate_for_graduation === 'NoCandidate'}
+                                            required
                                             onChange={(ev) => setPreregData({ ...preregData, candidate_for_graduation: ev.target.value })}
                                             />
                                             
@@ -865,11 +876,12 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <span className= "text-sm font-semibold">End of Term/Semester to Finish Degree Program : </span> <hr className="w-[40%]"/>
                                 <div className='mt-2'>
                                     <input className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
-                                        name="major"
+                                        name="endoftermtofinish"
                                         type='text'
                                         placeholder='(eg. 2nd Semester, SY: 2026-2027)'
                                         title="Input the end of term using the format given. FORMAT eg.: 2nd Semester, SY: 2026-2027"
                                         value={preregData.end_of_term_to_finnish_degree}
+                                        required
                                         onChange={(ev) => setPreregData({ ...preregData, end_of_term_to_finnish_degree: ev.target.value })}
                                     />
                                     <img
@@ -897,6 +909,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                             id="yes"
                                             value="Regular" 
                                             checked={preregData.student_status === 'Regular'}
+                                            required
                                             onChange={(ev) => setPreregData({ ...preregData, student_status: ev.target.value })}
                                             />
                                         <label
@@ -913,6 +926,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                             id="no"
                                             value="Irregular"
                                             checked={preregData.student_status === 'Irregular'}
+                                            required
                                             onChange={(ev) => setPreregData({ ...preregData, student_status: ev.target.value })}
                                             />
                                         <label
@@ -929,11 +943,12 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <span className= "text-sm font-semibold">Last Term/ Semester of Enrollment Degree Program : </span> <hr className="w-[40%]"/>
                                 <div className='mt-2'>
                                     <input className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
-                                        name="major"
+                                        name="lasttermtofinish"
                                         type='text'
                                         title="Input the last term enrolled using the format given. FORMAT eg.: 2nd Semester, SY: 2022-2023"
                                         placeholder='(eg. 2nd Semester, SY: 2022-2023)'
                                         value={preregData.last_of_term_to_finnish_degree}
+                                        required
                                         onChange={(ev) => setPreregData({ ...preregData, last_of_term_to_finnish_degree: ev.target.value })}
                                     />
                                     <img
@@ -957,6 +972,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="date" 
                                 placeholder=""
                                 value={preregData.date_of_birth}
+                                required
                                 onChange={(ev) => {
                                   const inputBdate = new Date(ev.target.value);
                                   const currentDate = new Date();
@@ -985,6 +1001,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             pattern="[A-Za-zñÑ ]+"
                             title="Input your Legal Citizenship. Example: Filipino"
                             value={preregData.citizenship}
+                            required
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
                               setPreregData({ ...preregData, citizenship: value });
@@ -1009,6 +1026,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             //pattern="[A-Za-zñÑ ]+"
                             value={preregData.ethnicity}
                             title="Input your Ethnicity or Tribal Affilation. Example: Ilocano"
+                            required
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
                               setPreregData({ ...preregData, ethnicity: value });
@@ -1031,6 +1049,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             title="Input your contact number using the format given. FORMAT: 09XXXXXXXXX"
                             maxLength={11}
                             value={preregData.contact_number}
+                            required
                             onChange={ev => {
                                 const value = ev.target.value.replace(/\D/g, '');
                                 setPreregData({ ...preregData, contact_number: value });}}
@@ -1057,6 +1076,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             placeholder="City/Municipality"
                             title="Input your Legal Place of Birth. This is either a city or municipality."
                             value={preregData.place_of_birth}
+                            required
                             onChange={ev => setPreregData({ ...preregData, place_of_birth: ev.target.value })}/>
                             <img
                                 src={info}
@@ -1072,6 +1092,7 @@ export default function PreRegistrationForContinuing(prereg) {
                           </label>
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                           <select  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            required
                             onChange={ev => setPreregData({ ...preregData, sex_at_birth: ev.target.value })} 
                             value={preregData.sex_at_birth}>
                             <option 
@@ -1100,6 +1121,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             placeholder=""
                             title="Input 'N/A' if not applicable."
                             value={preregData.special_needs}
+                            required
                             onChange={ev => setPreregData({ ...preregData, special_needs: ev.target.value })}/>
                             <img
                                 src={info}
@@ -1119,6 +1141,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                             placeholder=""
                             value={preregData.email_address}
+                            required
                             onChange={ev => {
                               const value = ev.target.value;
                               setPreregData({ ...preregData, email_address: value }); // Update the state with the input value
@@ -1153,6 +1176,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             title="Input your home address using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                             placeholder="Bldg No., Street, Barangay, City/Municipality"
                             value={preregData.home_address}
+                            required
                             onChange={ev => setPreregData({ ...preregData, home_address: ev.target.value })}/>
                             <img
                                 src={info}
@@ -1174,6 +1198,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             title="Input your address while studying at BSU using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                             placeholder="Bldg No., Street, Barangay, City/Municipality"
                             value={preregData.address_while_studying}
+                            required
                             onChange={ev => setPreregData({ ...preregData, address_while_studying: ev.target.value })}/>
                             <img
                                 src={info}
@@ -1200,6 +1225,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 pattern="[A-Za-zñÑ .-]+"
                                 title="Input the name of the person to be contacted in case of emergency using the format given. FORMAT: Given Name M.I. Last Name"
                                 value={preregData.contact_person_name}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
                                   setPreregData({ ...preregData, contact_person_name: value });
@@ -1220,6 +1246,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 placeholder="Bldg No., Street, Barangay, City/Municipality"
                                 title="Input the address of the person to be contacted in case of emergency using the format given. FORMAT: Bldg No., Street, Barangay, City/Municipality"
                                 value={preregData.contact_person_address}
+                                required
                                 onChange={ev => setPreregData({ ...preregData, contact_person_address: ev.target.value })}/>
                                 <img
                                   src={info}
@@ -1243,6 +1270,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input the contact number of the person to be contacted in case of emergency using the format given. FORMAT: 09XXXXXXXXX"
                                 maxLength={11}
                                 value={preregData.contact_person_number}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/\D/g, '');
                                   setPreregData({ ...preregData, contact_person_number: value });}}
@@ -1265,6 +1293,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 //pattern="[^a-zA-Z\s/]+"
                                 title="Input your relationship with the person to be contacted in case of emergency. Example: Parent"
                                 value={preregData.contact_person_relationship}
+                                required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^a-zA-Z\s/]/g, '');
                                   setPreregData({ ...preregData, contact_person_relationship: value });
@@ -1292,10 +1321,11 @@ export default function PreRegistrationForContinuing(prereg) {
                       <div className='mx-5 mt-2'>
                         <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
-                          name="yesregister"
+                          name="register"
                           id="yesregister"
                           value='Yes' 
                           checked={preregData.health_facility_registered === 'Yes'}
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
@@ -1307,10 +1337,11 @@ export default function PreRegistrationForContinuing(prereg) {
                       <div className='mx-5 mt-2'>
                         <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
-                          name="noregister"
+                          name="register"
                           id="noregister"
                           value='No'
                           checked={preregData.health_facility_registered === 'No'}
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, health_facility_registered: ev.target.value })}
                           />
                           <label
@@ -1354,6 +1385,7 @@ export default function PreRegistrationForContinuing(prereg) {
                           id="Dependent"
                           value="Yes" 
                           checked={preregData.parent_health_facility_dependent === 'Yes'}
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
@@ -1369,6 +1401,7 @@ export default function PreRegistrationForContinuing(prereg) {
                           id="Dependent"
                           value="No" 
                           checked={preregData.parent_health_facility_dependent === 'No'}
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, parent_health_facility_dependent: ev.target.value })}
                           />
                         <label
@@ -1402,10 +1435,11 @@ export default function PreRegistrationForContinuing(prereg) {
                       <div className='mx-5 mt-2'>
                         <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
-                                name="highlvl"
+                                name="lvl"
                                 id="highlvl"
                                 value="category1" 
                                 checked={preregData.technology_level === 'category1'}
+                                required
                                 onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
@@ -1419,10 +1453,11 @@ export default function PreRegistrationForContinuing(prereg) {
                       <div className='mx-5 mt-2'>
                         <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
-                                name="mediumlvl"
+                                name="lvl"
                                 id="mediumlvl"
                                 value="category2" 
                                 checked={preregData.technology_level === 'category2'}
+                                required
                                 onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
@@ -1436,10 +1471,11 @@ export default function PreRegistrationForContinuing(prereg) {
                       <div className='mx-5 mt-2'>
                         <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
-                                name="lowlvl"
+                                name="lvl"
                                 id="lowlvl"
                                 value="category3" 
                                 checked={preregData.technology_level === 'category3'}
+                                required
                                 onChange={(ev) => setPreregData({ ...preregData, technology_level: ev.target.value })}
                                 />
                         <label
@@ -1462,10 +1498,11 @@ export default function PreRegistrationForContinuing(prereg) {
                     <div className='mx-5 mt-2'>
                       <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                               type="radio"
-                              name="proficient"
+                              name="digital_literacy"
                               id="proficient"
                               value="lvl1" 
                               checked={preregData.digital_literacy === 'lvl1'}
+                              required
                               onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
                               />
                       <label
@@ -1477,10 +1514,11 @@ export default function PreRegistrationForContinuing(prereg) {
                     <div className='mx-5 mt-2'>
                       <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                               type="radio"
-                              name="advanced"
+                              name="digital_literacy"
                               id="advanced"
                               value="lvl2" 
                               checked={preregData.digital_literacy === 'lvl2'}
+                              required
                               onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
                               />
                       <label
@@ -1492,10 +1530,11 @@ export default function PreRegistrationForContinuing(prereg) {
                     <div className='mx-5 mt-2'>
                       <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                               type="radio"
-                              name="beginner"
+                              name="digital_literacy"
                               id="beginner"
                               value="lvl3" 
                               checked={preregData.digital_literacy === 'lvl3'}
+                              required
                               onChange={(ev) => setPreregData({ ...preregData, digital_literacy: ev.target.value })}
                               />
                       <label
@@ -1536,10 +1575,11 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <div className='mx-5 mt-2'>
                                     <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                     type="radio"
-                                    name="yesavail"
+                                    name="avail"
                                     id="yesavail"
                                     value="YesAvail"
                                     checked={preregData.avail_free_higher_education === 'YesAvail'}
+                                    required
                                     onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
@@ -1551,10 +1591,11 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <div className='mx-5 mt-2'>
                                     <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                     type="radio"
-                                    name="noavail"
+                                    name="avail"
                                     id="noavail"
                                     value="NoAvail" 
                                     checked={preregData.avail_free_higher_education === 'NoAvail'}
+                                    required
                                     onChange={(ev) => setPreregData({ ...preregData, avail_free_higher_education: ev.target.value })}
                                     />
                                     <label
@@ -1575,10 +1616,11 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <div className='mx-5 mt-2'>
                                     <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                         type="radio"
-                                        name="yescontribute"
+                                        name="contribute"
                                         id="yescontribute"
                                         value="YesContribute" 
                                         checked={preregData.voluntary_contribution === 'YesContribute'}
+                                        required
                                         onChange={ev => {
                                           const newValue = ev.target.value;
                                           setPreregData(prevData => ({
@@ -1597,10 +1639,11 @@ export default function PreRegistrationForContinuing(prereg) {
                                 <div className='mx-5 mt-2'>
                                     <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                         type="radio"
-                                        name="nocontribute"
+                                        name="contribute"
                                         id="nocontribute"
                                         value="NoContribute" 
                                         checked={preregData.voluntary_contribution === 'NoContribute'}
+                                        required
                                         onChange={ev => {
                                           const newValue = ev.target.value;
                                           setPreregData(prevData => ({
@@ -1633,6 +1676,7 @@ export default function PreRegistrationForContinuing(prereg) {
                     inputmode="numeric"
                     value={preregData.contribution_amount}
                     disabled={false}
+                    required
                     onChange={ev => {
                       const value = ev.target.value.replace(/\D/g, '');
                       setPreregData({ ...preregData, contribution_amount: value });}}
