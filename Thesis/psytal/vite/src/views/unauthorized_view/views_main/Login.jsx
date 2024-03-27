@@ -130,7 +130,7 @@ export default function Login() {
                   className="block w-[100%] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <div className='flex justify-end'>
-                  <label onClick={toggleVisibility} className={`text-${isVisible ? 'gray-900' : 'white'}  text-m text px-2 mb-2 font-semibold hover:border-b-2 border-indigo-600`}>
+                  <label onClick={toggleVisibility} className={`text-${isVisible ? 'gray-900' : 'white'}  text-m text px-2 mb-2 font-semibold hover:border-b-2 border-black hover:text-black`}>
                     {isVisible ? "Hide Password" : "Show Password"}
                   </label>
                 </div>
@@ -140,7 +140,7 @@ export default function Login() {
           )}
             </div>
             <div className='flex justify-center'>
-            <label onClick={() => setIsModalOpen(true)} className="font-bold text-m text-white hover:border-b-2 border-indigo-600 hover:text-indigo-600">
+            <label onClick={() => setIsModalOpen(true)} className="font-bold text-m text-white hover:border-b-2 border-black hover:text-black">
               Forgot password?
             </label>
             </div>
