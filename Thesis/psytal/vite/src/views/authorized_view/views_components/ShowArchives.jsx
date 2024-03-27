@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../axios.js';
+import ReactModal from 'react-modal';
+import RestorePrompt from '../prompts/RestorePrompt.jsx'
 
 export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [selectAll, setSelectAll] = useState(false); 
+  const [selectAll, setSelectAll] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptList, setPromptList] = useState([]);
+  const action = "Confirm Restore Files";
 
   if (!showModal) {
     return null;
+  }
+
+  //<><><><><>
+  const editprompt = (ev) => {
+    ev.preventDefault();
+    
+    const selectedItems = selectedRows.map((index) => ({
+      item_name: dataTable[index].item_name,
+      item_type: dataTable[index].item_type,
+    }));
+
+    console.log('Selected:', selectedItems);
+    
+    setPromptList(selectedItems);
+    setShowPrompt(true);
   }
 
   // Function to toggle the selection of a row
@@ -202,7 +222,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
         
         
         
-          <button onClick={handleRestore} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
+          <button onClick={editprompt} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>
           <button hidden={true} onClick={handleBackup} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full cursor-pointer">
@@ -211,6 +231,20 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
 
         </div>
       </div>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <RestorePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleRestore}
+                    action={action}
+                    promptList={promptList}
+                />
+            </div>
+      </ReactModal>
       {successMessage && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
           <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
