@@ -19,6 +19,17 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   const editprompt = (ev) => {
     ev.preventDefault();
     
+    if (selectedRows.length === 0) {
+      // No items selected, show an error message
+      setSuccessMessage({
+        message: 'Please select items to restore.',
+      });
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 2000);
+      return;
+    }
+
     const selectedItems = selectedRows.map((index) => ({
       item_name: dataTable[index].item_name,
       item_type: dataTable[index].item_type,
@@ -53,18 +64,6 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   const handleBackup = async () => {
     // Get the data of the selected rows
     const selectedItems = selectedRows.map((index) => dataTable[index].id);
-   
-
-    if (selectedItems.length === 0) {
-      // No items selected, show an error message
-      setSuccessMessage({
-        message: 'There is nothing to backup. Please select items to backup.',
-      });
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 3000);
-      return;
-    }
     
     try {
       // Make a POST request to your backend endpoint with selectedItems as the request payload
@@ -127,7 +126,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
     if (selectedItems.length === 0) {
       // No items selected, show an error message
       setSuccessMessage({
-        message: 'There is nothing to restore. Please select items to restore.',
+        message: 'Please select items to restore.',
       });
       setTimeout(() => {
         setSuccessMessage(null);
@@ -141,7 +140,7 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
 
 
       setSuccessMessage({
-        message: 'This ITEM/S has been restored successfully!',
+        message: 'Item/s restored successfully!',
       });
 
       setTimeout(() => {
