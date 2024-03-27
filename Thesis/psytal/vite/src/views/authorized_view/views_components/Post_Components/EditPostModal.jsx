@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../../axios';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../../prompts/CreatePrompt.jsx'
+import Feedback from '../../../feedback/Feedback.jsx';
 
 export default function EditPostModal({ selectedPost, closeModal, handleSave }) {
   const [editedPost, setEditedPost] = useState({
@@ -12,7 +13,8 @@ export default function EditPostModal({ selectedPost, closeModal, handleSave }) 
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Edit Post?";
@@ -101,13 +103,13 @@ const editprompt = (ev) => {
       formData.append('title', editedPost.title);
       formData.append('description', editedPost.description);
 
-      editedPost.images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image.file);
+      // editedPost.images.forEach((image, index) => {
+      //   formData.append(`images[${index}]`, image.file);
 
-        if (image.id) {
-          formData.append(`imageIds[${index}]`, image.id);
-        }
-      });
+      //   if (image.id) {
+      //     formData.append(`imageIds[${index}]`, image.id);
+      //   }
+      // });
 
       const response = await axiosClient.post(`/posts/${selectedPost.id}`, formData, {
         headers: {
@@ -120,11 +122,11 @@ const editprompt = (ev) => {
           id: selectedPost.id,
           title: editedPost.title,
           description: editedPost.description,
-          images: response.data.post.images || [],
+          //images: response.data.post.images || [],
         });
-        setSuccessMessage({
-          message: 'Editing this post was successful!',
-        });
+        
+        setSuccessMessage(response.data.message);
+        setSuccessStatus(response.data.success);
 
         setTimeout(() => {
           setSuccessMessage(null);
@@ -132,12 +134,10 @@ const editprompt = (ev) => {
           window.location.reload();
         }, 2000);
         
-      } else {
-        setError('An error occurred while posting.');
       }
     } catch (error) {
-      console.error(error);
-      setError('An error occurred while posting.');
+      console.log('test',error);
+      //setSuccessMessage(error.response.data.message)
     } finally {
       setLoading(false);
     }
@@ -150,132 +150,125 @@ const editprompt = (ev) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-      <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-        <div className="w-full px-4 mx-auto mt-6">
-          <h2 className="text-center text-3xl font-semibold my-3">Edit Post</h2>
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
+      <form onSubmit={editprompt}>
+        <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+          <div className="w-full px-4 mx-auto mt-6">
+            <h2 className="text-center text-3xl font-semibold my-3">Edit Post</h2>
 
-          <div className="mb-4">
-            <input
-              id="editedTitle"
-              name="editedTitle"
-              type="text"
-              value={editedPost.title}
-              onChange={(ev) => setEditedPost({ ...editedPost, title: ev.target.value })}
-              className="block w-full rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
-              placeholder="Title"
-            />
-          </div>
-
-          <div className="mb-4">
-            <textarea
-              id="editedDescription"
-              name="editedDescription"
-              value={editedPost.description}
-              onChange={(ev) => setEditedPost({ ...editedPost, description: ev.target.value })}
-              className="block w-full rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
-              rows="4"
-              placeholder="Edit post ..."
-            />
-          </div>
-
-          <div className="mb-4">
-            <div className="flex space-x-4">
-              {editedPost.images.map((image, index) => (
-                <div key={index} className="relative overflow-hidden rounded-xl w-48 h-48">
-                  {/* Make each photo clickable */}
-                  <label htmlFor={`image${index + 1}`} className="cursor-pointer">
-                    {/* Display existing images */}
-                    {image.image_path && (
-                      <>
-                        <img
-                          src={
-                            image.image_path instanceof File
-                              ? URL.createObjectURL(image.image_path)
-                              : `http://localhost:8000/storage/${image.image_path}`
-                          }
-                          alt={`Image ${index + 1}`}
-                          className="object-cover w-full h-full"
-                        />
-                        <button
-                          onClick={() => removeImage(index)}
-                          className="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
-                        >
-                          X
-                        </button>
-                      </>
-                    )}
-                    {/* Display selected images for editing */}
-                    {editedPost.selectedImages && editedPost.selectedImages[index] && (
-                      <>
-                        <img
-                          src={editedPost.selectedImages[index]}
-                          alt={`Selected Image ${index}`}
-                          className="object-cover w-full h-full"
-                        />
-                        <button
-                          onClick={() => removeImage(index)}
-                          className="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
-                        >
-                          X
-                        </button>
-                      </>
-                    )}
-                    {/* Hide the default file input */}
-                    <input
-                      id={`image${index + 1}`}
-                      type="file"
-                      accept="image/*"
-                      onChange={(ev) => handleImageChange(ev, index)}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              ))}
+            <div className="mb-4">
+              <input
+                id="editedTitle"
+                name="editedTitle"
+                type="text"
+                value={editedPost.title}
+                onChange={(ev) => setEditedPost({ ...editedPost, title: ev.target.value })}
+                required
+                className="block w-full rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
+                placeholder="Title"
+              />
             </div>
-          </div>
 
-          <div className="text-center flex justify-end my-7">
-            <button
-              type="button"
-              onClick={editprompt}
-              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-              {loading ? 'Updating...' : 'Update'}
-            </button>
-            <button
-              onClick={closeModal}
-              className="bg-red-600 hover-bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-      <ReactModal
-            isOpen={showPrompt}
-            onRequestClose={() => setShowPrompt(false)}
-            className="md:w-[1%]"
-          >
-            <div>
-                <CreatePrompt
-                    closeModal={() => setShowPrompt(false)}
-                    handleSave={savePost}
-                    action={action}
-                    promptMessage={promptMessage}
-                />
+            <div className="mb-4">
+              <textarea
+                id="editedDescription"
+                name="editedDescription"
+                value={editedPost.description}
+                onChange={(ev) => setEditedPost({ ...editedPost, description: ev.target.value })}
+                required
+                className="block w-full rounded-xl border-1 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-6"
+                rows="4"
+                placeholder="Edit post ..."
+              />
             </div>
-      </ReactModal>
-      {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
+
+            <div className="mb-4">
+              <div className="flex space-x-4">
+                {editedPost.images.map((image, index) => (
+                  <div key={index} className="relative overflow-hidden rounded-xl w-48 h-48">
+                    {/* Make each photo clickable */}
+                    <label htmlFor={`image${index + 1}`} className="cursor-pointer">
+                      {/* Display existing images */}
+                      {image.image_path && (
+                        <>
+                          <img
+                            src={
+                              image.image_path instanceof File
+                                ? URL.createObjectURL(image.image_path)
+                                : `http://localhost:8000/storage/${image.image_path}`
+                            }
+                            alt={`Image ${index + 1}`}
+                            className="object-cover w-full h-full"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
+                          >
+                            X
+                          </button>
+                        </>
+                      )}
+                      {/* Display selected images for editing */}
+                      {editedPost.selectedImages && editedPost.selectedImages[index] && (
+                        <>
+                          <img
+                            src={editedPost.selectedImages[index]}
+                            alt={`Selected Image ${index}`}
+                            className="object-cover w-full h-full"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
+                          >
+                            X
+                          </button>
+                        </>
+                      )}
+                      {/* Hide the default file input */}
+                      <input
+                        id={`image${index + 1}`}
+                        type="file"
+                        accept="image/*"
+                        onChange={(ev) => handleImageChange(ev, index)}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <div className="text-center flex justify-end my-7">
+              <button
+                type="submit"
+                className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                {loading ? 'Updating...' : 'Update'}
+              </button>
+              <button
+                onClick={closeModal}
+                className="bg-red-600 hover-bg-red-700 text-white font-bold py-2 px-4 ml-4 rounded-full"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      )}
+        <ReactModal
+              isOpen={showPrompt}
+              onRequestClose={() => setShowPrompt(false)}
+              className="md:w-[1%]"
+            >
+              <div>
+                  <CreatePrompt
+                      closeModal={() => setShowPrompt(false)}
+                      handleSave={savePost}
+                      action={action}
+                      promptMessage={promptMessage}
+                  />
+              </div>
+        </ReactModal>
+      </form>
     </div>
   );
 }
