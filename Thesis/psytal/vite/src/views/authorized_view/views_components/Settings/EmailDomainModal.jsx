@@ -24,17 +24,6 @@ export default function EmailDomainModal({closeModal}) {
     const [promptMessage, setPromptMessage] = useState('');
     const action = "Confirm Add New Email Domain";
 
-    // Fetch all existing email domains from your data source
-    useEffect(() => {
-      axiosClient.get(`/getallemaildomains`)
-        .then(({ data }) => {
-          setExistingEmailDomains(data);          
-        })
-        .catch((error) => {
-          console.error('Error fetching existing email domains:', error);
-        });
-    }, []);
-
     const fetchData = async () => {
       try {
         const response = await axiosClient.get('/emaildomainindex');
@@ -60,6 +49,7 @@ export default function EmailDomainModal({closeModal}) {
           setSuccessStatus(response.data.success);
 
           fetchData();
+          setEmailDomain('');
         } catch (error) {
             setSuccessMessage(response.data.message)
             setSuccessStatus(false)
@@ -178,7 +168,10 @@ export default function EmailDomainModal({closeModal}) {
         >
             <div>
                 <EditEmailDomain
-                    closeModal={() => setShowEditEmailDomainModal(false)}
+                    closeModal={() => {
+                      setShowEditEmailDomainModal(false);
+                      fetchData();
+                    }}
                     selectedEmailDomain={selectedEmailDomain}
                 />
             </div>
@@ -193,11 +186,7 @@ export default function EmailDomainModal({closeModal}) {
                 <DeleteEmailDomainModal
                   closeModal={() => setShowDeleteEmailDomainModal(false)}
                   emailDomain={selectedEmailDomain}
-                  onDelete={() => {
-                    // You can implement a fetch or any logic to refresh the email domain list after deletion
-                    // For simplicity, I'm just calling the existing useEffect that fetches email domains
-                    setEmailDomainList([]);
-                  }}
+                  onDelete={() => {fetchData()}}
                 />
               </ReactModal>
             )}

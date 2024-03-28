@@ -20,10 +20,8 @@ export default function DeleteEmailDomainModal({ closeModal, emailDomain, onDele
                 setSuccessMessage(null);
                 onDelete(); // Trigger a callback to update the UI or close the modal
                 closeModal(); // Close the modal after successful deletion
-                window.location.reload(false);
             }, 2000);
             
-
         } catch (error) {
             // Handle errors here, e.g., display an error message
             console.error('Error deleting email domain:', error);
@@ -33,7 +31,7 @@ export default function DeleteEmailDomainModal({ closeModal, emailDomain, onDele
     return (
         <>
             <div className='text-center mb-4'>
-                <h2 className='text-2xl font-semibold text-[#65a30d]'>Delete Domain Modal</h2>
+                <h2 className='text-2xl font-semibold text-[#65a30d]'><b>Confirm Delete Email Domain</b></h2>
             </div>
 
             <div className='flex justify-center'>
@@ -47,23 +45,21 @@ export default function DeleteEmailDomainModal({ closeModal, emailDomain, onDele
                         type="text" 
                         placeholder={emailDomain}
                         value={emailDomain.email_domains}
-                        onChange={ev => setEmailDomain(ev.target.value)}
+                        disabled
                     />
-                    
-
                     {/**===========Delete Button============= */}
                     <div className="text-center items-center my-8">
                         <button
-                            type='button'
-                            onClick={closeModal}
-                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                            Cancel
-                        </button>
-                        <button
                             type="button"
                             onClick={handleDelete}
-                            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                            className="bg-lime-600 hover:bg-lime-700 text-white font-bold mr-5 py-2 px-4 rounded-full">
                             Delete
+                        </button>
+                        <button
+                            type='button'
+                            onClick={closeModal}
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                            Cancel
                         </button>
                     </div>
                 </div>

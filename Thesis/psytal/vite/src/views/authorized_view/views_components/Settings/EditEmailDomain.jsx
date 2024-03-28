@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../../axios';
+import ReactModal from 'react-modal';
+import CreatePrompt from '../../prompts/CreatePrompt';
 
 export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
     const [error, setError] = useState({__html: ""});
@@ -9,6 +11,17 @@ export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
     );
     const emailDomainId = selectedEmailDomain && selectedEmailDomain.id ? selectedEmailDomain.id : ''
     const [existingEmailDomains, setExistingEmailDomains] = useState('');
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [promptMessage, setPromptMessage] = useState('');
+    const action = "Confirm Update Email Domain";
+
+    //<><><><><><>
+    const addprompt = (ev) => {
+      ev.preventDefault();
+      const concatmessage = 'Changes to email domain: "' + emailDomain + '" will be saved. Do you wish to proceed?';
+      setPromptMessage(concatmessage);
+      setShowPrompt(true);
+    }
 
     // Fetch all existing email domains from your data source
     useEffect(() => {
@@ -22,8 +35,7 @@ export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
       }, []);
 
     //update Email Domains
-    const onSubmit = (ev) => {
-        ev.preventDefault();
+    const onSubmit = () => {
         setError({ __html: "" });
 
 
@@ -52,7 +64,7 @@ export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
       
             setTimeout(() => {
               setSuccessMessage(null);
-              window.location.reload(false);
+              closeModal();
             }, 2000);
           })
           .catch((error) => {
@@ -65,11 +77,11 @@ export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
     return (
         <>
         <div className='text-center mb-4'>
-            <h2 className='text-2xl font-semibold text-[#65a30d]'>Edit Domain Modal</h2>
+            <h2 className='text-2xl font-semibold text-[#65a30d]'><b>Edit Domain</b></h2>
         </div>
 
             <div className='flex justify-center'>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={addprompt}>
                 <label className='pr-2'>
                     Email Domain: 
                 </label>
@@ -84,18 +96,32 @@ export default function EditEmailDomain({ closeModal, selectedEmailDomain }) {
                     {/**===========SUMBIT Button============= */}
                     <div className="text-center items-center my-8">
                             <button 
-                                type='button'
-                                onClick={closeModal}
-                                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                                  Cancel
+                                type="submit"
+                                className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 mr-5 px-4 rounded-full">
+                                  Submit
                             </button>
                             <button 
-                                type="submit"
-                                className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                                  Submit
+                                type='button'
+                                onClick={closeModal}
+                                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                                  Cancel
                             </button>
                         </div> 
                 </form>
+                <ReactModal
+                    isOpen={showPrompt}
+                    onRequestClose={() => setShowPrompt(false)}
+                    className="md:w-[1%]"
+                  >
+                    <div>
+                        <CreatePrompt
+                            closeModal={() => setShowPrompt(false)}
+                            handleSave={onSubmit}
+                            action={action}
+                            promptMessage={promptMessage}
+                        />
+                    </div>
+                </ReactModal>
                 {successMessage && (
                 <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
                 <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
