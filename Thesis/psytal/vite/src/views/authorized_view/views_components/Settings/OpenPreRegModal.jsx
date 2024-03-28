@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../../axios';
 import Feedback from '../../../feedback/Feedback';
+import ReactModal from 'react-modal';
+import ClosePRPrompt from '../../prompts/ClosePRPrompt';
+import OpenPRPrompt from '../../prompts/OpenPRPrompt';
 
 export default function OpenPreRegModal({ closeModal }) {
   const [error, setError] = useState({ __html: '' });
@@ -19,9 +22,17 @@ export default function OpenPreRegModal({ closeModal }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
 
-  //For saving the Pre-Registration and Term Information to the database
-  const onSubmit = async (ev) => {
+  const [showOpen, setShowOpen] = useState(false);
+  const [showClose, setShowClose] = useState(false);
+
+  //<><><><><>
+  const editprompt = (ev) => {
     ev.preventDefault();
+    setShowOpen(true);
+  }
+
+  //For saving the Pre-Registration and Term Information to the database
+  const onSubmit = async () => {
     setError({ __html: '' });
 
     axiosClient
@@ -39,11 +50,10 @@ export default function OpenPreRegModal({ closeModal }) {
         setSuccessMessage(response.data.message);
         setSuccessStatus(response.data.success);
 
-        // setTimeout(() => {
-        //   setSuccessMessage(null);
-        //   closeModal();
-        //   window.location.reload();
-        // }, 2000);
+        setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+        }, 2000);
       } catch (error) {
           setSuccessMessage(error.response.data.message)
           setSuccessStatus(false)
@@ -57,6 +67,7 @@ export default function OpenPreRegModal({ closeModal }) {
       .then((res) => {
         setStartOfSchoolYear(res.data[0]); // Assuming res.data is an array
         setEndOfSchoolYear(res.data[1]);
+        setSemester(res.data[2]);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -130,7 +141,7 @@ export default function OpenPreRegModal({ closeModal }) {
   };
 
   //for closing the pre-reg
-  const handleClosePreReg = async (ev) => {
+  const handleClosePreReg = async () => {
     axiosClient
       try {
         const response = await axiosClient.put(`/closeprereg/${id}`, {
@@ -139,11 +150,10 @@ export default function OpenPreRegModal({ closeModal }) {
         setSuccessMessage(response.data.message);
         setSuccessStatus(response.data.success);
 
-        // setTimeout(() => {
-        //   setSuccessMessage(null);
-        //   closeModal();
-        //   window.location.reload();
-        // }, 2000);
+        setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+        }, 2000);
       } catch (error) {
           setSuccessMessage(error.response.data.message)
           setSuccessStatus(false)
@@ -152,8 +162,12 @@ export default function OpenPreRegModal({ closeModal }) {
 
   return (
     <div>
+      <div className='text-center'>
+            <strong className="text-lg">Configure Email Domains</strong>
+      </div>
+      <hr></hr>
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={editprompt} className='pt-3'>
         {/**For Pre-Registration */}
         <div className='grid grid-cols-2 items-center gap-4'>
           <label className='pr-2 font-bold'>Pre-Registration Schedule</label>
@@ -269,15 +283,9 @@ export default function OpenPreRegModal({ closeModal }) {
             </div>
           </div>
         </div>
-
+        <br></br>
         {/**===========SUMBIT Button============= */}
-        <div className="text-center items-center my-8">
-          <button
-            type='button'
-            onClick={closeModal}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-            Cancel
-          </button>
+        <div className="text-center items-center">
           <button
             type="submit"
             className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
@@ -285,12 +293,46 @@ export default function OpenPreRegModal({ closeModal }) {
           </button>
           <button
             type='button'
-            onClick={handleClosePreReg}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
+            onClick={() => setShowClose(true)}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mt-2 ml-6 rounded-full">
             Close Pre-Registration
           </button>
         </div>
       </form>
+      <ReactModal
+            isOpen={showClose}
+            onRequestClose={() => setShowClose(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <ClosePRPrompt
+                    closeModal={() => setShowClose(false)}
+                    handleSave={handleClosePreReg}
+                    startOfSchoolYear = {startOfSchoolYear}
+                    endOfSchoolYear = {endOfSchoolYear}
+                    semester = {semester}
+                />
+            </div>
+      </ReactModal>
+
+      <ReactModal
+            isOpen={showOpen}
+            onRequestClose={() => setShowOpen(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <OpenPRPrompt
+                    closeModal={() => setShowOpen(false)}
+                    handleSave={onSubmit}
+                    startOfPreReg = {startOfPreReg}
+                    endOfPreReg = {endOfPreReg}
+                    startOfSchoolYear = {startOfSchoolYear}
+                    endOfSchoolYear = {endOfSchoolYear}
+                    semester = {semester}
+
+                />
+            </div>
+      </ReactModal>
     </div>
   );
 }

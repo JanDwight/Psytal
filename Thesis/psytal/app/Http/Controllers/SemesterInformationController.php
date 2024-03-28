@@ -58,8 +58,9 @@ class SemesterInformationController extends Controller
             // Convert start_of_school_year and end_of_school_year to Carbon objects
             $startYear = ($firstSemester['start_of_school_year']);
             $endYear = ($firstSemester['end_of_school_year']);
+            $semester = ($firstSemester['semester']);
 
-            return response([$startYear, $endYear]);
+            return response([$startYear, $endYear, $semester]);
         } else {
             // Handle the case when no records are found
             return response(['No semester information found.']);

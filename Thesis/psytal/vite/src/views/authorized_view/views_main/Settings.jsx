@@ -92,6 +92,11 @@ export default function Settings() {
             onRequestClose={() => setShowOpenPreRegModal(false)}
             className="w-full md:w-[30%] lg:w-fit h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
         >
+            <div className='text-right'>
+                <button onClick={() => setShowOpenPreRegModal(false)} className="bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
+                    X
+                </button>
+            </div>
             <div>
                 <OpenPreRegModal
                  closeModal={() => setShowOpenPreRegModal(false)}/>
