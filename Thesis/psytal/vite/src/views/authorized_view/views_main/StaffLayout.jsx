@@ -15,6 +15,7 @@ import { UserIcon, BellIcon, Bars3Icon } from '@heroicons/react/24/solid'
 import { useStateContext } from '../../../context/ContextProvider';
 import axiosClient from '../../../axios';
 import UserProfile from '../views_components/profile_components/UserProfile';
+import LogOutPrompt from '../prompts/LogOutPrompt';
 
 const navigation = [
   { img: home, name: 'Home', to: 'home'},
@@ -31,7 +32,7 @@ function classNames(...classes) {
 export default function StaffLayout() {
   // Calling the ProfilePopupSample
   const [isStaffProfileOpen, setIsStaffProfileOpen] = useState(false);
-
+  const [showWarning, setShowWarning] = useState(false);
   const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
 
   if (!userToken) {
@@ -44,8 +45,7 @@ export default function StaffLayout() {
     return <Navigate to='/' />
   }
 
-  const logout = (ev) => {
-    ev.preventDefault();
+  const logout = () => {
     axiosClient.post('/logout')
       .then(res => {
         setCurrentUser({});
@@ -105,7 +105,7 @@ export default function StaffLayout() {
                             </Menu.Item>
                               <Menu.Item>
                                   <button
-                                    onClick={(ev) => logout(ev)}
+                                    onClick={() => setShowWarning(true)}
                                     className={'block px-4 py-2 text-sm text-gray-700'}
                                   >
                                     Sign out
@@ -163,7 +163,7 @@ export default function StaffLayout() {
                               <button
                                 as="a"
                                 href="#"
-                                onClick={(ev) => logout(ev)}
+                                onClick={() => setShowWarning(true)}
                                 className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                               >
                                 Sign out
@@ -226,6 +226,19 @@ export default function StaffLayout() {
         className="w-full lg:w-8/12 px-4 container h-fit bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5 ">
           <div className='relative flex flex-col min-w-0 break-words w-full mt-3'>
             <UserProfile closeModal={() => setIsProfileOpen(false)}/>
+            </div>
+      </ReactModal>
+
+      <ReactModal
+            isOpen={showWarning}
+            onRequestClose={() => setShowWarning(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <LogOutPrompt
+                    closeModal={() => setShowWarning(false)}
+                    handleSave={logout}
+                />
             </div>
       </ReactModal>
 
