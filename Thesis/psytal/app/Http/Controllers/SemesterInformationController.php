@@ -55,12 +55,8 @@ class SemesterInformationController extends Controller
             // Access the first item in the collection
             $firstSemester = $semesterInformation->first();
 
-            // Convert start_of_school_year and end_of_school_year to Carbon objects
-            $startYear = ($firstSemester['start_of_school_year']);
-            $endYear = ($firstSemester['end_of_school_year']);
-            $semester = ($firstSemester['semester']);
-
-            return response([$startYear, $endYear, $semester]);
+            //return response([$startYear, $endYear, $semester, $prStatus]);
+            return response($firstSemester);
         } else {
             // Handle the case when no records are found
             return response(['No semester information found.']);

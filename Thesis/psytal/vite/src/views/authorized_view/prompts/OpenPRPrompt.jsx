@@ -4,6 +4,11 @@ export default function OpenPRPrompt({
   closeModal, handleSave, startOfPreReg, endOfPreReg, startOfSchoolYear, endOfSchoolYear, semester
 }) {
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
   const handleYes = () => {
     handleSave();
     closeModal()
@@ -13,10 +18,12 @@ export default function OpenPRPrompt({
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-full lg:w-1/2 px-4 py-6 shadow-lg rounded-lg">
             <div className="mb-6 text-center"> 
-            <strong>Are you sure you want to open the pre-registration period?</strong>
-            <p>
-              Pre-registration for {semester} semester, shoolyear {startOfSchoolYear}-{endOfSchoolYear} will be set
-              from {startOfPreReg}-{endOfPreReg}. Proceed?
+            <strong className='text-lg'>Confirm pre-registration period</strong>
+            <p className='mt-2'>
+              For schoolyear {startOfSchoolYear}-{endOfSchoolYear}, {semester}.
+              Pre-registration will be open from <b>{formatDate(startOfPreReg)} - {formatDate(endOfPreReg)}</b>.
+              <br></br>
+              Do you wish to Proceed?
             </p>
             </div>
             <div id="decision" className='text-center space-x-3'>

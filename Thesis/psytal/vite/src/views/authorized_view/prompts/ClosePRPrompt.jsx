@@ -11,9 +11,9 @@ export default function ClosePRPrompt({ closeModal, handleSave, startOfSchoolYea
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-full lg:w-1/2 px-4 py-6 shadow-lg rounded-lg">
             <div className="mb-6 text-center"> 
-            <strong>Confirm close pre registration?</strong>
-            <p>
-              Pre-registration for {semester} semester, shoolyear {startOfSchoolYear}-{endOfSchoolYear} will be closed.
+            <strong className='text-lg'>Confirm close pre-registration?</strong>
+            <p className='mt-2'>
+              Pre-registration for <b>{semester}, shoolyear {startOfSchoolYear}-{endOfSchoolYear}</b> will be closed.
             </p>
             </div>
             <div id="decision" className='text-center space-x-3'>
