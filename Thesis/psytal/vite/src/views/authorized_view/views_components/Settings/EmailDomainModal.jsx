@@ -16,9 +16,7 @@ export default function EmailDomainModal({closeModal}) {
     const [emailDomainList, setEmailDomainList] = useState([]);
     const [showEditEmailDomainModal, setShowEditEmailDomainModal] = useState(false);
     const [selectedEmailDomain, setSelectedEmailDomain] = useState('');
-    const [existingEmailDomains, setExistingEmailDomains] = useState([]);
     const [showDeleteEmailDomainModal, setShowDeleteEmailDomainModal] = useState(false);
-    // const [selectedEmailDomain, setSelectedEmailDomain] = useState(null); // Assuming selectedEmailDomain should be of type object
     const [showAddEmail, setShowAddEmail] = useState(true);
     const [showPrompt, setShowPrompt] = useState(false);
     const [promptMessage, setPromptMessage] = useState('');
