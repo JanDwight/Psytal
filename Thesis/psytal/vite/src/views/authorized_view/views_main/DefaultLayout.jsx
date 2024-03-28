@@ -7,6 +7,7 @@
   import axiosClient from '../../../axios'
   import PsychLogo from '../../../assets/PsychCircle.png'
   import UserProfile from '../views_components/profile_components/UserProfile'
+  import LogOutPrompt from '../prompts/LogOutPrompt';
 
   const navigation = [
     { name: 'Home', to: '/student/home'},
@@ -29,7 +30,7 @@
   export default function DefaultLayout() {
     // Calling the ProfilePopupSample
     const [isProfileOpen, setIsProfileOpen] = useState(0);
-    
+    const [showWarning, setShowWarning] = useState(false);
     // const {userToken, setCurrentUser, setUserToken, setUserRole, userRole} = useStateContext();
     const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
 
@@ -45,8 +46,7 @@
       return <Navigate to='/' />
     }
 
-    const logout = (ev) => {
-      ev.preventDefault();
+    const logout = () => {
       axiosClient.post('/logout')
         .then(res => {
           setCurrentUser({});
@@ -126,7 +126,7 @@
                               </Menu.Item>
                               <Menu.Item>
                                 <button
-                                  onClick={(ev) => logout(ev)}
+                                  onClick={() => setShowWarning(true)}
                                   className={'block px-4 py-2 text-sm text-gray-700'}
                                 >
                                   Sign out
@@ -194,7 +194,7 @@
                         <Disclosure.Button
                           as="a"
                           href="#"
-                          onClick={(ev) => logout(ev)}
+                          onClick={() => setShowWarning(true)}
                           className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                         >
                           Sign out
@@ -236,12 +236,25 @@
           </main>
         </div>
       {/**Setting the Profile Popup */}
-      <ReactModal 
+        <ReactModal 
           isOpen={isProfileOpen}
           onRequestClose={() => setIsProfileOpen(false)}
           className="w-full lg:w-[50%] bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
           >
             <div><UserProfile closeModal={() => setIsProfileOpen(false)}/></div>
+        </ReactModal>
+
+        <ReactModal
+            isOpen={showWarning}
+            onRequestClose={() => setShowWarning(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <LogOutPrompt
+                    closeModal={() => setShowWarning(false)}
+                    handleSave={logout}
+                />
+            </div>
         </ReactModal>
 
       </>

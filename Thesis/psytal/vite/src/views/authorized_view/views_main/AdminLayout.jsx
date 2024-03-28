@@ -17,6 +17,7 @@ import { EllipsisHorizontalIcon ,MagnifyingGlassIcon, UserIcon, BellIcon, Bars3I
 import { useStateContext } from '../../../context/ContextProvider';
 import axiosClient from '../../../axios';
 import UserProfile from '../views_components/profile_components/UserProfile';
+import LogOutPrompt from '../prompts/LogOutPrompt';
 
 const navigation = [
   { img: home, name: 'Home', to: 'home'},
@@ -36,7 +37,7 @@ function classNames(...classes) {
 export default function AdminLayout() {
   // Calling the ProfilePopupSample
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
+  const [showWarning, setShowWarning] = useState(false);
   const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
   
   if (!userToken) {
@@ -54,8 +55,8 @@ export default function AdminLayout() {
     return <Navigate to='/' />
   }
 
-  const logout = (ev) => {
-    ev.preventDefault();
+  const logout = () => {
+    //ev.preventDefault();
     axiosClient.post('/logout')
       .then(res => {
         setCurrentUser({});
@@ -63,7 +64,6 @@ export default function AdminLayout() {
         setUserRole(null);
       })
   }
-
 
   return (
     <>
@@ -115,7 +115,8 @@ export default function AdminLayout() {
                           
                           <Menu.Item>
                             <button
-                              onClick={(ev) => logout(ev)}
+                              onClick={() => setShowWarning(true)}
+                              //onClick={(ev) => setLogout(ev)}
                               className={'block px-4 py-2 text-sm text-gray-700'}
                             >
                               Sign out
@@ -174,7 +175,8 @@ export default function AdminLayout() {
                             <button
                               as="a"
                               href="#"
-                              onClick={(ev) => logout(ev)}
+                              onClick={() => setShowWarning(true)}
+                              //onClick={(ev) => setLogout(ev)}
                               className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                             >
                               Sign out
@@ -240,6 +242,19 @@ export default function AdminLayout() {
         <div className='relative flex flex-col min-w-0 break-words w-full mt-3'>
           <UserProfile closeModal={() => setIsProfileOpen(false)}/>
         </div>
+      </ReactModal>
+
+      <ReactModal
+            isOpen={showWarning}
+            onRequestClose={() => setShowWarning(false)}
+            className="md:w-[1%]"
+        >
+            <div>
+                <LogOutPrompt
+                    closeModal={() => setShowWarning(false)}
+                    handleSave={logout}
+                />
+            </div>
       </ReactModal>
 
   </>
