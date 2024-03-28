@@ -15,7 +15,7 @@ export default function ArchiveWarning({closeModal, handleSave, action, promptLi
                 <p className='pt-2'>
                   The following items will be restored:
                 </p>
-                <table className="min-w-full">
+                <table className="min-w-full border border-gray-300">
                   <thead>
                     <tr>
                       <th>Item Type</th>
