@@ -24,6 +24,8 @@ export default function OpenPreRegModal({ closeModal }) {
 
   const [showOpen, setShowOpen] = useState(false);
   const [showClose, setShowClose] = useState(false);
+  const [showPRconfig, setShowPRconfig] = useState(true)
+  const [showStatus, setShowStatus] = useState('');
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -65,9 +67,14 @@ export default function OpenPreRegModal({ closeModal }) {
     axiosClient
       .get('/getschoolyear')
       .then((res) => {
-        setStartOfSchoolYear(res.data[0]); // Assuming res.data is an array
-        setEndOfSchoolYear(res.data[1]);
-        setSemester(res.data[2]);
+        setStartOfPreReg(res.data.start_of_prereg);
+        setEndOfPreReg(res.data.end_of_prereg);
+        setStartOfSemester(res.data.start_of_semester);
+        setEndOfSemester(res.data.end_of_semester);
+        setStartOfSchoolYear(res.data.start_of_school_year); // Assuming res.data is an array
+        setEndOfSchoolYear(res.data.end_of_school_year);
+        setSemester(res.data.semester);
+        setShowStatus(res.data.open_pre_reg);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -163,7 +170,7 @@ export default function OpenPreRegModal({ closeModal }) {
   return (
     <div>
       <div className='text-center'>
-            <strong className="text-lg">Configure Email Domains</strong>
+            <strong className="text-lg">Pre-Registration Information</strong>
       </div>
       <hr></hr>
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
@@ -182,6 +189,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 value={startOfPreReg}
                 onChange={handleStartChange}
                 required
+                disabled={showPRconfig}
               />
             </div>
 
@@ -195,6 +203,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 value={endOfPreReg}
                 onChange={handleEndChange}
                 required
+                disabled={showPRconfig}
               />
             </div>
           </div>
@@ -216,6 +225,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 value={startOfSemester}
                 onChange={handleSemesterStartChange}
                 required
+                disabled={showPRconfig}
               />
             </div>
 
@@ -227,6 +237,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 value={endOfSemester}
                 onChange={handleSemesterEndChange}
                 required
+                disabled={showPRconfig}
               />
             </div>
           </div>
@@ -248,6 +259,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 max={2100} // Example max value
                 required
                 className='w-full'
+                disabled={showPRconfig}
               />
             </div>
 
@@ -262,6 +274,7 @@ export default function OpenPreRegModal({ closeModal }) {
                 max={2100} // Example max value
                 required
                 className='w-full'
+                disabled={showPRconfig}
               />
             </div>
           </div>
@@ -273,29 +286,54 @@ export default function OpenPreRegModal({ closeModal }) {
 
           <div className='grid grid-cols-2 gap-4'>
             <div>
-              <input
-                id="semesterStart"
-                type="text"
-                placeholder="ex. 1st Semester"
-                value={semester}
-                onChange={(ev) => setSemester(ev.target.value)}
-              />
+            <select
+              id="semesterStart"
+              value={semester}
+              onChange={(ev) => setSemester(ev.target.value)}
+              required
+              disabled={showPRconfig}
+            >
+              <option value="">Select Semester</option>
+              <option value="1st Semester">1st Semester</option>
+              <option value="2nd Semester">2nd Semester</option>
+              <option value="Midyear">Midyear</option>
+            </select>
             </div>
           </div>
         </div>
         <br></br>
         {/**===========SUMBIT Button============= */}
-        <div className="text-center items-center">
+        <div hidden={!showPRconfig} className="text-center items-center">
           <button
+            type="button"
+            onClick={() => setShowPRconfig(!showPRconfig)}
+            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+            Edit Pre-Registration Information
+          </button>
+        </div>
+        <div  hidden={showPRconfig} className="text-center items-center">
+          <button hidden={showStatus}
             type="submit"
             className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
             Open Pre-Registration
           </button>
-          <button
+          <button hidden={showStatus}
+            type="button"
+            onClick={() => setShowPRconfig(!showPRconfig)}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
+            Cancel
+          </button>
+          <button hidden={!showStatus}
             type='button'
             onClick={() => setShowClose(true)}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mt-2 ml-6 rounded-full">
+            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mt-2 ml-6 rounded-full">
             Close Pre-Registration
+          </button>
+          <button hidden={!showStatus}
+            type="button"
+            onClick={() => setShowPRconfig(!showPRconfig)}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
+            Cancel
           </button>
         </div>
       </form>

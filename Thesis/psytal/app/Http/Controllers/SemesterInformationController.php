@@ -55,12 +55,8 @@ class SemesterInformationController extends Controller
             // Access the first item in the collection
             $firstSemester = $semesterInformation->first();
 
-            // Convert start_of_school_year and end_of_school_year to Carbon objects
-            $startYear = ($firstSemester['start_of_school_year']);
-            $endYear = ($firstSemester['end_of_school_year']);
-            $semester = ($firstSemester['semester']);
-
-            return response([$startYear, $endYear, $semester]);
+            //return response([$startYear, $endYear, $semester, $prStatus]);
+            return response($firstSemester);
         } else {
             // Handle the case when no records are found
             return response(['No semester information found.']);
@@ -93,6 +89,11 @@ class SemesterInformationController extends Controller
 
         // Check if a record with the specified semester already exists
         $existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
+        /*$existingSemesterInfo = semester_information::where('id', 1)
+                                                ->where('semester', $data['semester'])
+                                                ->first();*/
+        //should only create if there is no item with id=1, then set the id to 1 (if possible)
+        //the rest is update
 
         if ($existingSemesterInfo) {
             // Update the existing record
