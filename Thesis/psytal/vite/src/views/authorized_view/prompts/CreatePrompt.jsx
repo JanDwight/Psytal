@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ArchiveWarning({closeModal, handleSave, action, promptMessage }) {
+export default function CreatePrompt({closeModal, handleSave, action, promptMessage }) {
 
   const handleYes = () => {
     handleSave();

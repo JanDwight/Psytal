@@ -6,23 +6,23 @@ import ReactModal from 'react-modal';
 import EditEmailDomain from './EditEmailDomain';
 import DeleteEmailDomainModal from './DeleteEmailDomainModal';
 import Feedback from '../../../feedback/Feedback';
+import CreatePrompt from '../../prompts/CreatePrompt';
 
 export default function EmailDomainModal({closeModal}) {
     const [error, setError] = useState({__html: ""});
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
-
     const [emailDomain, setEmailDomain] = useState('');
     const [emailDomainList, setEmailDomainList] = useState([]);
-
     const [showEditEmailDomainModal, setShowEditEmailDomainModal] = useState(false);
     const [selectedEmailDomain, setSelectedEmailDomain] = useState('');
-
     const [existingEmailDomains, setExistingEmailDomains] = useState([]);
-
     const [showDeleteEmailDomainModal, setShowDeleteEmailDomainModal] = useState(false);
     // const [selectedEmailDomain, setSelectedEmailDomain] = useState(null); // Assuming selectedEmailDomain should be of type object
-
+    const [showAddEmail, setShowAddEmail] = useState(true);
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [promptMessage, setPromptMessage] = useState('');
+    const action = "Confirm Add New Email Domain";
 
     // Fetch all existing email domains from your data source
     useEffect(() => {
@@ -51,8 +51,7 @@ export default function EmailDomainModal({closeModal}) {
       }, []);    
 
     //For saving the Email Domain to the data base
-    const onSubmit = async (ev) => {
-        ev.preventDefault();
+    const onSubmit = async () => {
         setError({ __html: "" });
      
          try {
@@ -60,22 +59,9 @@ export default function EmailDomainModal({closeModal}) {
           setSuccessMessage(response.data.message);
           setSuccessStatus(response.data.success);
 
-            // Assuming the server response contains the newly added email domain
-            const updatedEmailDomains = [...existingEmailDomains, {
-              id: data.id,
-              email_domains: data.email_domains,
-              created_at: data.created_at,
-              updated_at: data.updated_at,
-              
-            }]; console.log(updatedEmailDomains);//NOT WORKING
-          
-          // setTimeout(() => {
-          //   setSuccessMessage(null);
-          //   closeModal();
-          //   window.location.reload();
-          // }, 2000);
+          fetchData();
         } catch (error) {
-            setSuccessMessage(error.response.data.message)
+            setSuccessMessage(response.data.message)
             setSuccessStatus(false)
         }
     };
@@ -92,66 +78,98 @@ export default function EmailDomainModal({closeModal}) {
       setSelectedEmailDomain(item);
   };
 
+  //<><><><><><>
+  const addprompt = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'New email domain: "' + emailDomain + '" will be created. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
+  }
+
   return (
     <>
+      <div className='overflow-auto'>
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         <div>
-            <form onSubmit={onSubmit}>
-                <label className='pr-2'>
-                    Email Domain: 
-                </label>
-
-                <input 
-                    id="emailDomain"
-                    type="text" 
-                    placeholder="@example.com"
-                    value={emailDomain}
-                    onChange={ev => setEmailDomain(ev.target.value)}
-                    required
-                />
-
-                {/**===========SUMBIT Button============= */}
-                <div className="text-center items-center my-8">
-                    <button 
-                        type='button'
-                        onClick={closeModal}
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                          Cancel
-                    </button>
-                    <button 
-                        type="submit"
-                        className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                          Submit
-                    </button>
-                </div>  
-            </form>
+          <div className='text-center'>
+            <strong className="text-lg">Configure Email Domains</strong>
+          </div>
+          <hr></hr>
+          
         </div>
-
-        <div className="pt-2  table-container overflow-x-auto max-h-[400px] overflow-y-auto">
-            <table className="table w-full table-striped ">
+        <div className="pt-3 table-container overflow-x-auto max-h-[400px] ">
+            <table className="table w-full table-striped border border-gray-300">
+                <thead>
+                  <tr>
+                    <th>Email Domains</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
                 <tbody>
                     {emailDomainList.map((item, index) => (
-                        <tr 
-                            key={index} 
-                            className={`${index % 2 === 0 ? 'bg-green-100' : 'bg-white'}`}
-                        >
-                            <td className="text-left p-2">
-                                <div className="m-2">{item.email_domains}</div>
-                            </td>
-
-                            <td className= "flex items-center p-2">
-                              <button onClick={() => handleEditClick(item)}>
-                                <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'/>
-                              </button>
-                              <button onClick={() => handleDeleteClick(item)}>
-                                <img src={archive} alt='archive' className='h-7 w-7 cursor-pointer transform transition-transform hover:scale-125'/>
-                              </button>      
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-green-100' : 'bg-white'}`}>
+                            <td className="text-center px-2">{item.email_domains}</td>
+                            <td className= "flex text-center px-2">
+                                <button onClick={() => handleEditClick(item)}>
+                                  <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'/>
+                                </button>
+                                <button onClick={() => handleDeleteClick(item)}>
+                                  <img src={archive} alt='archive' className='h-7 w-7 cursor-pointer transform transition-transform hover:scale-125'/>
+                                </button>      
                             </td>
                         </tr>
                     ))}
                 </tbody>
-            </table> 
+            </table>    
+            <p className='pt-3'></p>
+            <div hidden={!showAddEmail} className="text-center">
+              <button onClick={() => setShowAddEmail(false)} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl">
+                Add New
+              </button>
+            </div>
+            <div className='flex justify-center'>
+              <form onSubmit={addprompt} hidden={showAddEmail}>
+                  <label className='pr-2'>
+                      Email Domain: 
+                  </label>
+
+                  <input 
+                      id="emailDomain"
+                      type="text" 
+                      placeholder="@example.com"
+                      value={emailDomain}
+                      onChange={ev => setEmailDomain(ev.target.value)}
+                      required
+                      className='mr-1'
+                  />
+
+                  {/**===========SUMBIT Button============= */}
+                  
+                      <button type='submit' className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl m-1">
+                        Submit
+                      </button>
+                      <button type='button' onClick={() => setShowAddEmail(true)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl m-1">
+                        Cancel
+                      </button>
+                  
+              </form>
+            </div>
         </div>
+
+        <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={onSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+        </ReactModal>
 
         <ReactModal
             isOpen={showEditEmailDomainModal}
@@ -183,6 +201,7 @@ export default function EmailDomainModal({closeModal}) {
                 />
               </ReactModal>
             )}
+      </div>
     </>
   )
 }

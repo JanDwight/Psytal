@@ -69,7 +69,7 @@ export default function Settings() {
                     {/**Forsaving the valid email domains */}
                     <button onClick={() => setShowEmailDomainModal(true)} 
                         className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
-                            Add Email Domains
+                            Configure Email Domains
                     </button>
                 </div>
                 <br></br>
@@ -79,7 +79,7 @@ export default function Settings() {
                     <button onClick={() => setShowBackupPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                         Backup Database
                     </button>
-                    <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3">
+                    <button onClick={() => setShowPrompt(true)} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-3 mt-2">
                         Import Backup File
                     </button>
                 </div>
@@ -101,8 +101,13 @@ export default function Settings() {
         <ReactModal
             isOpen={showEmailDomainModal}
             onRequestClose={() => setShowEmailDomainModal(false)}
-            className="w-full md:w-[30%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
+            className="w-full md:w-[50%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5 overflow-auto"
         >
+            <div className='text-right'>
+                <button onClick={() => setShowEmailDomainModal(false)} className="bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">
+                    X
+                </button>
+            </div>
             <div>
                 <EmailDomainModal
                  closeModal={() => setShowEmailDomainModal(false)}/>
