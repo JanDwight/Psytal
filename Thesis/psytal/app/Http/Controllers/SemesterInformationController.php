@@ -89,6 +89,11 @@ class SemesterInformationController extends Controller
 
         // Check if a record with the specified semester already exists
         $existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
+        /*$existingSemesterInfo = semester_information::where('id', 1)
+                                                ->where('semester', $data['semester'])
+                                                ->first();*/
+        //should only create if there is no item with id=1, then set the id to 1 (if possible)
+        //the rest is update
 
         if ($existingSemesterInfo) {
             // Update the existing record

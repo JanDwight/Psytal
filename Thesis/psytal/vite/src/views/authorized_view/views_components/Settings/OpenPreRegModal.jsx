@@ -308,7 +308,7 @@ export default function OpenPreRegModal({ closeModal }) {
             type="button"
             onClick={() => setShowPRconfig(!showPRconfig)}
             className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-            Configure Pre-Registration
+            Edit Pre-Registration Information
           </button>
         </div>
         <div  hidden={showPRconfig} className="text-center items-center">
@@ -320,7 +320,7 @@ export default function OpenPreRegModal({ closeModal }) {
           <button hidden={showStatus}
             type="button"
             onClick={() => setShowPRconfig(!showPRconfig)}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
             Cancel
           </button>
           <button hidden={!showStatus}
@@ -332,7 +332,7 @@ export default function OpenPreRegModal({ closeModal }) {
           <button hidden={!showStatus}
             type="button"
             onClick={() => setShowPRconfig(!showPRconfig)}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
             Cancel
           </button>
         </div>
