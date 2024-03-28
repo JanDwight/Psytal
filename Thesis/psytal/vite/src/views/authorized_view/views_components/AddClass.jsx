@@ -276,24 +276,15 @@ export default function AddClass({closeModal}) {
             <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
               Instructor:
             </label>
-              <select
+              <input
                   id="instructor"
                   name="instructor"
                   type="text"
+                  placeholder='Teacher X'
                   onChange={(e) => setInstructor(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   required
-                >
-                  <option value="" disabled selected>
-                   Teacher X
-                  </option>
-                  {instructorData.map((instructor) => (
-                    <option key={instructor.id} value={instructor.name}>
-                      {instructor.name}
-                    </option>
-                  ))}
-              </select>
-            
+                />
             </div>
             <div className="text-center flex justify-center">
                 <button type="submit" className="bg-[#0FE810]  hover:bg-lime-700 text-white font-bold py-2 px-4 mt-5 rounded-full">

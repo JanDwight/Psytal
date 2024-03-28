@@ -20,36 +20,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Edit Class?";
   
-  const [instructorsTable, setInstructorsTable] = useState([]);
-  
   const [successStatus, setSuccessStatus] = useState('');
-
-  useEffect(() => {
-
-    async function fetchTable() {
-
-      const [show_instructors] = await Promise.all([
-       fetchInstructorData('/show_instructors'),
-       ]);
-       const instructor_Table = show_instructors.map(instructor => ({
-         id: instructor.id,
-         name: instructor.name,
-       }));
-      
-       setInstructorsTable(instructor_Table);
-    }
-
-    async function fetchInstructorData(endpoint) {
-      try {
-        const response = await axiosClient.get(endpoint);
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching data from the database:', error);
-      }
-    }
-    fetchTable();
-
-  },[])
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -143,23 +114,15 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                 <label htmlFor="instructor" className="block text-sm text-gray-700">
                   Instructor:
                 </label>
-                <select
+                <input
                   id="instructor"
                   name="instructor"
                   type="text"
+                  placeholder={instructor_old}
                   onChange={(e) => setInstructor(e.target.value)}
                   //required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="" disabled selected>
-                    {instructor_old ? instructor_old : "TBA"}
-                  </option>
-                  {instructorsTable.map((instructor) => (
-                    <option key={instructor.id} value={instructor.name}>
-                      {instructor.name}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               <div className="mb-4">
                 <label htmlFor="section" className="block text-sm text-gray-700">
