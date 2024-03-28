@@ -1017,11 +1017,15 @@ const handleChangeUnits = (index, value) => {
                   <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                    id="grid-contactnumber" 
                    type="text" 
+                   pattern="^09[0-9]{9}$"
+                   maxLength={11}
                    placeholder=""
                    value={preregData.contact_number}
                    required
-                   onChange={(ev) => setPreregData({ ...preregData, contact_number: ev.target.value })}
-                   />                    
+                   onChange={ev => {
+                    const value = ev.target.value.replace(/\D/g, '');
+                    setPreregData({ ...preregData, contact_number: value });}}
+                  />                    
                 </div>
 
                 {/*column2*/}
@@ -1138,12 +1142,16 @@ const handleChangeUnits = (index, value) => {
                   </label>
                   <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                    id="grid-contactnum" 
-                   type="text"
+                   type="text" 
+                   pattern="^09[0-9]{9}$"
+                   maxLength={11}
                    placeholder=""
                    value={preregData.contact_person_number}
                    required
-                   onChange={(ev) => setPreregData({ ...preregData, contact_person_number: ev.target.value })}
-                   />
+                   onChange={ev => {
+                    const value = ev.target.value.replace(/\D/g, '');
+                    setPreregData({ ...preregData, contact_person_number: value });}}
+                  />
                       
                   <label className=" text-gray-700 text-xs font-bold mb-2" htmlFor="grid-relationship">
                     Relationship :
