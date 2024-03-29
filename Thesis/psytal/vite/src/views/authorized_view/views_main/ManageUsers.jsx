@@ -4,6 +4,11 @@ import StudentList from '../views_components/StudentList.jsx';
 import EmployeeList from '../views_components/EmployeeList.jsx';
 import { useStateContext } from '../../../context/ContextProvider';
 import ReactModal from 'react-modal';
+import page1 from "@assets/Help/Admin/ManageAccounts/1.png";
+import page2 from "@assets/Help/Admin/ManageAccounts/2.png";
+import page3 from "@assets/Help/Admin/ManageAccounts/3.png";
+import page4 from "@assets/Help/Admin/ManageAccounts/4.png";
+
 
 {/*Tab Highlight */}
 const Tab = ({ label, isActive, onClick }) => {
@@ -43,6 +48,13 @@ export default function ManageUsers() {
     setIsModalOpen(false);
     window.location.reload(); // Reload the page
   };
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
+
 
   return (
     <>
@@ -99,6 +111,11 @@ export default function ManageUsers() {
             </ul>
           </div>
         </div>
+        {/* Help Modal */}
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
+
       </div>
       
       {/**___________________________3rd Container________________________________ */}
@@ -124,6 +141,56 @@ export default function ManageUsers() {
         />
             
       </ReactModal>
+      {/* HELP*/}
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+        <img
+            src={page2}
+            alt="Page 2"
+        />
+        <img
+            src={page3}
+            alt="Page 3"
+        />
+        <img
+            src={page4}
+            alt="Page 4"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
   </div>
     </>
   );
