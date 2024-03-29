@@ -8,6 +8,11 @@ import page1 from "@assets/Help/Admin/ManageAccounts/1.png";
 import page2 from "@assets/Help/Admin/ManageAccounts/2.png";
 import page3 from "@assets/Help/Admin/ManageAccounts/3.png";
 import page4 from "@assets/Help/Admin/ManageAccounts/4.png";
+import page1E from "@assets/Help/Staff/ManageAccounts/1.png";
+import page2E from "@assets/Help/Staff/ManageAccounts/2.png";
+import page3E from "@assets/Help/Staff/ManageAccounts/3.png";
+import page4E from "@assets/Help/Staff/ManageAccounts/4.png";
+
 
 
 {/*Tab Highlight */}
@@ -141,7 +146,8 @@ export default function ManageUsers() {
         />
             
       </ReactModal>
-      {/* HELP*/}
+      {/* HELP- ADMIN*/}
+      {userRole == 1 && (
       <ReactModal
       isOpen={isHelpModalOpen}
       onRequestClose={toggleHelpModal}
@@ -191,6 +197,62 @@ export default function ManageUsers() {
         </button>
       </div>
     </ReactModal>
+    )}
+
+          {/* HELP- STAFF*/}
+          {userRole == 2 && (
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1E}
+            alt="Page 1"
+        />
+        <img
+            src={page2E}
+            alt="Page 2"
+        />
+        <img
+            src={page3E}
+            alt="Page 3"
+        />
+        <img
+            src={page4E}
+            alt="Page 4"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+    )}
+
+
   </div>
     </>
   );
