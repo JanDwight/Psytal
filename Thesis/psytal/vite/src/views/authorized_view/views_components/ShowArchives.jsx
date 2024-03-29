@@ -164,40 +164,43 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   };
 
   return (
-    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
-      <div className="relative bg-white w-full lg:w-3/4 xl:w-4/5 px-4 py-6 shadow-lg rounded-lg max-h-[80vh] overflow-y-auto">
-        {/* Exit (Close) Button */}
-
-        <div className="mb-6"> {/* Add margin to the bottom of the table */}
+    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+      <div className="relative bg-white xl:h-full xl:w-5/6 px-4 pt-11 pb-12 shadow-lg rounded-lg">
+        <button
+          onClick={handleCloseModal}
+          className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
+        >
+          X
+        </button>
+        <div className="mb-3 max-h-full border overflow-auto border-gray-300"> {/* Add margin to the bottom of the table */}
           <table className="min-w-full">
-            <thead>
+            <thead className="sticky top-0 bg-white">
               <tr>
                 <th>Select</th>
-                <th>Item Type</th>
+                <th>Archived On</th>
                 <th>Item Name</th>
+                <th>Item Type</th>
                 <th>Origin Table</th>
                 <th>Archiver Name</th>
                 <th>Archiver Role</th>
-                <th>Archived On</th>
-                
               </tr>
             </thead>
             <tbody>
               {dataTable.map((item, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''} onClick={() => toggleRowSelection(index)}>
-                  <td className='text-center'>
+                  <td className='text-center px-2'>
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(index)}
                       onChange={() => toggleRowSelection(index)}
                     />
                   </td>
-                  <td className='text-center'>{item.item_type}</td>
-                  <td className='text-center'>{item.item_name}</td>
-                  <td className='text-center'>{item.origin_table}</td>
-                  <td className='text-center'>{item.archiver_name}</td>
-                  <td className='text-center'>{item.archiver_role}</td>
-                  <td className='text-center'>{item.archived_at}</td>
+                  <td className='text-center px-2'>{item.archived_at}</td>
+                  <td className='text-center px-2'>{item.item_name}</td>
+                  <td className='text-center px-2'>{item.item_type}</td>
+                  <td className='text-center px-2'>{item.origin_table}</td>
+                  <td className='text-center px-2'>{item.archiver_name}</td>
+                  <td className='text-center px-2'>{item.archiver_role}</td>
                 </tr>
               ))}
             </tbody>
@@ -208,19 +211,11 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
               type="checkbox"
               checked={selectAll}
               onChange={toggleSelectAll}
+              className="ml-4"
             />
-            <label className="ml-2">Select All</label>
-      
-        <button
-          onClick={handleCloseModal}
-          className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"
-        >
-          X
-        </button>
+        <label className="ml-2">Select All</label>
+  
         <div className="absolute bottom-2 right-2 flex space-x-3">
-        
-        
-        
           <button onClick={editprompt} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
             Restore
           </button>

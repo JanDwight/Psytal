@@ -56,8 +56,8 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
   //-----
 
   return (
-    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
-      <div className="relative bg-white w-full lg:w-4/5 xl:w-5/6 px-4 py-6 shadow-lg rounded-lg max-h-full overflow-y-auto">
+    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+      <div className="relative bg-white xl:h-full xl:w-5/6 px-4 pt-11 pb-12 shadow-lg rounded-lg">
         {/* Exit (Close) Button */}
         <button
           onClick={onClose}
@@ -65,35 +65,37 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
         >
           X
         </button>
-        <table className="min-w-full">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Action Taken</th>
-              <th>Item</th>
-              <th>User Name</th>
-              <th>User Type</th>
-              <th>Location Table/Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dataTable.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                <td className='text-center px-2'>{item.created_at}</td>
-                <td className='text-center px-2'>{item.action_taken}</td>
-                <td className='text-center px-2'>{item.item_name}</td>
-                <td className='text-center px-2'>{item.user_name}</td>
-                <td className='text-center px-2'>{item.user_type}</td>
-                <td className='text-center px-2'>{item.item_origin}</td>
+        <div className="max-h-full border overflow-auto border-gray-300"> {/* Added wrapping div for scroll */}
+          <table className="min-w-full">
+            <thead className="sticky top-0 bg-white">
+              <tr>
+                <th>Date</th>
+                <th>Action Taken</th>
+                <th>Item</th>
+                <th>User Name</th>
+                <th>User Type</th>
+                <th>Location Table/Source</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="pt-5 flex justify-end space-x-3">
+            </thead>
+            <tbody>
+              {dataTable.map((item, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
+                  <td className='text-center px-2 w-1/6'>{item.created_at}</td>
+                  <td className='text-center px-2 w-1/6'>{item.action_taken}</td>
+                  <td className='text-center px-2 w-1/6'>{item.item_name}</td>
+                  <td className='text-center px-2 w-1/6'>{item.user_name}</td>
+                  <td className='text-center px-2 w-1/12'>{item.user_type}</td>
+                  <td className='text-center px-2 w-1/12'>{item.item_origin}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="pt-2 flex justify-end space-x-3">
           <button onClick={handleDownloadLogs} className="bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 rounded-full cursor-pointer">
-              Download Logs
+            Download Logs
           </button>
-      </div>
+        </div>
       </div>
     </div>
   );
