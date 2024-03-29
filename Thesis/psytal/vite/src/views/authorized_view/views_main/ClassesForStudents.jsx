@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 import ClassPopUp from '../views_components/ClassPopUp.jsx';
+import ReactModal from 'react-modal';
+import page1 from "@assets/Help/Student/Classes/1.png";
+
 
 export default function ClassesForStudent() {
     const [isClassPopUpOpen, setClassPopUpOpen]= useState(false);
     const [selectedClass, setSelectedClass] = useState([]);
+    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+    // Function to toggle help modal
+    const toggleHelpModal = () => {
+      setIsHelpModalOpen(!isHelpModalOpen);
+    };
 
     const handleOpenPopUp = (subject) => {
         setClassPopUpOpen(true);
@@ -64,8 +73,50 @@ export default function ClassesForStudent() {
               ))}
             </tbody>
           </table>
+          {/* Help Modal */}
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
         </div>
-      </div>    
+      </div>   
+       {/* HELP*/}
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
       </>
     );
   }

@@ -11,6 +11,13 @@ import page5 from "@assets/Help/Admin/Post/5.png";
 import page6 from "@assets/Help/Admin/Post/6.png";
 import page7 from "@assets/Help/Admin/Post/7.png";
 import page8 from "@assets/Help/Admin/Post/8.png";
+import page1S from "@assets/Help/Student/Post/1.png";
+import page2S from "@assets/Help/Student/Post/2.png";
+import page3S from "@assets/Help/Student/Post/3.png";
+import page4S from "@assets/Help/Student/Post/4.png";
+import page1E from "@assets/Help/Staff/Post/1.png";
+import page2E from "@assets/Help/Staff/Post/2.png";
+import page3E from "@assets/Help/Staff/Post/3.png";
 
 
 export default function Home() {
@@ -110,6 +117,107 @@ export default function Home() {
 )}
 
 {/* HELP -Student*/}
+{userRole == 4 && (
+<ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1S}
+            alt="Page 1"
+        />
+        <img
+            src={page2S}
+            alt="Page 2"
+        />
+        <img
+            src={page3S}
+            alt="Page 3"
+        />
+        <img
+            src={page4S}
+            alt="Page 4"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+)}
+
+{/* HELP -Staff*/}
+{userRole == 2 && (
+<ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1E}
+            alt="Page 1"
+        />
+        <img
+            src={page2E}
+            alt="Page 2"
+        />
+        <img
+            src={page3E}
+            alt="Page 3"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+)}
+
     </div>
   )
 }

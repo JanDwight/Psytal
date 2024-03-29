@@ -7,6 +7,10 @@ import axiosClient from '../../../../axios';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
+import ReactModal from 'react-modal';
+import page1 from "@assets/Help/Student/Pre-registration/1.png";
+import page2 from "@assets/Help/Student/Pre-registration/2.png";
+
 
 export default function PreRegistrationForContinuing(prereg) {
 
@@ -33,6 +37,14 @@ export default function PreRegistrationForContinuing(prereg) {
         console.error('Error fetching backup files:', error);
     });
   }, []);
+
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
+
 
   const [preregData, setPreregData] = useState( {
     user_id: '',
@@ -1707,7 +1719,12 @@ export default function PreRegistrationForContinuing(prereg) {
                           Submit
                     </button>
                 </div>  
-            </form>        
+            </form>  
+            {/* Help Modal */}
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
+      
         </div>
         {/*moved 'section/course(s) to be enrolled' to formviews*/}
     </main>
@@ -1757,6 +1774,54 @@ export default function PreRegistrationForContinuing(prereg) {
         </div>
       </div>
       )}
+      {/* Help Modal */}
+      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
+-----------------
+
+{/* HELP*/}
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+        <img
+            src={page2}
+            alt="Page 2"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
     </>
 
   )
