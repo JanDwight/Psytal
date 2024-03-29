@@ -9,6 +9,8 @@ import page3 from "@assets/Help/Admin/Post/3.png";
 import page4 from "@assets/Help/Admin/Post/4.png";
 import page5 from "@assets/Help/Admin/Post/5.png";
 import page6 from "@assets/Help/Admin/Post/6.png";
+import page7 from "@assets/Help/Admin/Post/7.png";
+import page8 from "@assets/Help/Admin/Post/8.png";
 
 
 export default function Home() {
@@ -38,8 +40,9 @@ export default function Home() {
         <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
             <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
           </div>
-{/* HELP*/}
-<ReactModal
+{/* HELP -ADMIN*/}
+{userRole == 1 && (
+    <ReactModal
       isOpen={isHelpModalOpen}
       onRequestClose={toggleHelpModal}
       style={{ content: {
@@ -80,6 +83,14 @@ export default function Home() {
             src={page6}
             alt="Page 6"
         />
+        <img
+            src={page7}
+            alt="Page 7"
+        />
+        <img
+            src={page8}
+            alt="Page 8"
+        />
 
         <button
           onClick={toggleHelpModal}
@@ -96,6 +107,9 @@ export default function Home() {
         </button>
       </div>
     </ReactModal>
+)}
+
+{/* HELP -Student*/}
     </div>
   )
 }
