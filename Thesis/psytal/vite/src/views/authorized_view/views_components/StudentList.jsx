@@ -8,7 +8,6 @@ import ArchiveUsers from '../views_components/ArchiveUsers.jsx';
 import axiosClient from '../../../axios.js';
 
 class StudentList extends Component {
-  //const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
 
   constructor(props) {
     super(props);
