@@ -1,12 +1,25 @@
 import React, {useState} from 'react'
 import axiosClient from '../../../../axios';
+import ReactModal from 'react-modal';
 import Feedback from '../../../feedback/Feedback';
+import CreatePrompt from '../../prompts/CreatePrompt';
 
 export const EditPassword = ({ onCloseEditPassword, data }) => {
     //calling the sample data
     const [password, setPassword] = useState(data);
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [promptMessage, setPromptMessage] = useState('');
+    const action = "Confirm Password Change";
+
+    //<><><><><>
+    const editprompt = (ev) => {
+      ev.preventDefault();
+      const concatmessage = 'Changes to your password will be saved. Do you wish to proceed?';
+      setPromptMessage(concatmessage);
+      setShowPrompt(true);
+    }
     
     const handlePasswordChange = (event) => {
       setPassword(event.target.value);
@@ -56,8 +69,8 @@ export const EditPassword = ({ onCloseEditPassword, data }) => {
                     {isVisible ? "Hide Password" : "Show Password"}
                 </button>
 
-                <div className='mt-5 flex felx-row-2 justify-center'>
-                    <button onClick={handleSubmit} 
+                <div className='mt-5 flex felx-row-2 justify-center space-x-2'>
+                    <button onClick={editprompt} 
                         className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-xl">
                         Confirm
                     </button>
@@ -65,8 +78,21 @@ export const EditPassword = ({ onCloseEditPassword, data }) => {
                         Cancel
                     </button>                    
                 </div>
-
       </div>
+            <ReactModal
+                isOpen={showPrompt}
+                onRequestClose={() => setShowPrompt(false)}
+                className="md:w-[1%]"
+            >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleSubmit}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+            </ReactModal>
     </div>
   )
 }
