@@ -106,7 +106,7 @@ export default function EditUsers({ showModal, onClose, user }) {
                   <option value="1">Admin</option>
                   <option value="2">Staff</option>
                   <option hidden={true} value="3">Instructor</option>
-                  <option value="4">Student</option>
+                  <option hidden={true} value="4">Student</option>
                 </select>
               </div>
               <div className="mb-4">
