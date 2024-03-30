@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../../../axios';
 import ReactModal from 'react-modal';
+import { useStateContext } from '../../../context/ContextProvider';
 import PreRegistrationFormView from '../views_components/Pre_Registration_Components/PreRegistrationFormView';
 import PreRegistrationForContinuingView from '../views_components/Pre_Registration_Components/PreRegistrationForContinuingView';
+import page1 from "@assets/Help/Admin/Pre-registration/1.png";
+import page2 from "@assets/Help/Admin/Pre-registration/2.png";
+import page3 from "@assets/Help/Admin/Pre-registration/3.png";
+import page1E from "@assets/Help/Staff/Pre-registration/1.png";
+import page2E from "@assets/Help/Staff/Pre-registration/2.png";
+import page3E from "@assets/Help/Staff/Pre-registration/3.png";
+
+
 
 export default function PreRegistration() {
   const [loading, setLoading] = useState(true);
@@ -15,6 +24,7 @@ export default function PreRegistration() {
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
 
   const [filterText, setFilterText] = useState(''); // Filter text state
+  const {userRole} = useStateContext(''); //just refresh server
 
   const handleFilter = (filterValue) => {
     setActiveFilter(filterValue); // Update active filter state
@@ -82,6 +92,15 @@ export default function PreRegistration() {
       }
   });
   console.log("THIS IS THE DATA " + selectedData.type_of_student);
+
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
+
+
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
@@ -170,6 +189,10 @@ export default function PreRegistration() {
               </tr>
             ))}
           </table>
+          {/* Help Modal */}
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
         </div>
       </div>
       
@@ -194,6 +217,104 @@ export default function PreRegistration() {
           )}
         </div>
       </ReactModal>
+
+{/* HELP -ADMIN*/}
+{userRole == 1 && (
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+        <img
+            src={page2}
+            alt="Page 2"
+        />
+        <img
+            src={page3}
+            alt="Page 3"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+    )}
+
+     {/* HELP- STAFF*/}
+     {userRole == 2 && (
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1E}
+            alt="Page 1"
+        />
+        <img
+            src={page2E}
+            alt="Page 2"
+        />
+        <img
+            src={page3E}
+            alt="Page 3"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+    )}
     </div>
   )
 }

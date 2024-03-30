@@ -1,12 +1,20 @@
-import React, { Component }  from 'react'
+import React, { useState, useEffect } from 'react';
+import ReactModal from 'react-modal';
 import coverVid from "@assets/LandingpageBG.mp4";
 import schoolLogo from "@assets/BSUlogo.png";
 import Carousel from '../../unauthorized_view/views_main/Carousel';
 import Login from '../../unauthorized_view/views_main/Login';
-
+import page1 from "@assets/Help/Login/1.png";
+import page2 from "@assets/Help/Login/2.png";
 
 
 export default function LandingPage() {
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
 
   return (
     <div className='w-[100vw] h-[100vh] relative mx-auto'>
@@ -48,6 +56,10 @@ export default function LandingPage() {
         <div className="absolute w-full sm:w-[50vw] h-[100vh] top-[0vh] right-[0vw] pl-10 flex items-center justify-center">
               <Login />
         </div>
+        {/* Help Modal */}
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+              <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+            </div>
       </div>
       
 
@@ -230,8 +242,52 @@ export default function LandingPage() {
         <span> © 2023 Copyright</span>
       </div> {/**End of copyrights */}
     </footer>{/**End Footer */}
+    {/* HELP*/}
+    <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          top:'15%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+        <img
+            src={page2}
+            alt="Page 2"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
 
   </div>
+  
               
   )
 }

@@ -1,10 +1,22 @@
 import {React, Fragment, useState} from "react";
 import { Menu, Transition } from '@headlessui/react';
+import { useStateContext } from '../../../context/ContextProvider';
 import ReactModal from 'react-modal';
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import AddClass from "../views_components/AddClass";
 import ClassPopUp from "../views_components/ClassPopUp";
 import ClassList from '../views_components/ClassList.jsx';
+import page1 from "@assets/Help/Admin/Classes/1.png";
+import page2 from "@assets/Help/Admin/Classes/2.png";
+import page3 from "@assets/Help/Admin/Classes/3.png";
+import page4 from "@assets/Help/Admin/Classes/4.png";
+import page1E from "@assets/Help/Staff/Classes/1.png";
+import page2E from "@assets/Help/Staff/Classes/2.png";
+import page3E from "@assets/Help/Staff/Classes/3.png";
+import page4E from "@assets/Help/Staff/Classes/4.png";
+import page5E from "@assets/Help/Staff/Classes/5.png";
+
+
 
  {/*Tab Highlight */}
  const Tab = ({ label, isActive, onClick }) => {
@@ -38,6 +50,7 @@ export default function Classes(){
     const [selectedSemester, setSelectedSemester] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedSection, setSelectedSection] = useState(null);
+    const {userRole} = useStateContext(''); //just refresh server
     
     //filter semester
     const handleSemester = (semester) => {
@@ -56,6 +69,14 @@ export default function Classes(){
       setSelectedSection(section);
       setSelectedSection(section === 'All' ? null : section);
   };
+
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
+
 
 
     return(
@@ -264,6 +285,11 @@ export default function Classes(){
                         />
                       )}
                       </div>
+          {/* Help Modal */}
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+            <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
+          </div>
+
             </div>                     
       <ReactModal
         isOpen={isModalOpen}
@@ -284,5 +310,115 @@ export default function Classes(){
           <ClassPopUp closeModal={() => setIsClassModalOpen(false)} />
         </div>
       </ReactModal>
+
+      {/* HELP-ADMIN*/}
+      {userRole == 1 && (
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1}
+            alt="Page 1"
+        />
+        <img
+            src={page2}
+            alt="Page 2"
+        />
+        <img
+            src={page3}
+            alt="Page 3"
+        />
+        <img
+            src={page4}
+            alt="Page 4"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+    )}
+
+      {/* HELP- STAFF*/}
+      {userRole == 2 && (
+      <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: '9998',
+          backgroundColor: '#fff',
+          border: '1px solid #000',
+          padding: '20px',
+          textAlign: 'center', // Align the content center
+        }
+      }}
+    >
+      <div>
+        <img
+            src={page1E}
+            alt="Page 1"
+        />
+        <img
+            src={page2E}
+            alt="Page 2"
+        />
+        <img
+            src={page3E}
+            alt="Page 3"
+        />
+        <img
+            src={page4E}
+            alt="Page 4"
+        />
+        <img
+            src={page5E}
+            alt="Page 5"
+        />
+
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
+    )}
       </>
 )}
