@@ -24,8 +24,11 @@ class SemesterInformationController extends Controller
             $firstSemester = $semesterInformation->first();
         
             // Convert start_of_school_year and end_of_school_year to Carbon objects
-            $startYear = Carbon::parse($firstSemester['start_of_school_year'])->year;
-            $endYear = Carbon::parse($firstSemester['end_of_school_year'])->year;
+            //$startYear = Carbon::parse($firstSemester['start_of_school_year'])->year; // original
+            //$endYear = Carbon::parse($firstSemester['end_of_school_year'])->year; // original
+
+            $startYear = $firstSemester['start_of_school_year']; //replaced original because it was causing error - REM
+            $endYear = ($firstSemester['end_of_school_year']);  //replaced original because it was causing error - REM
         
             // Combine semester and extract the year from start_of_school_year and end_of_school_year
             $ongoingSemester = $firstSemester['semester'] . ' ' . $startYear . ' - ' . $endYear;
