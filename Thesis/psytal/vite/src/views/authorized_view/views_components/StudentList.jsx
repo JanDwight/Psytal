@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import edit from "@assets/icons8createpost.png";
 import archive from "@assets/delete.png"
+import grades from "@assets/icons8-pass-48.png"
+import StudentGrades from './Manageusers/StudentGrades.jsx';
 import EditUsers from '../views_components/EditUsers.jsx'; //<-- Import EditUsers component
 import ArchiveUsers from '../views_components/ArchiveUsers.jsx';
 import axiosClient from '../../../axios.js';
 
 class StudentList extends Component {
+  //const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +17,7 @@ class StudentList extends Component {
       isArchiveUsersOpen: false, // Initially, the custom modal for archiving users is closed
       isEditUsersOpen: false, // Initially, the custom modal for editing users is closed
       selectedStudent: null, // Store the selected student for the modals
+      isGradeModalOpen: false
     };
   }
 
@@ -53,6 +58,15 @@ class StudentList extends Component {
     });
   };
 
+  //<><><> Open EditUsers modal
+  handleGradeClick = (student) => {
+    console.log('Grade Window Open');
+    this.setState({
+      selectedStudent: student,
+      isGradeModalOpen: true,
+    });
+  };
+
   //<><><> Close ArchiveUsers modal
   handleCloseArchiveUsers = () => {
     console.log('Archive User Closed');
@@ -67,6 +81,15 @@ class StudentList extends Component {
     console.log('Edit User Closed');
     this.setState({
       isEditUsersOpen: false,
+    });
+    this.fetchData();
+  };
+
+  //<><><> Close Student Grades modal
+  handleCloseGradeModal = () => {
+    console.log('Grade Modal Closed');
+    this.setState({
+      isGradeModalOpen: false,
     });
     this.fetchData();
   };
@@ -106,14 +129,23 @@ class StudentList extends Component {
                 <td className="text-left p-2" style={{ width: "10%" }}>
                 <div className="flex items-center">
                   <img
+                    src={grades} 
+                    alt='archive'
+                    title="Set Grades"
+                    className='h-6 w-6 cursor-pointer transform transition-transform hover:scale-125' 
+                    onClick={() => this.handleGradeClick(student)}
+                  />
+                  <img
                     src={edit} 
                     alt='edit'
-                    className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125' 
+                    title="Edit User Information"
+                    className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125 ml-1' 
                     onClick={() => this.handleEditUsersClick(student)}
                   />
                   <img
                     src={archive} 
                     alt='archive'
+                    title="Delete User"
                     className='h-7 w-7 cursor-pointer transform transition-transform hover:scale-125' 
                     onClick={() => this.handleArchiveClick(student)}
                   />
@@ -139,7 +171,13 @@ class StudentList extends Component {
             user={selectedStudent} // Pass the selected student to EditUsers
           />
         )}
-        
+        {this.state.isGradeModalOpen && (
+          <StudentGrades
+            showModal={this.state.isGradeModalOpen}
+            onClose={this.handleCloseGradeModal}
+            selectedStudent={selectedStudent} // Pass the selected student to EditUsers
+          />
+        )}
       </div>
     );
   }

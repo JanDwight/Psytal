@@ -70,7 +70,7 @@ export default function EditUsers({ showModal, onClose, user }) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
 
-      <div className="bg-white w-full lg:w-1/2 px-4 py-6 shadow-lg rounded-lg">
+      <div className="bg-white w-full lg:w-1/2 px-4  shadow-lg rounded-lg">
         <div className="w-full px-4 mx-auto mt-6">
           <p className="block uppercase tracking-wide font-semibold text-green-800 my-3">Update Account Information of: {name}</p>
           <div>
@@ -166,6 +166,7 @@ export default function EditUsers({ showModal, onClose, user }) {
 
             <div className="text-center flex justify-start">
               <button
+                hidden={true}
                 onClick={() => setIsGradeModalOpen(true)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full"
               >
