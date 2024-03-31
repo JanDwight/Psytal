@@ -94,16 +94,34 @@ class LinksController extends Controller
     }
 
     // Extract the attributes from the request
-    $attributes = $request->all();
+    $newAttributes = $request->all();
     
-    $link->update($attributes); 
+    // Check if any changes have been made to the link attributes
+    try {
+        $link->update($newAttributes);
 
-    $this->storeLog( 'Link updated', 'link', $link->class_code, 'links');
-
+        // Check if any changes were made
+        if ($link->wasChanged()) {
+            // Log the link update
+            $this->storeLog('Link updated', 'link', $link->class_code, 'links');
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Link updated successfully'
+            ]);
+        } else {
+            // No changes made
+            return response()->json([
+                'success' => false,
+                'message' => 'No changes were made'
+            ]);
+        }
+    } catch (\Exception $e) {
         return response()->json([
-            'message' => 'Link updated successfully',
-            'success' => true
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
         ]);
+      }   
     }
     
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
