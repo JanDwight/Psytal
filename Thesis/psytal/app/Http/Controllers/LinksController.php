@@ -18,6 +18,20 @@ class LinksController extends Controller
 
          /** @var \App\Models\links $links */
 
+          // Check if there's already a link with the same attributes
+        $existingLink = Links::where('class_code', $data['class_code'])
+        ->where('class_description', $data['class_description'])
+        ->where('instructor_name', $data['instructor_name'])
+        ->where('url', $data['url'])
+        ->first();
+
+        if ($existingLink) {
+            return response([
+                'message' => 'A link with the same attributes already exists',
+                'success' => false
+            ]);
+        }
+
          $links = links::create([
             'class_code' => $data['class_code'],
             'class_description' => $data['class_description'],
