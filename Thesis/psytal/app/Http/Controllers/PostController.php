@@ -89,6 +89,15 @@ class PostController extends Controller
                 'success' => true]);
         }
         $post = posts::findOrFail($id);
+
+        // Check if the title and description are unchanged
+        if ($post->title == $request->input('title') && $post->description == $request->input('description')) {
+            return response([
+                'message' => 'No changes made',
+                'success' => false
+            ]);
+        }
+
         \Log::info('Request Data: ' . json_encode($request->all()));
     
         $post->title = $request->input('title');
