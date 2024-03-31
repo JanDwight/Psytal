@@ -132,6 +132,7 @@ class ClassesController extends Controller
     }
     
     //add class
+    //add class
     public function addClass(AddClassRequest $request)
     {
         $data = $request->validated();
@@ -148,16 +149,17 @@ class ClassesController extends Controller
             ]); // You can choose an appropriate HTTP status code
         }
 
-        // // Check if the course code already exists
-        // $existingCourseCode = classes::where('course_code', $data['course_code'])->first();
-        // if ($existingCourseCode) {
-        //     // Course code already exists, return an error response
-        //     return response([
-        //         'message' => 'Course code already exists',
-        //         'success' => false
-        //     ]); // You can choose an appropriate HTTP status code
-        // }
-    
+
+        // Check if the section is unique for the class code
+        $existingSection = classes::where('course_code', $data['course_code'])->where('class_section', $data['class_section'])->first();
+        if ($existingSection) {
+            // Section already exists for this class code, return an error response
+            return response([
+                'message' => 'Section already exists for this course code',
+                'success' => false
+            ]); // You can choose an appropriate HTTP status code
+        }
+
 
         $class = classes::create([
             'course_title' => $data['course_title'],
