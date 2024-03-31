@@ -218,7 +218,7 @@ const handleChangeUnits = (index, value) => {
     ev.preventDefault();
 
      // Validate COLLEGE radio buttons
-     const yesChecked = document.getElementById("yescompiled").checked;
+     const yesChecked = document.getElementById("yescomplied").checked;
      const noChecked = document.getElementById("noavail").checked;
  
      // Check if either Yes or No is selected
