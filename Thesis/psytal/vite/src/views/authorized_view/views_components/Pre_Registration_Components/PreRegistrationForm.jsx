@@ -1681,8 +1681,8 @@ export default function PreRegistrationForm() {
         </form>
         {/* Help Modal */}
         <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                <button onClick={toggleHelpModal} style={{ backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '20px', cursor: 'pointer' }}>?</button>
-          </div>
+              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+        </div>
       </div>
     </main>
     {successMessage && (
