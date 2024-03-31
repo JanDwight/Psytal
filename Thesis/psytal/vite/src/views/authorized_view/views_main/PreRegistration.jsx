@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import {React, Fragment, useState, useEffect} from "react";
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import axiosClient from '../../../axios';
 import ReactModal from 'react-modal';
 import { useStateContext } from '../../../context/ContextProvider';
@@ -22,9 +24,16 @@ export default function PreRegistration() {
   const [activeFilter, setActiveFilter] = useState(''); 
   const [sortByNameAsc, setSortByNameAsc] = useState(true);
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
+  const [selectedStatus, setSelectedStatus] = useState(null);
 
   const [filterText, setFilterText] = useState(''); // Filter text state
   const {userRole} = useStateContext(''); //just refresh server
+
+      //filter semester
+      const handleStatus = (status) => {
+        setSelectedStatus (status);
+        setSelectedStatus (status === 'All' ? null : status);
+    };
 
   const handleFilter = (filterValue) => {
     setActiveFilter(filterValue); // Update active filter state
@@ -153,14 +162,63 @@ export default function PreRegistration() {
               {sortByDateAsc ? <span>&#9650;</span> : <span>&#9660;</span>}
             </th>
               <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
-              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>Status</th>
+              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>
+              <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            Status
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <button onClick={() => handleStatus('All')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                ALL
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleStatus('Pending')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              >
+                                Pending
+                              </button>
+                              </Menu.Item>
+                            <Menu.Item>
+                                <button onClick={() => handleStatus('Accepted')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  Accepted
+                                </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                                <button onClick={() => handleStatus('Decline')}
+                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                >
+                                  Declined
+                                </button>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+              </th>
             </tr>
           </thead>
         </table>
         
         <div className="table-container overflow-y-auto max-h-[400px] ">
           <table className="w-full">
-            {filteredData.map((item, index) => (
+            {filteredData.filter(item => 
+                  (!selectedStatus || item.pre_reg_status === selectedStatus)
+                ).map((item, index) => (
               <tr 
                 onClick={() => handleRowClick(item)}
                 key={index} 
@@ -181,7 +239,9 @@ export default function PreRegistration() {
                       ? 'bg-green-600'
                       : item.pre_reg_status === 'Pending'
                       ? 'bg-blue-600'
-                      : 'bg-red-600'
+                      : item.pre_reg_status === 'Decline'
+                      ? 'bg-red-600'
+                      : ''
                   } w-fit py-2 px-2 rounded-xl`}>
                     {item.pre_reg_status}
                   </div>
