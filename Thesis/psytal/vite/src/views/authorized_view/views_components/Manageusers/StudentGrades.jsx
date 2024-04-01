@@ -72,6 +72,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
     try {
       await axiosClient.put('updatestudentgrades', {studentClasses, student_id: selectedStudent.student_profile_id});
       setAllowEdit(!allowEdit);
+      fetchStudentClasses();
       //feedback please
     } catch (error) {
       console.error('Error updating grades:', error);
@@ -145,7 +146,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
             <button hidden={allowEdit} onClick={editprompt} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               {gradeStat ? "Save Grades" : "Update Grades"}
             </button>
-            <button hidden={allowEdit} onClick={() => {setAllowEdit(true); fetchStudentClasses();}} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
+            <button hidden={allowEdit} onClick={() => {fetchStudentClasses(); setAllowEdit(true); }} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               Cancel
             </button>
           </div>
