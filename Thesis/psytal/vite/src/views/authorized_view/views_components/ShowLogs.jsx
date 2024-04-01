@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-
+import Feedback from '../../feedback/Feedback.jsx';
 export default function ShowLogTable({ showModal, onClose, dataTable}) {
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   if (!showModal) {
     return null;
@@ -28,7 +30,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
   };
 
   // Function to handle download logs as text file
-  const handleDownloadLogs = () => {
+  const handleDownloadLogs = () => { 
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
@@ -51,12 +53,17 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+
+    setSuccessMessage('Downloaded Logs successfully');
+    setSuccessStatus(true);
   };
 
   //-----
 
   return (
     <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className="relative bg-white h-4/5 w-4/5 px-4 pt-11 pb-12 shadow-lg rounded-lg">
         {/* Exit (Close) Button */}
         <button
@@ -98,5 +105,6 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
         </div>
       </div>
     </div>
+  
   );
 }

@@ -86,7 +86,20 @@ class LogsController extends Controller
         ]);
 
         // Optionally, you can return the created log instance
-        return $logs;
+        if ($logs) {
+            return response([
+                'message' => 'Download Logs successfully',
+                'success' => true
+            ]);
+        }
+            else {
+            // Return JSON response indicating failure
+            return response([
+                'message' => 'Download Not Successful',
+                'success' => false
+            ]);
+        }
+    
     }
     public function someAction()
     {
