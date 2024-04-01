@@ -96,11 +96,7 @@ export default function AddingPost() {
           setSuccessMessage(response.data.message);
           setSuccessStatus(response.data.success);
           
-          setTimeout(() => {
-            setSuccessMessage(null);
-            closeModal();
-            window.location.reload();
-          }, 2000);
+
           
         }
       } catch (error) {

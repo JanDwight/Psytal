@@ -6,11 +6,11 @@ export default function Feedback({ isOpen, onClose, successMessage, status, refr
     console.log(status);
     useEffect(() => {
         let timeoutId;
-        if ((status === true && isOpen && refresh===true) || (modalClosedManually && refresh===true)) {
+        if ((status === true && isOpen && refresh===true) || (modalClosedManually === true && status === true )) {
             // Set timeout to reload the page after 5 seconds only if status is success and modal is still open
             timeoutId = setTimeout(() => {
                 window.location.reload();
-            }, 1000);
+            }, 10);
         }
 
         // Cleanup function to clear timeout when component unmounts or modal is closed manually
