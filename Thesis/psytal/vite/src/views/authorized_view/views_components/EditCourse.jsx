@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../prompts/CreatePrompt.jsx'
@@ -18,6 +18,11 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Edit Course?";
+
+  //<><><><><>
+  const handleCourseTypeChange = (e) => {
+    setCourseType(e.target.value);
+  };
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -58,7 +63,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
 
-      <div className="w-[20%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5">
+      <div className="w-[50%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mx-auto p-5">
         <div className="w-full px-4 mx-auto mt-6">
           <div className='flex justify-center font-bold text-4xl text-[#525252]'>
               Edit Course
@@ -66,7 +71,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
           <div>
             <form onSubmit={editprompt}>
                 <div className='mt-2 flex flex-col-2 justify-between'>
-                    <label htmlFor="class_year" className="block text-sm text-gray-700">
+                    <label htmlFor="class_year" className="block text-sm text-gray-700 mr-2">
                     Year:
                     </label>
                     <input
@@ -79,7 +84,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                       className="block w-[48%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
                     />
 
-                    <label htmlFor="semester" className="block text-sm text-gray-700">
+                    <label htmlFor="semester" className="block text-sm text-gray-700 mx-2">
                     Semester:
                     </label>
                     <input
@@ -107,7 +112,7 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                       className="block w-[50%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
                     />
                     
-                    <label htmlFor="units" className="block text-sm text-gray-700">
+                    <label htmlFor="units" className="block text-sm text-gray-700 mx-2">
                     Units:
                     </label>
                     <input
@@ -151,36 +156,21 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
                     />  
                 </div>
 
-                <p className="block text-sm font-bold text-gray-700">
-                    Course Type: {curriculum.course_type}
-                </p>
-                <div className="flex justify-between mt-2">
-                  <div>
-                      <label className="block text-sm text-gray-700" for= "lec">Lecture</label>
-                      <input
-                        id="course_type"
-                        name="course_type"
-                        type="radio" //change to radio
-                        value="Lec" 
-                        // checked={curriculum.course_type === "Lec"}
-                        onChange={(e) => setCourseType(e.target.value)}
-                        // onChange={(e) => setCourseType({curriculum, course_type: e.target.value})}
-                        // onChange={(e) => setCourseType(e.target.value)}
-                        className="block rounded-md border-2 border-solid border-neutral-300" 
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-700" for= "lab">Laboratory</label>
-                      <input
-                        id="course_type"
-                        name="course_type"
-                        type="radio" //change to radio
-                        value="Lab" 
-                        // checked={curriculum.course_type === "Lab"}
-                        onChange={(e) => setCourseType(e.target.value)}
-                        className="block rounded-md border-2 border-solid border-neutral-300" 
-                      />
-                  </div>
+               
+                <div className="flex mt-2">  
+                <p className="block text-sm text-gray-700 mt-2 mr-2">
+                    Course Type:
+                </p>  
+                  <select
+                    id="course_type"
+                    name="course_type"
+                    defaultValue={curriculum.course_type}
+                    onChange={(e) => setCourseType(e.target.value)}
+                    className="block rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 t"
+                  >
+                    <option value="Lec">Lecture</option>
+                    <option value="Lab">Laboratory</option>
+                  </select>
                 </div>
 
                 <div className='flex justify-between mt-2'>

@@ -57,7 +57,7 @@ export default function ShowLogTable({ showModal, onClose, dataTable}) {
 
   return (
     <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
-      <div className="relative bg-white xl:h-full xl:w-5/6 px-4 pt-11 pb-12 shadow-lg rounded-lg">
+      <div className="relative bg-white h-4/5 w-4/5 px-4 pt-11 pb-12 shadow-lg rounded-lg">
         {/* Exit (Close) Button */}
         <button
           onClick={onClose}
