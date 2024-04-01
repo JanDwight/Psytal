@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 export default function Feedback({ isOpen, onClose, successMessage, status, refresh }) {
     const [modalClosedManually, setModalClosedManually] = useState(false);
-    console.log(status);
+
     useEffect(() => {
         let timeoutId;
         if ((status === true && isOpen && refresh===true) || (modalClosedManually === true && status === true )) {
