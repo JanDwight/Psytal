@@ -10,6 +10,7 @@ import "../../../../../src/styles.css";
 import download from 'downloadjs';
 import { PDFDocument } from 'pdf-lib'
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
+import Feedback from '../../../feedback/Feedback';
 
 import ReactModal from 'react-modal';
 import page1 from "@assets/Help/Pre-registration-incoming/1.png";
@@ -19,7 +20,8 @@ import page2 from "@assets/Help/Pre-registration-incoming/2.png";
 export default function PreRegistrationForm() {
   
   const [error, setError] = useState({__html: ""});
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -401,7 +403,6 @@ export default function PreRegistrationForm() {
   const onSubmit = (ev) => {
     ev.preventDefault();
     setError({ __html: "" });
-    console.log(preregData);
     axiosClient
     .post('/preregincommingtmp', {
       start_of_school_year: parseInt(preregData.start_of_school_year, 10),
@@ -447,49 +448,27 @@ export default function PreRegistrationForm() {
       
     })
     .then(({ data }) => {
-      onPrint();
-      setSuccessMessage({
-        message: 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
-      });
-      setTimeout(() => {
-        setSuccessMessage(null);
-        handleClear();
-        // closeModal();
-      }, 5000);
-    })
-    .catch(( error ) => {
-      setSuccessMessage({
-        message: 'Missing Data, Please Double Check.',
-      });
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-        // closeModal();
-      }, 3000);
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-        setError({__html: finalErrors.join('<br>')})
-
-        setSuccessMessage({
-          message: 'Please Fill in ALL the NECESSARY blanks provided.',
-        });
-
-        setTimeout(() => {
-          setSuccessMessage(null);
-          // closeModal();
-        }, 2000);
-
+      
+      setSuccessMessage(data.message);
+      setSuccessStatus(data.success);
+      if(setSuccessStatus==true){
+        onPrint();
       }
-        console.error(error)
+          // setTimeout(() => {
+          //   setSuccessMessage(null);
+          //   closeModal();
+          //   window.location.reload();
+          // }, 2000);
+    })
+    .catch(( response ) => {
+      setSuccessMessage(response.message);
+      setSuccessStatus(response.success);
     });
   };
   
   return (
     <>
-        {error.__html && (
-        <div className='bg-red-500 rounded py-2 px-2 text-white'
-          dangerouslySetInnerHTML={error}>
-        </div>)}
+    <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
         
     <main className="w-[100%] h-[100%] py-[10%]">
       <div className="lg:w-8/12 mx-auto px-4 container">          
@@ -928,7 +907,6 @@ export default function PreRegistrationForm() {
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                       id="grid-birthdate" 
                       type="date" 
-                      placeholder=""
                       value={preregData.date_of_birth}
                       required
                       onChange={(ev) => {
@@ -1685,17 +1663,6 @@ export default function PreRegistrationForm() {
         </div>
       </div>
     </main>
-    {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     {disclaimer && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
         <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">

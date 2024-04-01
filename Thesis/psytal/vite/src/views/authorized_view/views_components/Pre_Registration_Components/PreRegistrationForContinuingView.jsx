@@ -1421,6 +1421,7 @@ console.log("This data is:last name "+ preregData.last_name);
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     name="classCode"
                                     value={inputField.classCode}
+                                    required
                                     onChange={event => handleChangeInput(index, event)}
                                   >
                                     <option value="" disabled selected>
@@ -1442,6 +1443,7 @@ console.log("This data is:last name "+ preregData.last_name);
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     name="courseCode"
                                     value={inputField.courseCode}
+                                    required
                                     onChange={event => handleChangeInput(index, event)}
                                   >
                                     <option value="" disabled selected>
@@ -1465,11 +1467,11 @@ console.log("This data is:last name "+ preregData.last_name);
                                       variant="filled"
                                       placeholder="Units"
                                       value={inputField.units}
+                                      required
                                       onChange={(event) => {
                                         handleChangeUnits(index, event.target.value); // working
                                         handleChangeInput(index, event); // may not work pls test
                                       }}
-                                      required
                                     />
                                 </div>
 

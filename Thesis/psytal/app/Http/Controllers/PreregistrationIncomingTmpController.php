@@ -26,8 +26,9 @@ class PreregistrationIncomingTmpController extends Controller
 
         if (!$existingDomain) {
             return response([
-                'error' => 'Email Domain Not Valid',
-            ], 422);
+                'message' => 'Email Domain Not Valid',
+                'success' => false
+            ]);
         }
         
         $preRegTmpincoming = preregistration_incoming_tmp::create([
@@ -78,7 +79,8 @@ class PreregistrationIncomingTmpController extends Controller
         $this->storeLog('New pre-registration (Incoming)', 'pre-registration', $fullName, 'preregistration', $fullName, $data['user_id'], 4 );
 
         return response([
-            'prereg' => $preRegTmpincoming,
+            'message' => 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
+            'success' => true
         ]);
     }
 
@@ -97,8 +99,9 @@ class PreregistrationIncomingTmpController extends Controller
  
          if (!$existingDomain) {
              return response([
-                 'error' => 'Email Domain Not Valid',
-             ], 422);
+                 'message' => 'Email Domain Not Valid',
+                 'success' => false
+             ]);
          }
 
         $preRegTmpincoming = preregistration_incoming_tmp::create([

@@ -27,6 +27,7 @@ export default function PreRegistrationForContinuing(prereg) {
     .get('/studentData')
     .then((res) => {
         console.log(res.data);
+        console.log('test', res);
         setPreregData(res.data);
         setPreregData(prevState => ({
           ...prevState, // Spread the previous state
@@ -82,7 +83,7 @@ export default function PreRegistrationForContinuing(prereg) {
     avail_free_higher_education: '',
     voluntary_contribution: '',
     contribution_amount: '',
-    complied_to_admission_policy: 'no',
+    complied_to_admission_policy: '',
     pre_reg_status: 'Pending',
     type_of_student: 'Continuing',
     student_status: 'Regular',
@@ -448,7 +449,6 @@ export default function PreRegistrationForContinuing(prereg) {
           setTimeout(() => {
             setSuccessMessage(null);
             handleClear();
-            // closeModal();
           }, 5000);
         })
         .catch(( error ) => 
@@ -1369,8 +1369,9 @@ export default function PreRegistrationForContinuing(prereg) {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Covid-19 Vaccination Status :</label>
                     <select  className='ml-5'
                       required
-                      value="Not Vaccinated"
+
                       onChange={(ev) => setPreregData({ ...preregData, vaccination_status: ev.target.value })}>
+                      value={preregData.vaccination_status}
                       <option 
                         value="Not Vaccinated">
                           Not Vaccinated</option>
