@@ -11,13 +11,18 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
   const [semesterInfo, setSemesterInfo] = useState('No Semester Information Found.');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
-  const action = "Confirm Save Grade";
+  const [action, setAction] = useState('Confirm Save Grade');
 
   const [gradeStat, setGradeStat] = useState(true); //check if there is existing grades
 
   //<><><><><>
   const editprompt = (ev) => {
     ev.preventDefault();
+    if (!gradeStat) {
+      setAction('Confirm Update Grade');
+    } else {
+      setAction('Confirm Save Grade');
+    }
     const concatmessage = 'Grades for student: "' + selectedStudent.full_name + '" will be saved. Do you wish to proceed?';
     setPromptMessage(concatmessage);
     setShowPrompt(true);
@@ -137,7 +142,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
           </table>
           
           <div className='flex justify-end'>
-            <button hidden={!allowEdit}  onClick={() => setAllowEdit(false)} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
+            <button hidden={!allowEdit}  onClick={() => {setAllowEdit(false)}} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               Allow Editing
             </button>
           </div>
@@ -146,7 +151,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
             <button hidden={allowEdit} onClick={editprompt} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               {gradeStat ? "Save Grades" : "Update Grades"}
             </button>
-            <button hidden={allowEdit} onClick={() => {fetchStudentClasses(); setAllowEdit(true); }} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
+            <button hidden={allowEdit} onClick={() => {fetchStudentClasses(); setAllowEdit(true);}} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               Cancel
             </button>
           </div>

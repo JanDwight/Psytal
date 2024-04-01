@@ -186,7 +186,10 @@ public function editGrade(Request $request)
             }
         }
 
-        $this->storeLog('Grades updated', 'grades', 'Student User ID: ' . $validatedData['student_id'], 'student_classes');
+        $studentName = student_profile::where('student_profile_id', $validatedData['student_id'])->first(); //search for student
+        $fullName = $studentName['last_name'] . ', ' . $studentName['first_name'] . ' ' . $studentName['middle_name'] . '.';
+
+        $this->storeLog('Grades updated', 'grades', $fullName, 'student_classes');
 
         return response()->json(['message' => 'Grades updated successfully'], 200);
     } catch (\Exception $e) {
