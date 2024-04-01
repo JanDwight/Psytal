@@ -4,6 +4,7 @@ import Feedback from '../../../feedback/Feedback';
 import ReactModal from 'react-modal';
 import ClosePRPrompt from '../../prompts/ClosePRPrompt';
 import OpenPRPrompt from '../../prompts/OpenPRPrompt';
+import ClosePreRegValidation from '../../prompts/ClosePreRegValidation';
 
 export default function OpenPreRegModal({ closeModal }) {
   const [error, setError] = useState({ __html: '' });
@@ -26,6 +27,7 @@ export default function OpenPreRegModal({ closeModal }) {
   const [showClose, setShowClose] = useState(false);
   const [showPRconfig, setShowPRconfig] = useState(true)
   const [showStatus, setShowStatus] = useState('');
+  const [closePreRegValidation, setClosePreRegValidation] = useState(false);
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -149,22 +151,7 @@ export default function OpenPreRegModal({ closeModal }) {
 
   //for closing the pre-reg
   const handleClosePreReg = async () => {
-    axiosClient
-      try {
-        const response = await axiosClient.put(`/closeprereg/${id}`, {
-          open_pre_reg: 0,
-        });
-        setSuccessMessage(response.data.message);
-        setSuccessStatus(response.data.success);
-
-        setTimeout(() => {
-        setSuccessMessage(null);
-        closeModal();
-        }, 2000);
-      } catch (error) {
-          setSuccessMessage(error.response.data.message)
-          setSuccessStatus(false)
-      }
+    setClosePreRegValidation(true);
   };
 
   return (
@@ -367,9 +354,18 @@ export default function OpenPreRegModal({ closeModal }) {
                     startOfSchoolYear = {startOfSchoolYear}
                     endOfSchoolYear = {endOfSchoolYear}
                     semester = {semester}
-
                 />
             </div>
+      </ReactModal>
+
+      <ReactModal
+        isOpen={closePreRegValidation}
+        onRequestClose={() => setClosePreRegValidation(false)}
+        className="w-[100%] md:w-[30%] h-fit bg-white rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-2"
+      >
+            <ClosePreRegValidation
+              closeModal={() => setClosePreRegValidation(false)}
+            />
       </ReactModal>
     </div>
   );

@@ -161,9 +161,9 @@ export default function AddCourse({closeModal}) {
                 </div>
                 <div className="mt-3 flex flex-col">
                   <label htmlFor="course_type" className="block text-sm font-semibold text-gray-700 px-2">
-                    Course Type:
+                    <b>Course Type:</b>
                   </label>
-                    <div className=" flex flex-row ml-10" required>
+                    <div className=" flex flex-row ml-2" required>
                       <input
                         id="course_type_lec"
                         name="course_type"
@@ -171,12 +171,10 @@ export default function AddCourse({closeModal}) {
                         value="Lec"
                         onChange={handleChange}
                         required
-                        className="block rounded-full border-2 border-solid border-neutral-300" 
+                        className="block rounded-full border-2 border-solid border-neutral-300 mt-1" 
                       />
-                      <label for= "Lec" className="block text-sm text-gray-700 px-2">Lecture</label>
-                    
-                    
-                      
+                      <label for= "Lec" className="block text-sm text-gray-700 ml-1">Lecture</label>
+
                       <input
                         id="course_type_lab"
                         name="course_type"
@@ -184,9 +182,9 @@ export default function AddCourse({closeModal}) {
                         value="Lab"
                         onChange={handleChange}
                         required
-                        className="block rounded-full border-2 border-solid border-neutral-300 ml-2" 
+                        className="block rounded-full border-2 border-solid border-neutral-300 ml-2 mt-1" 
                       />
-                      <label for= "Lab" className="block text-sm text-gray-700 px-2">Laboratory</label>
+                      <label for= "Lab" className="block text-sm text-gray-700 ml-1">Laboratory</label>
                     </div>  
                       
                   

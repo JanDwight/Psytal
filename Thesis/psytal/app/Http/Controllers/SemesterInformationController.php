@@ -6,7 +6,10 @@ use App\Http\Requests\SemesterInformationRequest;
 use App\Models\semester_information;
 use App\Models\logs;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class SemesterInformationController extends Controller
 {
@@ -139,9 +142,34 @@ class SemesterInformationController extends Controller
 
     public function closeprereg(Request $request, $id)
     {
-        
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'fullName' => 'required',
+            'password' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Invalid credentials. Please provide valid full name and password.',
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422); // Unprocessable Entity status code
+        }
+    
+        // Find the user by fullName
+        $user = User::where('name', $request->fullName)->first();
+    
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            // Invalid credentials
+            return response()->json([
+                'message' => 'Invalid full name or password.',
+                'success' => false
+            ]);
+        }
+    
+        // If authentication successful, proceed to update pre-registration information
         $semesterinfo = semester_information::find($id);
-        
+    
         if (!$semesterinfo) {
             // Handle the case where the preregID with the provided ID is not found
             return response()->json([
@@ -149,19 +177,20 @@ class SemesterInformationController extends Controller
                 'success' => false
             ]);
         }
-
+    
         // Extract the attributes from the request
-        $data = $request->all();
-
+        $data = $request->except(['fullName', 'password']); // Exclude fullName and password from the update data
+    
         $semesterinfo->update($data);
-
+    
         $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
-
+    
         return response()->json([
             'message' => 'Pre-Registration is Now Closed',
             'success' => true
         ]);
     }
+    
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
        {
