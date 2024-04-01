@@ -97,7 +97,6 @@ export default function AddUsers({ onClose}) {
       console.error('Error:', error);
       // Handle error here
     }
-    onClose();
   };
   
   return (
