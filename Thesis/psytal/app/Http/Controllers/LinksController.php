@@ -18,6 +18,20 @@ class LinksController extends Controller
 
          /** @var \App\Models\links $links */
 
+          // Check if there's already a link with the same attributes
+        $existingLink = Links::where('class_code', $data['class_code'])
+        ->where('class_description', $data['class_description'])
+        ->where('instructor_name', $data['instructor_name'])
+        ->where('url', $data['url'])
+        ->first();
+
+        if ($existingLink) {
+            return response([
+                'message' => 'A link with the same attributes already exists',
+                'success' => false
+            ]);
+        }
+
          $links = links::create([
             'class_code' => $data['class_code'],
             'class_description' => $data['class_description'],
@@ -94,16 +108,34 @@ class LinksController extends Controller
     }
 
     // Extract the attributes from the request
-    $attributes = $request->all();
+    $newAttributes = $request->all();
     
-    $link->update($attributes); 
+    // Check if any changes have been made to the link attributes
+    try {
+        $link->update($newAttributes);
 
-    $this->storeLog( 'Link updated', 'link', $link->class_code, 'links');
-
+        // Check if any changes were made
+        if ($link->wasChanged()) {
+            // Log the link update
+            $this->storeLog('Link updated', 'link', $link->class_code, 'links');
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Link updated successfully'
+            ]);
+        } else {
+            // No changes made
+            return response()->json([
+                'success' => false,
+                'message' => 'No changes were made'
+            ]);
+        }
+    } catch (\Exception $e) {
         return response()->json([
-            'message' => 'Link updated successfully',
-            'success' => true
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
         ]);
+      }   
     }
     
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)

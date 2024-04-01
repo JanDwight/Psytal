@@ -60,7 +60,10 @@ export default function AddLinks({closeModal}) {
       <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>Add Link</div>
     <div>
       <form onSubmit={addprompt}>
-        <div className='mt-10 flex flex-col-2 justify-between'>
+      <div className='mt-2'>
+      <label htmlFor="class_code" className="text-lg font-bold mb-2">Title</label>
+        <div className='flex flex-col-2 justify-between'>
+          
           <input
               id="class_code"
               name="class_code"
@@ -69,10 +72,12 @@ export default function AddLinks({closeModal}) {
               value={formData.class_code}
               required
               onChange={handleChange}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
-          />         
+              className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text"  
+          />       
+          </div>
         </div>
-        <div className='mt-5'>
+        <div className='mt-2'>
+        <label htmlFor="class_code" className="text-lg font-bold mb-2">Description</label>
           <textarea
             id="class_description"
             name="class_description"
@@ -84,7 +89,9 @@ export default function AddLinks({closeModal}) {
             className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
           />
         </div>
-        <div className='mt-5'>
+        
+        <div className='mt-2'>
+        <label htmlFor="class_code" className="text-lg font-bold mb-2">Contact</label>
           <input
             id="instructor_name"
             name="instructor_name"
@@ -95,7 +102,9 @@ export default function AddLinks({closeModal}) {
             onChange={handleChange}
             className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
           />
-        </div><div className='mt-5'>
+          
+        </div><div className='mt-2'>
+        <label htmlFor="class_code" className="text-lg font-bold mb-2">Link</label>
           <input
             id="url"
             name="url"

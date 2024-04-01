@@ -75,7 +75,7 @@ const editprompt = (ev) => {
             <form onSubmit={editprompt}>
               <div className="mb-4">
                 <label htmlFor="class_code" className="block text-sm text-gray-700">
-                  Class Code:
+                  Title:
                 </label>
                 <input
                   id="class_code"
@@ -90,7 +90,7 @@ const editprompt = (ev) => {
               </div>
               <div className="mb-4">
                 <label htmlFor="class_description" className="block text-sm text-gray-700">
-                Class Description:
+                 Description:
                 </label>
                 <input
                   id="class_description"
@@ -104,7 +104,7 @@ const editprompt = (ev) => {
               </div>
               <div className="mb-4">
                 <label htmlFor="instructor_name" className="block text-sm text-gray-700">
-                Instructor
+                Contact
                 </label>
                 <input
                   id="instructor_name"
