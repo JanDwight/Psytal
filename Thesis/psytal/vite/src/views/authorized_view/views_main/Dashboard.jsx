@@ -3,11 +3,6 @@ import ShowLogs from "../views_components/ShowLogs";
 import ShowArchives from "../views_components/ShowArchives";
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Admin/Dashboard/1.png";
-import page2 from "@assets/Help/Admin/Dashboard/2.png";
-import page3 from "@assets/Help/Admin/Dashboard/3.png";
-
-
 
 export default function Dashboard() {
 
@@ -39,13 +34,6 @@ export default function Dashboard() {
             return "Student";
     }
   };
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
-
 
   function convertToManilaTime(timestamp) {
     const created_at = new Date(timestamp); // Convert the timestamp to a Date object
@@ -300,10 +288,6 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
 
     </div>
       {/* Show Modals */}
@@ -317,53 +301,6 @@ export default function Dashboard() {
             onClose={closeLogModal}
             dataTable = {Logs_Data}
       />
-
-      {/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
    </div>
    
   );

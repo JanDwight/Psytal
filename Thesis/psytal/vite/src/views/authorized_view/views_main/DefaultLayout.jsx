@@ -8,6 +8,16 @@
   import PsychLogo from '../../../assets/PsychCircle.png'
   import UserProfile from '../views_components/profile_components/UserProfile'
   import LogOutPrompt from '../prompts/LogOutPrompt';
+  //STUDENT
+  import page63 from "@assets/Help/Student/Post/1.png";
+  import page64 from "@assets/Help/Student/Post/2.png";
+  import page65 from "@assets/Help/Student/Post/3.png";
+  import page66 from "@assets/Help/Student/Post/4.png";
+  import page67 from "@assets/Help/Student/Pre-registration/1.png";
+  import page68 from "@assets/Help/Student/Pre-registration/2.png";
+  import page69 from "@assets/Help/Student/Classes/1.png";
+  import page70 from "@assets/Help/Student/Links/1.png";
+  import page71 from "@assets/Help/Student/CurriculumChecklist/1.png";
 
   const navigation = [
     { name: 'Home', to: '/student/home'},
@@ -69,6 +79,13 @@
       ? navigation.filter(item => item.name !== 'Pre-Registration')
       : navigation;
 
+      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+      // Function to toggle help modal
+      const toggleHelpModal = () => {
+        setIsHelpModalOpen(!isHelpModalOpen);
+      };
+
     return (
       <>
         <div className="min-h-full w-full">
@@ -96,13 +113,16 @@
                         {/* Profile dropdown */}
                         
                         <Menu as="div" className="relative ml-3">
+                          <div className= "flex items-center p-2">
+                          <div className="relative mt-2 w-auto origin-top-right right-[10%]"><h4 className="font-medium text-gray-800 dark:text-gray-600">WELCOME, {currentUser}</h4></div>
                           <div>
-                          <div className="fixed mt-2 w-auto origin-top-right right-[25%]"><h4 className="font-medium text-gray-800 dark:text-gray-600">WELCOME, {currentUser}</h4></div>
+                          
                             <Menu.Button className="relative flex max-w-xs items-center rounded-full shadow-2xl shadow-black text-sm  focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                               <span className="absolute -inset-1.5" />
                               <span className="sr-only">Open user menu</span>
                               <UserIcon className=' w-8 h-8 text-white' />
                             </Menu.Button> 
+                          </div>
                           </div>
 
                           {/**Animation/Transitions */}
@@ -230,6 +250,12 @@
             </div>
           </header>
           <main>
+
+        {/* Help Modal */}
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+        </div> 
+
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
               <Outlet />
             </div>
@@ -256,6 +282,74 @@
                 />
             </div>
         </ReactModal>
+              {/* HELP*/}
+    <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+        position: 'fixed',
+        width:'60%',
+        bottom: '20px',
+        top:'15%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '9999',
+        backgroundColor: '#fff',
+        border: '1px solid #000',
+        padding: '20px',
+        textAlign: 'center', // Align the content center
+      }
+    }}
+    >
+      <div>
+        <p className='text-4xl bg-[#7e9f70]'>STUDENT USER'S MANUAL</p>
+        <p className='text-3xl bg-[#91b482]'>HOME</p>
+        <img
+            src={page63}
+        />
+        <img
+            src={page64}
+        />
+        <img
+            src={page65}
+        />
+        <img
+            src={page66}
+        />
+        <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
+        <img
+            src={page67}
+        />
+        <img
+            src={page68}
+        />
+        <p className='text-3xl bg-[#91b482]'>CLASSES</p>
+        <img
+            src={page69}
+        />
+        <p className='text-3xl bg-[#91b482]'>LINKS</p>
+        <img
+            src={page70}
+        />
+        <p className='text-3xl bg-[#91b482]'>CURRICULUM CHECKLIST</p>
+        <img
+            src={page71}
+        />
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
 
       </>
     )
