@@ -263,6 +263,20 @@ export default function Classes(){
                                 B
                               </button>
                             </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleSection('C')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              > 
+                                C
+                              </button>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <button onClick={() => handleSection('TBA')}
+                                className={'block px-4 py-2 text-sm text-gray-700'}
+                              > 
+                                TBA
+                              </button>
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>
