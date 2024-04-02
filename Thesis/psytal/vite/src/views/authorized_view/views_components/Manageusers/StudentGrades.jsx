@@ -108,7 +108,10 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
         <div className='overflow-y-auto'>
           <strong className='text-lg'>{selectedStudent.full_name}</strong>
           <br></br>
-          <h1>Grades for {semesterInfo.semester}</h1> {/*current semester info*/}
+          <div className='flex justify-between'>
+            <h1>Grades for {semesterInfo.semester}</h1> {/*current semester info*/}
+            <strong hidden={allowEdit}>*Editing grades is now enabled.</strong> {/*current semester info*/}
+          </div>
           <table className="table w-full table-striped text-gray-700 mb-3 border border-gray-300">
             <thead>
               <tr>
