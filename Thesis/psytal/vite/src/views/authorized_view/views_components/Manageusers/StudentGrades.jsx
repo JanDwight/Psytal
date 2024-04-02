@@ -108,7 +108,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
         <div className='overflow-y-auto'>
           <strong className='text-lg'>{selectedStudent.full_name}</strong>
           <br></br>
-          <h1>Grades for {semesterInfo}</h1> {/*current semester info*/}
+          <h1>Grades for {semesterInfo.semester}</h1> {/*current semester info*/}
           <table className="table w-full table-striped text-gray-700 mb-3 border border-gray-300">
             <thead>
               <tr>
