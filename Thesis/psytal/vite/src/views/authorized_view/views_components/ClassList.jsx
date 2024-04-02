@@ -108,7 +108,7 @@ handleSaveClassChanges = () => {
     );
 
     return (
-      <div className="w-full h-[auto] px-4 mx-auto rounded-b-3xl bg-white shadow-2xl max-h-[400px] overflow-y-auto">
+      <div className="w-full h-[auto] px-4 mx-auto rounded-b-3xl bg-white max-h-[400px] overflow-y-auto">
         <table className="w-full">
           <tbody >{filteredData
             .filter(subject => 
