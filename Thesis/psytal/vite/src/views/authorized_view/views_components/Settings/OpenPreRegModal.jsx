@@ -169,7 +169,7 @@ export default function OpenPreRegModal({ closeModal }) {
       <div className='mt-2 flex justify-between'>
         <div>
           <strong>Pre-Registration Status:  </strong>
-          <strong className={showStatus === 1 ? 'text-green-500' : 'text-red-500'}>{showStatus === 1 ? 'OPEN' : 'CLOSED'}</strong>
+          <strong className={showStatus === 1 ? 'text-green-500' : (showStatus === 0 ? 'text-red-500' : 'text-gray-500')}>{showStatus === 1 ? 'OPEN' : (showStatus === 0 ? 'CLOSED' : 'Loading...')}</strong>
         </div>
         <div>
           <strong hidden={showPRconfig} >
