@@ -102,13 +102,14 @@ export default function Links() {
   return (
     <>
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
-      <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
+      <div className=''>
+      <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Links</div>
-        <div className="mt-5 mx-5 flex flex-row justify-between items-baseline">
+        <div className="mt-5 mx-0 sm:mx-5 flex flex-col sm:flex-row justify-between items-baseline">
           
           {/* //Search input */}
           <div className="flex items-baseline">
-          <div className="my-4 mx-4" id="magnifying_glass">
+          <div className="m-1 sm:m-4" id="magnifying_glass">
               <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -121,10 +122,10 @@ export default function Links() {
             onChange={(event) => setFilterText(event.target.value)}
             className="h-10 px-7 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
           />
-        </div>
+          </div>
           {/* Add Links button */}
           <button onClick={() =>  setIsModalOpen(true)}
-            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10"
+            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5"
           >
             Add Links
           </button>
@@ -182,6 +183,8 @@ export default function Links() {
               <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
         </div>
       </div>
+      </div>
+      
     </div>
 
 
