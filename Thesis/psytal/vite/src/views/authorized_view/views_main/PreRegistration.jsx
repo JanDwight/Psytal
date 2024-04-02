@@ -132,7 +132,7 @@ export default function PreRegistration() {
           >
             Continuing Student
           </button>
-
+        </div>
       </div>
       <div className="mt-2 mb-5"></div>
       <div>
