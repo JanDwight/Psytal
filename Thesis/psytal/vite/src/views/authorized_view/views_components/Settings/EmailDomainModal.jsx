@@ -87,7 +87,7 @@ export default function EmailDomainModal({closeModal}) {
         </div>
         <div className="pt-3 table-container overflow-x-auto max-h-[400px] ">
             <table className="table w-full table-striped border border-gray-300">
-                <thead>
+                <thead className='bg-gray-200'>
                   <tr>
                     <th>Email Domains</th>
                     <th>Action</th>
@@ -109,38 +109,34 @@ export default function EmailDomainModal({closeModal}) {
                     ))}
                 </tbody>
             </table>    
-            <p className='pt-3'></p>
-            <div hidden={!showAddEmail} className="text-center">
-              <button onClick={() => setShowAddEmail(false)} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl">
-                Add New
-              </button>
-            </div>
-            <div className='flex justify-center'>
-              <form onSubmit={addprompt} hidden={showAddEmail}>
-                  <label className='pr-2'>
-                      Email Domain: 
-                  </label>
-
-                  <input 
-                      id="emailDomain"
-                      type="text" 
-                      placeholder="@example.com"
-                      value={emailDomain}
-                      onChange={ev => setEmailDomain(ev.target.value)}
-                      required
-                      className='mr-1'
-                  />
-
-                  {/**===========SUMBIT Button============= */}
-                  
-                      <button type='submit' className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl m-1">
-                        Submit
-                      </button>
-                      <button type='button' onClick={() => setShowAddEmail(true)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl m-1">
-                        Cancel
-                      </button>
-                  
-              </form>
+            <br></br>
+            <div className="text-center">
+              <div hidden={!showAddEmail}>
+                <button onClick={() => setShowAddEmail(false)} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl">
+                  Add New
+                </button>
+              </div>
+                <form onSubmit={addprompt} hidden={showAddEmail}>
+                    <label className='pr-2'>
+                        Email Domain: 
+                    </label>
+                    <input 
+                        id="emailDomain"
+                        type="text" 
+                        placeholder="@example.com"
+                        value={emailDomain}
+                        onChange={ev => setEmailDomain(ev.target.value)}
+                        required
+                        className='mr-1'
+                    />
+                    {/**===========SUMBIT Button============= */}
+                        <button type='submit' className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-2xl mr-1">
+                          Submit
+                        </button>
+                        <button type='button' onClick={() => setShowAddEmail(true)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl mr-1">
+                          Cancel
+                        </button>
+                </form>
             </div>
         </div>
 
