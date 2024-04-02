@@ -224,29 +224,58 @@ class SemesterInformationController extends Controller
        {
         $semInfoId = 1;
         $semInfo = semester_information::where('id', $semInfoId)->first();
+        $startofPR = $semInfo['start_of_prereg'];
+        $endofPR = $semInfo['end_of_prereg'];
+
+        $startofPRFormatted = date('F j, Y', strtotime($startofPR));
+        $endofPRFormatted = date('F j, Y', strtotime($endofPR));
 
         if ($semInfo) {
-            $messagetitle = "Pre-registration period is now " . $change . ".";
-            $messagebody = "Pre-registration period for " . $semInfo['semester'] . " SY: " . $semInfo['start_of_school_year'] ."-" . $semInfo['end_of_school_year'] . " is now " . $change . ".";
+            //ask for input for the messages
+            $messagetitle = "Pre-registration period for " . $semInfo['semester'] . " SY: " . $semInfo['start_of_school_year'] ."-" . $semInfo['end_of_school_year'] . " is now " . $change . ".";
+            $messagebody = "Pre-registration will be open starting from " . $startofPRFormatted ." to " . $endofPRFormatted . ".";
 
-            $messageOpen = " All students please be guided to fill in the online pre-registration forms found in your respective accounts.";
+            $messageOpen = " All students please be guided to complete the online pre-registration forms in your respective accounts before the end of the pre-registration period.";
             $messageClosed = " All students please be guided that the college is no longer accepting pre-registration forms.";
 
-            if($change === 'open'){
-                $preRegPost = posts::create([
-                    'user_id' =>  auth()->user()->id,
-                    'title' => $messagetitle,
-                    'description' => $messagebody . $messageOpen,
-                    ]);
-            } else if ($change === 'closed') {
-                $preRegPost = posts::create([
-                    'user_id' =>  auth()->user()->id,
-                    'title' => $messagetitle,
-                    'description' => $messagebody . $messageClosed,
-                    ]);
-            }
+            if($change === 'open') {
 
-        //add logs ugh
+                $existingPost = posts::where('title', $messagetitle)->first();
+
+                if($existingPost) {
+                    // If the post already exists, update it
+                    $existingPost->update([
+                        'description' => $messagebody . $messageOpen,
+                    ]);
+                } else {
+                    $preRegPost = posts::create([
+                        'user_id' =>  auth()->user()->id,
+                        'title' => $messagetitle,
+                        'description' => $messagebody . $messageOpen,
+                    ]);
+                }
+                $this->storeLog('Pre-reg open post created', 'posts', $messagetitle, 'posts');
+
+                    //slug is auto-generated, there will be errors because it will be unique
+            } else if ($change === 'closed') {
+
+                $existingPost = posts::where('title', $messagetitle)->first();
+
+                if($existingPost) {
+                    // If the post already exists, update it
+                    $existingPost->update([
+                        'description' => $messageClosed,
+                    ]);
+                } else {
+                    $preRegPost = posts::create([
+                        'user_id' =>  auth()->user()->id,
+                        'title' => $messagetitle,
+                        'description' => $messageClosed,
+                    ]);
+                }
+
+                $this->storeLog('Pre-reg closed post created', 'posts', $messagetitle, 'posts');
+            }
 
         } else {
             return response()->json(['No Semester Information found.']);
