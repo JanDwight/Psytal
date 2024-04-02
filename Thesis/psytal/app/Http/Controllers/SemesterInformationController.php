@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SemesterInformationRequest;
 use App\Models\semester_information;
 use App\Models\logs;
+use App\Models\posts; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -120,6 +121,8 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
 
+            $this->setPreregPost('open');
+
             return response([
                 'message' => 'Semester information updated successfully',
                 'success' => true
@@ -190,6 +193,8 @@ class SemesterInformationController extends Controller
     
         $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
     
+        $this->setPreregPost('closed');
+
         return response()->json([
             'message' => 'Pre-Registration is Now Closed',
             'success' => true
@@ -214,4 +219,38 @@ class SemesterInformationController extends Controller
            return $logs;
        }
        //pending tests
+
+    public function setPreregPost($change)
+       {
+        $semInfoId = 1;
+        $semInfo = semester_information::where('id', $semInfoId)->first();
+
+        if ($semInfo) {
+            $messagetitle = "Pre-registration period is now " . $change . ".";
+            $messagebody = "Pre-registration period for " . $semInfo['semester'] . " SY: " . $semInfo['start_of_school_year'] ."-" . $semInfo['end_of_school_year'] . " is now " . $change . ".";
+
+            $messageOpen = " All students please be guided to fill in the online pre-registration forms found in your respective accounts.";
+            $messageClosed = " All students please be guided that the college is no longer accepting pre-registration forms.";
+
+            if($change === 'open'){
+                $preRegPost = posts::create([
+                    'user_id' =>  auth()->user()->id,
+                    'title' => $messagetitle,
+                    'description' => $messagebody . $messageOpen,
+                    ]);
+            } else if ($change === 'closed') {
+                $preRegPost = posts::create([
+                    'user_id' =>  auth()->user()->id,
+                    'title' => $messagetitle,
+                    'description' => $messagebody . $messageClosed,
+                    ]);
+            }
+
+        //add logs ugh
+
+        } else {
+            return response()->json(['No Semester Information found.']);
+        }
+
+       }
 }
