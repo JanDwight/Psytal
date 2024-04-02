@@ -66,6 +66,11 @@ export default function OpenPreRegModal({ closeModal }) {
 
   //For GET School Year
   useEffect(() => {
+    fetchSemester();
+  }, []);
+
+  //<><><><><>
+  const fetchSemester = () => {
     axiosClient
       .get('/getschoolyear')
       .then((res) => {
@@ -81,7 +86,7 @@ export default function OpenPreRegModal({ closeModal }) {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }
 
   //Ensures that preRegEnd is not set earlier than preRegStart========================================
   const handleStartChange = (ev) => {
@@ -306,7 +311,7 @@ export default function OpenPreRegModal({ closeModal }) {
           </button>
           <button hidden={showStatus}
             type="button"
-            onClick={() => setShowPRconfig(!showPRconfig)}
+            onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
             className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
             Cancel
           </button>
@@ -318,7 +323,7 @@ export default function OpenPreRegModal({ closeModal }) {
           </button>
           <button hidden={!showStatus}
             type="button"
-            onClick={() => setShowPRconfig(!showPRconfig)}
+            onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
             className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
             Cancel
           </button>

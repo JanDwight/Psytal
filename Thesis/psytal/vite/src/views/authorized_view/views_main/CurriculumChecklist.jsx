@@ -132,7 +132,7 @@ export default function CurriculumChecklist(){
           </div>
           {disclaimer && (
           <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+          <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[75%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
           <div className="w-full px-4 mx-auto mt-6">
               <div className="text-xl text-green-600 font-semibold my-3">
                 

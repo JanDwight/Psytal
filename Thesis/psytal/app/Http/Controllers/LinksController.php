@@ -44,7 +44,7 @@ class LinksController extends Controller
         $this->storeLog( 'Link created', 'link', $data['class_code'], 'links');
 
         return response([
-            'message' => 'Link created successfuly',
+            'message' => 'Link created successfully',
             'success' => true
         ]);
     }

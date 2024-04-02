@@ -71,7 +71,7 @@ export default function UserProfile({closeModal}) {
             </div>                         */}
         </div>
 
-        <div className="flex flex-wrap flex-col px-3 mx-16 mt-5 mb-2">
+        <div className="flex flex-wrap flex-col px-3 mx-2 sm:mx-16 mt-5 mb-2">
             
             <div className="w-full px-3 md:mb-0 mt-2">
                 <label className=" text-gray-700 text-lg font-bold mb-2  p-2 rounded-md bg-green-600">Account Information: </label> 

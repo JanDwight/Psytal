@@ -22,6 +22,22 @@ export default function Dashboard() {
   const [semesterInformation, setSemesterInformation] = useState('');
   const [showLoad, setShowLoad] = useState (false);
 
+  const [prMessage, setPRMessage] = useState('');
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  function openStatus(data){
+    if (data.openPR === 1){
+      const prString = "Open from " + formatDate(data.startPR) + " to " + formatDate(data.endPR) + "."
+      setPRMessage(prString);
+    } else {
+      setPRMessage("Pre-registration is closed.");
+    }
+  }
+
   const mapUserRoleToString = (userRole) => {
     switch (userRole) {
         case "1":
@@ -48,7 +64,8 @@ export default function Dashboard() {
     axiosClient
       .get('/getsemesterinformation')
       .then((res) => {
-        setSemesterInformation(res.data);  // Assuming res.data is an array
+        setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+        openStatus(res.data);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -238,18 +255,31 @@ export default function Dashboard() {
         </div> 
       
         {/**For Ongoing Semester and School Year */}
-        <div className='flex flex-col px-3 mt-5 w-full md:w-1/2'>
-            <span className= "text-sm font-semibold">School Year : </span> <hr className="w-[40%]"/>
-            <div className='mt-2'>
-                <input className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
-                    name="degree"
-                    type='text'
-                    placeholder=''
-                    value={semesterInformation}
-                    disabled readOnly/>
-            </div>
+        <div className='grid md:grid-cols-2 lg:grid-cols-2 gap-4'>
+          <div className='flex flex-col mt-5 w-full md:w-full'>
+                <span className= "text-sm font-semibold">Pre-Reg Status : </span> <hr className="w-[40%]"/>
+                <div className='mt-2'>
+                    <input className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
+                        name="degree"
+                        type='text'
+                        placeholder=''
+                        value={prMessage}
+                        disabled readOnly/>
+                </div>
+          </div>
+          <div className='flex flex-col mt-5 w-full md:w-full'>
+              <span className= "text-sm font-semibold">School Year : </span> <hr className="w-[40%]"/>
+              <div className='mt-2'>
+                  <input className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
+                      name="degree"
+                      type='text'
+                      placeholder=''
+                      value={semesterInformation}
+                      disabled readOnly/>
+              </div>
+          </div>
         </div>
-        
+
         {/**Archive: */}
         <h2 className="text-base font-semibold mt-8 mb-2">Recent Archives: </h2>
         <div>

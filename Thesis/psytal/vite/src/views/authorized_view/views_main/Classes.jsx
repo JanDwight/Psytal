@@ -62,15 +62,16 @@ export default function Classes(){
     return(
     <>
         <div className="w-full h-[auto]  rounded-t-3xl  bg-white shadow-2xl pt-5 pb-6 ">{/*For the Container*/}
-            <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
+          <div className="">
+          <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
                 <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Classes</div>
-                <div className="mt-5 mx-5 flex flex-row justify-between items-baseline">
+                <div className="mt-5 mx-5 flex flex-col sm:flex-row justify-between items-baseline">
                   
                     
                     {/*search*/}
                     <div className="flex items-baseline">
                         
-                        <div className="my-4 mx-4" id="magnifying_glass">
+                        <div className="my-4 mx-0 sm:mx-4" id="magnifying_glass">
                           <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
@@ -84,13 +85,13 @@ export default function Classes(){
                           onChange={(event) => setFilterText(event.target.value)}
                           className="h-10 px-6 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
                         ></input>
-
+                  </div>
                         {/*add class*/}
                     <button onClick={() => setIsModalOpen(true)} 
-                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10">
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5">
                             Add Class
                     </button>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -104,7 +105,7 @@ export default function Classes(){
                         <th className="bg-gray-200 text-center p-2" style={{ width: "30%" }}>Course Title</th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "5%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Semester
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -120,28 +121,28 @@ export default function Classes(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleSemester('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSemester('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 1st Semester
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('2nd')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                                 >
                                   2nd Semester
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('Midyear')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                                 >
                                   Midyear
                                 </button>
@@ -153,7 +154,7 @@ export default function Classes(){
                         {/* <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Year</th>  */}
                         <th className="bg-gray-200 text-center p-2 z-10" style={{ width: "10%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Year
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -169,35 +170,35 @@ export default function Classes(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleYear('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 1st Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('2nd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 2nd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('3rd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 3rd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('4th')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 4th Year
                               </button>
@@ -208,7 +209,7 @@ export default function Classes(){
                       </th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Section
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -224,35 +225,35 @@ export default function Classes(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleSection('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSection('A')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500' }
                               >
                                 A
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSection('B')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               > 
                                 B
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSection('C')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               > 
                                 C
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSection('TBA')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               > 
                                 TBA
                               </button>
@@ -280,6 +281,7 @@ export default function Classes(){
                       )}
                       </div>
             </div>                     
+
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
