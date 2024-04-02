@@ -16,6 +16,28 @@ import { useStateContext } from '../../../context/ContextProvider';
 import axiosClient from '../../../axios';
 import UserProfile from '../views_components/profile_components/UserProfile';
 import LogOutPrompt from '../prompts/LogOutPrompt';
+//STAFF
+import page42 from "@assets/Help/Staff/Post/1.png";
+import page43 from "@assets/Help/Staff/Post/2.png";
+import page44 from "@assets/Help/Staff/Post/3.png";
+import page45 from "@assets/Help/Staff/ManageAccounts/1.png";
+import page46 from "@assets/Help/Staff/ManageAccounts/2.png";
+import page47 from "@assets/Help/Staff/ManageAccounts/3.png";
+import page48 from "@assets/Help/Staff/ManageAccounts/4.png";
+import page49 from "@assets/Help/Staff/Classes/1.png";
+import page50 from "@assets/Help/Staff/Classes/2.png";
+import page51 from "@assets/Help/Staff/Classes/3.png";
+import page52 from "@assets/Help/Staff/Classes/4.png";
+import page53 from "@assets/Help/Staff/Classes/5.png";
+import page54 from "@assets/Help/Staff/Pre-registration/1.png";
+import page55 from "@assets/Help/Staff/Pre-registration/2.png";
+import page56 from "@assets/Help/Staff/Pre-registration/3.png";
+import page57 from "@assets/Help/Staff/Links/1.png";
+import page58 from "@assets/Help/Staff/Links/2.png";
+import page59 from "@assets/Help/Staff/Links/3.png";
+import page60 from "@assets/Help/Staff/Curriculum/1.png";
+import page61 from "@assets/Help/Staff/Curriculum/2.png";
+import page62 from "@assets/Help/Staff/Curriculum/3.png";
 
 const navigation = [
   { img: home, name: 'Home', to: 'home'},
@@ -53,6 +75,13 @@ export default function StaffLayout() {
         setUserRole(null)
       })
   }
+
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  // Function to toggle help modal
+  const toggleHelpModal = () => {
+    setIsHelpModalOpen(!isHelpModalOpen);
+  };
 
   return (
     <>
@@ -212,6 +241,11 @@ export default function StaffLayout() {
        
           </div>
         </aside>
+                {/* Help Modal */}
+                <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+              </div>    
+
             <div className="flex flex-col w-3/4 pd-10 ml-10 ">
             <Outlet />
             </div>
@@ -241,6 +275,111 @@ export default function StaffLayout() {
                 />
             </div>
       </ReactModal>
+            {/* HELP*/}
+    <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+        position: 'fixed',
+        width:'60%',
+        bottom: '20px',
+        top:'15%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '9999',
+        backgroundColor: '#fff',
+        border: '1px solid #000',
+        padding: '20px',
+        textAlign: 'center', // Align the content center
+      }
+    }}
+    >
+      <div>
+        <p className='text-4xl bg-[#7e9f70]'>STAFF USER'S MANUAL</p>
+        <p className='text-3xl bg-[#91b482]'>HOME</p>
+        <img
+            src={page42}
+        />
+        <img
+            src={page43}
+        />
+        <img
+            src={page44}
+        />
+        <p className='text-3xl bg-[#91b482]'>MANAGE ACCOUNTS</p>
+        <img
+            src={page45}
+        />
+        <img
+            src={page46}
+        />
+        <img
+            src={page47}
+        />
+        <img
+            src={page48}
+        />
+        <p className='text-3xl bg-[#91b482]'>CLASSES</p>
+        <img
+            src={page49}
+        />
+        <img
+            src={page50}
+        />
+        <img
+            src={page51}
+        />
+        <img
+            src={page52}
+        />
+        <img
+            src={page53}
+        />
+        <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
+        <img
+            src={page54}
+        />
+        <img
+            src={page55}
+        />
+        <img
+            src={page56}
+        />
+        <p className='text-3xl bg-[#91b482]'>LINKS</p>
+        <img
+            src={page57}
+        />
+        <img
+            src={page58}
+        />
+        <img
+            src={page59}
+        />
+        <p className='text-3xl bg-[#91b482]'>CURRICULUM</p>
+        <img
+            src={page60}
+        />
+        <img
+            src={page61}
+        />
+        <img
+            src={page62}
+        />
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ReactModal>
 
       <Navigate to='/staff/home' /> {/**This prevents the user from gaining access to /admin URL*/}
     </>

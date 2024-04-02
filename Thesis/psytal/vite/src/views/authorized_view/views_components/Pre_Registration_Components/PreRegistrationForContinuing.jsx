@@ -8,8 +8,7 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Student/Pre-registration/1.png";
-import page2 from "@assets/Help/Student/Pre-registration/2.png";
+
 
 
 export default function PreRegistrationForContinuing(prereg) {
@@ -38,13 +37,6 @@ export default function PreRegistrationForContinuing(prereg) {
         console.error('Error fetching backup files:', error);
     });
   }, []);
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
 
 
   const [preregData, setPreregData] = useState( {
@@ -1721,10 +1713,6 @@ export default function PreRegistrationForContinuing(prereg) {
                     </button>
                 </div>  
             </form>  
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
       
         </div>
         {/*moved 'section/course(s) to be enrolled' to formviews*/}
@@ -1776,49 +1764,6 @@ export default function PreRegistrationForContinuing(prereg) {
       </div>
       )}
 -----------------
-
-{/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
     </>
 
   )

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactModal from 'react-modal';
 import coverVid from "@assets/LandingpageBG.mp4";
 import schoolLogo from "@assets/BSUlogo.png";
@@ -6,6 +6,8 @@ import Carousel from '../../unauthorized_view/views_main/Carousel';
 import Login from '../../unauthorized_view/views_main/Login';
 import page1 from "@assets/Help/Login/1.png";
 import page2 from "@assets/Help/Login/2.png";
+import page3 from "@assets/Help/Pre-registration-incoming/1.png";
+import page4 from "@assets/Help/Pre-registration-incoming/2.png";
 
 
 export default function LandingPage() {
@@ -248,11 +250,12 @@ export default function LandingPage() {
       onRequestClose={toggleHelpModal}
       style={{ content: {
           position: 'fixed',
+          width:'60%',
           bottom: '20px',
           top:'15%',
           left: '50%',
           transform: 'translateX(-50%)',
-          zIndex: '9998',
+          zIndex: '9999',
           backgroundColor: '#fff',
           border: '1px solid #000',
           padding: '20px',
@@ -261,6 +264,7 @@ export default function LandingPage() {
       }}
     >
       <div>
+        <p className='text-3xl bg-[#91b482]'>LOGIN</p>
         <img
             src={page1}
             alt="Page 1"
@@ -268,6 +272,15 @@ export default function LandingPage() {
         <img
             src={page2}
             alt="Page 2"
+        />
+        <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
+        <img
+            src={page3}
+            alt="Page 3"
+        />
+        <img
+            src={page4}
+            alt="Page 4"
         />
 
         <button

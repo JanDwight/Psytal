@@ -10,13 +10,6 @@ import ArchiveCourse from "../views_components/ArchiveCourse";
 import EditCourse from "../views_components/EditCourse";
 import { useAsyncValue } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import page1 from "@assets/Help/Admin/Curriculum/1.png";
-import page2 from "@assets/Help/Admin/Curriculum/2.png";
-import page3 from "@assets/Help/Admin/Curriculum/3.png";
-import page4 from "@assets/Help/Admin/Curriculum/4.png";
-import page1E from "@assets/Help/Staff/Curriculum/1.png";
-import page2E from "@assets/Help/Staff/Curriculum/2.png";
-import page3E from "@assets/Help/Staff/Curriculum/3.png";
 
 
 export default function Curriculum(){
@@ -27,12 +20,6 @@ export default function Curriculum(){
       const [errors, setErrors] = useState({ __html: '' });
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
-      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-      // Function to toggle help modal
-      const toggleHelpModal = () => {
-        setIsHelpModalOpen(!isHelpModalOpen);
-      };
      
       const handleArchiveClick = (curriculum) => {
         setShowArchivecourse(true);
@@ -281,10 +268,6 @@ export default function Curriculum(){
                         ))}
                 </tbody>
 	          </table>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
             </div>
           </div>
       
@@ -310,108 +293,6 @@ export default function Curriculum(){
           onClose={() => setShowEditcourse(false)}
           curriculum={selectedcourse}
         />
-      
-{/* HELP -ADMIN*/}
-{userRole == 1 && (
-    <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-        <img
-            src={page4}
-            alt="Page 4"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-)}
-
-{/* HELP- STAFF*/}
-{userRole == 2 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1E}
-            alt="Page 1"
-        />
-        <img
-            src={page2E}
-            alt="Page 2"
-        />
-        <img
-            src={page3E}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
         </>
 );
 }
