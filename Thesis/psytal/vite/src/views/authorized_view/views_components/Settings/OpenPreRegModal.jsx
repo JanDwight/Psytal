@@ -161,172 +161,175 @@ export default function OpenPreRegModal({ closeModal }) {
 
   return (
     <div>
-      <div className='text-center'>
+      <div className='text-center mt-1 mb-5'>
             <strong className="text-lg">Pre-Registration Information</strong>
       </div>
       <hr></hr>
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
-      <form onSubmit={editprompt} className='pt-3'>
+      <div className='mt-2 flex justify-between'>
+        <div>
+          <strong>Pre-Registration Status:  </strong>
+          <strong className={showStatus === 1 ? 'text-green-500' : 'text-red-500'}>{showStatus === 1 ? 'OPEN' : 'CLOSED'}</strong>
+        </div>
+        <div>
+          <strong hidden={showPRconfig} >
+            *Editing is now Enabled
+          </strong> 
+        </div>
+      </div>
+      <form onSubmit={editprompt} className='p-3'>
         {/**For Pre-Registration */}
-        <div className='grid grid-cols-2 items-center gap-4'>
-          <label className='pr-2 font-bold'>Pre-Registration Schedule</label>
-
-          <div className='grid grid-cols-2 gap-4'>
-            {/* Start of Pre-Registration */}
-            <div>
-              <label className='font-bold block'>Start</label>
-              <input
-                id='preRegStart'
-                type='date'
-                value={startOfPreReg}
-                onChange={handleStartChange}
-                required
-                disabled={showPRconfig}
-              />
-            </div>
-
-            {/* End of Pre-Registration */}
-            <div>
-              <label className='font-bold block'>End</label>
-              <input
-                id='preRegEnd'
-                type='date'
-                placeholder='End of Pre-Registration'
-                value={endOfPreReg}
-                onChange={handleEndChange}
-                required
-                disabled={showPRconfig}
-              />
-            </div>
-          </div>
-        </div>
-
-
-        {/**For Semester Schedule*/}
-        <div className='grid grid-cols-2 items-center pt-5 gap-4'>
-          {/* Use grid-cols-2 for a 2-column grid */}
-          <label className='pr-2 font-bold'>Semester Schedule</label>
-
-          <div className='grid grid-cols-2 gap-4'>
-            {/* Use another grid for better alignment */}
-            <div>
-              <input
-                id="semesterStart"
-                type="date"
-                placeholder="Start of Semester"
-                value={startOfSemester}
-                onChange={handleSemesterStartChange}
-                required
-                disabled={showPRconfig}
-              />
-            </div>
-
-            <div>
-              <input
-                id="semesterEnd"
-                type="date"
-                placeholder="End of Semester"
-                value={endOfSemester}
-                onChange={handleSemesterEndChange}
-                required
-                disabled={showPRconfig}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/**For School Year*/}
-        <div className='grid grid-cols-2 items-center pt-5 gap-4'>
-          <label className='pr-2 font-bold'>School Year</label>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-              <input
-                id="schoolYrStart"
-                type="number"
-                placeholder="Start of School Year"
-                value={startOfSchoolYear}
-                onChange={handleSchoolYearStartChange}
-                min={1900} // Example min value
-                max={2100} // Example max value
-                required
-                className='w-full'
-                disabled={showPRconfig}
-              />
-            </div>
-
-            <div>
-              <input
-                id="schoolYrEnd"
-                type="number"
-                placeholder="End of School Year"
-                value={endOfSchoolYear}
-                onChange={handleSchoolYearEndChange}
-                min={1900} // Example min value
-                max={2100} // Example max value
-                required
-                className='w-full'
-                disabled={showPRconfig}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/**For Semester */}
-        <div className='grid grid-cols-2 items-center pt-5 gap-4'>
-          <label className='pr-2 font-bold'>Semester</label>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-            <select
-              id="semesterStart"
-              value={semester}
-              onChange={(ev) => setSemester(ev.target.value)}
-              required
-              disabled={showPRconfig}
-            >
-              <option value="">Select Semester</option>
-              <option value="1st Semester">1st Semester</option>
-              <option value="2nd Semester">2nd Semester</option>
-              <option value="Midyear">Midyear</option>
-            </select>
-            </div>
-          </div>
+        <div className='border border-gray-200'>
+          <table className="table-auto w-full">
+            <thead className="border border-gray-200">
+              <tr className='bg-gray-200'>
+                <th className="px-4 py-2"></th>
+                <th className="px-4 py-2">Start</th>
+                <th className="px-4 py-2">End</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className='bg-green-100'>
+                <td className="px-4 py-2 font-bold">Pre-Registration Schedule</td>
+                <td className="px-4 py-2">
+                  <input
+                    id='preRegStart'
+                    type='date'
+                    value={startOfPreReg}
+                    onChange={handleStartChange}
+                    required
+                    disabled={showPRconfig}
+                    className='rounded-md'
+                  />
+                </td>
+                <td className="px-4 py-2">
+                  <input
+                    id='preRegEnd'
+                    type='date'
+                    placeholder='End of Pre-Registration'
+                    value={endOfPreReg}
+                    onChange={handleEndChange}
+                    required
+                    disabled={showPRconfig}
+                    className='rounded-md'
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-bold">Semester Schedule</td>
+                <td className="px-4 py-2">
+                  <input
+                    id="semesterStart"
+                    type="date"
+                    placeholder="Start of Semester"
+                    value={startOfSemester}
+                    onChange={handleSemesterStartChange}
+                    required
+                    disabled={showPRconfig}
+                    className='rounded-md'
+                  />
+                </td>
+                <td className="px-4 py-2">
+                  <input
+                    id="semesterEnd"
+                    type="date"
+                    placeholder="End of Semester"
+                    value={endOfSemester}
+                    onChange={handleSemesterEndChange}
+                    required
+                    disabled={showPRconfig}
+                    className='rounded-md'
+                  />
+                </td>
+              </tr>
+              <tr className='bg-green-100'>
+                <td className="px-4 py-2 font-bold">School Year</td>
+                <td className="px-4 py-2">
+                  <input
+                    id="schoolYrStart"
+                    type="number"
+                    placeholder="Start of School Year"
+                    value={startOfSchoolYear}
+                    onChange={handleSchoolYearStartChange}
+                    min={1900} // Example min value
+                    max={2100} // Example max value
+                    required
+                    className='w-full rounded-md'
+                    disabled={showPRconfig}
+                  />
+                </td>
+                <td className="px-4 py-2">
+                  <input
+                    id="schoolYrEnd"
+                    type="number"
+                    placeholder="End of School Year"
+                    value={endOfSchoolYear}
+                    onChange={handleSchoolYearEndChange}
+                    min={1900} // Example min value
+                    max={2100} // Example max value
+                    required
+                    className='w-full rounded-md'
+                    disabled={showPRconfig}
+                  />
+                </td>
+              </tr>
+              <tr className=''>
+                <td className="px-4 py-2 font-bold">Semester</td>
+                <td colSpan="2" className="px-4 py-2 text-center">
+                  <select
+                    id="semesterStart"
+                    value={semester}
+                    onChange={(ev) => setSemester(ev.target.value)}
+                    required
+                    disabled={showPRconfig}
+                    className='rounded-md w-full'
+                  >
+                    <option value="">Select Semester</option>
+                    <option value="1st Semester">1st Semester</option>
+                    <option value="2nd Semester">2nd Semester</option>
+                    <option value="Midyear">Midyear</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <br></br>
         {/**===========SUMBIT Button============= */}
-        <div hidden={!showPRconfig} className="text-center items-center">
-          <button
-            type="button"
-            onClick={() => setShowPRconfig(!showPRconfig)}
-            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-            Edit Pre-Registration Information
-          </button>
-        </div>
-        <div  hidden={showPRconfig} className="text-center items-center">
-          <button hidden={showStatus}
-            type="submit"
-            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-            Open Pre-Registration
-          </button>
-          <button hidden={showStatus}
-            type="button"
-            onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
-            Cancel
-          </button>
-          <button hidden={!showStatus}
-            type='button'
-            onClick={() => setShowClose(true)}
-            className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mt-2 ml-6 rounded-full">
-            Close Pre-Registration
-          </button>
-          <button hidden={!showStatus}
-            type="button"
-            onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 mt-2 rounded-full">
-            Cancel
-          </button>
+        <div className="text-center items-center">
+          <div hidden={!showPRconfig}>
+            <button
+              type="button"
+              onClick={() => setShowPRconfig(!showPRconfig)}
+              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              Edit Pre-Registration Information
+            </button>
+          </div>
+          <div  hidden={showPRconfig}>
+            <button hidden={showStatus}
+              type="submit"
+              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              Open Pre-Registration
+            </button>
+            <button hidden={showStatus}
+              type="button"
+              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+              Cancel
+            </button>
+            <button hidden={!showStatus}
+              type='button'
+              onClick={() => setShowClose(true)}
+              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
+              Close Pre-Registration
+            </button>
+            <button hidden={!showStatus}
+              type="button"
+              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
       <ReactModal
