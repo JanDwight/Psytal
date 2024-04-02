@@ -100,10 +100,10 @@ class SemesterInformationController extends Controller
         $data = $request->validated();
 
         // Check if a record with the specified semester already exists
-        $existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
-        /*$existingSemesterInfo = semester_information::where('id', 1)
-                                                ->where('semester', $data['semester'])
-                                                ->first();*/
+        //$existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
+        $existingSemesterInfo = semester_information::where('id', 1)
+                                                //->where('semester', $data['semester'])
+                                                ->first();
         //should only create if there is no item with id=1, then set the id to 1 (if possible)
         //the rest is update
 
@@ -116,7 +116,8 @@ class SemesterInformationController extends Controller
                 'end_of_semester' => $data['end_of_semester'],
                 'start_of_school_year' => $data['start_of_school_year'],
                 'end_of_school_year' => $data['end_of_school_year'],
-                'open_pre_reg' => $data['open_pre_reg']
+                'open_pre_reg' => $data['open_pre_reg'],
+                'semester' => $data['semester']
             ]);
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
