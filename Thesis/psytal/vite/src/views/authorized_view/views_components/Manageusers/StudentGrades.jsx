@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosClient from '../../../../axios';
 import ReactModal from 'react-modal';
 import CreatePrompt from '../../prompts/CreatePrompt';
+import Feedback from '../../../feedback/Feedback';
 
 export default function StudentGrades({ showModal, onClose, selectedStudent }) {
   const [studentClasses, setStudentClasses] = useState([]);
@@ -12,8 +13,10 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const [action, setAction] = useState('Confirm Save Grade');
-
   const [gradeStat, setGradeStat] = useState(true); //check if there is existing grades
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
+
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -75,10 +78,22 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
 
   const handleSaveGrades = async () => {
     try {
-      await axiosClient.put('updatestudentgrades', {studentClasses, student_id: selectedStudent.student_profile_id});
+      const response = await axiosClient.put('updatestudentgrades', {studentClasses, student_id: selectedStudent.student_profile_id});
+      
       setAllowEdit(!allowEdit);
       fetchStudentClasses();
-      //feedback please
+      
+      const message_x = response.data.message;
+      let message_y;
+      if(gradeStat){
+        message_y = "Save";
+      } else {
+        message_y = "Update";
+      }
+
+
+      setSuccessMessage(message_y + message_x);
+      setSuccessStatus(response.data.success)
     } catch (error) {
       console.error('Error updating grades:', error);
     }
@@ -97,6 +112,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+      <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className="relative bg-white w-full lg:w-1/2 px-4 py-4 shadow-lg rounded-lg">
           {/* Exit (Close) Button */}
           <button
