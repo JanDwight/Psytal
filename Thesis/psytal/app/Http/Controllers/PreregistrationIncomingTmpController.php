@@ -221,6 +221,7 @@ class PreregistrationIncomingTmpController extends Controller
         
         $preregData = preregistration_incoming_tmp::find($id);
         
+
     if (!$preregData) {
         // Handle the case where the preregID with the provided ID is not found
         return response()->json(['message' => 'Form not found'], 404);
@@ -231,7 +232,7 @@ class PreregistrationIncomingTmpController extends Controller
     
     $preregData->update($data);
     
-    $fullName = $data['last_name'] . ', ' . $data['first_name'] . ' ' . $data['middle_name'];
+    $fullName = $preregData['last_name'] . ', ' . $preregData['first_name'] . ' ' . $preregData['middle_name'];
 
     $this->storeLog('Pre-registration updated', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 

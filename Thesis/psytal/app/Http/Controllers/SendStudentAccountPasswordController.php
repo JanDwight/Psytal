@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Models\logs;
 use Mail;
+use App\Mail\DeclinedApplication;
 
 class SendStudentAccountPasswordController extends Controller
 {
@@ -102,6 +103,31 @@ class SendStudentAccountPasswordController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Email sending failed. Please try again later.']);
         }
+    }
+
+    public function declined(Request $request) {
+        $studentInfo = $request->query();
+    
+        $data = [
+            'title' => 'PSYTAL: Department of Psychology - Benguet State University',
+            'body' => 'Sorry, your application has been declined, please contact the department via email: css.psychology@bsu.edu.ph or message on https://www.facebook.com/psychologybsu'
+        ];
+    
+        try {
+            // Send the mail
+            Mail::to($studentInfo['email'])->send(new DeclinedApplication($data));
+        
+            return response()->json([
+                'success' => true,
+                'message' => 'Mail sent successfully.',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(),
+            ]);
+        }        
     }
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role)

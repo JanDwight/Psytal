@@ -6,13 +6,15 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
-
+import DeclineReasonModal from './DeclineReasonModal';
+import ReactModal from 'react-modal';
 
 
 export default function PreRegistrationFormView({prereg}) {
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [declineReasonModal, setDeclineReasonModal] = useState(false);
 
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
@@ -190,12 +192,29 @@ const handleChangeUnits = (index, value) => {
     axiosClient
     // create Update function for preregincommingtmp
     .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Decline'
+      pre_reg_status: 'Decline',
     })
     .then(({ data }) => {
-      //setFamilyName(data.family_name)
-      window.location.reload();
-    })
+      ev.preventDefault();
+      //for sending emails============================================================================
+      // Assuming formData is your FormData object
+      let formData = new FormData();
+
+      // Append some data to the FormData object
+      formData.append('email', preregData.email_address);
+      // Convert FormData to an object
+      let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+      }, {});
+      axiosClient
+        .get('/senddeclineemail', {
+          params: formDataObject
+        })
+        .then(() => {
+          setShowSuccessModal(true)
+        })
+      })
   }
 
   //On Return
@@ -383,12 +402,6 @@ const handleChangeUnits = (index, value) => {
           })
         })
      })
-
-    
-    
-    
-
-    
   };
 
   const onPrint = () => {
@@ -630,21 +643,8 @@ const handleChangeUnits = (index, value) => {
         console.error('Error loading PDF:', error);
       }
     };
-    
     // Call the fetchPdf function directly in your component code
     fetchPdf();
-
-
-    //put axios here
-    console.log("InputFields:", inputFields);
-    console.log("Pre-Reg Data:", preregData);
-    console.log("Student ID:", preregData.student_school_id);
-    console.log("First Name:", preregData.first_name);
-    console.log("Last Name:", preregData.last_name);
-    
-
-    
-
   };
 
   const onSubmit = (ev) => {
@@ -1783,6 +1783,14 @@ const handleChangeUnits = (index, value) => {
       {/**=====================================================*/}   
 
     </main>
+
+    <ReactModal
+        isOpen={declineReasonModal}
+        onRequestClose={() => setDeclineReasonModal(false)}
+        className="w-fit h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
+      >
+
+      </ReactModal>
     </>
     
   )

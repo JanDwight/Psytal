@@ -138,6 +138,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Routes for Sending Emails
     Route::get('/sendstudentaccountpassword', [SendStudentAccountPasswordController::class,'sendstudentaccountpassword']);
+    Route::get('/senddeclineemail', [SendStudentAccountPasswordController::class,'declined']);
 
     //Routes for database backup and restore
     Route::post('backupDB', [DatabaseController::class, 'databaseBackup']);
