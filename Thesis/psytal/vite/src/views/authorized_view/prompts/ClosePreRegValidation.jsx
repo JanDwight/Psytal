@@ -66,7 +66,7 @@ export default function ClosePreRegValidation() {
                 />
             </div>
 
-            <button className="bg-red-600 hover:bg-red-700 rounded-2xl px-7 py-2 text-white font-size">
+            <button className="mt-2 bg-red-600 hover:bg-red-700 rounded-2xl px-7 py-2 text-white font-size">
                 Close Pre-Reg
             </button>
         </form>
