@@ -7,7 +7,7 @@
     <title>Pre-Registration</title>
 </head>
 <body>
-    <h3>Pre-Registration</h3>
+    <h3>Pre-Registration Declined</h3>
     <p>{{ $data['body'] }}</p>
 </body>
 </html>

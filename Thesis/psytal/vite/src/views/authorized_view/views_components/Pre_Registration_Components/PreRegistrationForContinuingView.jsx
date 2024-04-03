@@ -130,12 +130,30 @@ export default function PreRegistrationForContinuingView({prereg}) {
         
         axiosClient
         // create Update function for preregincommingtmp
-        .put(`/preregcheck/${id}`, {
+        .put(`/preregcheck/${preregData.id}`, {
           pre_reg_status: 'Decline'
         })
         .then(({ data }) => {
-          //setFamilyName(data.family_name)
-          window.location.reload();
+          ev.preventDefault();
+          //for sending emails============================================================================
+          // Assuming formData is your FormData object
+          let formData = new FormData();
+    
+          // Append some data to the FormData object
+          formData.append('email', preregData.email_address);
+          // Convert FormData to an object
+          let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
+            obj[key] = value;
+            return obj;
+          }, {});
+          axiosClient
+            .get('/senddeclineemail', {
+              params: formDataObject
+            })
+            .then((response) => {
+              setSuccessMessage(response.data.message);
+              setSuccessStatus(response.data.success);
+          })
         })
       }
     
