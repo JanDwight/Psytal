@@ -8,6 +8,7 @@ import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
 import DeclineReasonModal from './DeclineReasonModal';
 import ReactModal from 'react-modal';
+import Feedback from '../../../feedback/Feedback';
 
 
 export default function PreRegistrationFormView({prereg}) {
@@ -19,6 +20,9 @@ export default function PreRegistrationFormView({prereg}) {
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   //auto fill dropdown
   useEffect(() => {
@@ -211,8 +215,9 @@ const handleChangeUnits = (index, value) => {
         .get('/senddeclineemail', {
           params: formDataObject
         })
-        .then(() => {
-          setShowSuccessModal(true)
+        .then((response) => {
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
         })
       })
   }
@@ -287,6 +292,11 @@ const handleChangeUnits = (index, value) => {
       email: preregData.email_address,
      })
      .then (response => {
+        if(response.data.success === false){
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
+          return
+        }
       //Create student profile============================================================================
       axiosClient
       .post(`/createstudentprofile`, {
@@ -321,9 +331,6 @@ const handleChangeUnits = (index, value) => {
         pre_reg_status: 'Accepted',
         type_of_student: 'Regular',
       }).then(response => {
-        // Extract user ID from the response or use preregData.user_id if available
-        const userId = response.data.user_id || preregData.user_id;
-        
         // Run the second axios call
         axiosClient.post('/student_subject', {
             studentData: preregData,
@@ -376,9 +383,10 @@ const handleChangeUnits = (index, value) => {
               let formData = new FormData();
 
               // Append some data to the FormData object
-              formData.append('lastName', fullName);
+              formData.append('fullName', fullName);
               formData.append('email', preregData.email_address);
               formData.append('password', password);
+              formData.append('role', 'Student')
 
               // Convert FormData to an object
               let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
@@ -390,8 +398,9 @@ const handleChangeUnits = (index, value) => {
               .get('/sendstudentaccountpassword', {
                 params: formDataObject
               })
-                .then(() => {
-                  setShowSuccessModal(true)
+                .then((response) => {
+                  setSuccessMessage(response.data.message);
+                  setSuccessStatus(response.data.success);
                 })
               
               .catch(( error ) => {
@@ -687,6 +696,7 @@ const handleChangeUnits = (index, value) => {
           dangerouslySetInnerHTML={error}>
         </div>)}
         <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
+        <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <main>
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
