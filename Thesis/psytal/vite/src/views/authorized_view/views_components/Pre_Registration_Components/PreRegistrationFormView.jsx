@@ -6,7 +6,6 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
-import DeclineReasonModal from './DeclineReasonModal';
 import ReactModal from 'react-modal';
 import Feedback from '../../../feedback/Feedback';
 

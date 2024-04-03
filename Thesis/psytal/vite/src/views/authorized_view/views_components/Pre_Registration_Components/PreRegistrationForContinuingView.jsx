@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
+import Feedback from '../../../feedback/Feedback';
 
 
 export default function PreRegistrationForContinuingView({prereg}) {
@@ -13,9 +14,9 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
     const [subjectData, setSubjectData] = useState([]); //<><><><><>
     const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
-    const [showModal, setShowModal] = useState(false);
 
-    
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
 
       //variable for inputs
       const [preregData, setPreregData] = useState(prereg, {
@@ -187,20 +188,13 @@ export default function PreRegistrationForContinuingView({prereg}) {
         const onClickAccept = (ev) => {
           ev.preventDefault();
           setError({ __html: "" });
-        
-        const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
-
         //--------------------------// <><><><><>
-
-    
-
         axiosClient.post('/student_subject', {
           studentData: preregData,
           subjectData: inputFields, // Exclude the last element
         }).then()
         //--------------------------// <><><><><>
     
-      
         //prereg update===============================================================================
             axiosClient
             .put(`/preregcheck/${preregData.id}`, {
@@ -249,26 +243,36 @@ export default function PreRegistrationForContinuingView({prereg}) {
               year_level: preregData.year_level,
               student_status: preregData.student_status
             })
+              //for sending emails============================================================================
+              // Assuming formData is your FormData object
+              let formData = new FormData();
 
+              const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
+              
+              // Append some data to the FormData object
+              formData.append('fullName', fullName);
+              formData.append('email', preregData.email_address);
+              formData.append('role', '4')
 
-    };
-    
-    const onSubmit = (ev) => {
-      ev.preventDefault();
-      setError({ __html: "" });
-      
-      axiosClient
-      .put(`/preregview/${preregData}`)
-      .then(({ data }) => {
-        
-      })
-      .catch(( error ) => {
-        if (error.response) {
-          const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-          setError({__html: finalErrors.join('<br>')})
-        }
-          console.error(error)
-      });  
+              // Convert FormData to an object
+              let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
+                obj[key] = value;
+                return obj;
+              }, {});
+            
+              axiosClient
+              .get('/preRegContinuingAccepted', {
+                params: formDataObject
+              })
+                .then((response) => {
+                  setSuccessMessage(response.data.message);
+                  setSuccessStatus(response.data.success);
+                })
+              
+              .catch(( error ) => {
+                console.log('error 1: ', error);
+                  console.error(error)
+              });
     };
 
     const onPrint =() => {
@@ -497,18 +501,16 @@ export default function PreRegistrationForContinuingView({prereg}) {
         console.error('Error loading PDF:', error);
       }
     };
-    
     // Call the fetchPdf function directly in your component code
-    fetchPdf();
-
+    fetchPdf()
     }
-console.log("This data is:id num " + preregData.student_school_id);
-console.log("This data is:last name "+ preregData.last_name);
+
   return (
     <>
+    <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <main>
         
-    <form onSubmit={onSubmit} action="#" method="POST">   
+    <form onSubmit={onClickAccept} action="#" method="POST">   
         <div className="w-full lg:w-8/12 px-4 container mx-auto">    
             <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
                 <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -1605,7 +1607,7 @@ console.log("This data is:last name "+ preregData.last_name);
               {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Return
               </button> */}
-              <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Accept
               </button>
             </div>

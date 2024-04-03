@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PreRegContinuingAccepted;
 use App\Mail\SendPassword;
 use App\Mail\ForgotPasswordInputEmail;
 use App\Models\User;
@@ -25,7 +26,7 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
-            if ($studentInfo['role'] === 'Student'){
+            if ($studentInfo['role'] === '4'){
                 $fullName = $studentInfo['fullName'];
 
                 $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $fullName, $fullName, $studentInfo['role'] );
@@ -130,6 +131,30 @@ class SendStudentAccountPasswordController extends Controller
         }        
     }
 
+    public function preRegContinuingAccepted(Request $request) {
+        $studentInfo = $request->query();
+    
+        $data = [
+            'title' => 'PSYTAL: Department of Psychology - Benguet State University',
+            'body' => 'Congratulations, your application has been Accepted, For more inquiries please contact the department via email: css.psychology@bsu.edu.ph or message on https://www.facebook.com/psychologybsu'
+        ];
+    
+        try {
+            // Send the mail
+            Mail::to($studentInfo['email'])->send(new PreRegContinuingAccepted($data));
+        
+            return response()->json([
+                'success' => true,
+                'message' => $studentInfo,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(),
+            ]);
+        }        
+    }
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role)
     {
         // Create a new Log instance
