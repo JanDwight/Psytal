@@ -8,6 +8,7 @@ import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
 import DeclineReasonModal from './DeclineReasonModal';
 import ReactModal from 'react-modal';
+import Feedback from '../../../feedback/Feedback';
 
 
 export default function PreRegistrationFormView({prereg}) {
@@ -19,6 +20,9 @@ export default function PreRegistrationFormView({prereg}) {
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   //auto fill dropdown
   useEffect(() => {
@@ -211,8 +215,9 @@ const handleChangeUnits = (index, value) => {
         .get('/senddeclineemail', {
           params: formDataObject
         })
-        .then(() => {
-          setShowSuccessModal(true)
+        .then((response) => {
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
         })
       })
   }
@@ -390,8 +395,9 @@ const handleChangeUnits = (index, value) => {
               .get('/sendstudentaccountpassword', {
                 params: formDataObject
               })
-                .then(() => {
-                  setShowSuccessModal(true)
+                .then((response) => {
+                  setSuccessMessage(response.data.message);
+                  setSuccessStatus(response.data.success);
                 })
               
               .catch(( error ) => {
@@ -687,6 +693,7 @@ const handleChangeUnits = (index, value) => {
           dangerouslySetInnerHTML={error}>
         </div>)}
         <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
+        <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <main>
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
