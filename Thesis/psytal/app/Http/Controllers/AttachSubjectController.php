@@ -168,7 +168,10 @@ public function editGrade(Request $request)
         $student = student_classes::where('student_profile_id', $validatedData['student_id'])->first();
 
         if (!$student) {
-            return response()->json(['error' => 'Student not found'], 404);
+            return response()->json([
+                'message' => 'Student not found',
+                'success' => false
+            ]);
         }
 
         // Update each class grade
@@ -191,10 +194,16 @@ public function editGrade(Request $request)
 
         $this->storeLog('Grades updated', 'grades', $fullName, 'student_classes');
 
-        return response()->json(['message' => 'Grades updated successfully'], 200);
+        return response()->json([
+            'message' => ' Grades Succes!',
+            'success' => true
+        ]);
     } catch (\Exception $e) {
         // Handle any exceptions that occur during the update process
-        return response()->json(['error' => $e->getMessage()]);
+        return response()->json([
+            'message' => ' Grades Failed!',
+            'success' => false
+        ]);
     }
 }
 

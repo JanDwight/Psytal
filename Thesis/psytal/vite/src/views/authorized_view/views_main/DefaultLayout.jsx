@@ -43,7 +43,7 @@
     const [showWarning, setShowWarning] = useState(false);
     // const {userToken, setCurrentUser, setUserToken, setUserRole, userRole} = useStateContext();
     const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
-
+    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [isPreRegOpen, setIsPreRegOpen] = useState();
 
     if (!userToken) {
@@ -78,8 +78,6 @@
     const dynamicNavigation = isPreRegOpen === 0
       ? navigation.filter(item => item.name !== 'Pre-Registration')
       : navigation;
-
-      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
       // Function to toggle help modal
       const toggleHelpModal = () => {
