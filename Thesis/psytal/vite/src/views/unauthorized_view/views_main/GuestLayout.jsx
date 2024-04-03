@@ -24,6 +24,7 @@ function classNames(...classes) {
 export default function GuestLayout() {
   const { userToken, userRole } = useStateContext();
   const [isPreRegOpen, setIsPreRegOpen] = useState();
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   
   //Get open_pre_reg
   useEffect(() => {
@@ -50,8 +51,6 @@ export default function GuestLayout() {
   } else if (userToken && userRole === 4) {
     return <Navigate to='/student/home' />;
   }
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
   // Function to toggle help modal
   const toggleHelpModal = () => {
