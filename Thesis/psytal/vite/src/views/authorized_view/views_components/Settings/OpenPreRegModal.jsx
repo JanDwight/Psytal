@@ -25,6 +25,7 @@ export default function OpenPreRegModal({ closeModal }) {
   const [showOpen, setShowOpen] = useState(false);
   const [showClose, setShowClose] = useState(false);
   const [showPRconfig, setShowPRconfig] = useState(true)
+  const [allowedit, setAllowedit] = useState('false');
   const [showStatus, setShowStatus] = useState('');
   const [closePreRegValidation, setClosePreRegValidation] = useState(false);
 
@@ -322,7 +323,7 @@ export default function OpenPreRegModal({ closeModal }) {
               </tr>
               <tr className=''>
                 <td className="px-4 py-2 font-bold">Semester</td>
-                <td colSpan="2" className="px-4 py-2 text-center">
+                <td colSpan="1" className="px-4 py-2 text-center">
                   <select
                     id="semesterStart"
                     value={semester}
@@ -337,6 +338,30 @@ export default function OpenPreRegModal({ closeModal }) {
                     <option value="Midyear">Midyear</option>
                   </select>
                 </td>
+                <td className="px-4 py-2">
+
+                <button
+                  hidden={showStatus}
+                  disabled={showPRconfig}
+                  type="submit"
+                  className={`bg-lime-600 text-white font-bold py-2 px-4 rounded-md w-full ${
+                    showPRconfig ? 'disabled:opacity-50 cursor-not-allowed' : 'hover:bg-lime-700'
+                  }`}>
+                  Open Pre-Reg
+                </button>
+
+                <button
+                  hidden={!showStatus}
+                  disabled={showPRconfig}
+                  type='button'
+                  onClick={() => setShowClose(true)}
+                  className={`bg-lime-600 text-white font-bold py-2 px-4 rounded-md w-full ${
+                    showPRconfig ? 'disabled:opacity-50 cursor-not-allowed' : 'hover:bg-lime-700'
+                  }`}>
+                  Close Pre-Reg
+                </button>
+
+                </td>
               </tr>
             </tbody>
           </table>
@@ -344,56 +369,25 @@ export default function OpenPreRegModal({ closeModal }) {
         <br></br>
         {/**===========SUMBIT Button============= */}
         <div className="text-center items-center">
+           
           <div hidden={!showPRconfig}>
             <button
               type="button"
-              onClick={() => setShowPRconfig(!showPRconfig)}
+              onClick={() => {setShowPRconfig(!showPRconfig); setAllowedit(!allowedit);}}
               className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
               Edit Pre-Registration Information
             </button>
           </div>
-          <div  hidden={showPRconfig}>
-            
-            <button hidden={!showStatus}
+          <div hidden={allowedit}>
+            <button hidden={allowedit}
               type='button'
               onClick={updateprompt}
               className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
               Save Changes
             </button>
-            <button hidden={!showStatus}
+            <button hidden={allowedit}
               type="button"
-              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
-              Cancel
-            </button>
-          </div>
-          <div hidden={showPRconfig} className='mt-2'>
-            <button
-              hidden={showStatus}
-              type="submit"
-              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-              Open Pre-Registration
-            </button>
-            <button 
-              hidden={true}
-              //hidden={showStatus}
-              type="button"
-              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
-              Cancel
-            </button>
-            <button
-              hidden={!showStatus}
-              type='button'
-              onClick={() => setShowClose(true)}
-              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
-              Close Pre-Registration
-            </button>
-            <button
-              hidden={true}
-              //hidden={!showStatus}
-              type="button"
-              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
+              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester(); setAllowedit(!allowedit);}}
               className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
               Cancel
             </button>
