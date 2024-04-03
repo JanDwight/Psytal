@@ -31,7 +31,7 @@ class SendStudentAccountPasswordController extends Controller
 
                 $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $fullName, $fullName, $studentInfo['role'] );
             } else {
-                $this->storeLog('Account password sent', 'User password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], $studentInfo['role'] );
+                $this->storeLog('Account password sent', 'User password', $studentInfo['email'], 'users', $studentInfo['fullName'], $studentInfo['fullName'], $studentInfo['role'] );
             }
 
             return response()->json([

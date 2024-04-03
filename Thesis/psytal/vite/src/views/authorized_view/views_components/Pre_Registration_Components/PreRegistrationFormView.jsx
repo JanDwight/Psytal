@@ -240,16 +240,6 @@ const handleChangeUnits = (index, value) => {
   const onClickAccept = (ev) => {
     ev.preventDefault();
 
-     // Validate COLLEGE radio buttons
-     const yesChecked = document.getElementById("complied").checked;
-     const noChecked = document.getElementById("complied").checked;
- 
-     // Check if either Yes or No is selected
-     if (!yesChecked && !noChecked) {
-         alert("Did the Student complied with the Admission Policy?");
-         return; // Exit function without submitting the form
-     }
-
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
@@ -654,24 +644,6 @@ const handleChangeUnits = (index, value) => {
     // Call the fetchPdf function directly in your component code
     fetchPdf();
   };
-
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    setError({ __html: "" });
-    
-    axiosClient
-    .put(`/preregview/${preregData}`)
-    .then(({ data }) => {
-      
-    })
-    .catch(( error ) => {
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-        setError({__html: finalErrors.join('<br>')})
-      }
-        console.error(error)
-    });
-  }
   
   useEffect(() => {
     let newTotal = 0;
@@ -727,7 +699,7 @@ const handleChangeUnits = (index, value) => {
       {/**Start of Filling the FORM */}
       
       <div className="w-full lg:w-8/12 px-4 container mx-auto">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onClickAccept}>
         <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0'>
           <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
             
@@ -1552,30 +1524,34 @@ const handleChangeUnits = (index, value) => {
                     <div className="w-full px-3 md:mb-0 flex flex-wrap flex-row mb-2">
                       {/**Radio buttion for Yes compiled */}
                       <div className='mx-5 mt-2'>
-                        <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        <input
+                          className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="complied"
-                          id="complied"
-                          value="Yes" 
+                          id="yescomplied"
+                          value="Yes"
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, complied_to_admission_policy: ev.target.value })}
-                          />
+                        />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-                          htmlFor="yesavail">Yes
+                          htmlFor="yescomplied">Yes
                         </label>
                       </div>
-                      {/**Radio buttion for No Compiled */}
+                      {/**Radio button for No Compiled */}
                       <div className='mx-5 mt-2'>
-                        <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        <input
+                          className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="complied"
-                          id="complied"
-                          value="No" 
+                          id="nocomplied"
+                          value="No"
                           required
-                          onChange={ev => setcompliedtoadmissionpolicy(ev.target.value)}/>
+                          onChange={ev => setcompliedtoadmissionpolicy(ev.target.value)}
+                        />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-                          htmlFor="noavail">No
+                          htmlFor="nocomplied">No
                         </label>
                       </div>
                   </div>  
@@ -1585,13 +1561,9 @@ const handleChangeUnits = (index, value) => {
         </div>
         {/**=========================== 4 ==========================*/}
 
-
-       
-
       {/**=========================== 4 ==========================*/}      
         {/**Start of Filling the FORM for CLASS CODES UNITS*/}
-        <div className="w-full container mx-auto">            
-            <form>
+        <div className="w-full container mx-auto">
                 <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
                     <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         <div className="text-normal font-medium text-center mt-2">
@@ -1761,7 +1733,6 @@ const handleChangeUnits = (index, value) => {
                             {/*fix the two buttons above, no axios connection yet, do for other view*/}
                     </div>
                 </div>
-            </form>
         </div>
          {/**===========SUMBIT Button============= */}
           {prereg.pre_reg_status !== 'Accepted' && (
@@ -1772,7 +1743,7 @@ const handleChangeUnits = (index, value) => {
               {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Return
               </button> */}
-              <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Accept
               </button>
             </div>
