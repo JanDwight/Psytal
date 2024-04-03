@@ -84,7 +84,6 @@ export default function Curriculum(){
     curriculum.hoursperWeek.toString().includes(filterText) ||
     curriculum.course_type.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.preReq.toLowerCase().includes(filterText.toLowerCase())
-
   );
 
   return (

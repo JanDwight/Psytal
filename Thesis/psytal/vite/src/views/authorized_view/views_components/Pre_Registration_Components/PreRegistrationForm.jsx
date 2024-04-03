@@ -13,12 +13,6 @@ import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import Feedback from '../../../feedback/Feedback';
 
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Login/1.png";
-import page2 from "@assets/Help/Login/2.png";
-import page3 from "@assets/Help/Pre-registration-incoming/1.png";
-import page4 from "@assets/Help/Pre-registration-incoming/2.png";
-
-
 
 export default function PreRegistrationForm() {
   
@@ -348,12 +342,6 @@ export default function PreRegistrationForm() {
     
 
   };
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-    // Function to toggle help modal
-    const toggleHelpModal = () => {
-      setIsHelpModalOpen(!isHelpModalOpen);
-    };
 
   //clearing the input fields using the reset button
   const handleClear = () => {
@@ -1660,10 +1648,6 @@ export default function PreRegistrationForm() {
             </button>
         </div>  
         </form>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
       </div>
     </main>
     {disclaimer && (
@@ -1701,63 +1685,7 @@ export default function PreRegistrationForm() {
         </div>
         
       </div>
-      )}
-
-      {/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          width:'60%',
-          bottom: '20px',
-          top:'15%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9999',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <p className='text-3xl bg-[#91b482]'>LOGIN</p>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-        <img
-            src={page4}
-            alt="Page 4"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-      
+      )}  
     </>
     
   )
