@@ -56,6 +56,7 @@ export default function StaffLayout() {
   const [isStaffProfileOpen, setIsStaffProfileOpen] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
   if (!userToken) {
     localStorage.clear();
@@ -75,8 +76,6 @@ export default function StaffLayout() {
         setUserRole(null)
       })
   }
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
   // Function to toggle help modal
   const toggleHelpModal = () => {
