@@ -167,10 +167,11 @@ export default function AdminLayout() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
+                <div className= "flex items-center p-2">
+                          <div className="relative mt-2 w-auto origin-top-right right-[10%]"><h4 className="font-medium text-gray-800 dark:text-gray-600">WELCOME, {currentUser}</h4></div>
                   {/* Profile dropdown */}{/*lg:hidden*/}
                     <Menu as="div" className="relative ml-3">
                       <div>
-                      <div className="fixed mt-2 w-auto origin-top-right right-[10%]"><h4 className="font-medium text-gray-800 dark:text-gray-600">WELCOME, {currentUser}</h4></div>
                         <Menu.Button className="relative flex max-w-xs items-center rounded-full shadow-2xl shadow-black text-sm  focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
@@ -210,6 +211,7 @@ export default function AdminLayout() {
                       </Transition>
                     </Menu>
                   </div>
+                </div>
                 </div>
 
                 {/*Mobile Menu*/}
