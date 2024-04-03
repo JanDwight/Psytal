@@ -77,7 +77,6 @@ export default function AddUsers({ onClose}) {
       password: password,
       role: selectedRole,
       email: email,
-      from: 'addUser'
     };
   
     try {
