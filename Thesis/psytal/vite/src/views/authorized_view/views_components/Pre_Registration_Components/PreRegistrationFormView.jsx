@@ -292,6 +292,11 @@ const handleChangeUnits = (index, value) => {
       email: preregData.email_address,
      })
      .then (response => {
+        if(response.data.success === false){
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
+          return
+        }
       //Create student profile============================================================================
       axiosClient
       .post(`/createstudentprofile`, {
@@ -326,9 +331,6 @@ const handleChangeUnits = (index, value) => {
         pre_reg_status: 'Accepted',
         type_of_student: 'Regular',
       }).then(response => {
-        // Extract user ID from the response or use preregData.user_id if available
-        const userId = response.data.user_id || preregData.user_id;
-        
         // Run the second axios call
         axiosClient.post('/student_subject', {
             studentData: preregData,
@@ -381,9 +383,10 @@ const handleChangeUnits = (index, value) => {
               let formData = new FormData();
 
               // Append some data to the FormData object
-              formData.append('lastName', fullName);
+              formData.append('fullName', fullName);
               formData.append('email', preregData.email_address);
               formData.append('password', password);
+              formData.append('role', 'Student')
 
               // Convert FormData to an object
               let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
