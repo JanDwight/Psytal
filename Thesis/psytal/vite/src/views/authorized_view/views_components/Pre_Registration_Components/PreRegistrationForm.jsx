@@ -464,7 +464,7 @@ export default function PreRegistrationForm() {
     <main className="w-[100%] h-[100%] py-[10%]">
       <div className="lg:w-8/12 mx-auto px-4 container">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
-          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
             <div >
               <img src={schoolLogo}
                 className="object-cover btn- h-20 w-20 rounded-full bg-gray-300" alt="BSU Logo" />
@@ -1652,7 +1652,7 @@ export default function PreRegistrationForm() {
     </main>
     {disclaimer && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[350px] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
         <div className="w-full px-4 mx-auto mt-6">
             <div className="text-xl text-green-600 font-semibold my-3">
               

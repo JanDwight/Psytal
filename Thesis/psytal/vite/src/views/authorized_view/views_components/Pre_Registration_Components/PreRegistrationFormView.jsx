@@ -699,7 +699,7 @@ const handleChangeUnits = (index, value) => {
     <main>
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
-          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
             <div >
               <img src={schoolLogo}
                 className="object-cover btn- h-20 w-20 rounded-full bg-gray-300" alt="BSU Logo" />
