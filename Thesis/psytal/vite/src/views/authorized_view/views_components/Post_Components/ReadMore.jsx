@@ -15,9 +15,10 @@ function ReadMore({ children, maxCharacterCount = 200 }) {
             <p>
                 {resultString}
                 {text.length > maxCharacterCount && (
-                    <a onClick={toggleIsTruncated} className="text-blue-500 cursor-pointer underline hover:text-red-500">
-                        {isTruncated ? ' Read More' : ' Read Less'}
+                    <b><a onClick={toggleIsTruncated} className="text-green-700 cursor-pointer hover:text-green-500">
+                        {isTruncated ? ' Read More...' : ' Read Less...'}
                     </a>
+                    </b>
                 )}
             </p>
         </div>
