@@ -92,7 +92,7 @@ export default function Settings() {
         <ReactModal
             isOpen={showOpenPreRegModal}
             onRequestClose={() => setShowOpenPreRegModal(false)}
-            className="w-full md:w-[30%] lg:w-fit h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
+            className="w-full md:w-[30%] lg:w-fit h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[5%] mx-auto p-5"
         >
             <div className='relative'>
                 <button onClick={() => setShowOpenPreRegModal(false)} className="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer">

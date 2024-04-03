@@ -5,11 +5,10 @@ import ReactModal from 'react-modal';
 import ClosePRPrompt from '../../prompts/ClosePRPrompt';
 import OpenPRPrompt from '../../prompts/OpenPRPrompt';
 import ClosePreRegValidation from '../../prompts/ClosePreRegValidation';
+import CreatePrompt from '../../prompts/CreatePrompt';
 
 export default function OpenPreRegModal({ closeModal }) {
   const [error, setError] = useState({ __html: '' });
-
-  const [semesterInformation, setSemesterInformation] = useState('');
 
   const [startOfPreReg, setStartOfPreReg] = useState('');
   const [endOfPreReg, setEndOfPreReg] = useState('');
@@ -29,10 +28,26 @@ export default function OpenPreRegModal({ closeModal }) {
   const [showStatus, setShowStatus] = useState('');
   const [closePreRegValidation, setClosePreRegValidation] = useState(false);
 
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const action = "Confirm Update Semester Information";
+
+  const [oldSemester, setOldsemester] = useState('');
+  const [oldStartyr, setOldStartyr] = useState('');
+  const [oldEndyr, setOldEndyr] = useState('');
+
   //<><><><><>
   const editprompt = (ev) => {
     ev.preventDefault();
     setShowOpen(true);
+  }
+
+  //<><><><><>
+  const updateprompt = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'Changes to the semester information for ' + oldSemester + ', SY: ' + oldStartyr + '-' + oldEndyr + ' will be saved. Do you wish to proceed?';
+    setPromptMessage(concatmessage);
+    setShowPrompt(true);
   }
 
   //For saving the Pre-Registration and Term Information to the database
@@ -82,6 +97,11 @@ export default function OpenPreRegModal({ closeModal }) {
         setEndOfSchoolYear(res.data.end_of_school_year);
         setSemester(res.data.semester);
         setShowStatus(res.data.open_pre_reg);
+
+        //old data
+        setOldsemester(res.data.semester);
+        setOldStartyr(res.data.start_of_school_year)
+        setOldEndyr(res.data.end_of_school_year);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -158,6 +178,33 @@ export default function OpenPreRegModal({ closeModal }) {
   const handleClosePreReg = async () => {
     setClosePreRegValidation(true);
   };
+
+  //update pre-reg information
+  const handleEditPreReg = async () => {
+    axiosClient
+      try {
+        const response = await axiosClient.put('/updatesemesterinformation', {
+          start_of_prereg: startOfPreReg,
+          end_of_prereg: endOfPreReg,
+          start_of_semester: startOfSemester,
+          end_of_semester: endOfSemester,
+          start_of_school_year: startOfSchoolYear,
+          end_of_school_year: endOfSchoolYear,
+          semester: semester,
+          open_pre_reg: true,
+        });
+        setSuccessMessage(response.data.message);
+        setSuccessStatus(response.data.success);
+
+        setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+        }, 2000);
+      } catch (error) {
+          setSuccessMessage(error.response.data.message)
+          setSuccessStatus(false)
+      }
+  }
 
   return (
     <div>
@@ -306,22 +353,12 @@ export default function OpenPreRegModal({ closeModal }) {
             </button>
           </div>
           <div  hidden={showPRconfig}>
-            <button hidden={showStatus}
-              type="submit"
-              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-              Open Pre-Registration
-            </button>
-            <button hidden={showStatus}
-              type="button"
-              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
-              Cancel
-            </button>
+            
             <button hidden={!showStatus}
               type='button'
-              onClick={() => setShowClose(true)}
+              onClick={updateprompt}
               className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
-              Close Pre-Registration
+              Save Changes
             </button>
             <button hidden={!showStatus}
               type="button"
@@ -330,8 +367,54 @@ export default function OpenPreRegModal({ closeModal }) {
               Cancel
             </button>
           </div>
+          <div hidden={showPRconfig} className='mt-2'>
+            <button
+              hidden={showStatus}
+              type="submit"
+              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              Open Pre-Registration
+            </button>
+            <button 
+              hidden={true}
+              //hidden={showStatus}
+              type="button"
+              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+              Cancel
+            </button>
+            <button
+              hidden={!showStatus}
+              type='button'
+              onClick={() => setShowClose(true)}
+              className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-6 rounded-full">
+              Close Pre-Registration
+            </button>
+            <button
+              hidden={true}
+              //hidden={!showStatus}
+              type="button"
+              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester();}}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
+      <ReactModal
+            isOpen={showPrompt}
+            onRequestClose={() => setShowPrompt(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <CreatePrompt
+                    closeModal={() => setShowPrompt(false)}
+                    handleSave={handleEditPreReg}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+      </ReactModal>
+
       <ReactModal
             isOpen={showClose}
             onRequestClose={() => setShowClose(false)}

@@ -143,6 +143,8 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
 
+            $this->setPreregPost('open');
+
             return response([
                 'message' => 'Semester information created successfully',
                 'success' => true]);
@@ -201,6 +203,49 @@ class SemesterInformationController extends Controller
             'success' => true
         ]);
     }
+    
+    //----------
+    public function updatesemesterinformation(SemesterInformationRequest $request)
+    {
+        $data = $request->validated();
+        $existingSemesterInfo = semester_information::where('id', 1)
+                                                ->first();
+
+        if ($existingSemesterInfo) {
+            // Update the existing record
+            $existingSemesterInfo->update([
+                'start_of_prereg' => $data['start_of_prereg'],
+                'end_of_prereg' => $data['end_of_prereg'],
+                'start_of_semester' => $data['start_of_semester'],
+                'end_of_semester' => $data['end_of_semester'],
+                'start_of_school_year' => $data['start_of_school_year'],
+                'end_of_school_year' => $data['end_of_school_year'],
+                'open_pre_reg' => $data['open_pre_reg'],
+                'semester' => $data['semester']
+            ]);
+
+            $this->storeLog('Semester information updated', 'semester information', 'Pre-registration information updated', 'semester_information');
+
+            if ($existingSemesterInfo['open_pre_reg']){
+                $this->setPreregPost('open');
+            } else {
+                $this->setPreregPost('closed');
+            }
+
+            
+
+            return response([
+                'message' => 'Semester information updated successfully',
+                'success' => true
+            ]);
+        } else {
+            return response([
+                'message' => 'Semester information update failed',
+                'success' => false
+            ]);
+        }
+    }
+    //----------
     
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
