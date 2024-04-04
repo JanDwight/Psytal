@@ -81,10 +81,16 @@ class InstructorClassesController extends Controller
         $sub_id = $id;
         $user = Auth::user();
 
+        /*$studentClasses = student_classes::where('archived', 0)
+            ->where('class_id', $sub_id)
+            ->get();*/
+        
         $studentClasses = student_classes::where('archived', 0)
             ->where('class_id', $sub_id)
+            ->whereNotIn('grade', [0, 'No Grade to Show'])
             ->get();
-    
+        //students with grades are considered completers and will not be shown in classpopup
+            
         if ($studentClasses->isEmpty()) {
             return response()->json(['message' => 'No classes found for the instructor.', $request], 404);
         }
