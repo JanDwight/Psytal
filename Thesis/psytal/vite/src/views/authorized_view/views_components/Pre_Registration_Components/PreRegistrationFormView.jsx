@@ -11,6 +11,7 @@ import Feedback from '../../../feedback/Feedback';
 
 
 export default function PreRegistrationFormView({prereg}) {
+  const oldprereg = prereg;
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -22,6 +23,18 @@ export default function PreRegistrationFormView({prereg}) {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
+
+  const [allowEdit, setAllowEdit] = useState('none'); // auto=editable, none=not editable
+
+  const allowChange = () => {
+    setAllowEdit('auto');
+    console.log('Edit Status: ', allowEdit);
+  }
+
+  const noChange = () => {
+    setAllowEdit('none');
+    console.log('Edit Status: ', allowEdit);
+  }
 
   //auto fill dropdown
   useEffect(() => {
@@ -221,21 +234,6 @@ const handleChangeUnits = (index, value) => {
       })
   }
 
-  //On Return
-  const onReturn = (ev) => {
-    ev.preventDefault();
-    
-    axiosClient
-    // create Update function for preregincommingtmp
-    .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Returned'
-    })
-    .then(({ data }) => {
-      //setFamilyName(data.family_name)
-      window.location.reload();
-    })
-  }
-
   //On Accept Click
   const onClickAccept = (ev) => {
     ev.preventDefault();
@@ -401,6 +399,52 @@ const handleChangeUnits = (index, value) => {
         })
      })
   };
+
+  const onSaveChanges = () =>{
+    //prereg update===============================================================================
+    axiosClient
+    .put(`/preregcheck/${id}`, {
+      start_of_school_year: parseInt(preregData.start_of_school_year),
+      end_of_school_year: parseInt(preregData.end_of_school_year),
+      student_school_id: parseInt(preregData.student_school_id),
+      learners_reference_number: parseInt(preregData.learners_reference_number),
+      last_name: preregData.last_name,
+      first_name: preregData.first_name,
+      middle_name: preregData.middle_name,
+      maiden_name: preregData.maiden_name,
+      academic_classification: preregData.academic_classification,
+      last_school_attended: preregData.last_school_attended,
+      address_of_school_attended: preregData.address_of_school_attended,
+      degree: preregData.degree,
+      date_of_birth: preregData.date_of_birth,
+      place_of_birth: preregData.place_of_birth,
+      citizenship: preregData.citizenship,
+      sex_at_birth: preregData.sex_at_birth,
+      ethnicity: preregData.ethnicity,
+      special_needs: preregData.special_needs,
+      contact_number: preregData.contact_number,
+      email_address: preregData.email_address,
+      home_address: preregData.home_address,
+      address_while_studying: preregData.address_while_studying,
+      contact_person_name: preregData.contact_person_name,
+      contact_person_number: preregData.contact_person_number, 
+      contact_person_address: preregData.contact_person_address,
+      contact_person_relationship: preregData.contact_person_relationship,
+      health_facility_registered: preregData.health_facility_registered,
+      parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+      vaccination_status: preregData.vaccination_status,
+      technology_level: preregData.technology_level,
+      digital_literacy: preregData.digital_literacy,
+      avail_free_higher_education: preregData.avail_free_higher_education,
+      voluntary_contribution: preregData.voluntary_contribution,
+      contribution_amount: preregData.contribution_amount,
+      complied_to_admission_policy: preregData.complied_to_admission_policy,
+    
+      pre_reg_status: 'Accepted',
+      type_of_student: 'Incoming',
+      semester: preregData.semester
+    })
+  }
 
   const onPrint = () => {
     // PDF modification code======================================================================
@@ -668,7 +712,7 @@ const handleChangeUnits = (index, value) => {
         </div>)}
         <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
         <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
-    <main>
+    <main id="preRegTop" >
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
           <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
@@ -692,6 +736,9 @@ const handleChangeUnits = (index, value) => {
                 <h6 className="text-blueGray-700 text-sm">
                     STUDENT DETAILS
                 </h6>
+                <h6  className="text-red-500 text-sm" hidden={allowEdit === 'none'}>
+                  <b>*Editing has been enabled.</b>
+                </h6>
                 
               </div>         
       </div>
@@ -699,7 +746,7 @@ const handleChangeUnits = (index, value) => {
       {/**Start of Filling the FORM */}
       
       <div className="w-full lg:w-8/12 px-4 container mx-auto">
-        <form onSubmit={onClickAccept}>
+        <form onSubmit={onClickAccept} style={{pointerEvents:allowEdit}}>
         <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0'>
           <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
             
@@ -1753,15 +1800,29 @@ const handleChangeUnits = (index, value) => {
         {/**=====================================================*/}   
       {prereg.pre_reg_status === 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              
-              <button onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                Print
-              </button>
+              <div className='space-x-3'>
+                <a href="#preRegTop">
+                  <button hidden={allowEdit === 'auto'} onClick={allowChange} type="button" className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full">
+                    Allow Edit
+                  </button> {/*after enabled move screen to top and promp form is now editable again*/}
+                </a>
+                <button hidden={allowEdit === 'auto'} onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                  Print
+                </button>
+              </div>
+              <div className='space-x-3'>
+                <button hidden={allowEdit === 'none'} onClick={onSaveChanges} type="button" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                    Save Changes
+                </button>
+                <button hidden={allowEdit === 'none'} onClick={() => {noChange(); setPreregData(oldprereg);}} type="button" className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                    Cancel
+                </button>
+              </div>
             </div>
           )}
       </div>
       {/**=====================================================*/}   
-
+      
     </main>
 
     <ReactModal
