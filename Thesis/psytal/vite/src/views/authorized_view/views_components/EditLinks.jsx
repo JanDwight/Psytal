@@ -11,7 +11,7 @@ export default function EditLinks({ showEditlink, onClose, selected }) {
     const [instructor_name, setInstructorName] = useState(selected.instructor_name || '');
     const [url, setUrl] = useState(selected.url || '');
     const [successMessage, setSuccessMessage] = useState('');
-   const [successStatus, setSuccessStatus] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
     const [showPrompt, setShowPrompt] = useState(false);
     const [promptMessage, setPromptMessage] = useState('');
     const action = "Confirm Edit Link?";
@@ -39,7 +39,7 @@ const editprompt = (ev) => {
       const updatedUserLinks = {
         class_code,
         class_description, 
-        instructor_name,
+        instructor_name: 'placeholder for no error',
         url,
       };
 
@@ -102,7 +102,7 @@ const editprompt = (ev) => {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div className="mb-4">
+              <div hidden className="mb-4">
                 <label htmlFor="instructor_name" className="block text-sm text-gray-700">
                 Contact
                 </label>

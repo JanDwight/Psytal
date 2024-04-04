@@ -80,7 +80,7 @@ export default function Links() {
     (link) =>
       link.class_code.toString().includes(filterText) ||
       link.class_description.toLowerCase().includes(filterText.toLowerCase()) ||
-      link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
+      //link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
       link.url.toLowerCase().includes(filterText.toLowerCase())
   );
  
@@ -123,9 +123,9 @@ export default function Links() {
           <table className="table w-full table-striped text-gray-700 mt-5" >
 		          <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200" style={{ width: "10%" }}>Title</th>
-                    <th className="text-center bg-gray-200" style={{ width: "15%" }}>Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
+                    <th className="text-center bg-gray-200" style={{ width: "25%" }}>Title</th>
+                    <th className="text-center bg-gray-200" style={{ width: "25%" }}>Description</th>
+                    {/*<th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>*/}
                     <th className="text-center bg-gray-200 p-2" style={{ width: "40%" }}>Link </th>
                     <th className="text-left bg-gray-200" style={{ width: "auto" }}>Action</th>
 		              </tr>
@@ -141,16 +141,16 @@ export default function Links() {
                   className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`} 
                   onSubmit={addLinks}
                   >
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 60)}</td>
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 60)}</td>
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 60)}</td>
+                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_code.slice(0, 60)}</td>
+                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_description.slice(0, 60)}</td>
+                    {/*<td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 60)}</td>*/}
                     <td className="text-left p-2 overflow-hidden overflow-wrap break-word" style={{ width: "40%" }}>
                       <a href={link.url} target="_blank" rel="noopener noreferrer" 
                       className="hover:underline p-2 hover:text-blue-500 overflow-hidden overflow-wrap break-word">
                       {link.url.slice(0, 40)}... {/* Displaying the first 50 characters */}
                       </a>
                     </td>
-                    <td className= "flex items-left p-2" style={{ width: "auto"}}>
+                    <td className= "flex items-left p-2">
                       <button onClick={() => handleEditClick(link)}>
                         <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'/>
                       </button>

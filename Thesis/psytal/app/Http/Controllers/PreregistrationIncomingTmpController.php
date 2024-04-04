@@ -176,7 +176,8 @@ class PreregistrationIncomingTmpController extends Controller
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            //$item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            $item->new_student = $item->type_of_student;
             return $item ;
              
         });
@@ -200,7 +201,8 @@ class PreregistrationIncomingTmpController extends Controller
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            //$item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            $item->new_student = $item->type_of_student;
             return $item ;
              
         });

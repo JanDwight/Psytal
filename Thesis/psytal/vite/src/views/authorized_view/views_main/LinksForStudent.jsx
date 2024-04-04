@@ -30,7 +30,7 @@ export default function LinksForStudent() {
     (link) =>
       link.class_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
       link.class_description.toLowerCase().includes(filterText.toLowerCase()) ||
-      link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
+      //link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
       link.url.toLowerCase().includes(filterText.toLowerCase())
   );
  
@@ -65,9 +65,9 @@ export default function LinksForStudent() {
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Title</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "25%" }}>Title</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "25%" }}>Description</th>
+                    {/*<th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>*/}
                     <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Links</th>
 		              </tr>
                 </thead>
@@ -78,9 +78,9 @@ export default function LinksForStudent() {
                  <tbody>
                      {filteredData.map((link, index) => (//edited
                       <tr key={index} className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 40)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 50)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_code.slice(0, 40)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_description.slice(0, 50)}</td>
+                          {/*<td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>*/}
                           <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "60%" }}>
                             <a href={link.url} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-blue-500">
                            {link.url.slice(0, 50)}... {/* Displaying the first 10 characters */}
