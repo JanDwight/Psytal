@@ -1441,7 +1441,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     name="classCode"
                                     value={inputField.classCode}
-                                    required
+                                    //required
+                                    required={preregData.student_status === 'Irregular'}
                                     onChange={event => handleChangeInput(index, event)}
                                   >
                                     <option value="" disabled selected>
@@ -1463,7 +1464,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     name="courseCode"
                                     value={inputField.courseCode}
-                                    required
+                                    //required
+                                    required={preregData.student_status === 'Irregular'}
                                     onChange={event => handleChangeInput(index, event)}
                                   >
                                     <option value="" disabled selected>
@@ -1487,7 +1489,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                       variant="filled"
                                       placeholder="Units"
                                       value={inputField.units}
-                                      required
+                                      //required
+                                      required={preregData.student_status === 'Irregular'}
                                       onChange={(event) => {
                                         handleChangeUnits(index, event.target.value); // working
                                         handleChangeInput(index, event); // may not work pls test
@@ -1505,7 +1508,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     name="bcac"
                                     value={inputField.bcac}
                                     onChange={event => handleChangeInput(index, event)}
-                                    required
+                                    //required
+                                    required={preregData.student_status === 'Irregular'}
                                   >
                                     <option value="N/A">N/A</option>
                                     <option value="BC">BC</option>
