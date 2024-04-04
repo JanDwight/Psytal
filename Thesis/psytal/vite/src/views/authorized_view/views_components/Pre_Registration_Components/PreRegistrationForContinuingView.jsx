@@ -53,7 +53,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         contact_person_relationship: '',
         type_of_student: 'Continuing',
         year_level: '',
-        student_status: '',
+        student_status: 'Regular',
         candidate_for_graduation: '',
       });
 
