@@ -117,7 +117,9 @@ class SendStudentAccountPasswordController extends Controller
         try {
             // Send the mail
             Mail::to($studentInfo['email'])->send(new DeclinedApplication($data));
-        
+
+            $this->storeLog('Send pre-registration declined email', 'Decline Pre-registration', 'Pre-registration of: ' . $studentInfo['email'], 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role);
+                                                        //$actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role
             return response()->json([
                 'success' => true,
                 'message' => 'Mail sent successfully.',
@@ -142,10 +144,16 @@ class SendStudentAccountPasswordController extends Controller
         try {
             // Send the mail
             Mail::to($studentInfo['email'])->send(new PreRegContinuingAccepted($data));
+
+            $this->storeLog('Send pre-registration accepted email', 'Accept Pre-registration', 'Pre-registration of: ' . $studentInfo['email'], 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role);
+                                                        //$actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role
         
+                            //fullname
+                            //email
+                            //role
             return response()->json([
                 'success' => true,
-                'message' => $studentInfo,
+                'message' => 'Mail sent successfully.',
             ]);
         } catch (Exception $e) {
             return response()->json([

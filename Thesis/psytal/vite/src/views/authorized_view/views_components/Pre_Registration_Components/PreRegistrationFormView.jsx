@@ -195,7 +195,7 @@ const handleChangeUnits = (index, value) => {
     axiosClient
     // create Update function for preregincommingtmp
     .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Decline',
+      pre_reg_status: 'Declined',
     })
     .then(({ data }) => {
       ev.preventDefault();

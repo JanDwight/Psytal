@@ -229,12 +229,15 @@ class PreregistrationIncomingTmpController extends Controller
 
     // Extract the attributes from the request
     $data = $request->all();
+    $prStatus = $data['pre_reg_status'];
+
+    //if $data['pre_reg_status'] is "Declined"
     
     $preregData->update($data);
     
     $fullName = $preregData['last_name'] . ', ' . $preregData['first_name'] . ' ' . $preregData['middle_name'];
 
-    $this->storeLog('Pre-registration updated', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
+    $this->storeLog('Pre-registration ' . $prStatus, 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
     return response()->json(['message' => 'User updated successfully']);
     }
