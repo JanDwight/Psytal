@@ -580,8 +580,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
     <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <main id="preRegTop">
         
-    <form onSubmit={onClickAccept} action="#" method="POST" style={{pointerEvents:allowEdit}}>   
-        <div className="w-full lg:w-8/12 px-4 container mx-auto">    
+    <form onSubmit={onClickAccept} action="#" method="POST" /*style={{pointerEvents:allowEdit}}*/>   
+        <div style={{pointerEvents:allowEdit}} className="w-full lg:w-8/12 px-4 container mx-auto">    
             <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
                 <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
                     <div className="">
@@ -599,7 +599,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         </div>
 
         {/**STUDENT DETAILS */}
-        <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">  
+        <div style={{pointerEvents:allowEdit}} className="w-full lg:w-8/12 px-4 mx-auto mt-6">  
                 <div className="text-center flex justify-between">
                     <h6 className="text-blueGray-700 text-sm">
                         STUDENT DETAILS
@@ -612,7 +612,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
         {/**=========================== 2 ==========================*/}      
         {/**Start of Filling the FORM */}
-        <div className="w-full lg:w-8/12 px-4 container mx-auto">
+        <div style={{pointerEvents:allowEdit}} className="w-full lg:w-8/12 px-4 container mx-auto">
                 <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0'>
                     <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         {/**=========================== Shoolyear - Date ==========================*/}  
@@ -1216,7 +1216,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         
           {/**=========================== 3 ==========================*/}      
           {/**Start of Filling the FORM */}
-          <div className="w-full container mx-auto">
+          <div style={{pointerEvents:allowEdit}} className="w-full container mx-auto">
             <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
               <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                   <div className="text-normal font-medium text-center mt-2">
@@ -1349,7 +1349,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
       {/**=========================== 4 ==========================*/}      
       {/**Start of Filling the FORM */}
-        <div className="w-full container mx-auto">
+        <div style={{pointerEvents:allowEdit}} className="w-full container mx-auto">
           <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
             <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                 <div className="text-normal font-medium text-center mt-2">
@@ -1527,7 +1527,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         {/**Start of Filling the FORM for CLASS CODES UNITS*/}
         <div className="w-full lg:w-8/12 px-4 container mx-auto">   
             <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
-                    <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
+                    <div style={{pointerEvents:allowEdit}} className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         <div className="text-normal font-medium text-center mt-2">
                             SECTION/COURSE(S) TO BE ENROLLED : FOR IRREGULAR STUDENT
                         </div> <hr className='mt-2'/>
