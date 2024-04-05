@@ -8,6 +8,8 @@ import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
 import ReactModal from 'react-modal';
 import Feedback from '../../../feedback/Feedback';
+import AcceptPrompt from '../../prompts/AcceptPrompt'
+import DeclinePrompt from '../../prompts/DeclinePrompt'
 
 
 export default function PreRegistrationFormView({prereg}) {
@@ -15,7 +17,6 @@ export default function PreRegistrationFormView({prereg}) {
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [declineReasonModal, setDeclineReasonModal] = useState(false);
 
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
@@ -24,7 +25,47 @@ export default function PreRegistrationFormView({prereg}) {
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
 
-  const [allowEdit, setAllowEdit] = useState('none'); // auto=editable, none=not editable
+  const [allowEdit, setAllowEdit] = useState(''); // auto=editable, none=not editable\
+  const [showPromptA, setShowPromptA] = useState(false);
+  const [showPromptD, setShowPromptD] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const [action, setAction] = useState('');
+
+  //<><><><><>
+
+  function checkAccept() {
+    if (oldprereg.pre_reg_status === 'Accepted'){
+      setAllowEdit('none');
+    } else if (oldprereg.pre_reg_status === 'Pending') {
+      setAllowEdit('auto');
+    } else if (oldprereg.pre_reg_status === 'Declined'){
+      setAllowEdit('none');
+    } else {
+      setAllowEdit('auto');
+    }
+  }
+
+  useEffect(() => {
+    checkAccept(); // Call the fetchData function
+  }, []);
+
+  //<><><><><>
+  const promptAccept = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be accepted. Do you wish to proceed?';
+    setAction('Confirm Accept Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptA(true);
+  }
+
+  //<><><><><>
+  const promptDecline = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be declined. Do you wish to proceed?';
+    setAction('Confirm Decline Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptD(true);
+  }
 
   const allowChange = () => {
     setAllowEdit('auto');
@@ -202,8 +243,8 @@ const handleChangeUnits = (index, value) => {
 
 
   //On Decline Click
-  const onDecline = (ev) => {
-    ev.preventDefault();
+  const onDecline = () => {
+    //ev.preventDefault();
     
     axiosClient
     // create Update function for preregincommingtmp
@@ -211,7 +252,7 @@ const handleChangeUnits = (index, value) => {
       pre_reg_status: 'Declined',
     })
     .then(({ data }) => {
-      ev.preventDefault();
+      //ev.preventDefault();
       //for sending emails============================================================================
       // Assuming formData is your FormData object
       let formData = new FormData();
@@ -235,8 +276,8 @@ const handleChangeUnits = (index, value) => {
   }
 
   //On Accept Click
-  const onClickAccept = (ev) => {
-    ev.preventDefault();
+  const onClickAccept = () => {
+    //ev.preventDefault();
 
     setError({ __html: "" });
 
@@ -403,47 +444,51 @@ const handleChangeUnits = (index, value) => {
   const onSaveChanges = () =>{
     //prereg update===============================================================================
     axiosClient
-    .put(`/preregcheck/${id}`, {
-      start_of_school_year: parseInt(preregData.start_of_school_year),
-      end_of_school_year: parseInt(preregData.end_of_school_year),
-      student_school_id: parseInt(preregData.student_school_id),
-      learners_reference_number: parseInt(preregData.learners_reference_number),
-      last_name: preregData.last_name,
-      first_name: preregData.first_name,
-      middle_name: preregData.middle_name,
-      maiden_name: preregData.maiden_name,
-      academic_classification: preregData.academic_classification,
-      last_school_attended: preregData.last_school_attended,
-      address_of_school_attended: preregData.address_of_school_attended,
-      degree: preregData.degree,
-      date_of_birth: preregData.date_of_birth,
-      place_of_birth: preregData.place_of_birth,
-      citizenship: preregData.citizenship,
-      sex_at_birth: preregData.sex_at_birth,
-      ethnicity: preregData.ethnicity,
-      special_needs: preregData.special_needs,
-      contact_number: preregData.contact_number,
-      email_address: preregData.email_address,
-      home_address: preregData.home_address,
-      address_while_studying: preregData.address_while_studying,
-      contact_person_name: preregData.contact_person_name,
-      contact_person_number: preregData.contact_person_number, 
-      contact_person_address: preregData.contact_person_address,
-      contact_person_relationship: preregData.contact_person_relationship,
-      health_facility_registered: preregData.health_facility_registered,
-      parent_health_facility_dependent: preregData.parent_health_facility_dependent,
-      vaccination_status: preregData.vaccination_status,
-      technology_level: preregData.technology_level,
-      digital_literacy: preregData.digital_literacy,
-      avail_free_higher_education: preregData.avail_free_higher_education,
-      voluntary_contribution: preregData.voluntary_contribution,
-      contribution_amount: preregData.contribution_amount,
-      complied_to_admission_policy: preregData.complied_to_admission_policy,
-    
-      pre_reg_status: 'Accepted',
-      type_of_student: 'Incoming',
-      semester: preregData.semester
-    })
+              .put(`/preregcheck/${id}`, {
+                start_of_school_year: parseInt(preregData.start_of_school_year),
+                end_of_school_year: parseInt(preregData.end_of_school_year),
+                student_school_id: parseInt(preregData.student_school_id),
+                learners_reference_number: parseInt(preregData.learners_reference_number),
+                last_name: preregData.last_name,
+                first_name: preregData.first_name,
+                middle_name: preregData.middle_name,
+                maiden_name: preregData.maiden_name,
+                academic_classification: preregData.academic_classification,
+                last_school_attended: preregData.last_school_attended,
+                address_of_school_attended: preregData.address_of_school_attended,
+                degree: preregData.degree,
+                date_of_birth: preregData.date_of_birth,
+                place_of_birth: preregData.place_of_birth,
+                citizenship: preregData.citizenship,
+                sex_at_birth: preregData.sex_at_birth,
+                ethnicity: preregData.ethnicity,
+                special_needs: preregData.special_needs,
+                contact_number: preregData.contact_number,
+                email_address: preregData.email_address,
+                home_address: preregData.home_address,
+                address_while_studying: preregData.address_while_studying,
+                contact_person_name: preregData.contact_person_name,
+                contact_person_number: preregData.contact_person_number, 
+                contact_person_address: preregData.contact_person_address,
+                contact_person_relationship: preregData.contact_person_relationship,
+                health_facility_registered: preregData.health_facility_registered,
+                parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+                vaccination_status: preregData.vaccination_status,
+                technology_level: preregData.technology_level,
+                digital_literacy: preregData.digital_literacy,
+                avail_free_higher_education: preregData.avail_free_higher_education,
+                voluntary_contribution: preregData.voluntary_contribution,
+                contribution_amount: preregData.contribution_amount,
+                complied_to_admission_policy: preregData.complied_to_admission_policy,
+              
+                pre_reg_status: 'Accepted',
+                type_of_student: 'Incoming',
+                semester: preregData.semester
+              }).then((response)=> {
+                setSuccessMessage(response.data.message);
+                setSuccessStatus(response.data.success);
+              })
+      
   }
 
   const onPrint = () => {
@@ -746,7 +791,7 @@ const handleChangeUnits = (index, value) => {
       {/**Start of Filling the FORM */}
       
       <div className="w-full lg:w-8/12 px-4 container mx-auto">
-        <form onSubmit={onClickAccept} style={{pointerEvents:allowEdit}}>
+        <form onSubmit={promptAccept} style={{pointerEvents:allowEdit}}>
         <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0'>
           <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
             
@@ -1784,7 +1829,7 @@ const handleChangeUnits = (index, value) => {
          {/**===========SUMBIT Button============= */}
           {prereg.pre_reg_status !== 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+              <button onClick={promptDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Decline
               </button>
               {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
@@ -1807,7 +1852,7 @@ const handleChangeUnits = (index, value) => {
                   </button> {/*after enabled move screen to top and promp form is now editable again*/}
                 </a>
                 <button hidden={allowEdit === 'auto'} onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                  Print
+                    Print
                 </button>
               </div>
               <div className='space-x-3'>
@@ -1826,12 +1871,35 @@ const handleChangeUnits = (index, value) => {
     </main>
 
     <ReactModal
-        isOpen={declineReasonModal}
-        onRequestClose={() => setDeclineReasonModal(false)}
-        className="w-fit h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
-      >
+            isOpen={showPromptA}
+            onRequestClose={() => setShowPromptA(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <AcceptPrompt
+                    closeModal={() => setShowPromptA(false)}
+                    handleSave={onClickAccept}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+    </ReactModal>
 
-      </ReactModal>
+    <ReactModal
+            isOpen={showPromptD}
+            onRequestClose={() => setShowPromptD(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <DeclinePrompt
+                    closeModal={() => setShowPromptD(false)}
+                    handleSave={onDecline}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+    </ReactModal>
+
     </>
     
   )
