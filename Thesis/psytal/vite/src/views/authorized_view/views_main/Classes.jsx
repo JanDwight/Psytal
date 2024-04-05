@@ -4,6 +4,7 @@ import { useStateContext } from '../../../context/ContextProvider';
 import ReactModal from 'react-modal';
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import AddClass from "../views_components/AddClass";
+import AddClassForOutside from "../views_components/AddClassForOutside.jsx";
 import ClassPopUp from "../views_components/ClassPopUp";
 import ClassList from '../views_components/ClassList.jsx';
 import page1 from "@assets/Help/Admin/Classes/1.png";
@@ -43,6 +44,7 @@ function classNames(...classes) {
 }
 
 export default function Classes(){
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isClassModalOpen, setIsClassModalOpen] = useState(false);
     const [filterText, setFilterText] = useState(''); // Filter text state
@@ -99,10 +101,15 @@ export default function Classes(){
                           className="h-10 px-6 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
                         ></input>
                   </div>
-                        {/*add class*/}
+                    {/*add class*/}
                     <button onClick={() => setIsModalOpen(true)} 
-                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5">
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-1 mt-5">
                             Add Class
+                    </button>
+                    {/*add class for outside*/}
+                    <button onClick={() => setIsAddModalOpen(true)} 
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-1 mt-5">
+                            Outside Class
                     </button>
                     
 
@@ -304,6 +311,16 @@ export default function Classes(){
       >
         <div>
           <AddClass closeModal={() => setIsModalOpen(false)} />
+        </div>
+      </ReactModal>
+
+      <ReactModal
+        isOpen={isAddModalOpen}
+        onRequestClose={() => setIsAddModalOpen(false)}
+        className="w-full md:w-[30%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
+      >
+        <div>
+          <AddClassForOutside closeModal={() => setIsAddModalOpen(false)} />
         </div>
       </ReactModal>
 

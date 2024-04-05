@@ -113,7 +113,7 @@ export default function AddClass({closeModal}) {
         course_id: selected_subject,
         class_section,
         class_code,
-        instructor_name,
+        instructor_name: instructor_name, //added instructor_name, old: instructor_name,
       };
       
   
