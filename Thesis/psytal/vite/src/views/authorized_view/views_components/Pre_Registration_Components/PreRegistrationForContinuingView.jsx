@@ -14,6 +14,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     const [error, setError] = useState({__html: ""});
 
     const [subjectData, setSubjectData] = useState([]); //<><><><><>
+    const [studentCheckList, setStudentCheckList] = useState([]);
     const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -71,15 +72,13 @@ export default function PreRegistrationForContinuingView({prereg}) {
       });
 
 
-    
-
       //auto fill dropdown
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axiosClient.get('/show_classes');
-        const classData = response.data; // Set the data in the state
-        setSubjectData(classData); // Set the data in the state
+        const response = await axiosClient.get('/getstudentclassesadmin', {params: {last_name: prereg.last_name, first_name: prereg.first_name, middle_name: prereg.middle_name}});
+        const classData = response.data; 
+        setStudentCheckList(classData); // Set the data in the state
       } catch (error) {
         console.error('Error fetching data from the database:', error);
       }
@@ -1703,27 +1702,33 @@ export default function PreRegistrationForContinuingView({prereg}) {
                         <table className="min-w-full divide-y divide-gray-200">
                           <thead>
                               <tr>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Code</th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Title </th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Type</th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Year</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Code</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Year</th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Semester</th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Units</th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Completion Status</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Title</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Grade</th>
                               </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
-                          {subjectData.map((item, index) => (
-                              <tr key={index}>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_code}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_title}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.course_type}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.semester}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">{item.units}</td>
-                                  <td className="px-6 py-4 whitespace-no-wrap">To Complete</td>
+                            {studentCheckList.some(item => item.grade !== '0') ? (
+                              studentCheckList.map((item, index) => (
+                                // Check if the grade is non-zero before rendering the row
+                                item.grade !== 0 && (
+                                  <tr key={index}>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.class_code}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.semester}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.course_title}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.grade}</td>
+                                  </tr>
+                                )
+                              ))
+                            ) : (
+                              // Render "nothing to show" if all grades are 0
+                              <tr>
+                                <td colSpan="5" className="px-6 py-4 whitespace-no-wrap text-center">Nothing to show</td>
                               </tr>
-                          ))}
+                            )}
                           </tbody>
                         </table>
                     </div>
