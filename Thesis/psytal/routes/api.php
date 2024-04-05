@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/updatestudentgrades', [AttachSubjectController::class, 'editGrade']);
     Route::get('/getgrade', [StudentClassesController::class, 'index']);
     Route::get('/getstudentclasses', [StudentClassesController::class, 'studentGradesList']);
+    Route::get('/getstudentclassesadmin', [StudentClassesController::class, 'studentGradesListAdmin']);
 
     //curriculum Chacklist
     Route::get('/curriculumnCheckListIndex', [ClassesController::class, 'curriculumnCheckListIndex']);

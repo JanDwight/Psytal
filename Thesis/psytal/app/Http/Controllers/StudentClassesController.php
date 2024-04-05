@@ -53,5 +53,31 @@ class StudentClassesController extends Controller
     
         return response()->json($classDetails);
     }
+
+    public function studentGradesListAdmin(Request $request)
+    {
+        $studentProfile = student_profile::where('last_name', $request["last_name"])
+        ->where('first_name',$request["first_name"])
+        ->where('middle_name',$request["middle_name"])
+        ->first();
+        $studentSubjects = student_classes::where('student_profile_id', $studentProfile["student_profile_id"])->get();
+    
+        $classDetails = [];
+    
+        foreach ($studentSubjects as $subject) {
+            $class = classes::where('archived', 0)
+                        ->where('class_id', $subject->class_id)
+                        ->first();
+    
+            // Assuming 'grade' is a field in 'student_classes' table, you can add it to the class details
+            $class->grade = $subject->grade;
+            $class->student_class_id = $subject->id;
+    
+            // Append the class details along with grade to $classDetails array
+            $classDetails[] = $class;
+        }
+    
+        return response($classDetails);
+    }
     
 }
