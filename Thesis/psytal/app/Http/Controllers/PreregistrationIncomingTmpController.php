@@ -226,22 +226,33 @@ class PreregistrationIncomingTmpController extends Controller
 
     if (!$preregData) {
         // Handle the case where the preregID with the provided ID is not found
-        return response()->json(['message' => 'Form not found'], 404);
+        return response([
+            'message' => 'Form not found',
+            'success' => false
+        ]);
     }
 
-    // Extract the attributes from the request
-    $data = $request->all();
-    $prStatus = $data['pre_reg_status'];
+    try{
+        // Extract the attributes from the request
+        $data = $request->all();
+        $prStatus = $data['pre_reg_status'];
+        
+        $preregData->update($data);
+        
+        $fullName = $preregData['last_name'] . ', ' . $preregData['first_name'] . ' ' . $preregData['middle_name'];
 
-    //if $data['pre_reg_status'] is "Declined"
-    
-    $preregData->update($data);
-    
-    $fullName = $preregData['last_name'] . ', ' . $preregData['first_name'] . ' ' . $preregData['middle_name'];
+        $this->storeLog('Pre-registration ' . $prStatus, 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
-    $this->storeLog('Pre-registration ' . $prStatus, 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
-
-    return response()->json(['message' => 'User updated successfully']);
+        return response([
+                'message' => 'User updated successfully',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'User update failed',
+                'success' => false
+            ]);
+        }
     }
 
     /**

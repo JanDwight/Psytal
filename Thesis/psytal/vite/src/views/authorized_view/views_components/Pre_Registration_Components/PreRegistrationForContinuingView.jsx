@@ -6,7 +6,10 @@ import { Navigate } from 'react-router-dom';
 import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
+import ReactModal from 'react-modal';
 import Feedback from '../../../feedback/Feedback';
+import AcceptPrompt from '../../prompts/AcceptPrompt';
+import DeclinePrompt from '../../prompts/DeclinePrompt';
 
 
 export default function PreRegistrationForContinuingView({prereg}) {
@@ -19,7 +22,47 @@ export default function PreRegistrationForContinuingView({prereg}) {
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
 
-    const [allowEdit, setAllowEdit] = useState('none'); // auto=editable, none=not editable
+    const [allowEdit, setAllowEdit] = useState(''); // auto=editable, none=not editable\
+    const [showPromptA, setShowPromptA] = useState(false);
+    const [showPromptD, setShowPromptD] = useState(false);
+    const [promptMessage, setPromptMessage] = useState('');
+    const [action, setAction] = useState('');
+
+  //<><><><><>
+
+  function checkAccept() {
+    if (oldprereg.pre_reg_status === 'Accepted'){
+      setAllowEdit('none');
+    } else if (oldprereg.pre_reg_status === 'Pending') {
+      setAllowEdit('auto');
+    } else if (oldprereg.pre_reg_status === 'Declined'){
+      setAllowEdit('none');
+    } else {
+      setAllowEdit('auto');
+    }
+  }
+
+  useEffect(() => {
+    checkAccept(); // Call the fetchData function
+  }, []);
+
+  //<><><><><>
+  const promptAccept = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be accepted. Do you wish to proceed?';
+    setAction('Confirm Accept Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptA(true);
+  }
+
+  //<><><><><>
+  const promptDecline = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be declined. Do you wish to proceed?';
+    setAction('Confirm Decline Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptD(true);
+  }
 
     const allowChange = () => {
       setAllowEdit('auto');
@@ -138,8 +181,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
         values.splice(index, 1);
         setInputFields(values);
       }
-      const onDecline = (ev) => {
-        ev.preventDefault();
+      const onDecline = () => {
+        //ev.preventDefault();
         
         axiosClient
         // create Update function for preregincommingtmp
@@ -147,7 +190,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
           pre_reg_status: 'Decline'
         })
         .then(({ data }) => {
-          ev.preventDefault();
+          //ev.preventDefault();
           //for sending emails============================================================================
           // Assuming formData is your FormData object
           let formData = new FormData();
@@ -251,6 +294,9 @@ export default function PreRegistrationForContinuingView({prereg}) {
               year_level: preregData.year_level,
               student_status: preregData.student_status,
               semester: preregData.semester
+            }).then((response)=> {
+              setSuccessMessage(response.data.message);
+              setSuccessStatus(response.data.success);
             })
         }
 
@@ -580,7 +626,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
     <main id="preRegTop">
         
-    <form onSubmit={onClickAccept} action="#" method="POST" /*style={{pointerEvents:allowEdit}}*/>   
+    <form onSubmit={promptAccept} action="#" method="POST" /*style={{pointerEvents:allowEdit}}*/>   
         <div style={{pointerEvents:allowEdit}} className="w-full lg:w-8/12 px-4 container mx-auto">    
             <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
                 <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
@@ -1733,7 +1779,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         {/**===========SUMBIT Button============= */}
         {prereg.pre_reg_status !== 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+              <button onClick={promptDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
                 Decline
               </button>
               {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
@@ -1770,6 +1816,35 @@ export default function PreRegistrationForContinuingView({prereg}) {
             </div>
           )}
     </main>
+      <ReactModal
+              isOpen={showPromptA}
+              onRequestClose={() => setShowPromptA(false)}
+              className="md:w-[1%]"
+            >
+              <div>
+                  <AcceptPrompt
+                      closeModal={() => setShowPromptA(false)}
+                      handleSave={onClickAccept}
+                      action={action}
+                      promptMessage={promptMessage}
+                  />
+              </div>
+      </ReactModal>
+
+      <ReactModal
+              isOpen={showPromptD}
+              onRequestClose={() => setShowPromptD(false)}
+              className="md:w-[1%]"
+            >
+              <div>
+                  <DeclinePrompt
+                      closeModal={() => setShowPromptD(false)}
+                      handleSave={onDecline}
+                      action={action}
+                      promptMessage={promptMessage}
+                  />
+              </div>
+      </ReactModal>
     </>
   )
 }
