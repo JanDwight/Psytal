@@ -225,7 +225,7 @@ export default function PreRegistration() {
                       ? 'bg-green-600'
                       : item.pre_reg_status === 'Pending'
                       ? 'bg-blue-600'
-                      : item.pre_reg_status === 'Decline'
+                      : item.pre_reg_status === 'Declined'
                       ? 'bg-red-600'
                       : ''
                   } w-fit py-2 px-2 rounded-xl`}>
