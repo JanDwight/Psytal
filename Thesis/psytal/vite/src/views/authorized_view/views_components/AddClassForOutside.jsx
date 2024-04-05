@@ -9,10 +9,10 @@ export default function AddClassForOutside({closeModal}) {
   const [courseTitle, setCourseTitle] = useState('');
   const [courseCode, setCourseCode] = useState('');
   const [classCode, setClassCode] = useState(''); // Define state for class code
-  const [courseType, setCourseType] = useState('Lec');
+  const [courseType, setCourseType] = useState('');
   const [units, setUnits] = useState('');
-  const [semester, setSemester] = useState('1st');
-  const [year, setYear] = useState('1');
+  const [semester, setSemester] = useState('');
+  const [year, setYear] = useState('');
   const [section, setSection] = useState('');
   const [instructorName, setInstructor] = useState(''); // Define state for instructor
 
@@ -109,7 +109,7 @@ export default function AddClassForOutside({closeModal}) {
                 className="block w-[49%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
                 required
             />
-              <label htmlFor="course_code" className="block text-sm text-gray-700">
+              <label htmlFor="course_code" className="ml-3 block text-sm text-gray-700">
               Course Code:
             </label>
             <input
@@ -131,7 +131,9 @@ export default function AddClassForOutside({closeModal}) {
                 name="course_type"
                 onChange={(e) => setCourseType(e.target.value)}
                 className="block w-[49%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                required
               >
+                <option value="" disabled={courseType !== ''}>Course Type</option>
                 <option value="Lec">Lecture</option>
                 <option value="Lab">Laboratory</option>
               </select>
@@ -164,8 +166,10 @@ export default function AddClassForOutside({closeModal}) {
                 id="semester"
                 name="semester"
                 onChange={(e) => setSemester(e.target.value)}
-                className="block w-[49%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              >
+                required
+                className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                >
+                <option value="" disabled={semester !== ''}>Select Semester</option>
                 <option value="1st">1st</option>
                 <option value="2nd">2nd</option>
                 <option value="Midyear">Midyear</option>
@@ -177,8 +181,10 @@ export default function AddClassForOutside({closeModal}) {
                   id="yrlvl"
                   name="yrlvl"
                   onChange={(e) => setYear(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  required
+                  className="block w-[90%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 >
+                  <option value="" disabled={year !== ''}>Year Level</option>
                   <option value="1st">1st</option>
                   <option value="2nd">2nd</option>
                   <option value="3rd">3rd</option>
@@ -202,16 +208,20 @@ export default function AddClassForOutside({closeModal}) {
                 <label htmlFor="section" className="block text-sm text-gray-700 px-2">
                   Section:
                 </label>
-                  <input
-                    id="section"
-                    name="section"
-                    type="text"
-                    maxLength={1}
-                    placeholder='Section'
-                    onChange={(e) => setSection(e.target.value)}
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
-                  />
+                <select
+                  id="section"
+                  name="section"
+                  onChange={(e) => setSection(e.target.value)}
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="" disabled={section !== ''}>Class Section</option>
+                  {[...Array(26)].map((_, index) => (
+                    <option key={index} value={String.fromCharCode(65 + index)}>
+                      {String.fromCharCode(65 + index)}
+                    </option>
+                  ))}
+                </select>
             </div>
             <div className="text-center flex justify-center">
                 <button type="submit" className="bg-[#0FE810]  hover:bg-lime-700 text-white font-bold py-2 px-4 mt-5 rounded-full">
