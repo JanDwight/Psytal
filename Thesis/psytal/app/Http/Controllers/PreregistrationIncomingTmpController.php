@@ -176,7 +176,8 @@ class PreregistrationIncomingTmpController extends Controller
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            //$item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            $item->new_student = $item->type_of_student;
             return $item ;
              
         });
@@ -200,7 +201,8 @@ class PreregistrationIncomingTmpController extends Controller
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             //Combine the last, first and middle name into a fullname
             $item->full_name = $item->last_name . ', ' . $item->first_name . ' ' . $middleInitial .'.';
-            $item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            //$item->new_student = ($item->year_level === '1' || $item->year_level === null) && ($item->semester === '1st Semester' || $item->semester === null) ? 'Incoming' : 'Continuing';
+            $item->new_student = $item->type_of_student;
             return $item ;
              
         });
@@ -229,12 +231,15 @@ class PreregistrationIncomingTmpController extends Controller
 
     // Extract the attributes from the request
     $data = $request->all();
+    $prStatus = $data['pre_reg_status'];
+
+    //if $data['pre_reg_status'] is "Declined"
     
     $preregData->update($data);
     
     $fullName = $preregData['last_name'] . ', ' . $preregData['first_name'] . ' ' . $preregData['middle_name'];
 
-    $this->storeLog('Pre-registration updated', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
+    $this->storeLog('Pre-registration ' . $prStatus, 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
     return response()->json(['message' => 'User updated successfully']);
     }

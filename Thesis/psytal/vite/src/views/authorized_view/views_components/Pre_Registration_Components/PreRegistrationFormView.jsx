@@ -195,7 +195,7 @@ const handleChangeUnits = (index, value) => {
     axiosClient
     // create Update function for preregincommingtmp
     .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Decline',
+      pre_reg_status: 'Declined',
     })
     .then(({ data }) => {
       ev.preventDefault();
@@ -318,7 +318,7 @@ const handleChangeUnits = (index, value) => {
         contact_person_address: preregData.contact_person_address,
         contact_person_relationship: preregData.contact_person_relationship,
         pre_reg_status: 'Accepted',
-        type_of_student: 'Regular',
+        type_of_student: 'Incoming',
       }).then(response => {
         // Run the second axios call
         axiosClient.post('/student_subject', {
@@ -365,7 +365,7 @@ const handleChangeUnits = (index, value) => {
               complied_to_admission_policy: preregData.complied_to_admission_policy,
             
               pre_reg_status: 'Accepted',
-              type_of_student: 'Regular',
+              type_of_student: 'Incoming',
             }).then(response => {
               //for sending emails============================================================================
               // Assuming formData is your FormData object
