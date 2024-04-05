@@ -1470,7 +1470,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
      {/**=========================== 4 ==========================*/}      
         {/**Start of Filling the FORM for CLASS CODES UNITS*/}
         <div className="w-full lg:w-8/12 px-4 container mx-auto">   
-        <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
+            <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
                     <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         <div className="text-normal font-medium text-center mt-2">
                             SECTION/COURSE(S) TO BE ENROLLED : FOR IRREGULAR STUDENT
@@ -1692,7 +1692,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
       {/**=====================================================*/}   
       {prereg.pre_reg_status === 'Accepted' && (
-            <div className="text-center flex justify-end my-8">
+            <div className="text-center flex justify-end my-8 mr-20">
               <div className='space-x-3'>
                 <a href="#preRegTop">
                   <button hidden={allowEdit === 'auto'} onClick={allowChange} type="button" className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full">
