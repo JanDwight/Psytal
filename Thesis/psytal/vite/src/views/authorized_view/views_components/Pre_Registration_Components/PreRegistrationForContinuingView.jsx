@@ -181,7 +181,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         setInputFields(values);
       }
       const onDecline = () => {
-        //ev.preventDefault();
+       
         
         axiosClient
         // create Update function for preregincommingtmp
@@ -189,7 +189,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
           pre_reg_status: 'Declined'
         })
         .then(({ data }) => {
-          //ev.preventDefault();
+         
           //for sending emails============================================================================
           // Assuming formData is your FormData object
           let formData = new FormData();
@@ -301,7 +301,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
        //On Accept Click
         const onClickAccept = (ev) => {
-          ev.preventDefault();
+         
           setError({ __html: "" });
         //--------------------------// <><><><><>
         axiosClient.post('/student_subject', {
