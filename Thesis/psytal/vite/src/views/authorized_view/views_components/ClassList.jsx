@@ -98,7 +98,7 @@ handleSaveClassChanges = () => {
     // Apply filtering for searchbar
     const filteredData = data.filter(
       (classes) =>
-        classes.course_code.toString().includes(filterText) || // Filter by ID
+        classes.course_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
         classes.class_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
         classes.course_title.toLowerCase().includes(filterText.toLowerCase()) ||
         classes.class_year.toLowerCase().includes(filterText.toLowerCase()) ||

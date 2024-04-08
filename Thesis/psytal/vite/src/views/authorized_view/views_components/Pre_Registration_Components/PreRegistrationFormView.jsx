@@ -1845,12 +1845,11 @@ const handleChangeUnits = (index, value) => {
          {/**===========SUMBIT Button============= */}
           {prereg.pre_reg_status !== 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              <button onClick={promptDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                Decline
-              </button>
-              {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                Return
-              </button> */}
+              {prereg.pre_reg_status === 'Pending' && (
+                <button onClick={promptDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                  Decline
+                </button>
+               )}
               <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Accept
               </button>

@@ -53,6 +53,7 @@ export default function Classes(){
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedSection, setSelectedSection] = useState(null);
     const {userRole} = useStateContext(''); //just refresh server
+    const menuItems = ['All', 'TBA', ...[...Array(26)].map((_, i) => String.fromCharCode(65 + i))];
     
     //filter semester
     const handleSemester = (semester) => {
@@ -242,43 +243,19 @@ export default function Classes(){
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              <button onClick={() => handleSection('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              >
-                                ALL
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('A')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500' }
-                              >
-                                A
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('B')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              > 
-                                B
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('C')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              > 
-                                C
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('TBA')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              > 
-                                TBA
-                              </button>
-                            </Menu.Item>
+                       
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto">
+                            {menuItems.map((letter, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleSection(letter)}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
+                                >
+                                  {letter}
+                                </button>
+                              </Menu.Item>
+                            ))}
                           </Menu.Items>
+                       
                         </Transition>
                       </Menu>
                           </th> 
