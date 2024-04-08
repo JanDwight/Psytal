@@ -93,9 +93,10 @@ export default function PreRegistrationFormView({prereg}) {
   }, []);
 
     //<><><><><>
-    const [inputFields, setInputFields] = useState([
+    /*const [inputFields, setInputFields] = useState([
       { class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' }, //changed classCode to classId
-    ]);
+    ]);*/
+    const [inputFields, setInputFields] = useState([]);
 
     // Check if class_year is "1st" and semester is "1st"
     useEffect(() => {
@@ -118,11 +119,12 @@ export default function PreRegistrationFormView({prereg}) {
     
 
     // If you want to add fields when there is more data
-    useEffect(() => {
+    /*useEffect(() => {
       if (subjectData.length !== inputFields.length) {
         handleAddFields();
       }
-    }, [subjectData]);
+    //ADDS EXTRA INPUTFIELD IN COURSES TO BE ENROLLED
+    }, [subjectData]);*/ 
 
     const handleClearSubjects = () => {
       // Clear the inputFields state and set totalUnits to 0
@@ -165,6 +167,7 @@ const handleAddFields = () => {
   const newFields = { class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' };
 
   setInputFields((prevFields) => [...prevFields, newFields]);
+  //setInputFields([...inputFields, { classCode: '', courseCode: '', units: '', bcac: 'N/A' }]);
 };
 
 // For removing fields
@@ -362,7 +365,8 @@ const handleChangeUnits = (index, value) => {
         // Run the second axios call
         axiosClient.post('/student_subject', {
             studentData: preregData,
-            subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+            subjectData: inputFields.map(field => ({ ...field })),
+            //subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
         }).then(response => {
           //prereg update===============================================================================
             axiosClient
@@ -488,6 +492,18 @@ const handleChangeUnits = (index, value) => {
                 setSuccessMessage(response.data.message);
                 setSuccessStatus(response.data.success);
               })
+          //need to save changes to subject too
+          /*
+            TRY THIS ONLY FOR SUBJECTS, REMOVE OR UPDATE STUDENT CLASSES: 
+            axiosClient.post('/student_subject', {
+            studentData: preregData,
+            subjectData: inputFields.map(field => ({ ...field })),
+            LOGIC: 
+              >Take student ID, current year and semester (1st sem, 1st year), search for all his/her subjects
+              >delete all found subjects then replace with the new
+              >updated
+          
+          */
       
   }
 

@@ -186,7 +186,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         axiosClient
         // create Update function for preregincommingtmp
         .put(`/preregcheck/${preregData.id}`, {
-          pre_reg_status: 'Decline'
+          pre_reg_status: 'Declined'
         })
         .then(({ data }) => {
           //ev.preventDefault();
