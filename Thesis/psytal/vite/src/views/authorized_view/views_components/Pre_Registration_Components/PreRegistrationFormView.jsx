@@ -1687,7 +1687,7 @@ const handleChangeUnits = (index, value) => {
                         </div><hr className='mt-2'/>
 
                         { inputFields.map((inputField, index) => (
-                            <div key={index} className="flex flex-wrap flex-row px-3 -mx-3 mt-3 mb-3">
+                            <div style={{pointerEvents:'none'}} key={index} className="flex flex-wrap flex-row px-3 -mx-3 mt-3 mb-3">
                                 {/**Class code */}
                                 <div className="w-full md:w-[25%] pr-1">
                                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={`grid-classcode`}>
