@@ -28,8 +28,13 @@ export default function PreRegistration() {
     };
 
   const handleFilter = (filterValue) => {
-    setActiveFilter(filterValue); // Update active filter state
-    setFilter(filterValue);
+    if(filterValue === 'All'){
+      setActiveFilter(''); // Update active filter state
+      setFilter('');
+    } else{
+      setActiveFilter(filterValue); // Update active filter state
+      setFilter(filterValue);
+    }
   };
 
   useEffect(() => {
@@ -120,18 +125,6 @@ export default function PreRegistration() {
             ></input>
           </div>
 
-          <button
-            className={`bg-${activeFilter === 'Incoming' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10 hover:border-lime-600`}
-            onClick={() => handleFilter('Incoming')}
-          >
-            Incoming Student
-          </button>
-          <button
-            className={`bg-${activeFilter === 'Continuing' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10 hover:border-lime-600`}
-            onClick={() => handleFilter('Continuing')}
-          >
-            Continuing Student
-          </button>
         </div>
       </div>
       <div className="mt-2 mb-5"></div>
@@ -147,9 +140,36 @@ export default function PreRegistration() {
               Date of Submission
               {sortByDateAsc ? <span>&#9650;</span> : <span>&#9660;</span>}
             </th>
-              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
+              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>
+                <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
+                            Pre-Registration Type
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {['All', 'Incoming', 'Continuing'].map((status, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleFilter(status)}
+                                  className="block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500"
+                                >
+                                  {status}
+                                </button>
+                              </Menu.Item>
+                            ))}
+                          </Menu.Items>
+                        </Transition>
+                    </Menu></th>
               <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>
-              <Menu as="div" className="relative block text-left">
+                    <Menu as="div" className="relative block text-left">
                           <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Status
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -163,38 +183,19 @@ export default function PreRegistration() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              <button onClick={() => handleStatus('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              >
-                                ALL
-                              </button>
-                              </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleStatus('Pending')}
-                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                              >
-                                Pending
-                              </button>
-                              </Menu.Item>
-                            <Menu.Item>
-                                <button onClick={() => handleStatus('Accepted')}
-                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
+                          <Menu.Items className="fixed z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {['All', 'Pending', 'Accepted', 'Declined'].map((status, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleStatus(status)}
+                                  className="block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500"
                                 >
-                                  Accepted
+                                  {status}
                                 </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <button onClick={() => handleStatus('Declined')}
-                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
-                                >
-                                  Declined
-                                </button>
-                            </Menu.Item>
+                              </Menu.Item>
+                            ))}
                           </Menu.Items>
                         </Transition>
-                      </Menu>
+                    </Menu>
               </th>
             </tr>
           </thead>
