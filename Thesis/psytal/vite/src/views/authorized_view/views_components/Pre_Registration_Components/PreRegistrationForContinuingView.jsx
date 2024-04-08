@@ -185,7 +185,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         setInputFields(values);
       }
       const onDecline = () => {
-        //ev.preventDefault();
+       
         
         setSuccessMessage('Loading...');
         setSuccessStatus('Loading');
@@ -196,7 +196,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
           pre_reg_status: 'Declined'
         })
         .then(({ data }) => {
-          //ev.preventDefault();
+         
           //for sending emails============================================================================
           // Assuming formData is your FormData object
           let formData = new FormData();
@@ -312,7 +312,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
         
           setSuccessMessage('Loading...');
           setSuccessStatus('Loading');
-  
+          
           setError({ __html: "" });
         //--------------------------// <><><><><>
         axiosClient.post('/student_subject', {
