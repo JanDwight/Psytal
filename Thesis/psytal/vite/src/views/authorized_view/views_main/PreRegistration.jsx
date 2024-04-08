@@ -186,7 +186,7 @@ export default function PreRegistration() {
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
-                                <button onClick={() => handleStatus('Decline')}
+                                <button onClick={() => handleStatus('Declined')}
                                   className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                                 >
                                   Declined
