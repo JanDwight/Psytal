@@ -164,7 +164,8 @@ class PreregistrationIncomingTmpController extends Controller
     {
 
         $PreReg = DB::table('preregistration_incoming_tmps')
-         ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
          
          $PreReg = $PreReg->map(function ($item) {

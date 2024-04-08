@@ -52,7 +52,10 @@ class LinksController extends Controller
     public function getLinks()
     {
         try {
-            $links = Links::where('archived', 0)->get(); // Retrieve all links from the database
+            //$links = Links::where('archived', 0)->get(); // Retrieve all links from the database
+            $links = Links::where('archived', 0)
+                ->latest() // Order the links by the created_at column in descending order
+                ->get();
             return response()->json(['links' => $links], 200);
             $link -> update(['archive'=>1]);
         } catch (\Exception $e) {
