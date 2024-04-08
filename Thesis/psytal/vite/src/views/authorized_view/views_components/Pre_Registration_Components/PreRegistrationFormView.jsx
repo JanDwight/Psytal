@@ -248,7 +248,8 @@ const handleChangeUnits = (index, value) => {
   //On Decline Click
   const onDecline = () => {
     //ev.preventDefault();
-    
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
     axiosClient
     // create Update function for preregincommingtmp
     .put(`/preregcheck/${id}`, {
@@ -282,6 +283,9 @@ const handleChangeUnits = (index, value) => {
   const onClickAccept = () => {
     //ev.preventDefault();
 
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
+    
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
