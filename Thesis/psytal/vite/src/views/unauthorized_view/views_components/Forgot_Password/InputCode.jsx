@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import axiosClient from '../../../../axios';
+import Feedback from '../../../feedback/Feedback';
 
 export default function InputCode({ closeModal, propData}) {
   const [userCode, setUserCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [successStatus, setSuccessStatus] = useState('')
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
+
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
 
     // Check if userCode matches the code in formData
     if (propData && userCode === propData.code) {
@@ -16,7 +20,7 @@ export default function InputCode({ closeModal, propData}) {
       try {
         const response = await axiosClient.put('/changepassword', {
           email: propData.email,
-        });
+        })
 
         // Assuming the API response structure is { new_password: 'your_password' }
         const newPasswordFromResponse = response.data.new_password;
@@ -28,44 +32,32 @@ export default function InputCode({ closeModal, propData}) {
         newFormData.append('newPassword', newPasswordFromResponse);
         newFormData.append('email', propData.email);
 
-        await axiosClient.get('/sendnewpassword', {
+        const sendNewPassResponse = await axiosClient.get('/sendnewpassword', {
           params: Object.fromEntries(newFormData), // Convert FormData to plain object
         });
 
-        setSuccessMessage({
-          message: 'Your password was changed successfully!\n Please check your email for your new password.',
-        });
-        setSuccessStatus(true)
-
-        setTimeout(() => {
-          setSuccessMessage(null);
-          closeModal();
-          window.location.reload();
-        }, 7000);
+        setSuccessMessage(sendNewPassResponse.data.message);
+        setSuccessStatus(sendNewPassResponse.data.success);
 
       } catch (error) {
         console.error('Error updating password:', error);
-        // Handle error appropriately
+        setSuccessMessage(error.message);
+        setSuccessStatus(false);
       }
-    } else {
-      // Code is incorrect, handle accordingly
-      setSuccessMessage({
-        message: 'Incorrect code.',
-      });
-      setSuccessStatus(false)
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 5000);
+    }else {
+      setSuccessMessage('Incorrect Code');
+      setSuccessStatus(false);
     }
+
   };
 
   return (
     <>
+    <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
       <div className='flex min-h-[100%] flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8'>
         <div className='flex items-center justify-between'>
-          <label htmlFor='password' className='block text-xl font-medium leading-6 text-gray-900'>
-            Please Enter The 4-Digit Code We Sent You:
+          <label htmlFor='password' className='pb-3 block text-xl font-medium leading-6 text-gray-900'>
+            Enter The 4-Digit Code Sent To Your Email:
           </label>
         </div>
 
@@ -90,17 +82,6 @@ export default function InputCode({ closeModal, propData}) {
           </div>
         </form>
       </div>
-      {successMessage && (
-        <div className="fixed top-0 left-0 w-[100%] h-[100%] overflow-y-auto bg-black bg-opacity-50">
-        <div className={`lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit rounded-xl mt-[10%] mx-auto p-5 ${successStatus === false ? 'bg-red-500' : 'bg-green-500'}`}>
-            <div className="w-[100%] px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-white font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
