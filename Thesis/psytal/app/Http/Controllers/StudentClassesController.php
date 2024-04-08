@@ -7,6 +7,7 @@ use App\Models\student_classes;
 use App\Models\student_profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StudentClassesController extends Controller
 {
@@ -35,7 +36,7 @@ class StudentClassesController extends Controller
         $studentProfileId = $request->query('student_profile_id'); // Fetching 'student_profile_id' from the request
         
         $studentSubjects = student_classes::where('student_profile_id', $studentProfileId)->get();
-    
+
         $classDetails = [];
     
         foreach ($studentSubjects as $subject) {
@@ -60,7 +61,7 @@ class StudentClassesController extends Controller
         ->where('first_name',$request["first_name"])
         ->where('middle_name',$request["middle_name"])
         ->first();
-        $studentSubjects = student_classes::where('student_profile_id', $studentProfile["student_profile_id"])->get();
+        $studentSubjects = DB::table('student_classes')->where('student_profile_id', $studentProfile["student_profile_id"])->get();
     
         $classDetails = [];
     

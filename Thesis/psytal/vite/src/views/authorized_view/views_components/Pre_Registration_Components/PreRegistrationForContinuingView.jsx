@@ -23,7 +23,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
 
-    const [allowEdit, setAllowEdit] = useState(''); // auto=editable, none=not editable\
+    const [allowEdit, setAllowEdit] = useState(''); // auto=editable, auto=not editable\
     const [showPromptA, setShowPromptA] = useState(false);
     const [showPromptD, setShowPromptD] = useState(false);
     const [promptMessage, setPromptMessage] = useState('');
@@ -64,6 +64,10 @@ export default function PreRegistrationForContinuingView({prereg}) {
     setPromptMessage(concatmessage);
     setShowPromptD(true);
   }
+
+    const [selectedClassYear, setSelectedClassYear] = useState('All');
+
+    const uniqueClassYears = ['Class Year', '1st', '2nd', '3rd', '4th'];
 
     const allowChange = () => {
       setAllowEdit('auto');
@@ -183,6 +187,9 @@ export default function PreRegistrationForContinuingView({prereg}) {
       const onDecline = () => {
         //ev.preventDefault();
         
+        setSuccessMessage('Loading...');
+        setSuccessStatus('Loading');
+
         axiosClient
         // create Update function for preregincommingtmp
         .put(`/preregcheck/${preregData.id}`, {
@@ -301,7 +308,11 @@ export default function PreRegistrationForContinuingView({prereg}) {
 
        //On Accept Click
         const onClickAccept = (ev) => {
-          ev.preventDefault();
+          // ev.preventDefault();
+        
+          setSuccessMessage('Loading...');
+          setSuccessStatus('Loading');
+  
           setError({ __html: "" });
         //--------------------------// <><><><><>
         axiosClient.post('/student_subject', {
@@ -1749,17 +1760,35 @@ export default function PreRegistrationForContinuingView({prereg}) {
                           <thead>
                               <tr>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Code</th>
-                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Year</th>
+                                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">
+                                    <div className="relative">
+                                      <select
+                                        id="classYearFilter"
+                                        name="classYearFilter"
+                                        className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        value={selectedClassYear}
+                                        onChange={e => setSelectedClassYear(e.target.value)}
+                                      >
+                                          <option value={'1st'}>1st</option>
+                                          <option value={'2nd'}>2nd</option>
+                                          <option value={'3rd'}>3rd</option>
+                                          <option value={'4th'}>4th</option>
+                                      </select>
+                                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        </svg>
+                                      </div>
+                                    </div>
+                                  </th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Semester</th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Course Title</th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Grade</th>
                               </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
-                            {studentCheckList.some(item => item.grade !== '0') ? (
+                            {studentCheckList.some(item => (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0') ? (
                               studentCheckList.map((item, index) => (
-                                // Check if the grade is non-zero before rendering the row
-                                item.grade !== 0 && (
+                                (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0' && (
                                   <tr key={index}>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.class_code}</td>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
@@ -1770,7 +1799,6 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                 )
                               ))
                             ) : (
-                              // Render "nothing to show" if all grades are 0
                               <tr>
                                 <td colSpan="5" className="px-6 py-4 whitespace-no-wrap text-center">Nothing to show</td>
                               </tr>

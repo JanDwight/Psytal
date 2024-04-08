@@ -41,6 +41,10 @@ export default function AddUsers({ onClose}) {
   
   //add users onsubmit
   const onSubmit = async () => {
+            
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
+
     // Password generator
     const numbers = '0123456789';
     const symbols = '!@#$%^&*()_+{}[]~-';

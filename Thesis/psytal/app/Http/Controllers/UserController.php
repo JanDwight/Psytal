@@ -178,7 +178,7 @@ class UserController extends Controller
             
                 // Additional logic if needed
 
-                $this->storeLog('User password changed', 'user', $users['name'], 'users');
+                $this->storeForgotPasswordLog('User password changed', 'user', $users[0], 'users');
             
                 return response()->json(['success' => true, 'message' => 'Password Changed', 'new_password' => $newPassword]);
             } else {
@@ -277,6 +277,23 @@ class UserController extends Controller
             'user_name' => auth()->user()->name,
             'user_id' => auth()->user()->id,
             'user_type' => auth()->user()->role,
+        ]);
+
+        // Optionally, you can return the created log instance
+        return $logs;
+    }
+
+    public function storeForgotPasswordLog($actionTaken, $itemType, $item, $itemOrigin)
+    {
+        // Create a new Log instance
+        $logs = logs::create([
+            'action_taken' => $actionTaken,
+            'item_type' => $itemType,
+            'item_name' => $item->name,
+            'item_origin' => $itemOrigin,
+            'user_name' => $item->name,
+            'user_id' => $item->id,
+            'user_type' => $item->role,
         ]);
 
         // Optionally, you can return the created log instance
