@@ -113,7 +113,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
-      <div className="relative bg-white w-full lg:w-1/2 px-4 py-4 shadow-lg rounded-lg">
+      <div className="relative bg-white h-4/5 w-3/4 px-4 py-4 shadow-lg rounded-lg">
           {/* Exit (Close) Button */}
           <button
             onClick={onClose}
@@ -121,46 +121,48 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
           >
             X
           </button>
-        <div className='overflow-y-auto'>
+        <div className='h-full'>
           <strong className='text-lg'>{selectedStudent.full_name}</strong>
           <br></br>
           <div className='flex justify-between'>
             <h1>Grades for {semesterInfo.semester}</h1> {/*current semester info*/}
             <strong hidden={allowEdit}>*Editing grades is now enabled.</strong> {/*current semester info*/}
           </div>
-          <table className="table w-full table-striped text-gray-700 mb-3 border border-gray-300">
-            <thead>
-              <tr>
-                <th className="text-left bg-gray-200 p-2">Class Code</th>
-                <th className="text-left bg-gray-200 p-2">Course Title</th>
-                <th className="text-left bg-gray-200 p-2">Section</th>
-                <th className="text-left bg-gray-200 p-2">Grade</th>
-              </tr>
-            </thead>
-            <tbody>
-              {studentClasses.map((grade, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                  <td className="text-left p-2 w-1/6">{grade.class_code}</td>
-                  <td className="text-left p-2 w-2/6">{grade.course_title}</td>
-                  <td className="text-left p-2 w-1/6">{grade.class_section}</td>
-                  <td className="text-left p-2 w-2/6">
-                    <select
-                      value={grade.grade}
-                      disabled={allowEdit}
-                      onChange={(event) => handleGradeChange(index, event)}
-                      className="border rounded-md px-2 py-1 w-full"
-                    >
-                      {['No Grade to Show', 1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0].map(option => (
-                        <option key={option} value={option}>{option}</option>
-                      ))}
-                    </select>
-                  </td>
+          <div className='relative h-4/5 overflow-y-auto'>
+            <table className="w-full table-striped text-gray-700 mb-3 border border-gray-300 h-full">
+              <thead className="sticky top-0 bg-black z-10">
+                <tr>
+                  <th className="text-left bg-gray-200 p-2">Class Code</th>
+                  <th className="text-left bg-gray-200 p-2">Course Title</th>
+                  <th className="text-left bg-gray-200 p-2">Section</th>
+                  <th className="text-left bg-gray-200 p-2">Grade</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          
-          <div className='flex justify-end'>
+              </thead>
+              <tbody>
+                {studentClasses.map((grade, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
+                    <td className="text-left p-2 w-1/6">{grade.class_code}</td>
+                    <td className="text-left p-2 w-2/6">{grade.course_title}</td>
+                    <td className="text-left p-2 w-1/6">{grade.class_section}</td>
+                    <td className="text-left p-2 w-2/6">
+                      <select
+                        value={grade.grade}
+                        disabled={allowEdit}
+                        onChange={(event) => handleGradeChange(index, event)}
+                        className="border rounded-md px-2 py-1 w-full"
+                      >
+                          <option value="0">No Grade to Show</option>
+                        {[ 1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0].map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className='flex justify-end mt-4'>
             <button hidden={!allowEdit}  onClick={() => {setAllowEdit(false)}} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               Allow Editing
             </button>
