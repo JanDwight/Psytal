@@ -18,8 +18,14 @@ export default function Curriculum(){
       const [showEditcourse, setShowEditcourse]= useState(false);
       const [selectedcourse, setSelectedcourse] = useState([]);
       const [errors, setErrors] = useState({ __html: '' });
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
+        //filters
+        const [selectedSemester, setSelectedSemester] = useState(null);
+        const [selectedYear, setSelectedYear] = useState(null);
+        const [selectedSection, setSelectedSection] = useState(null);
      
       const handleArchiveClick = (curriculum) => {
         setShowArchivecourse(true);
@@ -33,8 +39,7 @@ export default function Curriculum(){
 
 
       // Calling the AddCourse
-      const [isModalOpen, setIsModalOpen] = useState(false);
-      const [curriculum, setCurriculum] = useState([]);   
+     
         useEffect(() => {
             fetchCurriculum();
           }, []);
@@ -47,12 +52,6 @@ export default function Curriculum(){
               console.error(error);
             }
           };
-
-
-          //filters
-          const [selectedSemester, setSelectedSemester] = useState(null);
-          const [selectedYear, setSelectedYear] = useState(null);
-          const [selectedSection, setSelectedSection] = useState(null);
           
           //filter semester
           const handleSemester = (semester) => {

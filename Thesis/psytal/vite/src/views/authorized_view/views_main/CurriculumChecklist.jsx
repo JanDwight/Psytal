@@ -4,6 +4,8 @@ import ReactModal from 'react-modal';
 
 export default function CurriculumChecklist(){
       const [errors, setErrors] = useState({ __html: '' });
+      const [curriculum, setCurriculum] = useState([]);
+      const [grade, setGrade] = useState([]);      
       const [filterText, setFilterText] = useState(''); //for search
 
       //disclaimers
@@ -18,7 +20,7 @@ export default function CurriculumChecklist(){
         
     // should be connected to studentclasslist of instructors to update grade values
     // add to admin/staff layout so they can edit the grades during pre-regristration period
-      const [curriculum, setCurriculum] = useState([]);   
+      
         useEffect(() => {
             fetchCurriculum();
           }, []);
@@ -31,8 +33,6 @@ export default function CurriculumChecklist(){
               console.error(error);
             }
           };
-
-          const [grade, setGrade] = useState([]);   
           
           useEffect(() => {
               fetchGrade();
@@ -55,7 +55,7 @@ export default function CurriculumChecklist(){
     curriculum.course_code.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.units.toString().includes(filterText) ||
     curriculum.course_title.toLowerCase().includes(filterText.toLowerCase()) ||
-    curriculum.hoursperWeek.toString().includes(filterText) ||
+    //curriculum.hoursperWeek.toString().includes(filterText) ||
     curriculum.course_type.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.preReq.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.grade.toString().includes(filterText) // this should be from studentclasslist db
