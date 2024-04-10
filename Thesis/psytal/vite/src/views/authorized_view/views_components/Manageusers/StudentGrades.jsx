@@ -17,6 +17,21 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
 
+  const [selectedSemester, setSelectedSemester] = useState('');
+  const [currentSemester, setCurrentSemester] = useState('');
+  const [uniqueTerms, setUniqueTerms] = useState([]);
+
+  //<><><><><>
+  const handleSelectSemester = (selectedOption) => {
+    //|| 'none'
+    //what is default semester?
+    setSelectedSemester(selectedOption);
+    console.log('Chosen: ', selectedOption);
+    console.log('Term List: ', uniqueTerms);
+    console.log('Current Semester: ', currentSemester);
+  }
+
+  //if selectedsemester = currentsemester then allow editing (show buttons, else disable them)
 
   //<><><><><>
   const editprompt = (ev) => {
@@ -36,7 +51,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
       const response = await axiosClient.get('getstudentclasses', {
         params: { student_profile_id: selectedStudent.student_profile_id }
       });
-      const zeroGradesCount = response.data.filter(item => item.grade === '0' || item.grade === 'No Grade to Show').length;
+      const zeroGradesCount = response.data.classdetails.filter(item => item.grade === '0' || item.grade === 'No Grade to Show').length;
       const totalItemCount = response.data.length;
       if (zeroGradesCount !== totalItemCount) {
         console.log('Comparison Result: FALSE, should update');
@@ -47,7 +62,21 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
       }
 
       console.log('Update Yes or No: ', zeroGradesCount);
-      setStudentClasses(response.data);
+      console.log('Terms: ', response.data.terms)
+      //
+      const updatedClassDetails = response.data.classdetails.map(item => {
+        if (item.term === 'none') {
+            return { ...item, term: currentSemester };
+        } else {
+            return item;
+        }
+      });
+
+      //console.log('New Class: ', updatedClassDetails);
+      //
+      //setStudentClasses(response.data.classdetails);
+      setStudentClasses(updatedClassDetails);
+      setUniqueTerms(response.data.terms);
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -60,6 +89,40 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
     try{
           const response = await axiosClient.get('/getsemesterinformation');
           setSemesterInfo(response.data);
+          setSelectedSemester(response.data.semester);
+          setCurrentSemester(response.data.semester);
+          //
+          
+            const response_2 = await axiosClient.get('getstudentclasses', {
+              params: { student_profile_id: selectedStudent.student_profile_id }
+            });
+            const zeroGradesCount = response_2.data.classdetails.filter(item => item.grade === '0' || item.grade === 'No Grade to Show').length;
+            const totalItemCount = response_2.data.length;
+            if (zeroGradesCount !== totalItemCount) {
+              console.log('Comparison Result: FALSE, should update');
+              setGradeStat(false);
+            } else {
+              console.log('Comparison Result: TRUE, should save');
+              setGradeStat(true);
+            }
+      
+            console.log('Update Yes or No: ', zeroGradesCount);
+            console.log('Terms: ', response_2.data.terms)
+            //
+      
+            const updatedClassDetails = response_2.data.classdetails.map(item => {
+              if (item.term === 'none') {
+                  return { ...item, term: response.data.semester };
+              } else {
+                  return item;
+              }
+            });
+      
+            console.log('New Class: ', updatedClassDetails);
+            setStudentClasses(updatedClassDetails);
+            setUniqueTerms(response_2.data.terms);
+            setLoading(false);
+      
     } catch (error) {
           console.log('Error: ', error);
     }
@@ -67,7 +130,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
 
   useEffect(() => {
     fetchSemesterInfo();
-    fetchStudentClasses();
+    //fetchStudentClasses();
   }, [selectedStudent]);
 
   const handleGradeChange = (index, event) => {
@@ -78,10 +141,11 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
 
   const handleSaveGrades = async () => {
     try {
-      const response = await axiosClient.put('updatestudentgrades', {studentClasses, student_id: selectedStudent.student_profile_id});
+      const response = await axiosClient.put('updatestudentgrades', {studentClasses, student_id: selectedStudent.student_profile_id, currentSemester: selectedSemester}); //issue with currenSemester
       
       setAllowEdit(!allowEdit);
-      fetchStudentClasses();
+      fetchSemesterInfo();
+      //fetchStudentClasses();
       
       const message_x = response.data.message;
       let message_y;
@@ -124,9 +188,22 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
         <div className='h-full'>
           <strong className='text-lg'>{selectedStudent.full_name}</strong>
           <br></br>
-          <div className='flex justify-between'>
-            <h1>Grades for {semesterInfo.semester}</h1> {/*current semester info*/}
-            <strong hidden={allowEdit}>*Editing grades is now enabled.</strong> {/*current semester info*/}
+          <div className='flex justify-between mb-2'>
+            <h1>Grades for: {/*Space*/}
+              <b>
+                <select
+                      className="rounded-md border border-gray-300 pl-5 pr-9 py-1"
+                      onChange={(event) => handleSelectSemester(event.target.value)}
+                      >
+                        <option value={currentSemester}>{currentSemester}</option>
+                        {uniqueTerms.map((option, index) => (
+                          (option !== currentSemester && option !== 'none') && 
+                          <option key={index} value={option}>{option}</option>
+                        ))}
+                </select>
+              </b>
+            </h1>
+            <strong hidden={allowEdit}>*Editing grades is now enabled.</strong>
           </div>
           <div className='relative h-4/5 overflow-y-auto'>
             <table className="w-full table-striped text-gray-700 mb-3 border border-gray-300 h-full">
@@ -139,30 +216,38 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
                 </tr>
               </thead>
               <tbody>
-                {studentClasses.map((grade, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
-                    <td className="text-left p-2 w-1/6">{grade.class_code}</td>
-                    <td className="text-left p-2 w-2/6">{grade.course_title}</td>
-                    <td className="text-left p-2 w-1/6">{grade.class_section}</td>
-                    <td className="text-left p-2 w-2/6">
-                      <select
-                        value={grade.grade}
-                        disabled={allowEdit}
-                        onChange={(event) => handleGradeChange(index, event)}
-                        className="border rounded-md px-2 py-1 w-full"
-                      >
+              {studentClasses.map((grade, index) => {
+                // Check if the class matches the selected semester
+                const isVisible = grade.term === selectedSemester;
+
+                return (
+                  // Render only if the class matches the selected semester
+                  isVisible && (
+                    <tr key={index} className={index % 1 === 0 ? 'odd:bg-green-100' : 'bg-white'}>
+                      <td className="text-left p-2 w-1/6">{grade.class_code}</td>
+                      <td className="text-left p-2 w-2/6">{grade.course_title}</td>
+                      <td className="text-left p-2 w-1/6">{grade.class_section}</td>
+                      <td className="text-left p-2 w-2/6">
+                        <select
+                          value={grade.grade}
+                          disabled={allowEdit}
+                          onChange={(event) => handleGradeChange(index, event)}
+                          className="border rounded-md px-2 py-1 w-full"
+                        >
                           <option value="0">No Grade to Show</option>
-                        {[ 1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0].map(option => (
-                          <option key={option} value={option}>{option}</option>
-                        ))}
-                      </select>
-                    </td>
-                  </tr>
-                ))}
+                          {[1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0].map(option => (
+                            <option key={option} value={option}>{option}</option>
+                          ))}
+                        </select>
+                      </td>
+                    </tr>
+                  )
+                );
+              })}
               </tbody>
             </table>
           </div>
-          <div className='flex justify-end mt-4'>
+          <div className='flex justify-end mt-2'>
             <button hidden={!allowEdit}  onClick={() => {setAllowEdit(false)}} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-4 rounded-full">
               Allow Editing
             </button>

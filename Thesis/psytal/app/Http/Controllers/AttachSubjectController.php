@@ -160,8 +160,11 @@ public function editGrade(Request $request)
     // Validate the incoming request data
     $validatedData = $request->validate([
         'student_id' => 'required',
-        'studentClasses' => 'required|array'
+        'currentSemester' => 'required',
+        'studentClasses' => 'required|array',
     ]);
+
+    $currrentSem = $validatedData['currentSemester'];
 
     try {
         // Find the student
@@ -169,10 +172,15 @@ public function editGrade(Request $request)
 
         if (!$student) {
             return response()->json([
-                'message' => 'Student not found',
+                'message' => ' Student not found',
                 'success' => false
             ]);
-        }
+        } /*else {
+            return response()->json([
+                'message' => ' Student found '. $currrentSem,
+                'success' => true
+            ]);
+        }*/ //runs up to here...
 
         // Update each class grade
         foreach ($validatedData['studentClasses'] as $class) {
@@ -182,10 +190,16 @@ public function editGrade(Request $request)
             if ($studentClass) {
                 $studentClass->update([
                     'grade' => $class['grade'],
-                    'ongoing' => 1
+                    'ongoing' => 1,
                 ]);
             } else {
                 // Handle if student class not found
+            }
+            if ($studentClass['term'] === 'none'){
+                $studentClass->update([
+                    'term' => $currrentSem
+                ]);
+                //set all 'none' terms/semesters to the current semester from frontend
             }
         }
 
