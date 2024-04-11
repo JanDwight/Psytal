@@ -84,7 +84,7 @@ export default function GuestLayout() {
                 </div>
                 </div>
               {/* 2nd Header */}
-                <div className="md:flex justify-center items-center px-10 py-2 bg-[#739072]">
+                <div className="md:flex hidden justify-center items-center px-10 py-2 bg-[#739072]">
                 <div>
                   <div className="ml-10 flex items-baseline space-x-10">
                     {dynamicNavigation.map((item) => (

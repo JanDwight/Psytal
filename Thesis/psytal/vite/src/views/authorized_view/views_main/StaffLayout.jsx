@@ -382,7 +382,7 @@ export default function StaffLayout() {
       </div>
     </ReactModal>
 
-      <Navigate to='/staff/home' /> {/**This prevents the user from gaining access to /admin URL*/}
+      {/** <Navigate to='/staff/home' /> This prevents the user from gaining access to /admin URL*/}
     </>
   );
 }
