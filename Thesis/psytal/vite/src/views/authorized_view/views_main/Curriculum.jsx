@@ -22,10 +22,12 @@ export default function Curriculum(){
       const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
-        //filters
-        const [selectedSemester, setSelectedSemester] = useState(null);
-        const [selectedYear, setSelectedYear] = useState(null);
-        const [selectedSection, setSelectedSection] = useState(null);
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [curriculum, setCurriculum] = useState([]);
+      //filters
+      const [selectedSemester, setSelectedSemester] = useState(null);
+      const [selectedYear, setSelectedYear] = useState(null);
+      const [selectedSection, setSelectedSection] = useState(null); 
      
       const handleArchiveClick = (curriculum) => {
         setShowArchivecourse(true);
@@ -37,9 +39,7 @@ export default function Curriculum(){
         setSelectedcourse(curriculum);
       }
 
-
       // Calling the AddCourse
-     
         useEffect(() => {
             fetchCurriculum();
           }, []);

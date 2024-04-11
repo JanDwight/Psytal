@@ -38,7 +38,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 hidden sm:flex items-center justify-center">
+            <div className="z-0 w-[50vw] h-[100vh] top-[-13vh] left-[0vw] pr-5 hidden sm:flex items-center justify-center">
               <Carousel />
             </div>
           </div>

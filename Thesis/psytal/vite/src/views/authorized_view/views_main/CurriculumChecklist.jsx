@@ -5,7 +5,7 @@ import ReactModal from 'react-modal';
 export default function CurriculumChecklist(){
       const [errors, setErrors] = useState({ __html: '' });
       const [curriculum, setCurriculum] = useState([]);
-      const [grade, setGrade] = useState([]);      
+      const [grade, setGrade] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
 
       //disclaimers
@@ -20,7 +20,6 @@ export default function CurriculumChecklist(){
         
     // should be connected to studentclasslist of instructors to update grade values
     // add to admin/staff layout so they can edit the grades during pre-regristration period
-      
         useEffect(() => {
             fetchCurriculum();
           }, []);
@@ -33,7 +32,7 @@ export default function CurriculumChecklist(){
               console.error(error);
             }
           };
-          
+
           useEffect(() => {
               fetchGrade();
             }, []);

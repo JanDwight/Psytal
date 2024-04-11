@@ -236,15 +236,13 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
                           className="border rounded-md px-2 py-1 w-full"
                         >
                           <option value="0">No Grade to Show</option>
-                          {[1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0, 'INC'].map(option => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                  )
-                );
-              })}
+                        {[ 1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0, 'INC'].map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
