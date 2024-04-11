@@ -16,6 +16,7 @@ class student_classes extends Model
         'grade',
         'ongoing',
         'archived',
+        'term',
     ];
 
 }

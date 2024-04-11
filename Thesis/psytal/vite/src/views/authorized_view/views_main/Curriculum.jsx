@@ -18,6 +18,8 @@ export default function Curriculum(){
       const [showEditcourse, setShowEditcourse]= useState(false);
       const [selectedcourse, setSelectedcourse] = useState([]);
       const [errors, setErrors] = useState({ __html: '' });
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
       const [isModalOpen, setIsModalOpen] = useState(false);
