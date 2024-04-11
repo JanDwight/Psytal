@@ -61,8 +61,8 @@ export default function LinksForStudent() {
       </div>
     
       {/* <div className="table-container overflow-x-auto"> Edited*/}
-      <div className="table-container overflow-y-auto">
-            <table className="table w-full table-striped text-gray-700 mt-5" >
+        <div className="table-container overflow-y-auto">
+            <table className="table w-full table-striped text-gray-700 mt-5">
 		            <thead>
 		              <tr>
                     <th className="text-center bg-gray-200 p-2" style={{ width: "25%" }}>Title</th>
@@ -71,10 +71,10 @@ export default function LinksForStudent() {
                     <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Links</th>
 		              </tr>
                 </thead>
-                </table>
-                </div>
-                <div className="max-h-[400px] overflow-y-auto">
-                  <table>
+            </table>
+        </div>
+            <div className="max-h-[400px] overflow-y-auto">
+              <table className="table w-full table-striped text-gray-700">
                  <tbody>
                      {filteredData.map((link, index) => (//edited
                       <tr key={index} className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}>
@@ -89,7 +89,7 @@ export default function LinksForStudent() {
                         </tr>
                         ))}
                 </tbody>
-	          </table>
+	            </table>
             </div>
           </div>   
       </>
