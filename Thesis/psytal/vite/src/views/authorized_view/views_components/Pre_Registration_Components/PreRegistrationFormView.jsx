@@ -31,6 +31,7 @@ export default function PreRegistrationFormView({prereg}) {
   const [promptMessage, setPromptMessage] = useState('');
   const [action, setAction] = useState('');
 
+  const [semesterInformation, setSemesterInformation] = useState('');
   //<><><><><>
 
   function checkAccept() {
@@ -45,8 +46,21 @@ export default function PreRegistrationFormView({prereg}) {
     }
   }
 
+   //semesterinfo
+   function fetchSemester() {
+    axiosClient
+      .get('/getsemesterinformation')
+      .then((res) => {
+        setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  };
+
   useEffect(() => {
     checkAccept(); // Call the fetchData function
+    fetchSemester();
   }, []);
 
   //<><><><><>
@@ -233,7 +247,7 @@ const handleChangeUnits = (index, value) => {
     pre_reg_status: 'Accepted',
     type_of_student: 'Incoming',
     student_status: 'Regular',
-    year_level: '1',
+    year_level: '1st',
     semester: '1st Semester',
   });
 
@@ -370,7 +384,8 @@ const handleChangeUnits = (index, value) => {
         axiosClient.post('/student_subject', {
             studentData: preregData,
             subjectData: inputFields.map(field => ({ ...field })),
-            //subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+            yearLevel: '1st',
+            term: semesterInformation,
         }).then(response => {
           //prereg update===============================================================================
             axiosClient
