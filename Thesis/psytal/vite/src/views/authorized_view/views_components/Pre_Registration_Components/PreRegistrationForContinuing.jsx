@@ -577,7 +577,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        //value={preregData.start_of_school_year}
+                                        value={preregData.start_of_school_year}
                                         required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
