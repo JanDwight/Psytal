@@ -1761,14 +1761,18 @@ export default function PreRegistrationForContinuingView({prereg}) {
                               <tr>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Code</th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">
-                                    <div className="relative">
+                                    <div className="flex relative">
+                                      <p className="px-1 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">
+                                        Year Level:
+                                      </p>
                                       <select
                                         id="classYearFilter"
                                         name="classYearFilter"
-                                        className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         value={selectedClassYear}
                                         onChange={e => setSelectedClassYear(e.target.value)}
                                       >
+                                          <option value={'All'}>All</option>
                                           <option value={'1st'}>1st</option>
                                           <option value={'2nd'}>2nd</option>
                                           <option value={'3rd'}>3rd</option>
@@ -1786,13 +1790,13 @@ export default function PreRegistrationForContinuingView({prereg}) {
                               </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
-                            {studentCheckList.some(item => (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0') ? (
+                            {studentCheckList.some(item => (selectedClassYear === 'All' || item.yrlevel === selectedClassYear) && item.grade !== '0') ? (
                               studentCheckList.map((item, index) => (
-                                (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0' && (
+                                (selectedClassYear === 'All' || item.yrlevel === selectedClassYear) && item.grade !== '0' && (
                                   <tr key={index}>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.class_code}</td>
-                                    <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
-                                    <td className="px-6 py-4 whitespace-no-wrap">{item.semester}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.yrlevel}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.term}</td>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.course_title}</td>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.grade}</td>
                                   </tr>

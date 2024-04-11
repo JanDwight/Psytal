@@ -81,6 +81,8 @@ class StudentClassesController extends Controller
     
             // Assuming 'grade' is a field in 'student_classes' table, you can add it to the class details
             $class->grade = $subject->grade;
+            $class->term = $subject->term;
+            $class->yrlevel = $subject->yrlevel;
             $class->student_class_id = $subject->id;
     
             // Append the class details along with grade to $classDetails array
