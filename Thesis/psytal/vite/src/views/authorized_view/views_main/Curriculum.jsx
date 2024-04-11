@@ -22,8 +22,6 @@ export default function Curriculum(){
       const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
-      const [isModalOpen, setIsModalOpen] = useState(false);
-      const [curriculum, setCurriculum] = useState([]);
       //filters
       const [selectedSemester, setSelectedSemester] = useState(null);
       const [selectedYear, setSelectedYear] = useState(null);
