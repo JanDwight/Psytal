@@ -185,6 +185,15 @@ export default function PreRegistrationForContinuingView({prereg}) {
           units: selectedSubject ? selectedSubject.units : '',
         };
       }
+
+      // Calculate total units
+      let totalUnits = 0;
+      updatedInputFields.forEach(field => {
+        totalUnits += parseInt(field.units) || 0;
+      });
+
+      // Update total units
+      setTotalUnits(totalUnits);
     
       setInputFields(updatedInputFields);
     };
@@ -194,10 +203,16 @@ export default function PreRegistrationForContinuingView({prereg}) {
       }
     //For removing
     const handleRemoveFields = (index) => {
-        const values  = [...inputFields];
-        values.splice(index, 1);
-        setInputFields(values);
-      }
+      const values = [...inputFields];
+      const removedField = values[index];
+      const unitsToRemove = parseInt(removedField.units) || 0;
+    
+      // Remove the field
+      values.splice(index, 1);
+      setTotalUnits(prevTotalUnits => prevTotalUnits - unitsToRemove);
+    
+      setInputFields(values);
+    }
       const onDecline = () => {
        
         
@@ -233,23 +248,6 @@ export default function PreRegistrationForContinuingView({prereg}) {
         })
       }
     
-    
-    //units calc
-    const handleChangeUnits = (index, value) => {
-        // Calculate the unit difference
-        const oldUnits = parseInt(inputFields[index].units || 0, 10);
-        const newUnits = parseInt(value || 0, 10);
-        const unitDifference = newUnits - oldUnits;
-      
-        // Update the total units by adding the unit difference
-        setTotalUnits(totalUnits + unitDifference);
-      
-        // Update the input fields with the new "units" value
-        const fields = [...inputFields];
-        fields[index] = { ...fields[index], units: value };
-        setInputFields(fields);
-      };
-
         //auto fill dropdown
         useEffect(() => {
           async function fetchData() {
@@ -1670,11 +1668,11 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                       label="Units"
                                       variant="filled"
                                       placeholder="Units"
+                                      defaultValue={inputField.units}
                                       value={inputField.units}
                                       //required
                                       required={preregData.student_status === 'Irregular'}
                                       onChange={(event) => {
-                                        handleChangeUnits(index, event.target.value); // working
                                         handleChangeInput(index, event); // may not work pls test
                                       }}
                                     />
@@ -1704,7 +1702,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
                                     <button type="button"
                                             className="ml-2 text-red-600 hover:bg-red-300 hover:text-black font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center border border-gray-600 hover:border-red-800 hover:cursor-pointer"
                                             disabled={inputFields.length === 1} onClick={() => {
-                                              handleChangeUnits(index, event.target.value);
+                                              //handleChangeUnits(index, event.target.value);
                                               handleRemoveFields(index);
                                             }}>
                                         <svg
