@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import logo from "@assets/PsychCircle.png";
 import dashboard from "@assets/icons8dashboard.png";
 import home from "@assets/icons8home.png";
@@ -118,7 +118,20 @@ export default function AdminLayout() {
   const [showWarning, setShowWarning] = useState(false);
   const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  
+  const [semesterInformation, setSemesterInformation] = useState('');
+  //
+  //For Ongoing Semester and School Year
+  useEffect(() => {
+    axiosClient
+      .get('/getsemesterinformation')
+      .then((res) => {
+        setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   if (!userToken) {
     localStorage.clear();
     return <Navigate to='/' />

@@ -45,6 +45,19 @@
     const {setCurrentUser, setUserToken, setUserRole, userToken, userRole, currentUser} = useStateContext();
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [isPreRegOpen, setIsPreRegOpen] = useState();
+    const [semesterInformation, setSemesterInformation] = useState('');
+    //
+    //For Ongoing Semester and School Year
+    useEffect(() => {
+      axiosClient
+        .get('/getsemesterinformation')
+        .then((res) => {
+          setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
 
     if (!userToken) {
       localStorage.clear();
