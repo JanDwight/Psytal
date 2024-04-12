@@ -39,10 +39,18 @@ class SemesterInformationController extends Controller
             $ongoingSemester = $firstSemester['semester'] . ' ' . $startYear . ' - ' . $endYear;
            
             // Check if the current date is equal to or greater than end_of_school_year
-            if ($currentDate >= $firstSemester['end_of_school_year']) {
-                // Update open_pre_reg value to 0
+            if ($currentDate > $firstSemester['end_of_semester']) {
+                //end of pre-reg
+                //end of semester another if for deleting pre-registration
+                //update open_pre_reg value to 0
                 semester_information::query()->update(['open_pre_reg' => 0]);
-                return response(['The school year has ended.']);
+                //run the closeprereg function at the bottom $this->, send id=1
+                return response([
+                    "semester" => $ongoingSemester,
+                    "startPR" => $firstSemester['start_of_prereg'],
+                    "endPR" => $firstSemester['end_of_prereg'],
+                    "openPR" => $firstSemester['open_pre_reg'],
+                ]);
             } else {
                 // Return the ongoing semester without updating open_pre_reg
                 return response([
@@ -182,7 +190,7 @@ class SemesterInformationController extends Controller
         // If authentication successful, proceed to update pre-registration information
     
         // Clean the preregistration_incoming_tmps table
-        DB::table('preregistration_incoming_tmps')->delete();
+        DB::table('preregistration_incoming_tmps')->delete(); //remove for prereg, add to semester auto delete
     
         $semesterinfo = semester_information::find($id);
     
