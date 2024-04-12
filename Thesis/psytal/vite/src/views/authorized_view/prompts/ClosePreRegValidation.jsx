@@ -8,6 +8,12 @@ export default function ClosePreRegValidation() {
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
     const id = 1;
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => {
+      setIsVisible(!isVisible);
+      
+    };
     const onSubmit = async (ev) => {
         ev.preventDefault();
         axiosClient
@@ -59,12 +65,17 @@ export default function ClosePreRegValidation() {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={isVisible ? "text" : "password"}
                   required
                   value={password}
                   onChange={ev => setPassword(ev.target.value)}
                   className="block w-[100%] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+            </div>
+            <div className='flex justify-end'>
+                  <label onClick={toggleVisibility} className={`text-${isVisible ? 'green-500' : 'green-500'}  text-m text px-2 mb-2 font-semibold hover:border-b-0 hover:text-green-700`}>
+                    {isVisible ? "Hide Password" : "Show Password"}
+                  </label>
             </div>
 
             <button className="mt-2 bg-red-600 hover:bg-red-700 rounded-2xl px-7 py-2 text-white font-size">

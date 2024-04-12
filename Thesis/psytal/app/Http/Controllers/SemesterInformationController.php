@@ -27,24 +27,29 @@ class SemesterInformationController extends Controller
         if ($semesterInformation->isNotEmpty()) {
             // Access the first item in the collection
             $firstSemester = $semesterInformation->first();
-        
-            // Convert start_of_school_year and end_of_school_year to Carbon objects
-            //$startYear = Carbon::parse($firstSemester['start_of_school_year'])->year; // original
-            //$endYear = Carbon::parse($firstSemester['end_of_school_year'])->year; // original
 
-            $startYear = $firstSemester['start_of_school_year']; //replaced original because it was causing error - REM
-            $endYear = ($firstSemester['end_of_school_year']);  //replaced original because it was causing error - REM
+            $startYear = $firstSemester['start_of_school_year'];
+            $endYear = ($firstSemester['end_of_school_year']);
         
             // Combine semester and extract the year from start_of_school_year and end_of_school_year
             $ongoingSemester = $firstSemester['semester'] . ' ' . $startYear . ' - ' . $endYear;
+
+            //-----
+                //if semester is ended delete all pre-reg?
+            if($currentDate > $firstSemester['end_of_semester']){
+                DB::table('preregistration_incoming_tmps')->delete();
+            } else {}
+            //-----
            
             // Check if the current date is equal to or greater than end_of_school_year
-            if ($currentDate > $firstSemester['end_of_semester']) {
+            if ($currentDate > $firstSemester['end_of_prereg']) {
                 //end of pre-reg
                 //end of semester another if for deleting pre-registration
                 //update open_pre_reg value to 0
                 semester_information::query()->update(['open_pre_reg' => 0]);
                 //run the closeprereg function at the bottom $this->, send id=1
+                $this->setPreregPost('closed');
+
                 return response([
                     "semester" => $ongoingSemester,
                     "startPR" => $firstSemester['start_of_prereg'],
@@ -190,7 +195,7 @@ class SemesterInformationController extends Controller
         // If authentication successful, proceed to update pre-registration information
     
         // Clean the preregistration_incoming_tmps table
-        DB::table('preregistration_incoming_tmps')->delete(); //remove for prereg, add to semester auto delete
+        //DB::table('preregistration_incoming_tmps')->delete(); //remove for prereg, add to semester auto delete
     
         $semesterinfo = semester_information::find($id);
     
@@ -243,10 +248,9 @@ class SemesterInformationController extends Controller
                 $this->setPreregPost('open');
             } else {
                 $this->setPreregPost('closed');
-            } 
-            //set as note because not in documents
 
-            
+            }
+ 
 
             return response([
                 'message' => 'Semester information updated successfully',
