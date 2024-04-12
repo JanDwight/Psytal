@@ -248,10 +248,9 @@ class SemesterInformationController extends Controller
                 $this->setPreregPost('open');
             } else {
                 $this->setPreregPost('closed');
-            }
-            //set as note because not in documents
 
-            
+            }
+ 
 
             return response([
                 'message' => 'Semester information updated successfully',
