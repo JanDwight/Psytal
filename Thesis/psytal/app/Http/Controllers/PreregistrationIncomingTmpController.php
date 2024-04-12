@@ -154,7 +154,8 @@ class PreregistrationIncomingTmpController extends Controller
         $this->storeLog('New pre-registration (Continuing)', 'pre-registration', $fullName, 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role );
 
         return response([
-            'prereg' => $preRegTmpincoming,
+            'message' => 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
+            'success' => true
         ]);
     }
     /**
