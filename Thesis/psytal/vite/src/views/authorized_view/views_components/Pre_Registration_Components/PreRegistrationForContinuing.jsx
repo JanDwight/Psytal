@@ -8,12 +8,14 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
 import ReactModal from 'react-modal';
+import Feedback from '../../../feedback/Feedback';
 
 
 
 export default function PreRegistrationForContinuing(prereg) {
 
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [successStatus, setSuccessStatus] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState({__html: ""});
 
@@ -380,8 +382,9 @@ export default function PreRegistrationForContinuing(prereg) {
     //On submit axios
       const onSubmit = (ev) => {
         ev.preventDefault();
-        setError({ __html: "" });
-        console.log(preregData);
+
+        setSuccessMessage('Loading...');
+        setSuccessStatus('Loading');
             
         axiosClient
         .post('/preregcontinuingtmp', {
@@ -432,51 +435,26 @@ export default function PreRegistrationForContinuing(prereg) {
           student_status: preregData.student_status,
           semester: preregData.semester
         }).then(({ data }) => {
-          onPrint();
-          //setFamilyName(data.family_name)
-          setSuccessMessage({
-            message: 'Congratulations! You have finished your pre-registration. Here is a pdf copy of your form. Print and show this to the admission officer for further instructions.',
-          });
-    
-          setTimeout(() => {
-            setSuccessMessage(null);
-            handleClear();
-          }, 5000);
-        })
-        .catch(( error ) => 
-        
-        {setSuccessMessage({
-          message: 'Missing Data or invalid email, please double check.',
-        });
-  
-        setTimeout(() => {
-          setSuccessMessage(null);
-          // closeModal();
-        }, 3000);
-
-          if (error.response) {
-            const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-            setError({__html: finalErrors.join('<br>')})
-            setSuccessMessage({
-              message: 'Please Fill in ALL of the NECESSARY details.',
-            });
-            setTimeout(() => {
-              setSuccessMessage(null);
-              // closeModal();
-            }, 3000);
+          setSuccessMessage(data.message);
+          setSuccessStatus(data.success);
+          console.log('test1');
+          if(data.success === true){
+            console.log('test2');
+            onPrint();
           }
-            console.error(error)
+        })
+        .catch(( response ) => {
+          setSuccessMessage(response.message);
+          setSuccessStatus(response.success);
         });
       };
-      
-
-    
-
       //clearing the input fields using the reset button
    
 
   return (
     <>
+    <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
+     
     <main className="w-[100%] h-[100%]">
         <div className="lg:w-8/12 px-4 container mx-auto">          
             <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
@@ -1715,19 +1693,8 @@ export default function PreRegistrationForContinuing(prereg) {
             </form>  
       
         </div>
-        {/*moved 'section/course(s) to be enrolled' to formviews*/}
     </main>
-    {successMessage && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
-            <div className="w-full px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-green-600 font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
     {disclaimer && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
         <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[350px] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
