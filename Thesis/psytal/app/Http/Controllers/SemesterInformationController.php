@@ -123,7 +123,7 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
 
-            //$this->setPreregPost('open'); set as note because not in documents
+            $this->setPreregPost('open');
 
             return response([
                 'message' => 'Semester information updated successfully',
@@ -144,7 +144,7 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
 
-            //$this->setPreregPost('open'); set as note because not in documents
+            $this->setPreregPost('open');
 
             return response([
                 'message' => 'Semester information created successfully',
@@ -201,7 +201,7 @@ class SemesterInformationController extends Controller
     
         $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
     
-        //$this->setPreregPost('closed'); set as note because not in documents
+        $this->setPreregPost('closed');
 
         return response()->json([
             'message' => 'Pre-Registration is Now Closed',
@@ -231,11 +231,11 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration information updated', 'semester_information');
 
-            /*if ($existingSemesterInfo['open_pre_reg']){
+            if ($existingSemesterInfo['open_pre_reg']){
                 $this->setPreregPost('open');
             } else {
                 $this->setPreregPost('closed');
-            }*/ 
+            } 
             //set as note because not in documents
 
             
