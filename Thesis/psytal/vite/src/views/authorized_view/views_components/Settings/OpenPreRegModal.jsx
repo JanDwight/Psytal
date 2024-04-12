@@ -26,7 +26,7 @@ export default function OpenPreRegModal({ closeModal }) {
   const [showClose, setShowClose] = useState(false);
   const [showPRconfig, setShowPRconfig] = useState(true)
   const [allowedit, setAllowedit] = useState('false');
-  const [showStatus, setShowStatus] = useState('');
+  const [showStatus, setShowStatus] = useState(null);
   const [closePreRegValidation, setClosePreRegValidation] = useState(false);
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -217,7 +217,15 @@ export default function OpenPreRegModal({ closeModal }) {
       <div className='mt-2 flex justify-between'>
         <div>
           <strong>Pre-Registration Status:  </strong>
-          <strong className={showStatus === 1 ? 'text-green-500' : (showStatus === 0 ? 'text-red-500' : 'text-gray-500')}>{showStatus === 1 ? 'OPEN' : (showStatus === 0 ? 'CLOSED' : 'Loading...')}</strong>
+          <strong className={
+              showStatus === 1 ? 'text-green-500' : 
+              (showStatus === 0 ? 'text-red-500' : 
+              (showStatus === null ? 'text-gray-500' : 'text-gray-500'))
+          }>
+              {showStatus === 1 ? 'OPEN' : 
+              (showStatus === 0 ? 'CLOSED' : 
+              (showStatus === null ? 'Loading...' : 'No Semester Information Found'))}
+          </strong>
         </div>
         <div>
           <strong hidden={showPRconfig} >
