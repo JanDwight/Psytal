@@ -303,39 +303,25 @@ class SemesterInformationController extends Controller
 
             if($change === 'open') {
 
-                $existingPost = posts::where('title', $messagetitle)->first();
+                $existingPost = posts::where('title', $messagetitle)->first()->delete();
 
-                if($existingPost) {
-                    // If the post already exists, update it
-                    $existingPost->update([
-                        'description' => $messagebody . $messageOpen,
-                    ]);
-                } else {
-                    $preRegPost = posts::create([
-                        'user_id' =>  auth()->user()->id,
-                        'title' => $messagetitle,
-                        'description' => $messagebody . $messageOpen,
-                    ]);
-                }
+                $preRegPost = posts::create([
+                    'user_id' =>  auth()->user()->id,
+                    'title' => $messagetitle,
+                    'description' => $messagebody . $messageOpen,
+                ]);
+               
                 $this->storeLog('Pre-reg open post created', 'posts', $messagetitle, 'posts');
 
-                    //slug is auto-generated, there will be errors because it will be unique
             } else if ($change === 'closed') {
 
-                $existingPost = posts::where('title', $messagetitle)->first();
-
-                if($existingPost) {
-                    // If the post already exists, update it
-                    $existingPost->update([
-                        'description' => $messageClosed,
-                    ]);
-                } else {
-                    $preRegPost = posts::create([
-                        'user_id' =>  auth()->user()->id,
-                        'title' => $messagetitle,
-                        'description' => $messageClosed,
-                    ]);
-                }
+                $existingPost = posts::where('title', $messagetitle)->first()->delete();
+               
+                $preRegPost = posts::create([
+                    'user_id' =>  auth()->user()->id,
+                    'title' => $messagetitle,
+                    'description' => $messageClosed,
+                ]);
 
                 $this->storeLog('Pre-reg closed post created', 'posts', $messagetitle, 'posts');
             }
