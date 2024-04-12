@@ -44,7 +44,8 @@ export default function Settings() {
                     document.body.removeChild(link);
                     window.URL.revokeObjectURL(url);
                     
-                    setSuccessMessage('Please press Save to download.');
+                    //setSuccessMessage('Please press Save to download.');
+                    setSuccessMessage('Download Success.');
                     setSuccessStatus(true);
                 })
                 .catch(error => {

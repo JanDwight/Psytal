@@ -59,6 +59,7 @@ export default function ClosePreRegValidation() {
                 <input
                   id="password"
                   name="password"
+                  type="password"
                   required
                   value={password}
                   onChange={ev => setPassword(ev.target.value)}
