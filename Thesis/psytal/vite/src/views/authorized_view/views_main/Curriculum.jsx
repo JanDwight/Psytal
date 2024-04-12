@@ -10,13 +10,6 @@ import ArchiveCourse from "../views_components/ArchiveCourse";
 import EditCourse from "../views_components/EditCourse";
 import { useAsyncValue } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import page1 from "@assets/Help/Admin/Curriculum/1.png";
-import page2 from "@assets/Help/Admin/Curriculum/2.png";
-import page3 from "@assets/Help/Admin/Curriculum/3.png";
-import page4 from "@assets/Help/Admin/Curriculum/4.png";
-import page1E from "@assets/Help/Staff/Curriculum/1.png";
-import page2E from "@assets/Help/Staff/Curriculum/2.png";
-import page3E from "@assets/Help/Staff/Curriculum/3.png";
 
 
 export default function Curriculum(){
@@ -25,14 +18,14 @@ export default function Curriculum(){
       const [showEditcourse, setShowEditcourse]= useState(false);
       const [selectedcourse, setSelectedcourse] = useState([]);
       const [errors, setErrors] = useState({ __html: '' });
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
-      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-      // Function to toggle help modal
-      const toggleHelpModal = () => {
-        setIsHelpModalOpen(!isHelpModalOpen);
-      };
+      //filters
+      const [selectedSemester, setSelectedSemester] = useState(null);
+      const [selectedYear, setSelectedYear] = useState(null);
+      const [selectedSection, setSelectedSection] = useState(null); 
      
       const handleArchiveClick = (curriculum) => {
         setShowArchivecourse(true);
@@ -44,10 +37,7 @@ export default function Curriculum(){
         setSelectedcourse(curriculum);
       }
 
-
       // Calling the AddCourse
-      const [isModalOpen, setIsModalOpen] = useState(false);
-      const [curriculum, setCurriculum] = useState([]);   
         useEffect(() => {
             fetchCurriculum();
           }, []);
@@ -60,12 +50,6 @@ export default function Curriculum(){
               console.error(error);
             }
           };
-
-
-          //filters
-          const [selectedSemester, setSelectedSemester] = useState(null);
-          const [selectedYear, setSelectedYear] = useState(null);
-          const [selectedSection, setSelectedSection] = useState(null);
           
           //filter semester
           const handleSemester = (semester) => {
@@ -97,20 +81,19 @@ export default function Curriculum(){
     curriculum.hoursperWeek.toString().includes(filterText) ||
     curriculum.course_type.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.preReq.toLowerCase().includes(filterText.toLowerCase())
-
   );
 
   return (
         <>
         <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white pt-5 pb-12  table-container ">{/*For the Container*/}
-            <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
-            <div className="font-bold text-6xl text-[#525252]">Curriculum</div>
+            <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
+            <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Curriculum</div>
                 {/*Search and Add Courses */}
-                <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
+                <div className='mt-5 mx-0 sm:mx-5 flex flex-col sm:flex-row justify-between items-baseline'>      
 
                       {/* //Search input */}
                       <div className="flex items-baseline">
-                      <div className="my-4 mx-4" id="magnifying_glass">
+                      <div className="my-4 mx-0 sm:mx-4" id="magnifying_glass">
                           <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
@@ -125,7 +108,7 @@ export default function Curriculum(){
                       />
                     </div>
                       <button onClick={() => setIsModalOpen(true)} 
-                            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10">
+                            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5">
                                 Add Course
                         </button>
                     </div>   
@@ -137,7 +120,7 @@ export default function Curriculum(){
 		              <tr>
                     <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>
                       <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Year
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -153,35 +136,35 @@ export default function Curriculum(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleYear('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 1st Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('2nd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 2nd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('3rd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 3rd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('4th')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 4th Year
                               </button>
@@ -192,7 +175,7 @@ export default function Curriculum(){
                     </th>
                     <th className="text-center text-gray-700 bg-gray-200 p-2" style={{ width: "5%" }}>
                       <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Semester
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -208,28 +191,28 @@ export default function Curriculum(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleSemester('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSemester('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                               >
                                 1st Semester
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('2nd')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                                 >
                                   2nd Semester
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('Midyear')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700  text-left w-full hover:bg-green-500'}
                                 >
                                   Midyear
                                 </button>
@@ -281,10 +264,6 @@ export default function Curriculum(){
                         ))}
                 </tbody>
 	          </table>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
             </div>
           </div>
       
@@ -310,108 +289,6 @@ export default function Curriculum(){
           onClose={() => setShowEditcourse(false)}
           curriculum={selectedcourse}
         />
-      
-{/* HELP -ADMIN*/}
-{userRole == 1 && (
-    <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-        <img
-            src={page4}
-            alt="Page 4"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-)}
-
-{/* HELP- STAFF*/}
-{userRole == 2 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1E}
-            alt="Page 1"
-        />
-        <img
-            src={page2E}
-            alt="Page 2"
-        />
-        <img
-            src={page3E}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
         </>
 );
 }

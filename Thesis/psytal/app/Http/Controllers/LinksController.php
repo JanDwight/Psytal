@@ -44,7 +44,7 @@ class LinksController extends Controller
         $this->storeLog( 'Link created', 'link', $data['class_code'], 'links');
 
         return response([
-            'message' => 'Link created successfuly',
+            'message' => 'Link created successfully',
             'success' => true
         ]);
     }
@@ -52,7 +52,10 @@ class LinksController extends Controller
     public function getLinks()
     {
         try {
-            $links = Links::where('archived', 0)->get(); // Retrieve all links from the database
+            //$links = Links::where('archived', 0)->get(); // Retrieve all links from the database
+            $links = Links::where('archived', 0)
+                ->latest() // Order the links by the created_at column in descending order
+                ->get();
             return response()->json(['links' => $links], 200);
             $link -> update(['archive'=>1]);
         } catch (\Exception $e) {

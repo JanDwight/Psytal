@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../../../../axios';
 import ReactModal from 'react-modal';
 import InputCode from './InputCode';
+import Feedback from '../../../feedback/Feedback';
 
 export default function InputEmail() {
   const [email, setEmail] = useState('');
@@ -11,11 +12,14 @@ export default function InputEmail() {
     code: '',
     email: '',
   });
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('')
 
   const onSubmit = async (ev) => {
   ev.preventDefault();
+
+  setSuccessMessage('Loading...');
+  setSuccessStatus('Loading');
 
   // Generate a 4-digit random code
   const randomCode = Math.floor(1000 + Math.random() * 9000);
@@ -41,35 +45,23 @@ export default function InputEmail() {
       params: Object.fromEntries(formData), // Convert FormData to a plain object
     });
 
-    if (response.data && response.data.success) {
-      // Use navigate to go to the "/code" route and pass formData as state
-      setSuccessMessage({
-        message: 'Please check your email for a 4-digit code to reset your password.',
-      });
-      setSuccessStatus(true)
+    setSuccessMessage(response.data.message);
+    setSuccessStatus(response.data.success);
 
-      setTimeout(() => {
-        setSuccessMessage(null);
-        setIsModalOpen(true);
-      }, 5000);
-
-    } else {
-      setSuccessMessage({
-        message: 'Email does not Exist.',
-      });
-      setSuccessStatus(false)
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 5000);
+    if (response.data.success === true) {
+      setIsModalOpen(true);
     }
+
   } catch (error) {
     console.error('Error:', error);
+    setSuccessMessage(error.message);
+    setSuccessStatus(false);
   }
 };
 
   return (
     <>
+    <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={true}/>
       <div className='flex min-h-[100%] flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8'>
         <div className="flex items-center justify-between">
           <label htmlFor="password" className="block font-medium leading-6 text-gray-900 text-xl">
@@ -109,17 +101,6 @@ export default function InputEmail() {
                  />
             </div>
       </ReactModal>
-      {successMessage && (
-        <div className="fixed top-0 left-0 w-[100%] h-[100%] overflow-y-auto bg-black bg-opacity-50">
-          <div className={`lg:w-1/2 px-4 py-1 shadow-lg w-[20%] h-fit rounded-xl mt-[10%] mx-auto p-5 ${successStatus === false ? 'bg-red-500' : 'bg-green-500'}`}>
-            <div className="w-[100%] px-4 mx-auto mt-6">
-              <div className="text-center text-xl text-white font-semibold my-3">
-                {successMessage.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

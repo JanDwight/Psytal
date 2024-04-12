@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios.js';
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Student/Links/1.png";
 
 
 export default function LinksForStudent() {
 
   const [filterText, setFilterText] = useState(''); //for search
-  
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
 
   const fetchLinks = async () => {
     try {
@@ -38,7 +30,7 @@ export default function LinksForStudent() {
     (link) =>
       link.class_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
       link.class_description.toLowerCase().includes(filterText.toLowerCase()) ||
-      link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
+      //link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
       link.url.toLowerCase().includes(filterText.toLowerCase())
   );
  
@@ -69,26 +61,26 @@ export default function LinksForStudent() {
       </div>
     
       {/* <div className="table-container overflow-x-auto"> Edited*/}
-      <div className="table-container overflow-y-auto">
-            <table className="table w-full table-striped text-gray-700 mt-5" >
+        <div className="table-container overflow-y-auto">
+            <table className="table w-full table-striped text-gray-700 mt-5">
 		            <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Title</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "25%" }}>Title</th>
+                    <th className="text-center bg-gray-200 p-2" style={{ width: "25%" }}>Description</th>
+                    {/*<th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>*/}
                     <th className="text-center bg-gray-200 p-2" style={{ width: "60%" }}>Links</th>
 		              </tr>
                 </thead>
-                </table>
-                </div>
-                <div className="max-h-[400px] overflow-y-auto">
-                  <table>
+            </table>
+        </div>
+            <div className="max-h-[400px] overflow-y-auto">
+              <table className="table w-full table-striped text-gray-700">
                  <tbody>
                      {filteredData.map((link, index) => (//edited
                       <tr key={index} className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`}>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 40)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 50)}</td>
-                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_code.slice(0, 40)}</td>
+                          <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_description.slice(0, 50)}</td>
+                          {/*<td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 50)}</td>*/}
                           <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "60%" }}>
                             <a href={link.url} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-blue-500">
                            {link.url.slice(0, 50)}... {/* Displaying the first 10 characters */}
@@ -97,51 +89,9 @@ export default function LinksForStudent() {
                         </tr>
                         ))}
                 </tbody>
-	          </table>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
+	            </table>
             </div>
-          </div>  
-          {/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>         
+          </div>   
       </>
 
     

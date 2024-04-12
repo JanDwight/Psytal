@@ -15,6 +15,7 @@ class posts extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'archived'

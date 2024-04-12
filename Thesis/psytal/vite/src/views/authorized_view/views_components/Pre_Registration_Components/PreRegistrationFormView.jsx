@@ -6,10 +6,14 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import SuccessModal from './SuccessModal';
-
+import ReactModal from 'react-modal';
+import Feedback from '../../../feedback/Feedback';
+import AcceptPrompt from '../../prompts/AcceptPrompt'
+import DeclinePrompt from '../../prompts/DeclinePrompt'
 
 
 export default function PreRegistrationFormView({prereg}) {
+  const oldprereg = prereg;
   const [subjectData, setSubjectData] = useState([]); //<><><><><>
   const [totalUnits, setTotalUnits] = useState(0); //<><><><><>
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -17,6 +21,75 @@ export default function PreRegistrationFormView({prereg}) {
   const includeNumbers = true;  // Include numbers in the password
   const includeSymbols = true;  // Include symbols in the password
   const role = "4";
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successStatus, setSuccessStatus] = useState('');
+
+  const [allowEdit, setAllowEdit] = useState(''); // auto=editable, none=not editable\
+  const [showPromptA, setShowPromptA] = useState(false);
+  const [showPromptD, setShowPromptD] = useState(false);
+  const [promptMessage, setPromptMessage] = useState('');
+  const [action, setAction] = useState('');
+
+  const [semesterInformation, setSemesterInformation] = useState('');
+  //<><><><><>
+
+  function checkAccept() {
+    if (oldprereg.pre_reg_status === 'Accepted'){
+      setAllowEdit('none');
+    } else if (oldprereg.pre_reg_status === 'Pending') {
+      setAllowEdit('auto');
+    } else if (oldprereg.pre_reg_status === 'Declined'){
+      setAllowEdit('none');
+    } else {
+      setAllowEdit('auto');
+    }
+  }
+
+   //semesterinfo
+   function fetchSemester() {
+    axiosClient
+      .get('/getsemesterinformation')
+      .then((res) => {
+        setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  };
+
+  useEffect(() => {
+    checkAccept(); // Call the fetchData function
+    fetchSemester();
+  }, []);
+
+  //<><><><><>
+  const promptAccept = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be accepted. Do you wish to proceed?';
+    setAction('Confirm Accept Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptA(true);
+  }
+
+  //<><><><><>
+  const promptDecline = (ev) => {
+    ev.preventDefault();
+    const concatmessage = 'This pre-registration for "' + oldprereg.full_name + '" will be declined. Do you wish to proceed?';
+    setAction('Confirm Decline Pre-registration');
+    setPromptMessage(concatmessage);
+    setShowPromptD(true);
+  }
+
+  const allowChange = () => {
+    setAllowEdit('auto');
+    console.log('Edit Status: ', allowEdit);
+  }
+
+  const noChange = () => {
+    setAllowEdit('none');
+    console.log('Edit Status: ', allowEdit);
+  }
 
   //auto fill dropdown
   useEffect(() => {
@@ -34,9 +107,10 @@ export default function PreRegistrationFormView({prereg}) {
   }, []);
 
     //<><><><><>
-    const [inputFields, setInputFields] = useState([
+    /*const [inputFields, setInputFields] = useState([
       { class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' }, //changed classCode to classId
-    ]);
+    ]);*/
+    const [inputFields, setInputFields] = useState([]);
 
     // Check if class_year is "1st" and semester is "1st"
     useEffect(() => {
@@ -59,11 +133,12 @@ export default function PreRegistrationFormView({prereg}) {
     
 
     // If you want to add fields when there is more data
-    useEffect(() => {
+    /*useEffect(() => {
       if (subjectData.length !== inputFields.length) {
         handleAddFields();
       }
-    }, [subjectData]);
+    //ADDS EXTRA INPUTFIELD IN COURSES TO BE ENROLLED
+    }, [subjectData]);*/ 
 
     const handleClearSubjects = () => {
       // Clear the inputFields state and set totalUnits to 0
@@ -106,6 +181,7 @@ const handleAddFields = () => {
   const newFields = { class_id: '', classCode: '', courseCode: '', units: '', bcac: 'N/A' };
 
   setInputFields((prevFields) => [...prevFields, newFields]);
+  //setInputFields([...inputFields, { classCode: '', courseCode: '', units: '', bcac: 'N/A' }]);
 };
 
 // For removing fields
@@ -171,7 +247,7 @@ const handleChangeUnits = (index, value) => {
     pre_reg_status: 'Accepted',
     type_of_student: 'Incoming',
     student_status: 'Regular',
-    year_level: '1',
+    year_level: '1st',
     semester: '1st Semester',
   });
 
@@ -184,49 +260,46 @@ const handleChangeUnits = (index, value) => {
 
 
   //On Decline Click
-  const onDecline = (ev) => {
-    ev.preventDefault();
-    
+  const onDecline = () => {
+    //ev.preventDefault();
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
     axiosClient
     // create Update function for preregincommingtmp
     .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Decline'
+      pre_reg_status: 'Declined',
     })
     .then(({ data }) => {
-      //setFamilyName(data.family_name)
-      window.location.reload();
-    })
-  }
+      //ev.preventDefault();
+      //for sending emails============================================================================
+      // Assuming formData is your FormData object
+      let formData = new FormData();
 
-  //On Return
-  const onReturn = (ev) => {
-    ev.preventDefault();
-    
-    axiosClient
-    // create Update function for preregincommingtmp
-    .put(`/preregcheck/${id}`, {
-      pre_reg_status: 'Returned'
-    })
-    .then(({ data }) => {
-      //setFamilyName(data.family_name)
-      window.location.reload();
-    })
+      // Append some data to the FormData object
+      formData.append('email', preregData.email_address);
+      // Convert FormData to an object
+      let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+      }, {});
+      axiosClient
+        .get('/senddeclineemail', {
+          params: formDataObject
+        })
+        .then((response) => {
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
+        })
+      })
   }
 
   //On Accept Click
-  const onClickAccept = (ev) => {
-    ev.preventDefault();
+  const onClickAccept = () => {
+    //ev.preventDefault();
 
-     // Validate COLLEGE radio buttons
-     const yesChecked = document.getElementById("complied").checked;
-     const noChecked = document.getElementById("complied").checked;
- 
-     // Check if either Yes or No is selected
-     if (!yesChecked && !noChecked) {
-         alert("Did the Student complied with the Admission Policy?");
-         return; // Exit function without submitting the form
-     }
-
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
+    
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
@@ -268,6 +341,11 @@ const handleChangeUnits = (index, value) => {
       email: preregData.email_address,
      })
      .then (response => {
+        if(response.data.success === false){
+          setSuccessMessage(response.data.message);
+          setSuccessStatus(response.data.success);
+          return
+        }
       //Create student profile============================================================================
       axiosClient
       .post(`/createstudentprofile`, {
@@ -300,15 +378,14 @@ const handleChangeUnits = (index, value) => {
         contact_person_address: preregData.contact_person_address,
         contact_person_relationship: preregData.contact_person_relationship,
         pre_reg_status: 'Accepted',
-        type_of_student: 'Regular',
+        type_of_student: 'Incoming',
       }).then(response => {
-        // Extract user ID from the response or use preregData.user_id if available
-        const userId = response.data.user_id || preregData.user_id;
-        
         // Run the second axios call
         axiosClient.post('/student_subject', {
             studentData: preregData,
-            subjectData: inputFields.slice(0, -1).map(field => ({ ...field })), // Exclude the last element
+            subjectData: inputFields.map(field => ({ ...field })),
+            yearLevel: '1st',
+            term: semesterInformation,
         }).then(response => {
           //prereg update===============================================================================
             axiosClient
@@ -350,16 +427,17 @@ const handleChangeUnits = (index, value) => {
               complied_to_admission_policy: preregData.complied_to_admission_policy,
             
               pre_reg_status: 'Accepted',
-              type_of_student: 'Regular',
+              type_of_student: 'Incoming',
             }).then(response => {
               //for sending emails============================================================================
               // Assuming formData is your FormData object
               let formData = new FormData();
 
               // Append some data to the FormData object
-              formData.append('lastName', fullName);
+              formData.append('fullName', fullName);
               formData.append('email', preregData.email_address);
               formData.append('password', password);
+              formData.append('role', 'Student')
 
               // Convert FormData to an object
               let formDataObject = Array.from(formData.entries()).reduce((obj, [key, value]) => {
@@ -371,8 +449,9 @@ const handleChangeUnits = (index, value) => {
               .get('/sendstudentaccountpassword', {
                 params: formDataObject
               })
-                .then(() => {
-                  setShowSuccessModal(true)
+                .then((response) => {
+                  setSuccessMessage(response.data.message);
+                  setSuccessStatus(response.data.success);
                 })
               
               .catch(( error ) => {
@@ -383,13 +462,69 @@ const handleChangeUnits = (index, value) => {
           })
         })
      })
-
-    
-    
-    
-
-    
   };
+
+  const onSaveChanges = () =>{
+    //prereg update===============================================================================
+    axiosClient
+              .put(`/preregcheck/${id}`, {
+                start_of_school_year: parseInt(preregData.start_of_school_year),
+                end_of_school_year: parseInt(preregData.end_of_school_year),
+                student_school_id: parseInt(preregData.student_school_id),
+                learners_reference_number: parseInt(preregData.learners_reference_number),
+                last_name: preregData.last_name,
+                first_name: preregData.first_name,
+                middle_name: preregData.middle_name,
+                maiden_name: preregData.maiden_name,
+                academic_classification: preregData.academic_classification,
+                last_school_attended: preregData.last_school_attended,
+                address_of_school_attended: preregData.address_of_school_attended,
+                degree: preregData.degree,
+                date_of_birth: preregData.date_of_birth,
+                place_of_birth: preregData.place_of_birth,
+                citizenship: preregData.citizenship,
+                sex_at_birth: preregData.sex_at_birth,
+                ethnicity: preregData.ethnicity,
+                special_needs: preregData.special_needs,
+                contact_number: preregData.contact_number,
+                email_address: preregData.email_address,
+                home_address: preregData.home_address,
+                address_while_studying: preregData.address_while_studying,
+                contact_person_name: preregData.contact_person_name,
+                contact_person_number: preregData.contact_person_number, 
+                contact_person_address: preregData.contact_person_address,
+                contact_person_relationship: preregData.contact_person_relationship,
+                health_facility_registered: preregData.health_facility_registered,
+                parent_health_facility_dependent: preregData.parent_health_facility_dependent,
+                vaccination_status: preregData.vaccination_status,
+                technology_level: preregData.technology_level,
+                digital_literacy: preregData.digital_literacy,
+                avail_free_higher_education: preregData.avail_free_higher_education,
+                voluntary_contribution: preregData.voluntary_contribution,
+                contribution_amount: preregData.contribution_amount,
+                complied_to_admission_policy: preregData.complied_to_admission_policy,
+              
+                pre_reg_status: 'Accepted',
+                type_of_student: 'Incoming',
+                semester: preregData.semester
+              }).then((response)=> {
+                setSuccessMessage(response.data.message);
+                setSuccessStatus(response.data.success);
+              })
+          //need to save changes to subject too
+          /*
+            TRY THIS ONLY FOR SUBJECTS, REMOVE OR UPDATE STUDENT CLASSES: 
+            axiosClient.post('/student_subject', {
+            studentData: preregData,
+            subjectData: inputFields.map(field => ({ ...field })),
+            LOGIC: 
+              >Take student ID, current year and semester (1st sem, 1st year), search for all his/her subjects
+              >delete all found subjects then replace with the new
+              >updated
+          
+          */
+      
+  }
 
   const onPrint = () => {
     // PDF modification code======================================================================
@@ -630,40 +765,9 @@ const handleChangeUnits = (index, value) => {
         console.error('Error loading PDF:', error);
       }
     };
-    
     // Call the fetchPdf function directly in your component code
     fetchPdf();
-
-
-    //put axios here
-    console.log("InputFields:", inputFields);
-    console.log("Pre-Reg Data:", preregData);
-    console.log("Student ID:", preregData.student_school_id);
-    console.log("First Name:", preregData.first_name);
-    console.log("Last Name:", preregData.last_name);
-    
-
-    
-
   };
-
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    setError({ __html: "" });
-    
-    axiosClient
-    .put(`/preregview/${preregData}`)
-    .then(({ data }) => {
-      
-    })
-    .catch(( error ) => {
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum,...next], [])
-        setError({__html: finalErrors.join('<br>')})
-      }
-        console.error(error)
-    });
-  }
   
   useEffect(() => {
     let newTotal = 0;
@@ -687,10 +791,11 @@ const handleChangeUnits = (index, value) => {
           dangerouslySetInnerHTML={error}>
         </div>)}
         <SuccessModal isOpen={showSuccessModal === true} onClose={() => setShowSuccessModal(false)} successMessage={'Success'}  status={true}/>
-    <main>
+        <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
+    <main id="preRegTop" >
       <div className="w-full lg:w-8/12 px-4 container mx-auto">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
-          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
             <div >
               <img src={schoolLogo}
                 className="object-cover btn- h-20 w-20 rounded-full bg-gray-300" alt="BSU Logo" />
@@ -711,6 +816,9 @@ const handleChangeUnits = (index, value) => {
                 <h6 className="text-blueGray-700 text-sm">
                     STUDENT DETAILS
                 </h6>
+                <h6  className="text-red-500 text-sm" hidden={allowEdit === 'none'}>
+                  <b>*Editing has been enabled.</b>
+                </h6>
                 
               </div>         
       </div>
@@ -718,7 +826,7 @@ const handleChangeUnits = (index, value) => {
       {/**Start of Filling the FORM */}
       
       <div className="w-full lg:w-8/12 px-4 container mx-auto">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={promptAccept} style={{pointerEvents:allowEdit}}>
         <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0'>
           <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
             
@@ -1543,30 +1651,34 @@ const handleChangeUnits = (index, value) => {
                     <div className="w-full px-3 md:mb-0 flex flex-wrap flex-row mb-2">
                       {/**Radio buttion for Yes compiled */}
                       <div className='mx-5 mt-2'>
-                        <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        <input
+                          className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="complied"
-                          id="complied"
-                          value="Yes" 
+                          id="yescomplied"
+                          value="Yes"
+                          required
                           onChange={(ev) => setPreregData({ ...preregData, complied_to_admission_policy: ev.target.value })}
-                          />
+                        />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-                          htmlFor="yesavail">Yes
+                          htmlFor="yescomplied">Yes
                         </label>
                       </div>
-                      {/**Radio buttion for No Compiled */}
+                      {/**Radio button for No Compiled */}
                       <div className='mx-5 mt-2'>
-                        <input className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        <input
+                          className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="complied"
-                          id="complied"
-                          value="No" 
+                          id="nocomplied"
+                          value="No"
                           required
-                          onChange={ev => setcompliedtoadmissionpolicy(ev.target.value)}/>
+                          onChange={ev => setcompliedtoadmissionpolicy(ev.target.value)}
+                        />
                         <label
                           className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-                          htmlFor="noavail">No
+                          htmlFor="nocomplied">No
                         </label>
                       </div>
                   </div>  
@@ -1576,13 +1688,9 @@ const handleChangeUnits = (index, value) => {
         </div>
         {/**=========================== 4 ==========================*/}
 
-
-       
-
       {/**=========================== 4 ==========================*/}      
         {/**Start of Filling the FORM for CLASS CODES UNITS*/}
-        <div className="w-full container mx-auto">            
-            <form>
+        <div className="w-full container mx-auto">
                 <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
                     <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
                         <div className="text-normal font-medium text-center mt-2">
@@ -1598,7 +1706,7 @@ const handleChangeUnits = (index, value) => {
                         </div><hr className='mt-2'/>
 
                         { inputFields.map((inputField, index) => (
-                            <div key={index} className="flex flex-wrap flex-row px-3 -mx-3 mt-3 mb-3">
+                            <div style={{pointerEvents:'none'}} key={index} className="flex flex-wrap flex-row px-3 -mx-3 mt-3 mb-3">
                                 {/**Class code */}
                                 <div className="w-full md:w-[25%] pr-1">
                                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={`grid-classcode`}>
@@ -1752,18 +1860,16 @@ const handleChangeUnits = (index, value) => {
                             {/*fix the two buttons above, no axios connection yet, do for other view*/}
                     </div>
                 </div>
-            </form>
         </div>
          {/**===========SUMBIT Button============= */}
           {prereg.pre_reg_status !== 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              <button onClick={onDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                Decline
-              </button>
-              {/* <button onClick={onReturn} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
-                Return
-              </button> */}
-              <button onClick={onClickAccept} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+              {prereg.pre_reg_status === 'Pending' && (
+                <button onClick={promptDecline} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mr-6 rounded-full">
+                  Decline
+                </button>
+               )}
+              <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
                 Accept
               </button>
             </div>
@@ -1773,16 +1879,61 @@ const handleChangeUnits = (index, value) => {
         {/**=====================================================*/}   
       {prereg.pre_reg_status === 'Accepted' && (
             <div className="text-center flex justify-end my-8">
-              
-              <button onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
-                Print
-              </button>
+              <div className='space-x-3'>
+                <a href="#preRegTop">
+                  <button hidden={allowEdit === 'auto'} onClick={allowChange} type="button" className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full">
+                    Allow Edit
+                  </button> {/*after enabled move screen to top and promp form is now editable again*/}
+                </a>
+                <button hidden={allowEdit === 'auto'} onClick={onPrint} type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                    Print
+                </button>
+              </div>
+              <div className='space-x-3'>
+                <button hidden={allowEdit === 'none'} onClick={onSaveChanges} type="button" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full">
+                    Save Changes
+                </button>
+                <button hidden={allowEdit === 'none'} onClick={() => {noChange(); setPreregData(oldprereg);}} type="button" className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                    Cancel
+                </button>
+              </div>
             </div>
           )}
       </div>
       {/**=====================================================*/}   
-
+      
     </main>
+
+    <ReactModal
+            isOpen={showPromptA}
+            onRequestClose={() => setShowPromptA(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <AcceptPrompt
+                    closeModal={() => setShowPromptA(false)}
+                    handleSave={onClickAccept}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+    </ReactModal>
+
+    <ReactModal
+            isOpen={showPromptD}
+            onRequestClose={() => setShowPromptD(false)}
+            className="md:w-[1%]"
+          >
+            <div>
+                <DeclinePrompt
+                    closeModal={() => setShowPromptD(false)}
+                    handleSave={onDecline}
+                    action={action}
+                    promptMessage={promptMessage}
+                />
+            </div>
+    </ReactModal>
+
     </>
     
   )

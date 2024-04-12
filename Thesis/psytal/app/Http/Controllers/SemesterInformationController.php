@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SemesterInformationRequest;
 use App\Models\semester_information;
 use App\Models\logs;
+use App\Models\posts; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,7 @@ class SemesterInformationController extends Controller
         
             // Combine semester and extract the year from start_of_school_year and end_of_school_year
             $ongoingSemester = $firstSemester['semester'] . ' ' . $startYear . ' - ' . $endYear;
-        
+           
             // Check if the current date is equal to or greater than end_of_school_year
             if ($currentDate >= $firstSemester['end_of_school_year']) {
                 // Update open_pre_reg value to 0
@@ -44,7 +45,12 @@ class SemesterInformationController extends Controller
                 return response(['The school year has ended.']);
             } else {
                 // Return the ongoing semester without updating open_pre_reg
-                return response([$ongoingSemester]);
+                return response([
+                    "semester" => $ongoingSemester,
+                    "startPR" => $firstSemester['start_of_prereg'],
+                    "endPR" => $firstSemester['end_of_prereg'],
+                    "openPR" => $firstSemester['open_pre_reg'],
+                ]);
             }
         } else {
             // Handle the case when no records are found
@@ -95,10 +101,10 @@ class SemesterInformationController extends Controller
         $data = $request->validated();
 
         // Check if a record with the specified semester already exists
-        $existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
-        /*$existingSemesterInfo = semester_information::where('id', 1)
-                                                ->where('semester', $data['semester'])
-                                                ->first();*/
+        //$existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
+        $existingSemesterInfo = semester_information::where('id', 1)
+                                                //->where('semester', $data['semester'])
+                                                ->first();
         //should only create if there is no item with id=1, then set the id to 1 (if possible)
         //the rest is update
 
@@ -111,10 +117,13 @@ class SemesterInformationController extends Controller
                 'end_of_semester' => $data['end_of_semester'],
                 'start_of_school_year' => $data['start_of_school_year'],
                 'end_of_school_year' => $data['end_of_school_year'],
-                'open_pre_reg' => $data['open_pre_reg']
+                'open_pre_reg' => $data['open_pre_reg'],
+                'semester' => $data['semester']
             ]);
 
             $this->storeLog('Semester information updated', 'semester information', 'Pre-registration updated', 'semester_information');
+
+            //$this->setPreregPost('open'); set as note because not in documents
 
             return response([
                 'message' => 'Semester information updated successfully',
@@ -134,6 +143,8 @@ class SemesterInformationController extends Controller
             ]);
 
             $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
+
+            //$this->setPreregPost('open'); set as note because not in documents
 
             return response([
                 'message' => 'Semester information created successfully',
@@ -190,13 +201,57 @@ class SemesterInformationController extends Controller
     
         $this->storeLog('Pre-registration status updated', 'pre-reg status', 'Pre-registration closed', 'semester_information');
     
+        //$this->setPreregPost('closed'); set as note because not in documents
+
         return response()->json([
             'message' => 'Pre-Registration is Now Closed',
             'success' => true
         ]);
     }
     
-    
+    //----------
+    public function updatesemesterinformation(SemesterInformationRequest $request)
+    {
+        $data = $request->validated();
+        $existingSemesterInfo = semester_information::where('id', 1)
+                                                ->first();
+
+        if ($existingSemesterInfo) {
+            // Update the existing record
+            $existingSemesterInfo->update([
+                'start_of_prereg' => $data['start_of_prereg'],
+                'end_of_prereg' => $data['end_of_prereg'],
+                'start_of_semester' => $data['start_of_semester'],
+                'end_of_semester' => $data['end_of_semester'],
+                'start_of_school_year' => $data['start_of_school_year'],
+                'end_of_school_year' => $data['end_of_school_year'],
+                'open_pre_reg' => $data['open_pre_reg'],
+                'semester' => $data['semester']
+            ]);
+
+            $this->storeLog('Semester information updated', 'semester information', 'Pre-registration information updated', 'semester_information');
+
+            /*if ($existingSemesterInfo['open_pre_reg']){
+                $this->setPreregPost('open');
+            } else {
+                $this->setPreregPost('closed');
+            }*/ 
+            //set as note because not in documents
+
+            
+
+            return response([
+                'message' => 'Semester information updated successfully',
+                'success' => true
+            ]);
+        } else {
+            return response([
+                'message' => 'Semester information update failed',
+                'success' => false
+            ]);
+        }
+    }
+    //----------
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
        {
@@ -215,4 +270,67 @@ class SemesterInformationController extends Controller
            return $logs;
        }
        //pending tests
+
+    public function setPreregPost($change)
+       {
+        $semInfoId = 1;
+        $semInfo = semester_information::where('id', $semInfoId)->first();
+        $startofPR = $semInfo['start_of_prereg'];
+        $endofPR = $semInfo['end_of_prereg'];
+
+        $startofPRFormatted = date('F j, Y', strtotime($startofPR));
+        $endofPRFormatted = date('F j, Y', strtotime($endofPR));
+
+        if ($semInfo) {
+            //ask for input for the messages
+            $messagetitle = "Pre-registration period for " . $semInfo['semester'] . " SY: " . $semInfo['start_of_school_year'] ."-" . $semInfo['end_of_school_year'] . " is now " . $change . ".";
+            $messagebody = "Pre-registration will be open starting from " . $startofPRFormatted ." to " . $endofPRFormatted . ".";
+
+            $messageOpen = " All students please be guided to complete the online pre-registration forms in your respective accounts before the end of the pre-registration period.";
+            $messageClosed = " All students please be guided that the college is no longer accepting pre-registration forms.";
+
+            if($change === 'open') {
+
+                $existingPost = posts::where('title', $messagetitle)->first();
+
+                if($existingPost) {
+                    // If the post already exists, update it
+                    $existingPost->update([
+                        'description' => $messagebody . $messageOpen,
+                    ]);
+                } else {
+                    $preRegPost = posts::create([
+                        'user_id' =>  auth()->user()->id,
+                        'title' => $messagetitle,
+                        'description' => $messagebody . $messageOpen,
+                    ]);
+                }
+                $this->storeLog('Pre-reg open post created', 'posts', $messagetitle, 'posts');
+
+                    //slug is auto-generated, there will be errors because it will be unique
+            } else if ($change === 'closed') {
+
+                $existingPost = posts::where('title', $messagetitle)->first();
+
+                if($existingPost) {
+                    // If the post already exists, update it
+                    $existingPost->update([
+                        'description' => $messageClosed,
+                    ]);
+                } else {
+                    $preRegPost = posts::create([
+                        'user_id' =>  auth()->user()->id,
+                        'title' => $messagetitle,
+                        'description' => $messageClosed,
+                    ]);
+                }
+
+                $this->storeLog('Pre-reg closed post created', 'posts', $messagetitle, 'posts');
+            }
+
+        } else {
+            return response()->json(['No Semester Information found.']);
+        }
+
+       }
 }

@@ -8,8 +8,7 @@ import { PDFDocument } from 'pdf-lib'
 import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Student/Pre-registration/1.png";
-import page2 from "@assets/Help/Student/Pre-registration/2.png";
+
 
 
 export default function PreRegistrationForContinuing(prereg) {
@@ -38,13 +37,6 @@ export default function PreRegistrationForContinuing(prereg) {
         console.error('Error fetching backup files:', error);
     });
   }, []);
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
 
 
   const [preregData, setPreregData] = useState( {
@@ -488,7 +480,7 @@ export default function PreRegistrationForContinuing(prereg) {
     <main className="w-[100%] h-[100%]">
         <div className="lg:w-8/12 px-4 container mx-auto">          
             <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
-                <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
                     <div className="">
                     <img src={schoolLogo}
                         className="object-cover btn- h-20 w-20 rounded-full bg-gray-300" alt="BSU Logo" />
@@ -585,7 +577,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        //value={preregData.start_of_school_year}
+                                        value={preregData.start_of_school_year}
                                         required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
@@ -789,10 +781,10 @@ export default function PreRegistrationForContinuing(prereg) {
                                         setPreregData({ ...preregData, year_level: ev.target.value })
                                     }}
                                 >
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <option value="1st">1st</option>
+                                        <option value="2nd">2nd</option>
+                                        <option value="3rd">3rd</option>
+                                        <option value="4th">4th</option>
                                 </select>
                                 </div> 
                                 </div>                            
@@ -1721,10 +1713,6 @@ export default function PreRegistrationForContinuing(prereg) {
                     </button>
                 </div>  
             </form>  
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
       
         </div>
         {/*moved 'section/course(s) to be enrolled' to formviews*/}
@@ -1742,7 +1730,7 @@ export default function PreRegistrationForContinuing(prereg) {
       )}
     {disclaimer && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[350px] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
         <div className="w-full px-4 mx-auto mt-6">
             <div className="text-xl text-green-600 font-semibold my-3">
               
@@ -1776,49 +1764,6 @@ export default function PreRegistrationForContinuing(prereg) {
       </div>
       )}
 -----------------
-
-{/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
     </>
 
   )

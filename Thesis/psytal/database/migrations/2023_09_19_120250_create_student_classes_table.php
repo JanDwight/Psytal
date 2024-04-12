@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('instructor_profile');
             $table->foreignIdFor(classes::class, 'class_id');
             $table->string('grade')->nullable();
+            $table->string('term')->default('none');
+            $table->string('yrlevel')->default('none');
             $table->tinyInteger('ongoing')->default(2);
             $table->tinyInteger('archived')->default(0);
             $table->timestamps();

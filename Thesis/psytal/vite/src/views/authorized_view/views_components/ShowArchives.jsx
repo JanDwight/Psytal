@@ -164,8 +164,8 @@ export default function ShowArchiveTable({ showModal, onClose, dataTable}) {
   };
 
   return (
-    <div className="p-3 pb-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
-      <div className="relative bg-white xl:h-full xl:w-5/6 px-4 pt-11 pb-12 shadow-lg rounded-lg">
+    <div className="p-3 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative bg-white h-4/5 w-4/5 px-4 pt-11 pb-12 shadow-lg rounded-lg">
         <button
           onClick={handleCloseModal}
           className="mr-2 absolute top-2 right-0 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 cursor-pointer"

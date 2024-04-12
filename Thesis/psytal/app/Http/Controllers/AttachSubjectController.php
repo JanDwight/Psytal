@@ -16,12 +16,17 @@ class AttachSubjectController extends Controller
     public function createStudentClasses(Request $request)
     {
         $request->validate([
+            'yearLevel' => 'required|string',
+            'term' => 'required|string',
             'studentData' => 'array',
             'studentData.first_name' => 'required',
             'studentData.middle_name' => 'required',
             'studentData.last_name' => 'required',
             'subjectData' => ''
         ]);
+
+        $studentYear = $request->input('yearLevel');
+        $currentSemester = $request->input('term');
 
         $DataBaseCleaner = student_profile::where('start_of_school_year', null);
 
@@ -58,6 +63,8 @@ class AttachSubjectController extends Controller
 
             $studentClasses->instructor_profile = $instructorName;
             // Save the record to the student_classes table
+            $studentClasses->yrlevel = $studentYear;
+            $studentClasses->term = $currentSemester;
             $studentClasses->save();
         }
 
@@ -160,16 +167,27 @@ public function editGrade(Request $request)
     // Validate the incoming request data
     $validatedData = $request->validate([
         'student_id' => 'required',
-        'studentClasses' => 'required|array'
+        'currentSemester' => 'required',
+        'studentClasses' => 'required|array',
     ]);
+
+    $currrentSem = $validatedData['currentSemester'];
 
     try {
         // Find the student
         $student = student_classes::where('student_profile_id', $validatedData['student_id'])->first();
 
         if (!$student) {
-            return response()->json(['error' => 'Student not found'], 404);
-        }
+            return response()->json([
+                'message' => ' Student not found',
+                'success' => false
+            ]);
+        } /*else {
+            return response()->json([
+                'message' => ' Student found '. $currrentSem,
+                'success' => true
+            ]);
+        }*/ //runs up to here...
 
         // Update each class grade
         foreach ($validatedData['studentClasses'] as $class) {
@@ -179,19 +197,34 @@ public function editGrade(Request $request)
             if ($studentClass) {
                 $studentClass->update([
                     'grade' => $class['grade'],
-                    'ongoing' => 1
+                    'ongoing' => 1,
                 ]);
             } else {
                 // Handle if student class not found
             }
+            if ($studentClass['term'] === 'none'){
+                $studentClass->update([
+                    'term' => $currrentSem
+                ]);
+                //set all 'none' terms/semesters to the current semester from frontend
+            }
         }
 
-        $this->storeLog('Grades updated', 'grades', 'Student User ID: ' . $validatedData['student_id'], 'student_classes');
+        $studentName = student_profile::where('student_profile_id', $validatedData['student_id'])->first(); //search for student
+        $fullName = $studentName['last_name'] . ', ' . $studentName['first_name'] . ' ' . $studentName['middle_name'] . '.';
 
-        return response()->json(['message' => 'Grades updated successfully'], 200);
+        $this->storeLog('Grades updated', 'grades', $fullName, 'student_classes');
+
+        return response()->json([
+            'message' => ' Grades Succes!',
+            'success' => true
+        ]);
     } catch (\Exception $e) {
         // Handle any exceptions that occur during the update process
-        return response()->json(['error' => $e->getMessage()]);
+        return response()->json([
+            'message' => ' Grades Failed!',
+            'success' => false
+        ]);
     }
 }
 

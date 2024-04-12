@@ -5,14 +5,6 @@ import AddLinks from '../views_components/AddLinks.jsx';
 import ReactModal from 'react-modal';
 import edit from "@assets/icons8createpost.png";
 import archive from "@assets/delete.png";
-import page1 from "@assets/Help/Admin/Links/1.png";
-import page2 from "@assets/Help/Admin/Links/2.png";
-import page3 from "@assets/Help/Admin/Links/3.png";
-import page4 from "@assets/Help/Admin/Links/4.png";
-import page5 from "@assets/Help/Admin/Links/5.png";
-import page1E from "@assets/Help/Staff/Links/1.png";
-import page2E from "@assets/Help/Staff/Links/2.png";
-import page3E from "@assets/Help/Staff/Links/3.png";
 import EditLinks from '../views_components/EditLinks.jsx';
 import ArchiveLinks from '../views_components/ArchiveLinks.jsx';
 
@@ -22,19 +14,12 @@ export default function Links() {
   const [selectedLink, setSelectedLink] = useState('');
   const [isAchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const [filterText, setFilterText] = useState(''); //for search
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const {userRole} = useStateContext(''); //just refresh server
 
   const handleCloseArchiveModal = () => {
     setSelectedLink(null);
     setIsArchiveModalOpen(false);
   }
-
-   // Function to toggle help modal
-   const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
-
     const addLinks = async (linkData) => {
       try {
         const response = await axios.post('/addlink', linkData);
@@ -95,20 +80,21 @@ export default function Links() {
     (link) =>
       link.class_code.toString().includes(filterText) ||
       link.class_description.toLowerCase().includes(filterText.toLowerCase()) ||
-      link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
+      //link.instructor_name.toLowerCase().includes(filterText.toLowerCase()) ||
       link.url.toLowerCase().includes(filterText.toLowerCase())
   );
  
   return (
     <>
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
-      <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
+      <div className=''>
+      <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Links</div>
-        <div className="mt-5 mx-5 flex flex-row justify-between items-baseline">
+        <div className="mt-5 mx-0 sm:mx-5 flex flex-col sm:flex-row justify-between items-baseline">
           
           {/* //Search input */}
           <div className="flex items-baseline">
-          <div className="my-4 mx-4" id="magnifying_glass">
+          <div className="m-1 sm:m-4" id="magnifying_glass">
               <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -121,10 +107,10 @@ export default function Links() {
             onChange={(event) => setFilterText(event.target.value)}
             className="h-10 px-7 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
           />
-        </div>
+          </div>
           {/* Add Links button */}
           <button onClick={() =>  setIsModalOpen(true)}
-            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10"
+            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5"
           >
             Add Links
           </button>
@@ -137,9 +123,9 @@ export default function Links() {
           <table className="table w-full table-striped text-gray-700 mt-5" >
 		          <thead>
 		              <tr>
-                    <th className="text-center bg-gray-200" style={{ width: "10%" }}>Title</th>
-                    <th className="text-center bg-gray-200" style={{ width: "15%" }}>Description</th>
-                    <th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>
+                    <th className="text-center bg-gray-200" style={{ width: "25%" }}>Title</th>
+                    <th className="text-center bg-gray-200" style={{ width: "25%" }}>Description</th>
+                    {/*<th className="text-center bg-gray-200 p-2" style={{ width: "15%" }}>Contact</th>*/}
                     <th className="text-center bg-gray-200 p-2" style={{ width: "40%" }}>Link </th>
                     <th className="text-left bg-gray-200" style={{ width: "auto" }}>Action</th>
 		              </tr>
@@ -155,16 +141,16 @@ export default function Links() {
                   className={`${index % 2 === 0 ? 'odd:bg-green-100' : ''}`} 
                   onSubmit={addLinks}
                   >
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "10%" }}>{link.class_code.slice(0, 60)}</td>
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.class_description.slice(0, 60)}</td>
-                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 60)}</td>
+                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_code.slice(0, 60)}</td>
+                    <td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "25%" }}>{link.class_description.slice(0, 60)}</td>
+                    {/*<td className="text-center p-2 overflow-hidden overflow-wrap break-word" style={{ width: "15%" }}>{link.instructor_name.slice(0, 60)}</td>*/}
                     <td className="text-left p-2 overflow-hidden overflow-wrap break-word" style={{ width: "40%" }}>
                       <a href={link.url} target="_blank" rel="noopener noreferrer" 
                       className="hover:underline p-2 hover:text-blue-500 overflow-hidden overflow-wrap break-word">
                       {link.url.slice(0, 40)}... {/* Displaying the first 50 characters */}
                       </a>
                     </td>
-                    <td className= "flex items-left p-2" style={{ width: "auto"}}>
+                    <td className= "flex items-left p-2">
                       <button onClick={() => handleEditClick(link)}>
                         <img src={edit} alt='edit' className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125'/>
                       </button>
@@ -177,11 +163,9 @@ export default function Links() {
                 ))}
                 </tbody>
           </table>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
       </div>
+      </div>
+      
     </div>
 
 
@@ -222,111 +206,6 @@ export default function Links() {
               selected={selectedLink}
             />
       </ReactModal>
-
-{/* HELP -ADMIN*/}
-{userRole == 1 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-        <img
-            src={page4}
-            alt="Page 4"
-        />
-        <img
-            src={page5}
-            alt="Page 5"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-)}
- {/* HELP- STAFF*/}
- {userRole == 2 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1E}
-            alt="Page 1"
-        />
-        <img
-            src={page2E}
-            alt="Page 2"
-        />
-        <img
-            src={page3E}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
 
       </>
 

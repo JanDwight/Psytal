@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PreRegContinuingAccepted;
 use App\Mail\SendPassword;
 use App\Mail\ForgotPasswordInputEmail;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Models\logs;
 use Mail;
+use App\Mail\DeclinedApplication;
 
 class SendStudentAccountPasswordController extends Controller
 {
@@ -24,12 +26,12 @@ class SendStudentAccountPasswordController extends Controller
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
-            if ($studentInfo['from'] === 'addUser'){
-                $fullName = $studentInfo['last_name'] . ', ' . $studentInfo['first_name'] . ' ' . $studentInfo['middle_name'];
+            if ($studentInfo['role'] === '4'){
+                $fullName = $studentInfo['fullName'];
 
                 $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $fullName, $fullName, $studentInfo['role'] );
             } else {
-                $this->storeLog('Account password sent', 'user password', $studentInfo['email'], 'users', $studentInfo['lastName'], $studentInfo['lastName'], $studentInfo['role'] );
+                $this->storeLog('Account password sent', 'User password', $studentInfo['email'], 'users', $studentInfo['fullName'], $studentInfo['fullName'], $studentInfo['role'] );
             }
 
             return response()->json([
@@ -41,7 +43,7 @@ class SendStudentAccountPasswordController extends Controller
         {
           return response()->json([
             'success' => false,
-            'message' => 'Somthing Went Wrong. Please Try Again Later', $e
+            'message' => 'Somthing Went Wrong. Please Try Again Later', $e->getMessage()
           ]);
         } 
     }
@@ -104,6 +106,63 @@ class SendStudentAccountPasswordController extends Controller
         }
     }
 
+    public function declined(Request $request) {
+        $studentInfo = $request->query();
+    
+        $data = [
+            'title' => 'PSYTAL: Department of Psychology - Benguet State University',
+            'body' => 'Sorry, your application has been declined, please contact the department via email: css.psychology@bsu.edu.ph or message on https://www.facebook.com/psychologybsu'
+        ];
+    
+        try {
+            // Send the mail
+            Mail::to($studentInfo['email'])->send(new DeclinedApplication($data));
+
+            $this->storeLog('Send pre-registration declined email', 'Decline Pre-registration', 'Pre-registration of: ' . $studentInfo['email'], 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role);
+                                                        //$actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role
+            return response()->json([
+                'success' => true,
+                'message' => 'Mail sent successfully.',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(),
+            ]);
+        }        
+    }
+
+    public function preRegContinuingAccepted(Request $request) {
+        $studentInfo = $request->query();
+    
+        $data = [
+            'title' => 'PSYTAL: Department of Psychology - Benguet State University',
+            'body' => 'Congratulations, your application has been Accepted, For more inquiries please contact the department via email: css.psychology@bsu.edu.ph or message on https://www.facebook.com/psychologybsu'
+        ];
+    
+        try {
+            // Send the mail
+            Mail::to($studentInfo['email'])->send(new PreRegContinuingAccepted($data));
+
+            $this->storeLog('Send pre-registration accepted email', 'Accept Pre-registration', 'Pre-registration of: ' . $studentInfo['email'], 'preregistration', auth()->user()->name, auth()->user()->id, auth()->user()->role);
+                                                        //$actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role
+        
+                            //fullname
+                            //email
+                            //role
+            return response()->json([
+                'success' => true,
+                'message' => 'Mail sent successfully.',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(),
+            ]);
+        }        
+    }
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin, $user_name, $user_id, $user_role)
     {
         // Create a new Log instance

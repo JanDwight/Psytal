@@ -6,14 +6,6 @@ import ReactModal from 'react-modal';
 import { useStateContext } from '../../../context/ContextProvider';
 import PreRegistrationFormView from '../views_components/Pre_Registration_Components/PreRegistrationFormView';
 import PreRegistrationForContinuingView from '../views_components/Pre_Registration_Components/PreRegistrationForContinuingView';
-import page1 from "@assets/Help/Admin/Pre-registration/1.png";
-import page2 from "@assets/Help/Admin/Pre-registration/2.png";
-import page3 from "@assets/Help/Admin/Pre-registration/3.png";
-import page1E from "@assets/Help/Staff/Pre-registration/1.png";
-import page2E from "@assets/Help/Staff/Pre-registration/2.png";
-import page3E from "@assets/Help/Staff/Pre-registration/3.png";
-
-
 
 export default function PreRegistration() {
   const [loading, setLoading] = useState(true);
@@ -36,8 +28,13 @@ export default function PreRegistration() {
     };
 
   const handleFilter = (filterValue) => {
-    setActiveFilter(filterValue); // Update active filter state
-    setFilter(filterValue);
+    if(filterValue === 'All'){
+      setActiveFilter(''); // Update active filter state
+      setFilter('');
+    } else{
+      setActiveFilter(filterValue); // Update active filter state
+      setFilter(filterValue);
+    }
   };
 
   useEffect(() => {
@@ -102,16 +99,10 @@ export default function PreRegistration() {
   });
   console.log("THIS IS THE DATA " + selectedData.type_of_student);
 
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
-
 
   return (
     <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">
+      <div className=" overflow-x-auto">
       <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
         <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Pre-Registration</div>
         <div className='mt-5 mx-5 flex flex-row justify-between items-baseline'>      
@@ -134,19 +125,7 @@ export default function PreRegistration() {
             ></input>
           </div>
 
-          <button
-            className={`bg-${activeFilter === 'Incoming' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10`}
-            onClick={() => handleFilter('Incoming')}
-          >
-            Incoming Student
-          </button>
-          <button
-            className={`bg-${activeFilter === 'Continuing' ? '[#397439]' : '[gray-200]'} rounded-2xl border border-gray-700 px-3 py-2 text-gray-700 font-size ml-10`}
-            onClick={() => handleFilter('Continuing')}
-          >
-            Continuing Student
-          </button>
-
+        </div>
       </div>
       <div className="mt-2 mb-5"></div>
       <div>
@@ -161,10 +140,37 @@ export default function PreRegistration() {
               Date of Submission
               {sortByDateAsc ? <span>&#9650;</span> : <span>&#9660;</span>}
             </th>
-              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>Incoming/Continuing</th>
+              <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "10%" }}>
+                <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
+                            Pre-Registration Type
+                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="fixed z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {['All', 'Incoming', 'Continuing'].map((status, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleFilter(status)}
+                                  className="block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500"
+                                >
+                                  {status}
+                                </button>
+                              </Menu.Item>
+                            ))}
+                          </Menu.Items>
+                        </Transition>
+                    </Menu></th>
               <th className="text-left text-gray-700 bg-gray-200 p-2" style={{ width: "12%" }}>
-              <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    <Menu as="div" className="relative block text-left">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Status
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -177,38 +183,19 @@ export default function PreRegistration() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              <button onClick={() => handleStatus('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              >
-                                ALL
-                              </button>
-                              </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleStatus('Pending')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              >
-                                Pending
-                              </button>
-                              </Menu.Item>
-                            <Menu.Item>
-                                <button onClick={() => handleStatus('Accepted')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                          <Menu.Items className="fixed z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {['All', 'Pending', 'Accepted', 'Declined'].map((status, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleStatus(status)}
+                                  className="block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500"
                                 >
-                                  Accepted
+                                  {status}
                                 </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <button onClick={() => handleStatus('Decline')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
-                                >
-                                  Declined
-                                </button>
-                            </Menu.Item>
+                              </Menu.Item>
+                            ))}
                           </Menu.Items>
                         </Transition>
-                      </Menu>
+                    </Menu>
               </th>
             </tr>
           </thead>
@@ -239,7 +226,7 @@ export default function PreRegistration() {
                       ? 'bg-green-600'
                       : item.pre_reg_status === 'Pending'
                       ? 'bg-blue-600'
-                      : item.pre_reg_status === 'Decline'
+                      : item.pre_reg_status === 'Declined'
                       ? 'bg-red-600'
                       : ''
                   } w-fit py-2 px-2 rounded-xl`}>
@@ -249,10 +236,6 @@ export default function PreRegistration() {
               </tr>
             ))}
           </table>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
         </div>
       </div>
       
@@ -277,104 +260,6 @@ export default function PreRegistration() {
           )}
         </div>
       </ReactModal>
-
-{/* HELP -ADMIN*/}
-{userRole == 1 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
-
-     {/* HELP- STAFF*/}
-     {userRole == 2 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1E}
-            alt="Page 1"
-        />
-        <img
-            src={page2E}
-            alt="Page 2"
-        />
-        <img
-            src={page3E}
-            alt="Page 3"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
     </div>
   )
 }

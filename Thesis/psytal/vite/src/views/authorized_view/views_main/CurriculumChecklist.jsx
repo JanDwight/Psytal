@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios';
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Student/CurriculumChecklist/1.png";
-
 
 export default function CurriculumChecklist(){
       const [errors, setErrors] = useState({ __html: '' });
+      const [curriculum, setCurriculum] = useState([]);
+      const [grade, setGrade] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
-
-      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-      // Function to toggle help modal
-      const toggleHelpModal = () => {
-        setIsHelpModalOpen(!isHelpModalOpen);
-      };  
 
       //disclaimers
       const [disclaimer, setDisclaimer] = useState(false);
@@ -27,7 +20,6 @@ export default function CurriculumChecklist(){
         
     // should be connected to studentclasslist of instructors to update grade values
     // add to admin/staff layout so they can edit the grades during pre-regristration period
-      const [curriculum, setCurriculum] = useState([]);   
         useEffect(() => {
             fetchCurriculum();
           }, []);
@@ -41,8 +33,6 @@ export default function CurriculumChecklist(){
             }
           };
 
-          const [grade, setGrade] = useState([]);   
-          
           useEffect(() => {
               fetchGrade();
             }, []);
@@ -64,7 +54,7 @@ export default function CurriculumChecklist(){
     curriculum.course_code.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.units.toString().includes(filterText) ||
     curriculum.course_title.toLowerCase().includes(filterText.toLowerCase()) ||
-    curriculum.hoursperWeek.toString().includes(filterText) ||
+    //curriculum.hoursperWeek.toString().includes(filterText) ||
     curriculum.course_type.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.preReq.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.grade.toString().includes(filterText) // this should be from studentclasslist db
@@ -137,15 +127,11 @@ export default function CurriculumChecklist(){
                         </tbody>
 	                  </table>
                   )}
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
             </div>
           </div>
           {disclaimer && (
           <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-          <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+          <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[75%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
           <div className="w-full px-4 mx-auto mt-6">
               <div className="text-xl text-green-600 font-semibold my-3">
                 
@@ -172,43 +158,6 @@ export default function CurriculumChecklist(){
           </div>
         </div>
         )}     
-        {/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
         </>
 );
 }

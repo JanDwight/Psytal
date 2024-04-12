@@ -113,7 +113,7 @@ export default function AddClass({closeModal}) {
         course_id: selected_subject,
         class_section,
         class_code,
-        instructor_name,
+        instructor_name: instructor_name, //added instructor_name, old: instructor_name,
       };
       
   
@@ -250,25 +250,20 @@ export default function AddClass({closeModal}) {
                 <label htmlFor="section" className="block text-sm text-gray-700 px-2">
                   Section:
                 </label>
-                  <input
-                    id="section"
-                    name="section"
-                    type="text"
-                    maxLength={1}
-                    placeholder='Section'
-                    required 
-                    onChange={(e) => {
-                      const value = e.target.value.toUpperCase();
-                      setSection(value);
-                    }}
-                    
-                    className={`block w-[50%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ${
-                      class_section_error ? 'border-red-500' : ''
-                    }`}
-                  />
-                  {class_section_error && (
-                    <p className="text-red-500 text-sm mt-1">{class_section_error}</p>
-                  )}
+                <select
+                  id="section"
+                  name="section"
+                  onChange={(e) => setSection(e.target.value)}
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="" disabled={class_section !== ''}>Class Section</option>
+                  {[...Array(26)].map((_, index) => (
+                    <option key={index} value={String.fromCharCode(65 + index)}>
+                      {String.fromCharCode(65 + index)}
+                    </option>
+                  ))}
+                </select>
               </div>
 
             </div>

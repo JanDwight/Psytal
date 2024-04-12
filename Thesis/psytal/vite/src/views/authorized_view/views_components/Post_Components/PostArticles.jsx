@@ -110,7 +110,7 @@ export default function PostArticles() {
                 alt="avatar"
               />
             </a>} */}
-            <div className="w-3/4">
+            <div className="w-full">
               <h1 className="text-green-700 font-bold text-2xl">{post.author_name || 'Author Name'}</h1>
               <Timestamp timestamp={post.created_at} updatedAt={post.updated_at} />
               <div>
@@ -119,7 +119,11 @@ export default function PostArticles() {
                 </div>
               </div>
               <div className="content text-2xl">
-                <ReadMore maxCharacterCount={200}>{post.description}</ReadMore>
+                <p className='text-justify'>
+                  <ReadMore maxCharacterCount={200}>
+                      {post.description}
+                  </ReadMore>
+                </p>
               </div>
             </div>
           </div>

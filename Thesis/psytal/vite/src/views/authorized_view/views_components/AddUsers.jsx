@@ -41,6 +41,10 @@ export default function AddUsers({ onClose}) {
   
   //add users onsubmit
   const onSubmit = async () => {
+            
+    setSuccessMessage('Loading...');
+    setSuccessStatus('Loading');
+
     // Password generator
     const numbers = '0123456789';
     const symbols = '!@#$%^&*()_+{}[]~-';
@@ -77,7 +81,6 @@ export default function AddUsers({ onClose}) {
       password: password,
       role: selectedRole,
       email: email,
-      from: 'addUser'
     };
   
     try {
@@ -104,7 +107,7 @@ export default function AddUsers({ onClose}) {
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
 
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-[20%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mx-auto p-5">           
+          <div className="w-[250px] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mx-auto p-5">           
             <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>
             Add User
             </div>

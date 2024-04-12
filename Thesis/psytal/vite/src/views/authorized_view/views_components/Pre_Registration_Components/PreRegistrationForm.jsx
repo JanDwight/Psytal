@@ -13,9 +13,6 @@ import preregFirstYearForm from '../../../../assets/preregFirstYearForm.pdf';
 import Feedback from '../../../feedback/Feedback';
 
 import ReactModal from 'react-modal';
-import page1 from "@assets/Help/Pre-registration-incoming/1.png";
-import page2 from "@assets/Help/Pre-registration-incoming/2.png";
-
 
 export default function PreRegistrationForm() {
   
@@ -345,12 +342,6 @@ export default function PreRegistrationForm() {
     
 
   };
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-    // Function to toggle help modal
-    const toggleHelpModal = () => {
-      setIsHelpModalOpen(!isHelpModalOpen);
-    };
 
   //clearing the input fields using the reset button
   const handleClear = () => {
@@ -473,7 +464,7 @@ export default function PreRegistrationForm() {
     <main className="w-[100%] h-[100%] py-[10%]">
       <div className="lg:w-8/12 mx-auto px-4 container">          
         <div className="rounded-t bg-grayGreen mb-0 px-6 py-9 items-center  "> {/**BOX  with contents*/}
-          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <section style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='flex-col sm:flex-row'>
             <div >
               <img src={schoolLogo}
                 className="object-cover btn- h-20 w-20 rounded-full bg-gray-300" alt="BSU Logo" />
@@ -1657,15 +1648,11 @@ export default function PreRegistrationForm() {
             </button>
         </div>  
         </form>
-        {/* Help Modal */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-              <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div>
       </div>
     </main>
     {disclaimer && (
         <div className="fixed top-0 left-0 w-full h-full overflow-y-auto bg-black bg-opacity-50">
-        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[20%] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
+        <div className="lg:w-3/4 px-4 py-1 shadow-lg w-[350px] h-fit bg-[#FFFFFF] rounded-xl mt-[10%] mx-auto p-5">
         <div className="w-full px-4 mx-auto mt-6">
             <div className="text-xl text-green-600 font-semibold my-3">
               
@@ -1698,52 +1685,7 @@ export default function PreRegistrationForm() {
         </div>
         
       </div>
-      )}
-
-      {/* HELP*/}
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          top:'15%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-      
+      )}  
     </>
     
   )

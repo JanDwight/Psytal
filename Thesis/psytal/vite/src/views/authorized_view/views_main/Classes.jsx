@@ -4,6 +4,7 @@ import { useStateContext } from '../../../context/ContextProvider';
 import ReactModal from 'react-modal';
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import AddClass from "../views_components/AddClass";
+import AddClassForOutside from "../views_components/AddClassForOutside.jsx";
 import ClassPopUp from "../views_components/ClassPopUp";
 import ClassList from '../views_components/ClassList.jsx';
 import page1 from "@assets/Help/Admin/Classes/1.png";
@@ -43,6 +44,7 @@ function classNames(...classes) {
 }
 
 export default function Classes(){
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isClassModalOpen, setIsClassModalOpen] = useState(false);
     const [filterText, setFilterText] = useState(''); // Filter text state
@@ -51,6 +53,7 @@ export default function Classes(){
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedSection, setSelectedSection] = useState(null);
     const {userRole} = useStateContext(''); //just refresh server
+    const menuItems = ['All', 'TBA', ...[...Array(26)].map((_, i) => String.fromCharCode(65 + i))];
     
     //filter semester
     const handleSemester = (semester) => {
@@ -70,27 +73,21 @@ export default function Classes(){
       setSelectedSection(section === 'All' ? null : section);
   };
 
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
-  // Function to toggle help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
-
 
 
     return(
     <>
-        <div className="w-full h-[auto]  rounded-t-3xl  bg-white shadow-2xl pt-5 pb-6 ">{/*For the Container*/}
-            <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
+        <div className="w-full h-[auto]  rounded-3xl  bg-white shadow-2xl pt-5 pb-6 ">{/*For the Container*/}
+          <div className="">
+          <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
                 <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Classes</div>
-                <div className="mt-5 mx-5 flex flex-row justify-between items-baseline">
+                <div className="mt-5 mx-5 flex flex-col sm:flex-row justify-between items-baseline">
                   
                     
                     {/*search*/}
                     <div className="flex items-baseline">
                         
-                        <div className="my-4 mx-4" id="magnifying_glass">
+                        <div className="my-4 mx-0 sm:mx-4" id="magnifying_glass">
                           <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
@@ -104,13 +101,18 @@ export default function Classes(){
                           onChange={(event) => setFilterText(event.target.value)}
                           className="h-10 px-6 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
                         ></input>
-
-                        {/*add class*/}
+                  </div>
+                    {/*add class*/}
                     <button onClick={() => setIsModalOpen(true)} 
-                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10">
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-1 mt-5">
                             Add Class
                     </button>
-                    </div>
+                    {/*add class for outside*/}
+                    <button onClick={() => setIsAddModalOpen(true)} 
+                        className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-1 mt-5">
+                            Outside Class
+                    </button>
+                    
 
                 </div>
             </div>
@@ -124,7 +126,7 @@ export default function Classes(){
                         <th className="bg-gray-200 text-center p-2" style={{ width: "30%" }}>Course Title</th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "5%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Semester
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -140,28 +142,28 @@ export default function Classes(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleSemester('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleSemester('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 1st Semester
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('2nd')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                                 >
                                   2nd Semester
                                 </button>
                             </Menu.Item>
                             <Menu.Item>
                                 <button onClick={() => handleSemester('Midyear')}
-                                  className={'block px-4 py-2 text-sm text-gray-700'}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                                 >
                                   Midyear
                                 </button>
@@ -173,7 +175,7 @@ export default function Classes(){
                         {/* <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Year</th>  */}
                         <th className="bg-gray-200 text-center p-2 z-10" style={{ width: "10%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Year
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -189,35 +191,35 @@ export default function Classes(){
                           <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <button onClick={() => handleYear('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 ALL
                               </button>
                               </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('1st')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 1st Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('2nd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 2nd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('3rd')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 3rd Year
                               </button>
                             </Menu.Item>
                             <Menu.Item>
                               <button onClick={() => handleYear('4th')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
                               >
                                 4th Year
                               </button>
@@ -228,7 +230,7 @@ export default function Classes(){
                       </th>
                         <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>
                         <Menu as="div" className="relative block text-left">
-                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Section
                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </Menu.Button>
@@ -241,43 +243,19 @@ export default function Classes(){
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              <button onClick={() => handleSection('All')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              >
-                                ALL
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('A')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              >
-                                A
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('B')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              > 
-                                B
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('C')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              > 
-                                C
-                              </button>
-                            </Menu.Item>
-                            <Menu.Item>
-                              <button onClick={() => handleSection('TBA')}
-                                className={'block px-4 py-2 text-sm text-gray-700'}
-                              > 
-                                TBA
-                              </button>
-                            </Menu.Item>
+                       
+                          <Menu.Items className="fixed z-50  mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto">
+                            {menuItems.map((letter, index) => (
+                              <Menu.Item key={index}>
+                                <button onClick={() => handleSection(letter)}
+                                  className={'block px-4 py-2 text-sm text-gray-700 text-left w-full hover:bg-green-500'}
+                                >
+                                  {letter}
+                                </button>
+                              </Menu.Item>
+                            ))}
                           </Menu.Items>
+                       
                         </Transition>
                       </Menu>
                           </th> 
@@ -299,12 +277,10 @@ export default function Classes(){
                         />
                       )}
                       </div>
-                  {/* Help Modal */}
-                  <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                        <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-                  </div>
+          </div>
+            
 
-            </div>                     
+        </div>                     
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
@@ -312,6 +288,16 @@ export default function Classes(){
       >
         <div>
           <AddClass closeModal={() => setIsModalOpen(false)} />
+        </div>
+      </ReactModal>
+
+      <ReactModal
+        isOpen={isAddModalOpen}
+        onRequestClose={() => setIsAddModalOpen(false)}
+        className="w-full md:w-[30%] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mt-[10%] mx-auto p-5"
+      >
+        <div>
+          <AddClassForOutside closeModal={() => setIsAddModalOpen(false)} />
         </div>
       </ReactModal>
 
@@ -324,115 +310,5 @@ export default function Classes(){
           <ClassPopUp closeModal={() => setIsClassModalOpen(false)} />
         </div>
       </ReactModal>
-
-      {/* HELP-ADMIN*/}
-      {userRole == 1 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1}
-            alt="Page 1"
-        />
-        <img
-            src={page2}
-            alt="Page 2"
-        />
-        <img
-            src={page3}
-            alt="Page 3"
-        />
-        <img
-            src={page4}
-            alt="Page 4"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
-
-      {/* HELP- STAFF*/}
-      {userRole == 2 && (
-      <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: '9998',
-          backgroundColor: '#fff',
-          border: '1px solid #000',
-          padding: '20px',
-          textAlign: 'center', // Align the content center
-        }
-      }}
-    >
-      <div>
-        <img
-            src={page1E}
-            alt="Page 1"
-        />
-        <img
-            src={page2E}
-            alt="Page 2"
-        />
-        <img
-            src={page3E}
-            alt="Page 3"
-        />
-        <img
-            src={page4E}
-            alt="Page 4"
-        />
-        <img
-            src={page5E}
-            alt="Page 5"
-        />
-
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </ReactModal>
-    )}
       </>
 )}

@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/updatestudentgrades', [AttachSubjectController::class, 'editGrade']);
     Route::get('/getgrade', [StudentClassesController::class, 'index']);
     Route::get('/getstudentclasses', [StudentClassesController::class, 'studentGradesList']);
+    Route::get('/getstudentclassesadmin', [StudentClassesController::class, 'studentGradesListAdmin']);
 
     //curriculum Chacklist
     Route::get('/curriculumnCheckListIndex', [ClassesController::class, 'curriculumnCheckListIndex']);
@@ -56,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Semester Information
     Route::post('/addsemesterinformation', [SemesterInformationController::class, 'addsemesterinformation']);
+    Route::put('/updatesemesterinformation', [SemesterInformationController::class, 'updatesemesterinformation']);
     Route::get('/getsemesterinformation', [SemesterInformationController::class, 'index']);
     Route::get('/getschoolyear', [SemesterInformationController::class, 'getschoolyear']);
     Route::put('/closeprereg/{id}', [SemesterInformationController::class, 'closeprereg']);
@@ -138,6 +140,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Routes for Sending Emails
     Route::get('/sendstudentaccountpassword', [SendStudentAccountPasswordController::class,'sendstudentaccountpassword']);
+    Route::get('/senddeclineemail', [SendStudentAccountPasswordController::class,'declined']);
+    Route::get('/preRegContinuingAccepted', [SendStudentAccountPasswordController::class,'preRegContinuingAccepted']);
 
     //Routes for database backup and restore
     Route::post('backupDB', [DatabaseController::class, 'databaseBackup']);

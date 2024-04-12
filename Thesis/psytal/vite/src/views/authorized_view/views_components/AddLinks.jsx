@@ -13,7 +13,7 @@ export default function AddLinks({closeModal}) {
   const [formData, setFormData] = useState({
     class_code: '',
     class_description: '',
-    instructor_name: '',
+    instructor_name: 'placeholder for no error',
     url: '',
     
   });
@@ -90,7 +90,7 @@ export default function AddLinks({closeModal}) {
           />
         </div>
         
-        <div className='mt-2'>
+        <div hidden className='mt-2'>
         <label htmlFor="class_code" className="text-lg font-bold mb-2">Contact</label>
           <input
             id="instructor_name"
