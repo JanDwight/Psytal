@@ -312,16 +312,6 @@ export default function PreRegistrationForm() {
         
         download(finalPDF, 'Pre-Registration Form.pdf', 'application/pdf');
 
-        setSuccessMessage({
-          message: 'You have submitted your pre-registration form successfully! Please present the downloaded form to the department within the enrollment period.',
-        });
-
-        setTimeout(() => {
-          setSuccessMessage(null);
-          handleClear();
-          navigate('/landingpage');
-          closeModal();
-        }, 3000);
   
       } catch (error) {
         console.error('Error loading PDF:', error);
@@ -442,14 +432,9 @@ export default function PreRegistrationForm() {
       
       setSuccessMessage(data.message);
       setSuccessStatus(data.success);
-      if(setSuccessStatus==true){
+      if(data.success === true){
         onPrint();
       }
-          // setTimeout(() => {
-          //   setSuccessMessage(null);
-          //   closeModal();
-          //   window.location.reload();
-          // }, 2000);
     })
     .catch(( response ) => {
       setSuccessMessage(response.message);

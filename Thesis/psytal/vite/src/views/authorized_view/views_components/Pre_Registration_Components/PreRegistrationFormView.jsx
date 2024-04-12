@@ -510,19 +510,11 @@ const handleChangeUnits = (index, value) => {
               }).then((response)=> {
                 setSuccessMessage(response.data.message);
                 setSuccessStatus(response.data.success);
+              }).catch((response)=> {
+                setSuccessMessage(response.message);
+                setSuccessStatus(response.success);
               })
-          //need to save changes to subject too
-          /*
-            TRY THIS ONLY FOR SUBJECTS, REMOVE OR UPDATE STUDENT CLASSES: 
-            axiosClient.post('/student_subject', {
-            studentData: preregData,
-            subjectData: inputFields.map(field => ({ ...field })),
-            LOGIC: 
-              >Take student ID, current year and semester (1st sem, 1st year), search for all his/her subjects
-              >delete all found subjects then replace with the new
-              >updated
-          
-          */
+
       
   }
 
