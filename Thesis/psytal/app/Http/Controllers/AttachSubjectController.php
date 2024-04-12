@@ -16,12 +16,17 @@ class AttachSubjectController extends Controller
     public function createStudentClasses(Request $request)
     {
         $request->validate([
+            'yearLevel' => 'required|string',
+            'term' => 'required|string',
             'studentData' => 'array',
             'studentData.first_name' => 'required',
             'studentData.middle_name' => 'required',
             'studentData.last_name' => 'required',
             'subjectData' => ''
         ]);
+
+        $studentYear = $request->input('yearLevel');
+        $currentSemester = $request->input('term');
 
         $DataBaseCleaner = student_profile::where('start_of_school_year', null);
 
@@ -58,6 +63,8 @@ class AttachSubjectController extends Controller
 
             $studentClasses->instructor_profile = $instructorName;
             // Save the record to the student_classes table
+            $studentClasses->yrlevel = $studentYear;
+            $studentClasses->term = $currentSemester;
             $studentClasses->save();
         }
 

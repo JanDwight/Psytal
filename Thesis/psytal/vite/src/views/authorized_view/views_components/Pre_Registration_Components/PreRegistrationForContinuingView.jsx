@@ -29,6 +29,7 @@ export default function PreRegistrationForContinuingView({prereg}) {
     const [promptMessage, setPromptMessage] = useState('');
     const [action, setAction] = useState('');
 
+    const [semesterInformation, setSemesterInformation] = useState('');
   //<><><><><>
 
   function checkAccept() {
@@ -43,8 +44,21 @@ export default function PreRegistrationForContinuingView({prereg}) {
     }
   }
 
+  //semesterinfo
+  function fetchSemester() {
+    axiosClient
+      .get('/getsemesterinformation')
+      .then((res) => {
+        setSemesterInformation(res.data.semester);  // Assuming res.data is an array
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  };
+
   useEffect(() => {
     checkAccept(); // Call the fetchData function
+    fetchSemester();
   }, []);
 
   //<><><><><>
@@ -309,7 +323,6 @@ export default function PreRegistrationForContinuingView({prereg}) {
        //On Accept Click
         const onClickAccept = (ev) => {
           // ev.preventDefault();
-        
           setSuccessMessage('Loading...');
           setSuccessStatus('Loading');
           
@@ -318,6 +331,8 @@ export default function PreRegistrationForContinuingView({prereg}) {
         axiosClient.post('/student_subject', {
           studentData: preregData,
           subjectData: inputFields, // Exclude the last element
+          yearLevel: preregData.year_level, //unknown how to approach
+          term: semesterInformation,
         }).then()
         //--------------------------// <><><><><>
     
@@ -807,17 +822,18 @@ export default function PreRegistrationForContinuingView({prereg}) {
                             <div className='flex flex-col w-full md:w-1/2 px-3 mt-5'>
                                 <span className= "text-sm font-semibold">Year Level : </span> <hr className="w-[40%]"/>
                                 <div className='mt-2'>
-                                    <input name="yearlevel"
-                                            type="number" 
-                                            className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 "
-                                            placeholder=""
-                                            min="0" 
-                                            max="99" 
-                                            step="1"
-                                            value={preregData.year_level}
-                                            required
-                                            onChange={(ev) => setPreregData({ ...preregData, year_level: ev.target.value })}
-                                            />
+                                <select
+                                    name="yearlevel"
+                                    className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                    value={preregData.year_level}
+                                    required
+                                    onChange={(ev) => setPreregData({ ...preregData, year_level: ev.target.value })}
+                                >
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                </select>
                                 </div>                            
                             </div>
                         </div> <hr/>
@@ -1761,14 +1777,18 @@ export default function PreRegistrationForContinuingView({prereg}) {
                               <tr>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">Class Code</th>
                                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">
-                                    <div className="relative">
+                                    <div className="flex relative">
+                                      <p className="px-1 py-3 bg-gray-50 text-left text-xs leading-4 uppercase tracking-wider">
+                                        Year Level:
+                                      </p>
                                       <select
                                         id="classYearFilter"
                                         name="classYearFilter"
-                                        className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         value={selectedClassYear}
                                         onChange={e => setSelectedClassYear(e.target.value)}
                                       >
+                                          <option value={'All'}>All</option>
                                           <option value={'1st'}>1st</option>
                                           <option value={'2nd'}>2nd</option>
                                           <option value={'3rd'}>3rd</option>
@@ -1786,13 +1806,13 @@ export default function PreRegistrationForContinuingView({prereg}) {
                               </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
-                            {studentCheckList.some(item => (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0') ? (
+                            {studentCheckList.some(item => (selectedClassYear === 'All' || item.yrlevel === selectedClassYear) && item.grade !== '0') ? (
                               studentCheckList.map((item, index) => (
-                                (selectedClassYear === 'All' || item.class_year === selectedClassYear) && item.grade !== '0' && (
+                                (selectedClassYear === 'All' || item.yrlevel === selectedClassYear) && item.grade !== '0' && (
                                   <tr key={index}>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.class_code}</td>
-                                    <td className="px-6 py-4 whitespace-no-wrap">{item.class_year}</td>
-                                    <td className="px-6 py-4 whitespace-no-wrap">{item.semester}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.yrlevel}</td>
+                                    <td className="px-6 py-4 whitespace-no-wrap">{item.term}</td>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.course_title}</td>
                                     <td className="px-6 py-4 whitespace-no-wrap">{item.grade}</td>
                                   </tr>

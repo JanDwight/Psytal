@@ -17,6 +17,7 @@ class student_classes extends Model
         'ongoing',
         'archived',
         'term',
+        'yrlevel',
     ];
 
 }
