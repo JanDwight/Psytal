@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 
 class SemesterInformationController extends Controller
@@ -179,6 +180,10 @@ class SemesterInformationController extends Controller
         }
     
         // If authentication successful, proceed to update pre-registration information
+    
+        // Clean the preregistration_incoming_tmps table
+        DB::table('preregistration_incoming_tmps')->delete();
+    
         $semesterinfo = semester_information::find($id);
     
         if (!$semesterinfo) {
@@ -247,7 +252,6 @@ class SemesterInformationController extends Controller
         }
     }
     //----------
-    
 
     public function storeLog($actionTaken, $itemType, $itemName, $itemOrigin)
        {
