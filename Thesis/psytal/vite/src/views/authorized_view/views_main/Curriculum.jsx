@@ -10,7 +10,13 @@ import ArchiveCourse from "../views_components/ArchiveCourse";
 import EditCourse from "../views_components/EditCourse";
 import { useAsyncValue } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-
+import page28 from "@assets/Help/Admin/Curriculum/1.png";
+import page29 from "@assets/Help/Admin/Curriculum/2.png";
+import page30 from "@assets/Help/Admin/Curriculum/3.png";
+import page31 from "@assets/Help/Admin/Curriculum/4.png";
+import page60 from "@assets/Help/Staff/Curriculum/1.png";
+import page61 from "@assets/Help/Staff/Curriculum/2.png";
+import page62 from "@assets/Help/Staff/Curriculum/3.png";
 
 export default function Curriculum(){
       //Calling the ArchiveCourse
@@ -26,6 +32,13 @@ export default function Curriculum(){
       const [selectedSemester, setSelectedSemester] = useState(null);
       const [selectedYear, setSelectedYear] = useState(null);
       const [selectedSection, setSelectedSection] = useState(null); 
+
+      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
+    
+      // Function to toggle help modal
+        const toggleHelpModal = () => {
+          setIsHelpModalOpen(!isHelpModalOpen);
+        };
      
       const handleArchiveClick = (curriculum) => {
         setShowArchivecourse(true);
@@ -289,6 +302,70 @@ export default function Curriculum(){
           onClose={() => setShowEditcourse(false)}
           curriculum={selectedcourse}
         />
+
+        {/* Help Icon */}
+    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+              </div>   
+
+          {/* HELP*/}
+    <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+        position: 'fixed',
+        width:'60%',
+        bottom: '20px',
+        top:'15%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '9999',
+        backgroundColor: '#fff',
+        border: '1px solid #000',
+        padding: '20px',
+        textAlign: 'center', // Align the content center
+      }
+    }}
+    >
+
+    <div>
+            
+    {userRole == 1 && (
+        <>
+            <p className='text-4xl bg-[#7e9f70]'>ADMIN USER'S MANUAL</p>
+            <p className='text-3xl bg-[#91b482]'>CURRICULUM</p>
+            <img src={page28} />
+            <img src={page29} />
+            <img src={page30} />
+            <img src={page31} />
+        </>
+          )}
+          {userRole == 2 && (
+              <>
+            <p className='text-4xl bg-[#7e9f70]'>STAFF USER'S MANUAL</p>
+            <p className='text-3xl bg-[#91b482]'>CURRICULUM</p>
+            <img src={page60} />
+            <img src={page61} />
+            <img src={page62} />
+              </>
+
+          )}
+        </div>
+        
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+    </ReactModal>
         </>
 );
 }

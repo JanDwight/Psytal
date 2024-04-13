@@ -325,9 +325,9 @@ export default function AdminLayout() {
         </aside>
 
         {/* Help Modal */}
-              <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+              {/* <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
                     <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-              </div>         
+              </div>          */}
 
         <div className="flex flex-col w-3/4 pd-10 ml-10 ">
           <Outlet/>
@@ -361,7 +361,7 @@ export default function AdminLayout() {
       </ReactModal>
 
       {/* HELP*/}
-    <ReactModal
+    {/* <ReactModal
       isOpen={isHelpModalOpen}
       onRequestClose={toggleHelpModal}
       style={{ content: {
@@ -629,7 +629,7 @@ export default function AdminLayout() {
           Close
         </button>
       </div>
-    </ReactModal>
+    </ReactModal> */}
 
   </>
   );
