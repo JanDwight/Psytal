@@ -26,16 +26,22 @@ export default function Settings() {
     const [showEmailDomainModal, setShowEmailDomainModal]= useState(false);
     const [showshowBackup, setShowBackup]= useState(false);
     const [showPrompt, setShowPrompt]= useState(false);
-    const [isHelpModalOpen, setIsHelpModalOpen]= useState(false);
     const [showBackupPrompt, setShowBackupPrompt]= useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
 
     
+    const [isHelpModalOpen, setIsHelpModalOpen]= useState(false);
+    const [isHelpModalOpen2, setIsHelpModalOpen2]= useState(false);
     // Function to toggle help modal
+
     const toggleHelpModal = () => {
       setIsHelpModalOpen(!isHelpModalOpen);
     };
+    
+    const toggleHelpModal2 = () => {
+        setIsHelpModalOpen2(!isHelpModalOpen2);
+      };
 
     const handleBackup  = () => {
 
@@ -187,13 +193,13 @@ export default function Settings() {
 
         {/* Help Icon */}
     <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+                    <button onClick={toggleHelpModal2} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
               </div>    
 
       {/* HELP*/}
     <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
+      isOpen={isHelpModalOpen2}
+      onRequestClose={toggleHelpModal2}
       style={{ content: {
         position: 'fixed',
         width:'60%',
@@ -249,7 +255,7 @@ export default function Settings() {
         
         
         <button
-          onClick={toggleHelpModal}
+          onClick={toggleHelpModal2}
           style={{
             backgroundColor: 'red',
             color: '#fff',
