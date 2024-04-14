@@ -27,16 +27,17 @@ class SendStudentAccountPasswordController extends Controller
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
 
             if ($studentInfo['role'] === '4'){
-                $fullName = $studentInfo['fullName'];
+                $fullName = $studentInfo['last_name'] . ',' . $studentInfo['first_name'] . ' ' . $studentInfo['middle_name'] . '.';
+                //$fullName = "Test";
 
                 $this->storeLog('Account password sent', 'Student password', $studentInfo['email'], 'users', $fullName, $fullName, $studentInfo['role'] );
             } else {
-                $this->storeLog('Account password sent', 'User password', $studentInfo['email'], 'users', $studentInfo['fullName'], $studentInfo['fullName'], $studentInfo['role'] );
+                $this->storeLog('Account password sent', 'User password', $studentInfo['email'], 'users', $studentInfo['email'], $studentInfo['email'], $studentInfo['role'] );
             }
 
             return response()->json([
                 'success' => true,
-                'message' => 'User Successfully Created',
+                'message' => 'User Successfully Created.',
             ]);
         }
         catch(Exception $e)
