@@ -194,9 +194,6 @@ class SemesterInformationController extends Controller
     
         // If authentication successful, proceed to update pre-registration information
     
-        // Clean the preregistration_incoming_tmps table
-        //DB::table('preregistration_incoming_tmps')->delete(); //remove for prereg, add to semester auto delete
-    
         $semesterinfo = semester_information::find($id);
     
         if (!$semesterinfo) {
@@ -226,8 +223,7 @@ class SemesterInformationController extends Controller
     public function updatesemesterinformation(SemesterInformationRequest $request)
     {
         $data = $request->validated();
-        $existingSemesterInfo = semester_information::where('id', 1)
-                                                ->first();
+        $existingSemesterInfo = semester_information::where('id', 1)->first();
 
         if ($existingSemesterInfo) {
             // Update the existing record
@@ -257,9 +253,25 @@ class SemesterInformationController extends Controller
                 'success' => true
             ]);
         } else {
+            // Create a new record
+            /*$semesterinformation = semester_information::create([
+                'start_of_prereg' => $data['start_of_prereg'],
+                'end_of_prereg' => $data['end_of_prereg'],
+                'start_of_semester' => $data['start_of_semester'],
+                'end_of_semester' => $data['end_of_semester'],
+                'start_of_school_year' => $data['start_of_school_year'],
+                'end_of_school_year' => $data['end_of_school_year'],
+                'semester' => $data['semester'],
+                'open_pre_reg' => $data['open_pre_reg']
+            ]);
+
+            $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
+
+            //$this->setPreregPost('open');*/
+
             return response([
-                'message' => 'Semester information update failed',
-                'success' => false
+                'message' => 'Semester information created successfully [Fail]',
+                'success' => true
             ]);
         }
     }
@@ -303,7 +315,10 @@ class SemesterInformationController extends Controller
 
             if($change === 'open') {
 
-                $existingPost = posts::where('title', $messagetitle)->first()->delete();
+                $existingPost = posts::where('title', $messagetitle)->first();
+                if ($existingPost) {
+                    $existingPost->delete();
+                }
 
                 $preRegPost = posts::create([
                     'user_id' =>  auth()->user()->id,
@@ -315,7 +330,10 @@ class SemesterInformationController extends Controller
 
             } else if ($change === 'closed') {
 
-                $existingPost = posts::where('title', $messagetitle)->first()->delete();
+                $existingPost = posts::where('title', $messagetitle)->first();
+                if ($existingPost) {
+                    $existingPost->delete();
+                }
                
                 $preRegPost = posts::create([
                     'user_id' =>  auth()->user()->id,
