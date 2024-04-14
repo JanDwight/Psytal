@@ -54,7 +54,7 @@ class EmployeeProfileController extends Controller
     {
         
         $validatedData = $request->validate([
-            'id' => 'required|integer',
+            'id' => 'required',
             'name' => 'required|string|max:255',
             'role' => 'required|integer',
             'email' => 'required|email|max:255',
