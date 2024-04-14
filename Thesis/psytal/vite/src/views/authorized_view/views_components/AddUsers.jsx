@@ -119,9 +119,11 @@ export default function AddUsers({ onClose}) {
                     type="text"
                     autoComplete="last_name"
                     placeholder="Last Name"
-                    required
+                    pattern="[a-zA-Z\-'. ]+"
+                    title="Please use only letters and special characters [- . ']."
+                    required 
                     onChange={ev => setLast_name(ev.target.value)}
-                    className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    className="lock w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
                   />
                 </div>
                 <div className="mt-2">
@@ -131,6 +133,8 @@ export default function AddUsers({ onClose}) {
                     type="text"
                     autoComplete="first_name"
                     placeholder="First Name"
+                    pattern="[a-zA-Z\-'. ]+"
+                    title="Please use only letters and special characters [- . ']."
                     required
                     onChange={ev => setFirst_name(ev.target.value)}
                     className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
@@ -143,6 +147,8 @@ export default function AddUsers({ onClose}) {
                     type="text"
                     autoComplete="middle_name"
                     placeholder="Middle Name"
+                    pattern="[a-zA-Z\-'. ]+"
+                    title="Please use only letters and special characters [- . ']."
                     required
                     onChange={ev => setMiddle_name(ev.target.value)}
                     className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
