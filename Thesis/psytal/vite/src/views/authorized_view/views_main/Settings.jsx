@@ -41,7 +41,7 @@ export default function Settings() {
     
     const toggleHelpModal2 = () => {
         setIsHelpModalOpen2(!isHelpModalOpen2);
-      };
+      }; 
 
     const handleBackup  = () => {
 
