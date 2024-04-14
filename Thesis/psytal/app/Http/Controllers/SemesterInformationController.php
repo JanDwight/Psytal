@@ -115,9 +115,7 @@ class SemesterInformationController extends Controller
 
         // Check if a record with the specified semester already exists
         //$existingSemesterInfo = semester_information::where('semester', $data['semester'])->first();
-        $existingSemesterInfo = semester_information::where('id', 1)
-                                                //->where('semester', $data['semester'])
-                                                ->first();
+        $existingSemesterInfo = semester_information::where('id', 1)->first();
         //should only create if there is no item with id=1, then set the id to 1 (if possible)
         //the rest is update
 
@@ -145,6 +143,7 @@ class SemesterInformationController extends Controller
         } else {
             // Create a new record
             $semesterinformation = semester_information::create([
+                'id' => 1,
                 'start_of_prereg' => $data['start_of_prereg'],
                 'end_of_prereg' => $data['end_of_prereg'],
                 'start_of_semester' => $data['start_of_semester'],
@@ -254,7 +253,8 @@ class SemesterInformationController extends Controller
             ]);
         } else {
             // Create a new record
-            /*$semesterinformation = semester_information::create([
+            $semesterinformation = semester_information::create([
+                'id' => 1,
                 'start_of_prereg' => $data['start_of_prereg'],
                 'end_of_prereg' => $data['end_of_prereg'],
                 'start_of_semester' => $data['start_of_semester'],
@@ -267,10 +267,10 @@ class SemesterInformationController extends Controller
 
             $this->storeLog('Semester information created', 'semester information', 'Pre-registration opened', 'semester_information');
 
-            //$this->setPreregPost('open');*/
+            //$this->setPreregPost('open');
 
             return response([
-                'message' => 'Semester information created successfully [Fail]',
+                'message' => 'Semester information created successfully',
                 'success' => true
             ]);
         }

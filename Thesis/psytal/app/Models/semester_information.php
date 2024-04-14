@@ -16,6 +16,7 @@ class semester_information extends Model
      */
     protected $table = 'semester_information';
     protected $fillable = [
+        'id',
         'start_of_prereg',
         'end_of_prereg',
         'start_of_semester',

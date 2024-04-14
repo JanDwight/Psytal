@@ -108,6 +108,16 @@ export default function OpenPreRegModal({ closeModal }) {
         console.error('Error fetching data:', error);
       });
   }
+  const clearPR = () => {
+        setStartOfPreReg('');
+        setEndOfPreReg('');
+        setStartOfSemester('');
+        setEndOfSemester('');
+        setStartOfSchoolYear(''); // Assuming res.data is an array
+        setEndOfSchoolYear('');
+        setSemester('');
+        setShowStatus('');
+  }
 
   //Ensures that preRegEnd is not set earlier than preRegStart========================================
   const handleStartChange = (ev) => {
@@ -395,7 +405,7 @@ export default function OpenPreRegModal({ closeModal }) {
             </button>
             <button hidden={allowedit}
               type="button"
-              onClick={() => {setShowPRconfig(!showPRconfig); fetchSemester(); setAllowedit(!allowedit);}}
+              onClick={() => {setShowPRconfig(!showPRconfig); clearPR(); fetchSemester(); setAllowedit(!allowedit);}}
               className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 ml-5 rounded-full">
               Cancel
             </button>
