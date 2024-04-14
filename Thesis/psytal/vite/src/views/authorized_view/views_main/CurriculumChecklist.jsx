@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../../../axios';
 import ReactModal from 'react-modal';
-import page71 from "@assets/Help/Student/CurriculumChecklist/1.png";
 
 export default function CurriculumChecklist(){
       const [errors, setErrors] = useState({ __html: '' });
       const [curriculum, setCurriculum] = useState([]);
       const [grade, setGrade] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
-
-      const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
-    
-      // Function to toggle help modal
-        const toggleHelpModal = () => {
-          setIsHelpModalOpen(!isHelpModalOpen);
-        };
 
       //disclaimers
       const [disclaimer, setDisclaimer] = useState(false);
@@ -166,53 +158,6 @@ export default function CurriculumChecklist(){
           </div>
         </div>
         )}     
-        {/* Help Icon */}
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-              </div>    
-
-          {/* HELP*/}
-        <ReactModal
-          isOpen={isHelpModalOpen}
-          onRequestClose={toggleHelpModal}
-          style={{ content: {
-            position: 'fixed',
-            width:'60%',
-            bottom: '20px',
-            top:'15%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: '9999',
-            backgroundColor: '#fff',
-            border: '1px solid #000',
-            padding: '20px',
-            textAlign: 'center', // Align the content center
-          }
-        }}
-        >
-
-          <div>
-            <p className='text-4xl bg-[#7e9f70]'>STUDENT USER'S MANUAL</p>
-            <p className='text-3xl bg-[#91b482]'>CURRICULUM CHECKLIST</p>
-            <img src={page71} />
-
-
-          </div>
-              
-              <button
-                onClick={toggleHelpModal}
-                style={{
-                  backgroundColor: 'red',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                }}
-              >
-                Close
-              </button>
-          </ReactModal>
         </>
 );
 }

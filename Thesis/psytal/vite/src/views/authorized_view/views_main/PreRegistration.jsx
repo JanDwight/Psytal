@@ -6,13 +6,6 @@ import ReactModal from 'react-modal';
 import { useStateContext } from '../../../context/ContextProvider';
 import PreRegistrationFormView from '../views_components/Pre_Registration_Components/PreRegistrationFormView';
 import PreRegistrationForContinuingView from '../views_components/Pre_Registration_Components/PreRegistrationForContinuingView';
-import page20 from "@assets/Help/Admin/Pre-registration/1.png";
-import page21 from "@assets/Help/Admin/Pre-registration/2.png";
-import page22 from "@assets/Help/Admin/Pre-registration/3.png";
-import page22a from "@assets/Help/Admin/Pre-registration/4.png";
-import page54 from "@assets/Help/Staff/Pre-registration/1.png";
-import page55 from "@assets/Help/Staff/Pre-registration/2.png";
-import page56 from "@assets/Help/Staff/Pre-registration/3.png";
 
 export default function PreRegistration() {
   const [loading, setLoading] = useState(true);
@@ -27,14 +20,6 @@ export default function PreRegistration() {
 
   const [filterText, setFilterText] = useState(''); // Filter text state
   const {userRole} = useStateContext(''); //just refresh server
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
-    
-  // Function to toggle help modal
-    const toggleHelpModal = () => {
-      setIsHelpModalOpen(!isHelpModalOpen);
-    };
-
 
       //filter semester
       const handleStatus = (status) => {
@@ -254,11 +239,6 @@ export default function PreRegistration() {
         </div>
       </div>
       
-        {/* Help Icon */}
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-              </div>    
-
       {/* For the Pop ups */}
       <ReactModal
         isOpen={isPreRegFormModalOpen}
@@ -280,64 +260,6 @@ export default function PreRegistration() {
           )}
         </div>
       </ReactModal>
-      {/* HELP*/}
-    <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-        position: 'fixed',
-        width:'60%',
-        bottom: '20px',
-        top:'15%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: '9999',
-        backgroundColor: '#fff',
-        border: '1px solid #000',
-        padding: '20px',
-        textAlign: 'center', // Align the content center
-      }
-    }}
-    >
-
-          <div>
-            {userRole == 1 && (
-            <>
-                <p className='text-4xl bg-[#7e9f70]'>ADMIN USER'S MANUAL</p>
-                <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
-                <img src={page20} />
-                <img src={page21} />
-                <img src={page22} />
-                <img src={page22a} />
-            </>
-              )}
-
-            {userRole == 2 && (
-              <>
-            <p className='text-4xl bg-[#7e9f70]'>STAFF USER'S MANUAL</p>
-            <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
-            <img src={page54} />
-            <img src={page55} />
-            <img src={page56} />
-              </>
-          )}
-        </div>
-        
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-    </ReactModal>
     </div>
-    
   )
 }
