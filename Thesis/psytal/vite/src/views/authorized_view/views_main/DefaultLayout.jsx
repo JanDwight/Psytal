@@ -9,15 +9,15 @@
   import UserProfile from '../views_components/profile_components/UserProfile'
   import LogOutPrompt from '../prompts/LogOutPrompt';
   //STUDENT
-  import page63 from "@assets/Help/Student/Post/1.png";
-  import page64 from "@assets/Help/Student/Post/2.png";
-  import page65 from "@assets/Help/Student/Post/3.png";
-  import page66 from "@assets/Help/Student/Post/4.png";
-  import page67 from "@assets/Help/Student/Pre-registration/1.png";
-  import page68 from "@assets/Help/Student/Pre-registration/2.png";
-  import page69 from "@assets/Help/Student/Classes/1.png";
-  import page70 from "@assets/Help/Student/Links/1.png";
-  import page71 from "@assets/Help/Student/CurriculumChecklist/1.png";
+  // import page63 from "@assets/Help/Student/Post/1.png";
+  // import page64 from "@assets/Help/Student/Post/2.png";
+  // import page65 from "@assets/Help/Student/Post/3.png";
+
+  // import page67 from "@assets/Help/Student/Pre-registration/1.png";
+  // import page68 from "@assets/Help/Student/Pre-registration/2.png";
+  // import page69 from "@assets/Help/Student/Classes/1.png";
+  // import page70 from "@assets/Help/Student/Links/1.png";
+  // import page71 from "@assets/Help/Student/CurriculumChecklist/1.png";
 
   const navigation = [
     { name: 'Home', to: '/student/home'},
@@ -262,10 +262,10 @@
           </header>
           <main>
 
-        {/* Help Modal */}
+        {/* Help Modal
         <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
                     <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-        </div> 
+        </div>  */}
 
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
               <Outlet />
@@ -293,7 +293,8 @@
                 />
             </div>
         </ReactModal>
-              {/* HELP*/}
+
+    {/* HELP
     <ReactModal
       isOpen={isHelpModalOpen}
       onRequestClose={toggleHelpModal}
@@ -324,9 +325,7 @@
         <img
             src={page65}
         />
-        <img
-            src={page66}
-        />
+
         <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
         <img
             src={page67}
@@ -360,7 +359,7 @@
           Close
         </button>
       </div>
-    </ReactModal>
+    </ReactModal> */}
 
       </>
     )

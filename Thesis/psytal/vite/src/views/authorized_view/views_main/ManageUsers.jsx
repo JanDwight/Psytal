@@ -4,6 +4,17 @@ import StudentList from '../views_components/StudentList.jsx';
 import EmployeeList from '../views_components/EmployeeList.jsx';
 import { useStateContext } from '../../../context/ContextProvider';
 import ReactModal from 'react-modal';
+import page12 from "@assets/Help/Admin/ManageAccounts/1.png";
+import page13 from "@assets/Help/Admin/ManageAccounts/2.png";
+import page14 from "@assets/Help/Admin/ManageAccounts/3.png";
+import page15 from "@assets/Help/Admin/ManageAccounts/4.png";
+import page15a from "@assets/Help/Admin/ManageAccounts/5.png";
+import page15b from "@assets/Help/Admin/ManageAccounts/6.png";
+import page15c from "@assets/Help/Admin/ManageAccounts/7.png";
+import page45 from "@assets/Help/Staff/ManageAccounts/1.png";
+import page46 from "@assets/Help/Staff/ManageAccounts/2.png";
+import page47 from "@assets/Help/Staff/ManageAccounts/3.png";
+import page48 from "@assets/Help/Staff/ManageAccounts/4.png";
 
 {/*Tab Highlight */}
 const Tab = ({ label, isActive, onClick }) => {
@@ -26,6 +37,13 @@ const Tab = ({ label, isActive, onClick }) => {
 };
 
 export default function ManageUsers() {
+
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
+    
+  // Function to toggle help modal
+    const toggleHelpModal = () => {
+      setIsHelpModalOpen(!isHelpModalOpen);
+    };
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const [activeTab, setActiveTab] = useState(1); // Initialize active tab
@@ -129,6 +147,98 @@ export default function ManageUsers() {
       </ReactModal>
 
   </div>
+  <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
+                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
+              </div>    
+
+      {/* HELP*/}
+    <ReactModal
+      isOpen={isHelpModalOpen}
+      onRequestClose={toggleHelpModal}
+      style={{ content: {
+        position: 'fixed',
+        width:'60%',
+        bottom: '20px',
+        top:'15%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '9999',
+        backgroundColor: '#fff',
+        border: '1px solid #000',
+        padding: '20px',
+        textAlign: 'center', // Align the content center
+      }
+    }}
+    >
+
+    <div>
+        
+      
+        {userRole == 1 && (
+        <>
+            <p className='text-4xl bg-[#7e9f70]'>ADMIN USER'S MANUAL</p>
+            <p className='text-3xl bg-[#91b482]'>MANAGE ACCOUNTS</p>
+            <img
+            src={page12}
+            />
+            <img
+                src={page13}
+            />
+            <img
+                src={page14}
+            />
+            <img
+                src={page15}
+            />
+            <img
+                src={page15a}
+            />
+            <img
+                src={page15b}
+            />
+            <img
+                src={page15c}
+            />
+        </>
+          )}
+
+        {userRole == 2 && (
+        <>
+            <p className='text-4xl bg-[#7e9f70]'>STAFF USER'S MANUAL</p>
+            <p className='text-3xl bg-[#91b482]'>MANAGE ACCOUNTS</p>
+            <img
+            src={page45}
+            />
+            <img
+                src={page46}
+            />
+            <img
+                src={page47}
+            />
+            <img
+                src={page48}
+            />
+            
+            </>
+          )}
+        
+       
+        </div>
+        
+        <button
+          onClick={toggleHelpModal}
+          style={{
+            backgroundColor: 'red',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+    </ReactModal>
     </>
   );
 }
