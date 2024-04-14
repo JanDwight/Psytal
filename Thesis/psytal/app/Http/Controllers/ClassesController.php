@@ -203,23 +203,18 @@ class ClassesController extends Controller
 
         // Check if the class code is not changed or is already a given
         if ($validatedData['class_code'] === $subject->class_code) {
-            // Return an error response indicating that the class code is not changed or is already given
-            return response([
-                'message' => 'Class code is the same. Class code was not changed',
-                'success' => false
-            ]); // You can choose an appropriate HTTP status code
+            // hello po
+        } else {
+            $existingClass = classes::where('class_code', $validatedData['class_code'])->first();
+            if ($existingClass) {
+                // Return an error response indicating that the class code already exists
+                return response([
+                    'message' => 'Class code already exists.',
+                    'success' => false
+                ]); // You can choose an appropriate HTTP status code
+            }
         }
-
-        // Check if the class code already exists
-        $existingClass = classes::where('class_code', $validatedData['class_code'])->first();
-        if ($existingClass) {
-            // Return an error response indicating that the class code already exists
-            return response([
-                'message' => 'Class code already exists',
-                'success' => false
-            ]); // You can choose an appropriate HTTP status code
-        }
-
+       
         // Update the user's information with the validated data
         $subject->update($validatedData);
 
