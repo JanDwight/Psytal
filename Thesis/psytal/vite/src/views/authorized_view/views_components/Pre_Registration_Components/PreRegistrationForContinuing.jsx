@@ -9,8 +9,7 @@ import download from 'downloadjs';
 import preregContinuingForm from '../../../../assets/FINAL_PRE-REG_FORM-_CONTINUING_STUDENT-FILLABLE_1.pdf';
 import ReactModal from 'react-modal';
 import Feedback from '../../../feedback/Feedback';
-import page67 from "@assets/Help/Student/Pre-registration/1.png";
-import page68 from "@assets/Help/Student/Pre-registration/2.png";
+
 
 
 export default function PreRegistrationForContinuing(prereg) {
@@ -19,13 +18,6 @@ export default function PreRegistrationForContinuing(prereg) {
     const [successStatus, setSuccessStatus] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState({__html: ""});
-
-    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
-    
-    // Function to toggle help modal
-      const toggleHelpModal = () => {
-        setIsHelpModalOpen(!isHelpModalOpen);
-      };
 
   //-----
   const [disclaimer, setDisclaimer] = useState(false);
@@ -1739,57 +1731,6 @@ export default function PreRegistrationForContinuing(prereg) {
       </div>
       )}
 -----------------
-
-{/* Help Icon */}
-<div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-              </div>    
-
-          {/* HELP*/}
-        <ReactModal
-          isOpen={isHelpModalOpen}
-          onRequestClose={toggleHelpModal}
-          style={{ content: {
-            position: 'fixed',
-            width:'60%',
-            bottom: '20px',
-            top:'15%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: '9999',
-            backgroundColor: '#fff',
-            border: '1px solid #000',
-            padding: '20px',
-            textAlign: 'center', // Align the content center
-          }
-        }}
-        >
-
-          <div>
-          <p className='text-4xl bg-[#7e9f70]'>STUDENT USER'S MANUAL</p>
-          <p className='text-3xl bg-[#91b482]'>PRE-REGISTRATION</p>
-        <img
-            src={page67}
-        />
-        <img
-            src={page68}
-            />
-          </div>
-              
-              <button
-                onClick={toggleHelpModal}
-                style={{
-                  backgroundColor: 'red',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                }}
-              >
-                Close
-              </button>
-          </ReactModal>
     </>
 
   )

@@ -7,14 +7,6 @@ import edit from "@assets/icons8createpost.png";
 import archive from "@assets/delete.png";
 import EditLinks from '../views_components/EditLinks.jsx';
 import ArchiveLinks from '../views_components/ArchiveLinks.jsx';
-import page23 from "@assets/Help/Admin/Links/1.png";
-import page24 from "@assets/Help/Admin/Links/2.png";
-import page25 from "@assets/Help/Admin/Links/3.png";
-import page26 from "@assets/Help/Admin/Links/4.png";
-import page27 from "@assets/Help/Admin/Links/5.png";
-import page57 from "@assets/Help/Staff/Links/1.png";
-import page58 from "@assets/Help/Staff/Links/2.png";
-import page59 from "@assets/Help/Staff/Links/3.png";
 
 export default function Links() {
   //Calling the Archivelinks
@@ -23,11 +15,6 @@ export default function Links() {
   const [isAchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const [filterText, setFilterText] = useState(''); //for search
   const {userRole} = useStateContext(''); //just refresh server
-
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
-  const toggleHelpModal = () => {
-    setIsHelpModalOpen(!isHelpModalOpen);
-  };
 
   const handleCloseArchiveModal = () => {
     setSelectedLink(null);
@@ -219,72 +206,8 @@ export default function Links() {
               selected={selectedLink}
             />
       </ReactModal>
-      
-      {/* Help Icon */}
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>
-                    <button onClick={toggleHelpModal} style={{ backgroundColor: '#b3d7b2', color: '#000', border: 'none', borderRadius: '50%', width: '60px', height: '60px', fontSize: '30px', cursor: 'pointer' }}>?</button>
-              </div>    
 
-      {/* HELP*/}
-    <ReactModal
-      isOpen={isHelpModalOpen}
-      onRequestClose={toggleHelpModal}
-      style={{ content: {
-        position: 'fixed',
-        width:'60%',
-        bottom: '20px',
-        top:'15%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: '9999',
-        backgroundColor: '#fff',
-        border: '1px solid #000',
-        padding: '20px',
-        textAlign: 'center', // Align the content center
-      }
-    }}
-    >
-
-    <div>
-          {userRole == 1 && (
-          <>
-              <p className='text-4xl bg-[#7e9f70]'>ADMIN USER'S MANUAL</p>
-              <p className='text-3xl bg-[#91b482]'>LINKS</p>
-              <img src={page23} />
-              <img src={page24} />
-              <img src={page25} />
-              <img src={page26} />
-              <img src={page27} />
-          </>
-          )}
-          {userRole == 2 && (
-              <>
-            <p className='text-4xl bg-[#7e9f70]'>STAFF USER'S MANUAL</p>
-            <p className='text-3xl bg-[#91b482]'>HOME</p>
-            <img src={page57} />
-            <img src={page58} />
-            <img src={page59} />
-              </>
-
-
-          )}
-        </div>
-        
-        <button
-          onClick={toggleHelpModal}
-          style={{
-            backgroundColor: 'red',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-          }}
-        >
-          Close
-        </button>
-    </ReactModal>          
-    </>
+      </>
 
     
   );
