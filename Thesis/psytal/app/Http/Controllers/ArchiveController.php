@@ -167,11 +167,10 @@ class ArchiveController extends Controller
                 if (class_exists($modelClass)) {
                     // Use 'item_id' to find the item in the source table
                     $sourceItem = $modelClass::find($archivedItem->item_id);
-    
+                    return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItem->item_id]);
                     // If the source item is found, you can update it as needed
                     if ($sourceItem) {
                         // Update the 'archived' column to 0 in the source item
-                        return response()->json(['message' => 'Items restored successfully', 'data' => $sourceItem]);
                         $sourceItem->update(['archived' => 0]);
                     }
                 }
