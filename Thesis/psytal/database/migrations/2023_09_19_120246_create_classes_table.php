@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('course_title');
             $table->smallInteger('units');
             $table->string('course_type');
+            $table->string('class_schedule')->default('TBA');
             $table->string('class_section')->nullable();
             $table->string('instructor_name')->nullable();
             $table->boolean('archived')->default(false); // Add the 'archived' column <><>><>
