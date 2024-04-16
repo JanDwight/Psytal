@@ -167,7 +167,7 @@ class ArchiveController extends Controller
                 if (class_exists($modelClass)) {
                     // Use 'item_id' to find the item in the source table
                     $sourceItem = $modelClass::find($archivedItem->item_id);
-    
+                    return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItem]);
                     // If the source item is found, you can update it as needed
                     if ($sourceItem) {
                         // Update the 'archived' column to 0 in the source item
@@ -185,7 +185,7 @@ class ArchiveController extends Controller
             $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
     
             // After processing the selectedItems, return a response indicating success
-            return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
+
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error restoring items'], 500);
