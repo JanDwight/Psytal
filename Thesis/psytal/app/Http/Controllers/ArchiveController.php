@@ -156,7 +156,8 @@ class ArchiveController extends Controller
             // Query the archives table to select specific columns
             $archivedItems = archive::whereIn('id', $selectedItems)
                 ->get();
-    
+
+                return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItems]);
             // Process the archived items and restore them to their source tables
             foreach ($archivedItems as $archivedItem) {
                 // Determine the source model class based on 'item_type' and 'origin_table'
@@ -165,8 +166,8 @@ class ArchiveController extends Controller
                 // Check if the model class exists
                 if (class_exists($modelClass)) {
                     // Use 'item_id' to find the item in the source table
-                        $sourceItem = $modelClass::find($archivedItem->item_id);
-                    return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItem]);
+                    $sourceItem = $modelClass::find($archivedItem->item_id);
+    
                     // If the source item is found, you can update it as needed
                     if ($sourceItem) {
                         // Update the 'archived' column to 0 in the source item
