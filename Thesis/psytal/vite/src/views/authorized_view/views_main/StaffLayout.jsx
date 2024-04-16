@@ -45,7 +45,6 @@ const navigation = [
   { img: classicon, name: 'Classes', to: 'classes'},
   { img: file, name: 'Pre-Registration', to: 'preregistration'},
   { img: link, name: 'Links', to: 'links'},
-  { img: curriculum, name: 'Curriculum', to: 'curriculum'}
 ]
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
