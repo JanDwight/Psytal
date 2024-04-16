@@ -210,7 +210,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
             <table className="w-full table-striped text-gray-700 mb-3 border border-gray-300 h-full">
               <thead className="sticky top-0 bg-black z-10">
                 <tr>
-                  <th className="text-left bg-gray-200 p-2">Class Code</th>
+                  <th className="text-left bg-gray-200 p-2">Course Code</th>
                   <th className="text-left bg-gray-200 p-2">Course Title</th>
                   <th className="text-left bg-gray-200 p-2">Section</th>
                   <th className="text-left bg-gray-200 p-2">Grade</th>
@@ -225,7 +225,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
                   // Render only if the class matches the selected semester
                   isVisible && (
                     <tr key={index} className={index % 1 === 0 ? 'odd:bg-green-100' : 'bg-white'}>
-                      <td className="text-left p-2 w-1/6">{grade.class_code}</td>
+                      <td className="text-left p-2 w-1/6">{grade.course_code}</td>
                       <td className="text-left p-2 w-2/6">{grade.course_title}</td>
                       <td className="text-left p-2 w-1/6">{grade.class_section}</td>
                       <td className="text-left p-2 w-2/6">
@@ -236,7 +236,7 @@ export default function StudentGrades({ showModal, onClose, selectedStudent }) {
                           className="border rounded-md px-2 py-1 w-full"
                         >
                           <option value="0">No Grade to Show</option>
-                          {[1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0, 'INC'].map(option => (
+                          {[1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 5.0, 'D', 'INC', 'PR', 'WP'].map(option => (
                             <option key={option} value={option}>{option}</option>
                           ))}
                         </select>
