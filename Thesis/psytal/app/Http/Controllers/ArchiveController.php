@@ -175,22 +175,22 @@ class ArchiveController extends Controller
                             $sourceItem->update(['archived' => 0]);
                         }
                     }
+                    
+                    // Force delete the selected items from the 'archives' table
+                    archive::whereIn('id', $selectedItems)->forceDelete();
+
+                    $string_name = collect($archivedItems)->pluck('item_name')->implode(',');
+
+                    //logs call
+                    $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
+            
+                    // After processing the selectedItems, return a response indicating success
+                    return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
                 }catch (\Exception $e) {
                     // Handle exceptions, e.g., log the error
                     return response()->json(['message' => 'Error restoring items'], 500);
                 }
             }
-
-            // Force delete the selected items from the 'archives' table
-            archive::whereIn('id', $selectedItems)->forceDelete();
-
-            $string_name = collect($archivedItems)->pluck('item_name')->implode(',');
-
-            //logs call
-            $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
-    
-            // After processing the selectedItems, return a response indicating success
-            return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error restoring items'], 500);
