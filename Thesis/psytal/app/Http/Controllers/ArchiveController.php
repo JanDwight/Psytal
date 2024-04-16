@@ -171,7 +171,6 @@ class ArchiveController extends Controller
                     // If the source item is found, you can update it as needed
                     if ($sourceItem) {
                         // Update the 'archived' column to 0 in the source item
-                        return response()->json(['message' => 'Items restored successfully', 'data' => $sourceItem]);
                         $sourceItem->update(['archived' => 0]);
                     }
                 }
@@ -186,7 +185,7 @@ class ArchiveController extends Controller
             $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
     
             // After processing the selectedItems, return a response indicating success
-
+            return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error restoring items'], 500);
