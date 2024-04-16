@@ -115,7 +115,7 @@ class StaffStudentList extends Component {
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Name</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Email</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Year & Section</th>
-              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Action</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Set Grades</th>
             </tr>
           </thead>
           <tbody>

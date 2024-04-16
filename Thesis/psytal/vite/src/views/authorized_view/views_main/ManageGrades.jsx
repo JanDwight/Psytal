@@ -64,60 +64,47 @@ export default function ManageGrades() {
 
   return (
     <>
-  <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-12">{/**WHole container */}
+  <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white shadow-2xl pt-5 pb-10">{/**WHole container */}
   <div className='flex flex-col sm:none overflow-x-auto'>
 {/**______________________1st Container from Manage - Btn Add________________________________*/}
 <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-row justify-between items-baseline">
-      <div className="font-bold text-4xl lg:text-6xl text-[#525252]"> Student Grades</div>
+    <div className="font-bold text-4xl lg:text-6xl text-[#525252]"> Student Grades</div>
       <div className="flex">
+        <div>
+            <div className="flex px-1">
+              <div className="my-2 mx-4">
+                  <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+              </div>     
+              {/* Search bar */}
+              <input
+                  type="text"
+                  placeholder={
+                    activeTab === 1
+                      ? 'Search Students...'
+                      : 'Search Employees...'
+                  }
+                  value={filterText}
+                  onChange={(event) => setFilterText(event.target.value)}
+                  className="h-10 px-6 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
+                ></input>
+            </div>
+        </div>
         <div>
           {/**Add Users */}
           
-            <button onClick={handleAddUserClick} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-10">
+            <button onClick={handleAddUserClick} className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1">
               Add User
             </button>
         </div>
       </div>
 
     </div>
-
+    </div>
     {/**___________________________2nd Container from Student to Filter________________________________ */}
-    <div className="mt-5 md:col-span-2 lg:col-span-1">
-        <div className="font-bold flex flex-col-10 justify-center">
-          <div>
-            <ul className="flex list-none flex-wrap px-4 flex-row text-gray-700">
-              <Tab
-                label="students list"
-                isActive={activeTab === 1}
-                onClick={() => setActiveTab(1)}
-              />
-              <div className="flex px-1">
-                <div className="my-4 mx-4">
-                    <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>     
-                {/* Search bar */}
-                <input
-                    type="text"
-                    placeholder={
-                      activeTab === 1
-                        ? 'Search Students...'
-                        : 'Search Employees...'
-                    }
-                    value={filterText}
-                    onChange={(event) => setFilterText(event.target.value)}
-                    className="h-10 px-6 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
-                  ></input>
-              </div>
-            </ul>
-          </div>
-        </div>
-      </div>
-      </div>
-      
-      {/**___________________________3rd Container________________________________ */}
-      <div className="m-5">
+
+      <div className="m-2">
         <div>
           {activeTab === 1 && (
               <StaffStudentList filterText={filterText} />
