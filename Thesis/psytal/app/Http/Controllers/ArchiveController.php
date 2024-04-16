@@ -155,9 +155,9 @@ class ArchiveController extends Controller
     
             // Query the archives table to select specific columns
             $archivedItems = archive::whereIn('id', $selectedItems)
-                ->select('id', 'item_id', 'item_name', 'item_type', 'origin_table')
                 ->get();
-    
+
+                return response()->json(['message' => 'Items restored successfully', 'data' => $archivedItems]);
             // Process the archived items and restore them to their source tables
             foreach ($archivedItems as $archivedItem) {
                 // Determine the source model class based on 'item_type' and 'origin_table'
@@ -185,7 +185,7 @@ class ArchiveController extends Controller
             $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
     
             // After processing the selectedItems, return a response indicating success
-            return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
+
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error restoring items'], 500);
