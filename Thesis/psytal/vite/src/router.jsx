@@ -9,7 +9,9 @@ import Links from "./views/authorized_view/views_main/Links";
 import AdminLayout from "./views/authorized_view/views_main/AdminLayout";
 import Dashboard from "./views/authorized_view/views_main/Dashboard";
 import ManageUsers from "./views/authorized_view/views_main/ManageUsers";
+import ManageGrades from "./views/authorized_view/views_main/ManageGrades";
 import StudentList from "./views/authorized_view/views_components/StudentList";
+import StaffStudentList from "./views/authorized_view/views_components/StaffStudentList"
 import EmployeeList from "./views/authorized_view/views_components/EmployeeList";
 import Classes from "./views/authorized_view/views_main/Classes"
 import Curriculum from "./views/authorized_view/views_main/Curriculum"
@@ -106,17 +108,12 @@ const router = createBrowserRouter([
             },
 
             {
-                path: 'manageusers',
-                element: <ManageUsers />,
+                path: 'managegrades',
+                element: <ManageGrades />,
                 children:[
                     {
                         path: '',
-                        element: <StudentList />
-                    },
-
-                    {
-                        path: '',
-                        element: <EmployeeList />
+                        element: <StaffStudentList />
                     }
                 ]
             },

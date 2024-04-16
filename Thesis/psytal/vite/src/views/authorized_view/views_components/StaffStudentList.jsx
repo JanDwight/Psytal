@@ -3,11 +3,11 @@ import edit from "@assets/icons8createpost.png";
 import archive from "@assets/delete.png"
 import grades from "@assets/icons8-pass-48.png"
 import StudentGrades from './Manageusers/StudentGrades.jsx';
-import EditUsers from '../views_components/EditUsers.jsx'; //<-- Import EditUsers component
-import ArchiveUsers from '../views_components/ArchiveUsers.jsx';
+import EditUsers from './EditUsers.jsx'; //<-- Import EditUsers component
+import ArchiveUsers from './ArchiveUsers.jsx';
 import axiosClient from '../../../axios.js';
 
-class StudentList extends Component {
+class StaffStudentList extends Component {
 
   constructor(props) {
     super(props);
@@ -134,20 +134,6 @@ class StudentList extends Component {
                     className='h-6 w-6 cursor-pointer transform transition-transform hover:scale-125' 
                     onClick={() => this.handleGradeClick(student)}
                   />
-                  <img
-                    src={edit} 
-                    alt='edit'
-                    title="Edit User Information"
-                    className='h-5 w-5 cursor-pointer transform transition-transform hover:scale-125 ml-1' 
-                    onClick={() => this.handleEditUsersClick(student)}
-                  />
-                  <img
-                    src={archive} 
-                    alt='archive'
-                    title="Delete User"
-                    className='h-7 w-7 cursor-pointer transform transition-transform hover:scale-125' 
-                    onClick={() => this.handleArchiveClick(student)}
-                  />
                 </div>
               </td>
               </tr>
@@ -182,4 +168,4 @@ class StudentList extends Component {
   }
 }
 
-export default StudentList;
+export default StaffStudentList;

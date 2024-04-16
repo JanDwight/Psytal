@@ -41,7 +41,7 @@ import page62 from "@assets/Help/Staff/Curriculum/3.png";
 
 const navigation = [
   { img: home, name: 'Home', to: 'home'},
-  { img: users, name: 'Manage Accounts', to: 'manageusers'},
+  { img: users, name: 'Student Grades', to: 'managegrades'},
   { img: classicon, name: 'Classes', to: 'classes'},
   { img: file, name: 'Pre-Registration', to: 'preregistration'},
   { img: link, name: 'Links', to: 'links'},
