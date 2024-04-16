@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\archive;
 use App\Models\logs;
 use Illuminate\Support\Facades\File; //<><><><><>
-use App\Models as Models;
 
 class ArchiveController extends Controller
 {
@@ -163,7 +162,7 @@ class ArchiveController extends Controller
             foreach ($archivedItems as $archivedItem) {
                 // Determine the source model class based on 'item_type' and 'origin_table'
                 $modelClass = 'App\\Models\\' . ucfirst($archivedItem->item_type);
-                return response()->json(['message' => 'Items restored successfully', 'data' => $modelClass]);
+    
                 // Check if the model class exists
                 if (class_exists($modelClass)) {
                     // Use 'item_id' to find the item in the source table
@@ -186,7 +185,7 @@ class ArchiveController extends Controller
             $this->storeLog('Archive/s restored', 'archive', $string_name , 'archives');
     
             // After processing the selectedItems, return a response indicating success
-            
+            return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
             return response()->json(['message' => 'Error restoring items'], 500);
