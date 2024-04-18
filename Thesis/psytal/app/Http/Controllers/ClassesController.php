@@ -169,6 +169,7 @@ class ClassesController extends Controller
             'course_code' => $data['course_code'], // Update to match the actual column name
             'units' => $data['units'],
             'course_type' => $data['course_type'],
+            'class_schedule' => $data['class_schedule'], //new class_schedule
             'class_section' => $data['class_section'], //how to create if there is a new section???
             'instructor_name' => $data['instructor_name'],
         ]);
@@ -191,6 +192,7 @@ class ClassesController extends Controller
             'instructor_name' => 'required|string|max:255',
             'class_section' => 'required|string|max:255',
             'class_code' => 'required|string|max:255',
+            'class_schedule' => 'required|string|max:255',
         ]);
 
         // Retrieve the user based on the provided ID

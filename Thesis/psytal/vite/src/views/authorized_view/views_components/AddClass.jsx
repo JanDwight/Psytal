@@ -11,6 +11,7 @@ export default function AddClass({closeModal}) {
   const [class_section_error, setSectionError] = useState(''); 
   const [class_code, setClassCode] = useState(''); // Define state for class code
   const [instructor_name, setInstructor] = useState(''); // Define state for instructor
+  const [class_schedule, setClassSchedule] = useState(''); // Define state for class code
   const [subjectData, setSubjectData] = useState([]);
   const [instructorData, setInstructorData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -111,8 +112,9 @@ export default function AddClass({closeModal}) {
         semester: selectedData.semester,
         class_year: selectedData.class_year,
         course_id: selected_subject,
-        class_section,
-        class_code,
+        class_section: class_section,
+        class_code: class_code,
+        class_schedule: class_schedule,
         instructor_name: instructor_name, //added instructor_name, old: instructor_name,
       };
       
@@ -231,8 +233,8 @@ export default function AddClass({closeModal}) {
                 className="block w-[49%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               />
             </div>
-            <div className="mt-3 flex flex-col-2 justify-center">
-              <div className="mx-5">
+            <div className="mt-3 flex flex-col-3 justify-between">
+              <div className="">
                 <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
                   Year:
                 </label>
@@ -243,10 +245,10 @@ export default function AddClass({closeModal}) {
                     placeholder='Year Level'
                     value={selectedData.class_year}
                     disabled // makes field uneditable
-                    className="block w-[50%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   />
               </div>
-              <div className="mx-5">
+              <div className="mx-2">
                 <label htmlFor="section" className="block text-sm text-gray-700 px-2">
                   Section:
                 </label>
@@ -265,7 +267,20 @@ export default function AddClass({closeModal}) {
                   ))}
                 </select>
               </div>
-
+              <div className="">
+                <label htmlFor="class_schedule" className="block text-sm text-gray-700 px-2">
+                  Schedule:
+                </label>
+                <input
+                    id="sched"
+                    type="text"
+                    name="sched"
+                    placeholder='Class Schedule'
+                    onChange={(ev) => setClassSchedule(ev.target.value.toUpperCase())}
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                />
+              </div>
             </div>
             <div className="mt-5 flex flex-col-2 justify-between">
             <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">

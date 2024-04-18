@@ -38,9 +38,12 @@ export default function ClassPopUp({ showModal, onClose, subject }) {
         </div>
 
         <div className='mt-[5%]'>
-            <div className='flex '>
+            <div className='flex items-baseline justify-between'>
                 <div>
                     <b>Instructor:</b> {subject.instructor_name}
+                </div>
+                <div className='text-right'>
+                    <b>Section: </b> {subject.class_year + ' - ' + subject.class_section}
                 </div>
             </div>
             <div>
@@ -49,7 +52,7 @@ export default function ClassPopUp({ showModal, onClose, subject }) {
                         Students:
                     </div>
                     <div className='text-right'>
-                        <b>Section: </b> {subject.class_year + ' - ' + subject.class_section}
+                        <b>Schedule: </b> {subject.class_schedule}
                     </div>
                 </div>
              

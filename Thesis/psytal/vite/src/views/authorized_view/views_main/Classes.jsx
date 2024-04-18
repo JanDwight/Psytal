@@ -128,10 +128,11 @@ export default function Classes(){
             <div>
               <thead>
               <tr >
-                        <th className="text-center bg-gray-200 p-2" style={{ width: "5%" }}>Class Code</th>
+                        <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Class Code</th>
                         <th className="text-center bg-gray-200 p-2" style={{ width: "10%" }}>Course Code</th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "30%" }}>Course Title</th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "5%" }}>
+                        <th className="bg-gray-200 text-center p-2" style={{ width: "15%" }}>Course Title</th>
+                        <th className="text-center bg-gray-200" style={{ width: "10%" }}>Schedule</th>
+                        <th className="bg-gray-200 text-center" style={{ width: "5%" }}>
                         <Menu as="div" className="relative block text-left">
                           <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Semester
@@ -180,7 +181,7 @@ export default function Classes(){
                       </Menu>
                       </th>
                         {/* <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Year</th>  */}
-                        <th className="bg-gray-200 text-center p-2 z-10" style={{ width: "10%" }}>
+                        <th className="bg-gray-200 text-center z-10" style={{ width: "5%" }}>
                         <Menu as="div" className="relative block text-left">
                           <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Year
@@ -235,7 +236,7 @@ export default function Classes(){
                         </Transition>
                       </Menu>
                       </th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>
+                        <th className="bg-gray-200 text-center" style={{ width: "5%" }}>
                         <Menu as="div" className="relative block text-left">
                           <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-m font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-lime-300">
                             Section
@@ -266,8 +267,8 @@ export default function Classes(){
                         </Transition>
                       </Menu>
                           </th> 
-                        <th className="bg-gray-200 text-centert p-2" style={{ width: "15%" }}>Instructor</th>
-                        <th className="bg-gray-200 text-center p-2" style={{ width: "10%" }}>Action</th>
+                        <th className="bg-gray-200 text-centert" style={{ width: "15%" }}>Instructor</th>
+                        <th className="bg-gray-200 text-center pr-2" style={{ width: "5%" }}>Action</th>
                         </tr>
                         </thead>
                         </div>

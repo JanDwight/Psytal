@@ -101,6 +101,7 @@ handleSaveClassChanges = () => {
         classes.course_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
         classes.class_code.toString().toLowerCase().includes(filterText.toLowerCase()) ||
         classes.course_title.toLowerCase().includes(filterText.toLowerCase()) ||
+        classes.class_schedule.toLowerCase().includes(filterText.toLowerCase()) ||
         classes.class_year.toLowerCase().includes(filterText.toLowerCase()) ||
         classes.class_section.toLowerCase().includes(filterText.toLowerCase()) ||
         classes.semester.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -118,13 +119,14 @@ handleSaveClassChanges = () => {
             ).map((subject, index) => (
                 <tr key={index} className='odd:bg-green-100 cursor-pointer'>
                 <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_code}</td>
-                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>
-                <td className="text-center p-2" style={{ width: "30%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_title}</td>
-                <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.semester}</td>
-                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_year}</td>
-                <td className="text-center p-2" style={{ width: "10%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_section}</td>
-                <td className="text-center p-2" style={{ width: "15%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.instructor_name}</td>
-                <td className="text-center p-2" style={{ width: "10%" }}>
+                <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_code}</td>
+                <td className="text-center p-2" style={{ width: "15%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.course_title}</td>
+                <td className="text-center p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_schedule}</td>
+                <td className="text-right p-2" style={{ width: "5%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.semester}</td>
+                <td className="text-right p-2" style={{ width: "7%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_year}</td>
+                <td className="text-right p-2" style={{ width: "7%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.class_section}</td>
+                <td className="text-center p-2" style={{ width: "11%" }} onClick={() => this.handleOpenPopUp(subject)}>{subject.instructor_name}</td>
+                <td className="text-center p-2" style={{ width: "5%" }}>
                   <div className="flex items-center">
                     <img
                       src={edit} 
