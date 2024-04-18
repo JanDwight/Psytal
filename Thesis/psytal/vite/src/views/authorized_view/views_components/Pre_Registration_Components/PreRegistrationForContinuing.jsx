@@ -22,6 +22,19 @@ export default function PreRegistrationForContinuing(prereg) {
     const [error, setError] = useState({__html: ""});
     const [disclaimer, setDisclaimer] = useState(false);
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
+    const [semesterInformation, setSemesterInformation] = useState('');
+
+    useEffect(() => {
+      axiosClient
+        .get('/getsemesterinformation')
+        .then((res) => {
+          setSemesterInformation(res.data);  // Assuming res.data is an array
+          console.log('TFF: ', res.data.sem12);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
     
     // Function to toggle help modal
       const toggleHelpModal = () => {
@@ -42,7 +55,6 @@ export default function PreRegistrationForContinuing(prereg) {
         }));
       
         if(res.data.pre_reg_status === 'Accepted' || res.data.pre_reg_status === 'Declined' || res.data.pre_reg_status === 'Pending'){
-          console.log('ST: ', statCheck)
           setCheckStatus(true);
         } else {
           setCheckStatus(false);
@@ -463,7 +475,6 @@ export default function PreRegistrationForContinuing(prereg) {
       };
       //clearing the input fields using the reset button
    
-
   return (
     <>
     <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
@@ -537,7 +548,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             <select
                                 name="semester"
                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                //Value={semesterInformation.sem12}
+                                value={semesterInformation.sem12}
                                 disabled={checkStatus}
                                 required
                                 onChange={ev => {
@@ -569,7 +580,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        //value={semesterInformation.yrStart}
+                                        value={semesterInformation.yrStart}
                                         disabled={checkStatus}
                                         required
                                         onChange={ev => {
@@ -598,7 +609,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         min={new Date().getFullYear()} // Set minimum year to current year
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
-                                        //value={semesterInformation.yrEnd}
+                                        value={semesterInformation.yrEnd}
                                         disabled={checkStatus}
                                         required
                                         onChange={ev => {
