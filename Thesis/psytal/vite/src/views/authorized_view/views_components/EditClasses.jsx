@@ -10,11 +10,13 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
   const class_code_old = subject.class_code;
   const section_old = subject.class_section;
   const instructor_old = subject.instructor_name;
+  const class_schedule_old = subject.class_schedule;
 
   const [instructor_name, setInstructor] = useState(instructor_old);
   const [class_section, setClass_Section] = useState(section_old);
   const [class_section_error, setSectionError] = useState(''); 
   const [class_code, setClass_Code] = useState(class_code_old);
+  const [class_schedule, setClassSchedule] = useState(class_schedule_old);
   const [successMessage, setSuccessMessage] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
@@ -45,6 +47,7 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
       instructor_name,
       class_section: class_section,
       class_code,
+      class_schedule: class_schedule
     };
   
     axiosClient
@@ -124,29 +127,45 @@ export default function EditClasses({ showModal, onClose, subject, onSave}) {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="section" className="block text-sm text-gray-700">
-                  Section:
-                </label>
-                <input
-                      id="section"
-                      name="section"
-                      type="text"
-                      maxLength={10}
-                      placeholder={section_old}
-                      //required
-                      //onChange={(ev) => setClass_Section(ev.target.value.toUpperCase())}
-                      onChange={(e) => {
-                        const value = e.target.value.toUpperCase();
-                        setClass_Section(value);
-                      }}
-                      className={`block w-[50%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ${
-                        class_section_error ? 'border-red-500' : ''
-                      }`}
-                    />
-                    {class_section_error && (
-                      <p className="text-red-500 text-sm mt-1">{class_section_error}</p>
-                    )}
+              <div className="mb-4 flex space-x-2">
+                <div className='block w-full'>
+                  <label htmlFor="section" className="block text-sm text-gray-700">
+                    Section:
+                  </label>
+                  <input
+                        id="section"
+                        name="section"
+                        type="text"
+                        maxLength={1}
+                        placeholder={section_old}
+                        //required
+                        onChange={(ev) => setClass_Section(ev.target.value.toUpperCase())}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                        /*onChange={(e) => {
+                          const value = e.target.value.toUpperCase();
+                          setClass_Section(value);
+                        }}
+                        className={`block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ${
+                          class_section_error ? 'border-red-500' : ''
+                        }`}*/
+                      />
+                      {class_section_error && (
+                        <p className="text-red-500 text-sm mt-1">{class_section_error}</p>
+                      )}
+                </div>
+                <div className='block w-full'> 
+                <label htmlFor="sched" className="block text-sm text-gray-700">
+                    Schedule:
+                  </label>
+                  <input
+                        id="sched"
+                        name="sched"
+                        type="text"
+                        placeholder={class_schedule_old}
+                        onChange={(e) => setClassSchedule(e.target.value)}
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
               <div className="text-center flex justify-end my-7">
                 <button type="submit" className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 mr-6 rounded-full">

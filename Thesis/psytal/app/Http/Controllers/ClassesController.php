@@ -192,6 +192,7 @@ class ClassesController extends Controller
             'instructor_name' => 'required|string|max:255',
             'class_section' => 'required|string|max:255',
             'class_code' => 'required|string|max:255',
+            'class_schedule' => 'required|string|max:255',
         ]);
 
         // Retrieve the user based on the provided ID
