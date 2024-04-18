@@ -88,7 +88,7 @@
           console.error('Error fetching data:', error);
         });
     
-    const dynamicNavigation = isPreRegOpen === 0
+    const dynamicNavigation = isPreRegOpen !== 1
       ? navigation.filter(item => item.name !== 'Pre-Registration')
       : navigation;
 
