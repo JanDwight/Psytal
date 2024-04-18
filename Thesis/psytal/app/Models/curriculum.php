@@ -25,5 +25,7 @@ class curriculum extends Model
         'course_type',
         'preReq',
         'archived',
+        'curriculum_code',
+        'validity'
     ];
 }

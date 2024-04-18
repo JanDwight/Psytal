@@ -19,6 +19,8 @@ export default function AddCourse({closeModal}) {
     hoursperWeek: '',
     course_type: '',
     preReq: '',
+    curriculum_code: '',
+    validity: '',
   });
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
@@ -34,7 +36,6 @@ export default function AddCourse({closeModal}) {
   //<><><><><><>
   const addprompt = (ev) => {
     ev.preventDefault();
-    //const concatname = last_name + ', ' + first_name + ' ' + middle_name + '.';
     const concatmessage = 'A new course with the course title: "' + formData['course_title'] + '" will be created. Do you wish to proceed?';
     setPromptMessage(concatmessage);
     setShowPrompt(true);
@@ -45,12 +46,6 @@ export default function AddCourse({closeModal}) {
           const response = await axiosClient.post('/addcurriculum', formData);
           setSuccessMessage(response.data.message);
           setSuccessStatus(response.data.success);
-
-          // setTimeout(() => {
-          //   setSuccessMessage(null);
-          //   closeModal();
-          //   window.location.reload();
-          // }, 2000);
         } catch (error) {
             setSuccessMessage(error.response.data.message)
             setSuccessStatus(false)
@@ -68,6 +63,32 @@ export default function AddCourse({closeModal}) {
         <div>
             <form onSubmit={addprompt}>
                 <div className='mt-2 flex flex-col-2 justify-between'>
+                  <label htmlFor="curriculum_code" className="block text-sm text-gray-700 px-2">
+                    Curriculum Code:
+                  </label>
+                    <input
+                      id="curriculum_code"
+                      name="curriculum_code"
+                      type="text"
+                      placeholder='(eg. 1st)'
+                      value={formData.curriculum_code}
+                      required
+                      onChange={handleChange}
+                      className="block w-[48%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
+                    />
+                  <label htmlFor="validity" className="block text-sm text-gray-700 px-2">
+                    Validity:
+                  </label>
+                    <input
+                      id="validity"
+                      name="validity"
+                      type="text"
+                      placeholder='(eg. 1st)'
+                      value={formData.validity}
+                      required
+                      onChange={handleChange}
+                      className="block w-[48%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
+                    />
                   <label htmlFor="class_year" className="block text-sm text-gray-700 px-2">
                     Year:
                   </label>
