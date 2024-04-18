@@ -125,7 +125,7 @@ export default function Curriculum(){
             <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
               <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Curriculum</div>
                   {/*Search and Add Courses */}
-                  <div className='mt-5 mx-0 sm:mx-5 flex flex-col sm:flex-row justify-between items-baseline'>      
+                  <div className='mt-5 mx-0 sm:mx-5 flex sm:flex-row justify-between items-baseline'>      
                     {/* //Search input */}
                     <div className="flex items-baseline">
                       <div className="my-4 mx-0 sm:mx-4" id="magnifying_glass">
@@ -148,17 +148,18 @@ export default function Curriculum(){
                     </button>
                   </div>   
             </div>
-            <div>
-            {curriculumCodes.map((code, index) => (
-              <button
-                onClick={() => handleCurriculumFilter(code)}
-                className="mx-1 px-3 bg-[#397439] hover:bg-[#0FE810] text-white rounded-2xl"
-                key={index}
-              >
-                {code}
-              </button>
-            ))}
+            <div className="mt-2 flex overflow-x-auto ">
+              {curriculumCodes.map((code, index) => (
+                <button
+                  onClick={() => handleCurriculumFilter(code)}
+                  className="mx-1 px-3 bg-[#397439] hover:bg-[#0FE810] text-white rounded-2xl"
+                  key={index}
+                >
+                  {code}
+                </button>
+              ))}
             </div>
+
 
             <div className="table-container overflow-y-auto">
             <table className="table w-full table-striped text-gray-700 mt-5" >
