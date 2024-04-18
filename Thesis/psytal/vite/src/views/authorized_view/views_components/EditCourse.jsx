@@ -13,6 +13,8 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
   const [hoursperWeek, setHoursperWeek] = useState(curriculum.hoursperWeek);
   const [course_type, setCourseType] = useState(curriculum.course_type);
   const [preReq, setPrereq] = useState(curriculum.preReq);
+  const [curriculum_code, setCurriculumCode] = useState(curriculum.curriculum_code);
+  const [validity, setValidity] = useState(curriculum.validity);
   const [successMessage, setSuccessMessage] = useState('');
   const [successStatus, setSuccessStatus] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
@@ -44,6 +46,8 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
       hoursperWeek,
       course_type,
       preReq,
+      curriculum_code,
+      validity,
     };
   
     try {
@@ -71,6 +75,32 @@ export default function EditCourse({ showEditcourse, onClose, curriculum}) {
           <div>
             <form onSubmit={editprompt}>
                 <div className='mt-2 flex flex-col-2 justify-between'>
+                  <label htmlFor="curriculum_code" className="block text-sm text-gray-700 px-2">
+                    Curriculum Code:
+                  </label>
+                    <input
+                      id="curriculum_code"
+                      name="curriculum_code"
+                      type="text"
+                      placeholder={curriculum.curriculum_code}
+                      value={curriculum_code}
+                      required
+                      onChange={(e) => setCurriculumCode(e.target.value)}
+                      className="block w-[48%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
+                    />
+                  <label htmlFor="validity" className="block text-sm text-gray-700 px-2">
+                    Validity:
+                  </label>
+                    <input
+                      id="validity"
+                      name="validity"
+                      type="text"
+                      placeholder={curriculum.validity}
+                      value={validity}
+                      required
+                      onChange={(e) => setValidity(e.target.value)}
+                      className="block w-[48%] rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 type=text" 
+                    />
                     <label htmlFor="class_year" className="block text-sm text-gray-700 mr-2">
                     Year:
                     </label>

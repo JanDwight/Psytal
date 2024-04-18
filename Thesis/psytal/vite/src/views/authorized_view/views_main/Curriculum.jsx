@@ -28,10 +28,13 @@ export default function Curriculum(){
       const [curriculum, setCurriculum] = useState([]);   
       const [filterText, setFilterText] = useState(''); //for search
       const {userRole} = useStateContext(''); //just refresh server
+      const [curriculumCodes, setCurriculumCodes] = useState([]);
+
       //filters
       const [selectedSemester, setSelectedSemester] = useState(null);
       const [selectedYear, setSelectedYear] = useState(null);
       const [selectedSection, setSelectedSection] = useState(null); 
+      const [selectedCourseCode, setSelectedCourseCode] = useState(null);
 
       const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
     
@@ -50,20 +53,33 @@ export default function Curriculum(){
         setSelectedcourse(curriculum);
       }
 
-      // Calling the AddCourse
-        useEffect(() => {
-            fetchCurriculum();
-          }, []);
-        
-        const fetchCurriculum = async () => {
-            try {
+      // Add a new state variable for curriculum code
+
+
+      // Fetch curriculum data and curriculum codes separately
+      useEffect(() => {
+          fetchCurriculum();
+      }, []);
+
+      useEffect(() => {
+          console.log(curriculumCodes);
+      }, [curriculumCodes]); // Log whenever curriculumCodes changes
+
+      const fetchCurriculum = async () => {
+          try {
               const response = await axiosClient.get('/getcurriculum');
+              // Extract curriculum codes from curriculum data
+              const uniqueCodes = new Set(response.data.curriculum.map(item => item.curriculum_code));
+              const codes = [...uniqueCodes];
+              // Set curriculum codes state
+              setCurriculumCodes(codes);
+              // Set curriculum data
               setCurriculum(response.data.curriculum);
-            } catch (error) {
+          } catch (error) {
               console.error(error);
-            }
-          };
-          
+          }
+    };
+    
           //filter semester
           const handleSemester = (semester) => {
             setSelectedSemester(semester);
@@ -82,7 +98,12 @@ export default function Curriculum(){
             setSelectedSection(section === 'All' ? null : section);
           };
 
-
+          const handleCurriculumFilter = (code) => {
+            setSelectedCourseCode(code);
+            setSelectedCourseCode(code === 'All' ? null : code);
+            console.log(code);
+          };
+          
   //for search
   const filteredData = curriculum.filter(
     (curriculum) =>
@@ -93,23 +114,24 @@ export default function Curriculum(){
     curriculum.course_title.toLowerCase().includes(filterText.toLowerCase()) ||
     curriculum.hoursperWeek.toString().includes(filterText) ||
     curriculum.course_type.toLowerCase().includes(filterText.toLowerCase()) ||
-    curriculum.preReq.toLowerCase().includes(filterText.toLowerCase())
+    curriculum.preReq.toLowerCase().includes(filterText.toLowerCase()) ||
+    curriculum.curriculum_code.toLowerCase().includes(filterText.toLowerCase()) ||
+    curriculum.validation.toLowerCase().includes(filterText.toLowerCase()) 
   );
 
   return (
         <>
         <div className="w-full h-[auto] px-4 mx-auto rounded-3xl bg-white pt-5 pb-12  table-container ">{/*For the Container*/}
             <div className="mt-5 mx-5 pb-5 border-b-2 border-black flex flex-col sm:flex-row justify-between items-baseline">
-            <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Curriculum</div>
-                {/*Search and Add Courses */}
-                <div className='mt-5 mx-0 sm:mx-5 flex flex-col sm:flex-row justify-between items-baseline'>      
-
-                      {/* //Search input */}
-                      <div className="flex items-baseline">
+              <div className="font-bold text-4xl lg:text-6xl text-[#525252]">Curriculum</div>
+                  {/*Search and Add Courses */}
+                  <div className='mt-5 mx-0 sm:mx-5 flex sm:flex-row justify-between items-baseline'>      
+                    {/* //Search input */}
+                    <div className="flex items-baseline">
                       <div className="my-4 mx-0 sm:mx-4" id="magnifying_glass">
-                          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
+                        <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                       </div>
                       <input
                         id="search_bar"
@@ -120,13 +142,25 @@ export default function Curriculum(){
                         className="h-10 px-7 py-4 border border-gray-300 focus:ring-viridianHue focus:border-viridianHue rounded-lg"
                       />
                     </div>
-                      <button onClick={() => setIsModalOpen(true)} 
-                            className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5">
-                                Add Course
-                        </button>
-                    </div>   
+                    <button onClick={() => setIsModalOpen(true)} 
+                          className="bg-[#397439] hover:bg-[#0FE810] rounded-2xl  px-7 py-2 text-white font-size ml-1 sm:ml-10 mt-5">
+                              Add Course
+                    </button>
+                  </div>   
             </div>
-            
+            <div className="mt-2 flex overflow-x-auto ">
+              {curriculumCodes.map((code, index) => (
+                <button
+                  onClick={() => handleCurriculumFilter(code)}
+                  className="mx-1 px-3 bg-[#397439] hover:bg-[#0FE810] text-white rounded-2xl"
+                  key={index}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
+
+
             <div className="table-container overflow-y-auto">
             <table className="table w-full table-striped text-gray-700 mt-5" >
 		            <thead >
@@ -251,7 +285,8 @@ export default function Curriculum(){
                 {filteredData
                 .filter(curriculum => 
                   (!selectedSemester || curriculum.semester === selectedSemester) &&
-                  (!selectedYear || curriculum.class_year === selectedYear)
+                  (!selectedYear || curriculum.class_year === selectedYear) &&
+                  (!selectedCourseCode || curriculum.curriculum_code === selectedCourseCode)
                 ).map((curriculum, index) => (
                       <tr 
                         key={index} 

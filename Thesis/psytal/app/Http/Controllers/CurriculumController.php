@@ -28,47 +28,53 @@ class CurriculumController extends Controller
             ]); // You can choose an appropriate HTTP status code
         }
 
-        $curriculum = curriculum::create([
-            'class_year' => $data['class_year'],
-            'semester' => $data['semester'],
-            'course_code' => $data['course_code'],
-            'units' => $data['units'],
-            'course_title' => $data['course_title'],
-            'hoursperWeek' => $data['hoursperWeek'],
-            'course_type' => $data['course_type'],
-            'preReq' => $data['preReq']
-        ]);
-
-        //for classes
-        //creates a new class every time a new course is created
-
-        $classdata = $classrequest->validated();
-
-        $placeholder = 'TBA';
-        $classes = classes::create([
-            'class_year' => $classdata['class_year'],
-            'semester' => $classdata['semester'],
-            'class_code' => $placeholder,
-            'course_code' => $classdata['course_code'],
-            'course_title' => $classdata['course_title'],
-            'units' => $classdata['units'],
-            'course_type' => $classdata['course_type'],
-            'class_section' => $placeholder,
-            'instructor_name' => $placeholder,
-        ]);
-        //placeholder value is replaced in update classes
-        //add class might be removed
-
-        //curriculum created
-        $this->storeLog('Curriculum added', 'curriculum', $data['course_code'], 'curricula');
-
-        //classes autocreated
-        $this->storeLog('Class added', 'classes', $data['course_title'], 'classes');
-
-        return response([
-            'success' => true,
-            'message' => 'Course created successfully'
-        ]);
+        try{
+            curriculum::create([
+                'class_year' => $data['class_year'],
+                'semester' => $data['semester'],
+                'course_code' => $data['course_code'],
+                'units' => $data['units'],
+                'course_title' => $data['course_title'],
+                'hoursperWeek' => $data['hoursperWeek'],
+                'course_type' => $data['course_type'],
+                'preReq' => $data['preReq'],
+                'curriculum_code' => $data['curriculum_code'],
+                'validity' => $data['validity']
+            ]);
+    
+            //for classes
+            //creates a new class every time a new course is created
+    
+            $classdata = $classrequest->validated();
+    
+            $placeholder = 'TBA';
+            classes::create([
+                'class_year' => $classdata['class_year'],
+                'semester' => $classdata['semester'],
+                'class_code' => $placeholder,
+                'course_code' => $classdata['course_code'],
+                'course_title' => $classdata['course_title'],
+                'units' => $classdata['units'],
+                'course_type' => $classdata['course_type'],
+                'class_section' => $placeholder,
+                'instructor_name' => $placeholder,
+            ]);
+            //placeholder value is replaced in update classes
+            //add class might be removed
+    
+            //curriculum created
+            $this->storeLog('Curriculum added', 'curriculum', $data['course_code'], 'curricula');
+    
+            //classes autocreated
+            $this->storeLog('Class added', 'classes', $data['course_title'], 'classes');
+    
+            return response([
+                'success' => true,
+                'message' => 'Course created successfully'
+            ]);
+        }catch(\Exception $e) {
+            return response()->json(['Data' => $data], 500);
+        }
     }
 
     public function getCurriculum()
@@ -121,10 +127,7 @@ class CurriculumController extends Controller
 
     public function updateCurriculum(Request $request, $curriculumId)
     {
-
-
             $curriculumData = curriculum::find($curriculumId);
-            
             
         if (!$curriculumData) {
             // Handle the case where the preregID with the provided ID is not found
@@ -148,16 +151,6 @@ class CurriculumController extends Controller
             }
         }
 
-        // try{
-        //     $curriculumData->update($attributes);
-
-        //     $this->storeLog('Curriculum updated', 'curriculum', $curriculumData->course_code, 'curricula');
-            
-        //         return response()->json([
-        //             'success' => true,
-        //             'message' => 'Course updated successfully'
-        //         ]);
-        // }
         try {
             // Update the curriculum
             $curriculumData->update($newAttributes);

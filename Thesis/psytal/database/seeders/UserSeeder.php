@@ -175,7 +175,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -186,7 +188,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -197,7 +201,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -208,7 +214,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -219,7 +227,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -230,7 +240,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -241,7 +253,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '2',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -252,7 +266,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
 
         [
@@ -263,7 +279,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -273,7 +291,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -283,7 +303,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 101'
+            'preReq' => 'Psych 101',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -293,7 +315,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -303,7 +327,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -313,7 +339,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -323,7 +351,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -333,7 +363,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '2',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '1st',
@@ -343,7 +375,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'NSTP 21'
+            'preReq' => 'NSTP 21',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -353,7 +387,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -363,7 +399,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -373,7 +411,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -383,7 +423,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -393,7 +435,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -403,7 +447,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Chem 12'
+            'preReq' => 'Chem 12',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -413,7 +459,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'Chem 12.1'
+            'preReq' => 'Chem 12.1',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         
         [
@@ -424,7 +472,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -434,7 +484,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '2',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -444,7 +496,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 103 , Psych 105'
+            'preReq' => 'Psych 103 , Psych 105',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -454,7 +508,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -464,7 +520,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -474,7 +532,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -484,7 +544,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -494,7 +556,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '2',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -504,7 +568,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -514,7 +580,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '2',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '2nd',
@@ -524,7 +592,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -534,7 +604,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -544,7 +616,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -554,7 +628,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -564,7 +640,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -574,7 +652,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Bio 38 & Bio 38.1'
+            'preReq' => 'Bio 38 & Bio 38.1',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -584,7 +664,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'Bio 38 & Bio 38.1'
+            'preReq' => 'Bio 38 & Bio 38.1',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -594,7 +676,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -604,7 +688,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -614,7 +700,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -624,7 +712,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102, 105, 106, 107'
+            'preReq' => 'Psych 102, 105, 106, 107',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -634,7 +724,9 @@ class UserSeeder extends Seeder
             'units' => '2',
             'hoursperWeek' => '6',
             'course_type' => 'Lab',
-            'preReq' => 'Psych 108, 109'
+            'preReq' => 'Psych 108, 109',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -644,7 +736,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 108, 109'
+            'preReq' => 'Psych 108, 109',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -654,7 +748,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 101'
+            'preReq' => 'Psych 101',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -664,7 +760,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 102'
+            'preReq' => 'Psych 102',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -674,7 +772,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -684,7 +784,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '3rd',
@@ -694,7 +796,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '27',
             'course_type' => 'Lec',
-            'preReq' => 'N/A'
+            'preReq' => 'N/A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '4th',
@@ -704,7 +808,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'All Major Courses'
+            'preReq' => 'All Major Courses',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ],
         [
             'class_year' => '4th',
@@ -714,7 +820,9 @@ class UserSeeder extends Seeder
             'units' => '3',
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
-            'preReq' => 'Psych 200 A'
+            'preReq' => 'Psych 200 A',
+            'curriculum_code' => 'curriculum20242025',
+            'validity' => '2024-2025'
         ]
         ];
         DB::table('curricula')->insert($curriculum);
