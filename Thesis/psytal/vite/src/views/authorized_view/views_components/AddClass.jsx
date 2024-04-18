@@ -233,8 +233,8 @@ export default function AddClass({closeModal}) {
                 className="block w-[49%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               />
             </div>
-            <div className="mt-3 flex flex-col-2 justify-center">
-              <div className="mx-5">
+            <div className="mt-3 flex flex-col-3 justify-between">
+              <div className="">
                 <label htmlFor="course_code" className="block text-sm text-gray-700 px-2">
                   Year:
                 </label>
@@ -245,10 +245,10 @@ export default function AddClass({closeModal}) {
                     placeholder='Year Level'
                     value={selectedData.class_year}
                     disabled // makes field uneditable
-                    className="block w-[50%] rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border border-gray-300 bg-gray-100 py-1.5 px-3 text-gray-700 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   />
               </div>
-              <div className="mx-5">
+              <div className="mx-2">
                 <label htmlFor="section" className="block text-sm text-gray-700 px-2">
                   Section:
                 </label>
@@ -267,7 +267,7 @@ export default function AddClass({closeModal}) {
                   ))}
                 </select>
               </div>
-              <div className="mx-5">
+              <div className="">
                 <label htmlFor="class_schedule" className="block text-sm text-gray-700 px-2">
                   Schedule:
                 </label>

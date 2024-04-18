@@ -10,6 +10,7 @@ export default function AddClassForOutside({closeModal}) {
   const [courseCode, setCourseCode] = useState('');
   const [classCode, setClassCode] = useState(''); // Define state for class code
   const [courseType, setCourseType] = useState('');
+  const [class_schedule, setClassSchedule] = useState('');
   const [units, setUnits] = useState('');
   const [semester, setSemester] = useState('');
   const [year, setYear] = useState('');
@@ -44,6 +45,7 @@ export default function AddClassForOutside({closeModal}) {
         //course_id: selected_subject,
         class_section: section,
         class_code: classCode,
+        class_schedule: class_schedule,
         instructor_name: instructorName,
       };
       
@@ -192,19 +194,6 @@ export default function AddClassForOutside({closeModal}) {
                 </select>
             </div>
             <div className="mt-5 flex flex-col-2 justify-between">
-              <label htmlFor="instructor" className="block text-sm text-gray-700 px-2">
-                Instructor:
-              </label>
-                <input
-                    id="instructor"
-                    name="instructor"
-                    type="text"
-                    placeholder='Teacher X'
-                    onChange={(e) => setInstructor(e.target.value)}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                    required
-                  />
-            
                 <label htmlFor="section" className="block text-sm text-gray-700 px-2">
                   Section:
                 </label>
@@ -222,6 +211,32 @@ export default function AddClassForOutside({closeModal}) {
                     </option>
                   ))}
                 </select>
+                <label htmlFor="sched" className="block text-sm text-gray-700 px-2">
+                Schedule:
+                </label>
+                  <input
+                      id="sched"
+                      name="sched"
+                      type="text"
+                      placeholder='Schedule'
+                      onChange={(e) => setClassSchedule(e.target.value)}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                      required
+                    />
+            </div>
+            <div className="mt-5 flex flex-col-2 justify-between">
+              <label htmlFor="instructor" className="block text-sm text-gray-700 px-2">
+                Instructor:
+              </label>
+                <input
+                    id="instructor"
+                    name="instructor"
+                    type="text"
+                    placeholder='Teacher X'
+                    onChange={(e) => setInstructor(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                    required
+                  />
             </div>
             <div className="text-center flex justify-center">
                 <button type="submit" className="bg-[#0FE810]  hover:bg-lime-700 text-white font-bold py-2 px-4 mt-5 rounded-full">
