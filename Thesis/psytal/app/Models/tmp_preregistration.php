@@ -30,6 +30,7 @@ class tmp_preregistration extends Model
         'family_name',
         'given_name',
         'middle_name',
+        'username',
         'maiden_name',
         'date_of_birth',
         'nationality',

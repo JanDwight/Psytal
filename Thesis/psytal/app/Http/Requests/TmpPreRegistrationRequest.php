@@ -37,6 +37,7 @@ class TmpPreRegistrationRequest extends FormRequest
             'family_name' => 'string',
             'given_name' => 'string',
             'middle_name' => 'string',
+            'username' => 'string',
             'maiden_name' => 'string',
             'date_of_birth' => 'date',
             'nationality' => 'string',

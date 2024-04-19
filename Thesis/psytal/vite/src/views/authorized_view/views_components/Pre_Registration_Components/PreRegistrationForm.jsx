@@ -1651,6 +1651,7 @@ export default function PreRegistrationForm() {
                       setPreregData({ ...preregData, username: value });
                     }}
                    />  
+                   <p><i>*Please provide the username for your student portal account.</i></p>
                 </div>
             </div>
           </div>
