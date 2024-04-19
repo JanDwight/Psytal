@@ -176,7 +176,7 @@ class UserSeeder extends Seeder
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
             'preReq' => 'N/A',
-            'curriculum_code' => 'curriculum20242025',
+            'curriculum_code' => 'curriculum20192023',
             'validity' => '2024-2025'
         ],
 
@@ -189,7 +189,7 @@ class UserSeeder extends Seeder
             'hoursperWeek' => '3',
             'course_type' => 'Lec',
             'preReq' => 'N/A',
-            'curriculum_code' => 'curriculum20242025',
+            'curriculum_code' => 'curriculum20192023',
             'validity' => '2024-2025'
         ],
 
@@ -837,7 +837,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20192023'
             ],
     
             [
@@ -849,7 +850,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20192023'
             ],
     
             [
@@ -861,7 +863,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -873,7 +876,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -885,7 +889,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -897,7 +902,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -909,7 +915,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -921,7 +928,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
 
             [
@@ -933,7 +941,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -945,7 +954,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -957,7 +967,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -969,7 +980,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -981,7 +993,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -993,7 +1006,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1005,7 +1019,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1017,7 +1032,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1029,7 +1045,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
                 
             ],
     
@@ -1042,7 +1059,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1054,7 +1072,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1066,7 +1085,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1078,7 +1098,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1090,7 +1111,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1102,7 +1124,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1114,7 +1137,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
             
             [
@@ -1126,7 +1150,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1138,7 +1163,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1150,7 +1176,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1162,7 +1189,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1174,7 +1202,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1186,7 +1215,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1198,7 +1228,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1210,7 +1241,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1222,7 +1254,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1234,7 +1267,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1246,7 +1280,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1258,7 +1293,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1270,7 +1306,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1282,7 +1319,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1294,7 +1332,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1306,7 +1345,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1318,7 +1358,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1330,7 +1371,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1342,7 +1384,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1354,7 +1397,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1366,7 +1410,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1378,7 +1423,8 @@ class UserSeeder extends Seeder
                 'units' => '2',
                 'course_type' => 'Lab',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1390,7 +1436,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1402,7 +1449,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1414,7 +1462,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
     
@@ -1427,7 +1476,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
     
@@ -1440,7 +1490,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1452,7 +1503,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1464,7 +1516,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ],
     
             [
@@ -1476,7 +1529,8 @@ class UserSeeder extends Seeder
                 'units' => '3',
                 'course_type' => 'Lec',
                 'class_section' => 'TBA',
-                'instructor_name' => 'TBA'
+                'instructor_name' => 'TBA',
+                'curriculum_code' => 'curriculum20242025'
             ]
 
             ];

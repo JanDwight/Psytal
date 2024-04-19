@@ -161,7 +161,7 @@ class ClassesController extends Controller
         }
 
 
-        $class = classes::create([
+        classes::create([
             'course_title' => $data['course_title'],
             'class_code' => $data['class_code'],
             'class_year' => $data['class_year'], // Update to match the actual column name
@@ -171,6 +171,7 @@ class ClassesController extends Controller
             'course_type' => $data['course_type'],
             'class_section' => $data['class_section'], //how to create if there is a new section???
             'instructor_name' => $data['instructor_name'],
+            'curriculum_code' => $data['curriculum_code']
         ]);
         //$token = $class->createToken('main')->plainTextToken;
 

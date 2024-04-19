@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('course_type');
             $table->string('class_section')->nullable();
             $table->string('instructor_name')->nullable();
+            $table->string('curriculum_code');
             $table->boolean('archived')->default(false); // Add the 'archived' column <><>><>
             $table->timestamps();
         });
