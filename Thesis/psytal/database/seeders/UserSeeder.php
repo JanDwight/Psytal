@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 82,
                 'name' => 'Admin',
+                'username' => 'Admin',
                 'password' => '$2y$10$YOmO1o82p8a05a1lJxxGyeVVfYXEMdKbZQ5Ink9jqIYyYnqJFA2lm', // Hashed password
                 'role' => 1,
                 'email' => 'admin@gmail.com',
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 83,
                 'name' => 'Staff',
+                'username' => 'Staff',
                 'password' => '$2y$10$WcYazSdUzVNS8Q1QAyWwUuQi.JgtyGJPKdtT0TTw8dS.K08PtzX2a', // Hashed password
                 'role' => 2,
                 'email' => 'staff@gmail.com',
@@ -38,6 +40,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 84,
                 'name' => 'Instructor',
+                'username' => 'Instructor',
                 'password' => '$2y$10$vjkDK/szd.NswOtgdIZsIe2nDHlgPlpjerikbvQJfY59p.7XVaEae', // Hashed password
                 'role' => 3,
                 'email' => 'instructor@gmail.com',
@@ -48,6 +51,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 85,
                 'name' => 'Student',
+                'username' => 'Student',
                 'password' => '$2y$10$qB0RQ9oVhyqs5opPSChTCOWPcEwXuaaMzyFhr8zkA62nvbcl2uwp.', // Hashed password
                 'role' => 4,
                 'email' => 'student@gmail.com',
@@ -58,6 +62,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 86,
                 'name' => 'newstudent',
+                'username' => 'newstudent',
                 'password' => '$2y$10$wt9jHpHkcWLT6PR1W952M.7ByMpORxT6pZo1NxqS1yLLeeUC4hBWi', // Hashed password
                 'role' => 4,
                 'email' => 'new5@gmail.com',
@@ -68,6 +73,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 87,
                 'name' => 'student555',
+                'username' => 'student555',
                 'password' => '$2y$10$/UkIHbgiOeL66M7OdU0ay.QudmaLbjKzIck43t50iofKPAgnC6U9W', // Hashed password
                 'role' => 4,
                 'email' => 'student5@gmail.com',
@@ -78,6 +84,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 88,
                 'name' => 'Mar T. Leo',
+                'username' => 'Mar T. Leo',
                 'password' => '$2y$10$mm6C6glmEToIjeKAjJGOWeSoDkLZBPJRS59gGd7wcuut2BU8cJMxq', // Hashed password
                 'role' => 1,
                 'email' => 'martleo@gmail.com',
@@ -88,6 +95,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 89,
                 'name' => 'Prof X',
+                'username' => 'Prof X',
                 'password' => '$2y$10$7.ASjd37Vc1WqVvegINNDOVRy/0Zc38Ey1Shuszj06452laoGdSHq', // Hashed password
                 'role' => 3,
                 'email' => 'profx@abc.com',
