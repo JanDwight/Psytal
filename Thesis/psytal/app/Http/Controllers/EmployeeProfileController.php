@@ -57,6 +57,7 @@ class EmployeeProfileController extends Controller
         $validatedData = $request->validate([
             'id' => 'required',
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'role' => 'required|integer',
             'email' => 'required|email|max:255',
         ]);
@@ -77,6 +78,7 @@ class EmployeeProfileController extends Controller
         //explode the name
 
         $employee_profile = employee_profile::where('user_id', $id)->first();
+        $user_profile = User::where('id', $id)->first(); //condition
 
         if ($employee_profile) {
             // Handle the case where the user with the provided ID is not found
@@ -85,9 +87,17 @@ class EmployeeProfileController extends Controller
                 'last_name' => $lastName,
                 'first_name' => $firstName,
                 'middle_name' => $middleInitial,
+                'username' => $validatedData['username'],
                 'email_address' => $validatedData['email'],
                 'role' => $validatedData['role'],
             ]);
+
+            if ($user_profile) {
+                // Handle the case where the user with the provided ID is not found
+                $user_profile->update([
+                    'username' => $validatedData['username'],
+                ]);
+            }
 
             $this->storeLog('Employee profile updated', 'employee profile', $fullName, 'employee_profiles');
 

@@ -7,6 +7,7 @@ export default function EditUsers({ showModal, onClose, user }) {
   const [user_id, setUserid] = useState(user.user_id);
   const [id, setid] = useState(user.employee_id);
   const [name, setName] = useState(user.full_name);
+  const [username, setUsername] = useState(user.username);
   const [role, setRole] = useState(user.role);
   const [email, setEmail] = useState(user.email_address);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -28,6 +29,7 @@ export default function EditUsers({ showModal, onClose, user }) {
       user_id,
       id,
       name,
+      username,
       role,
       email,
       lastedit,
@@ -89,6 +91,19 @@ export default function EditUsers({ showModal, onClose, user }) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="username" className="block text-sm text-gray-700">
+                  Username:
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
