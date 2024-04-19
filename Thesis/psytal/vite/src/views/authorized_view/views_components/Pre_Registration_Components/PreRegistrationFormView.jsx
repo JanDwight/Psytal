@@ -1719,7 +1719,7 @@ const handleChangeUnits = (index, value) => {
                         </div><hr className='mt-2'/>
 
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
-                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Curriculum used:</label>
+                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Curriculum to use:</label>
                           <select className='ml-5'
                             required
                             onChange={(ev) => setCurriculum(ev.target.value)}>
