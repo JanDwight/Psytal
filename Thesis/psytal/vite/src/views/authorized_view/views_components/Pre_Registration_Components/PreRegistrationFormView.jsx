@@ -31,6 +31,8 @@ export default function PreRegistrationFormView({prereg}) {
   const [promptMessage, setPromptMessage] = useState('');
   const [action, setAction] = useState('');
 
+  const [curriculum, setCurriculum] = useState('');
+
   const [semesterInformation, setSemesterInformation] = useState('');
   //<><><><><>
 
@@ -115,7 +117,7 @@ export default function PreRegistrationFormView({prereg}) {
     // Check if class_year is "1st" and semester is "1st"
     useEffect(() => {
       // Filter the data based on conditions
-      const filteredData = subjectData.filter(item => item.class_year === '1st' && item.semester === '1st');
+      const filteredData = subjectData.filter(item => item.class_year === '1st' && item.semester === '1st' && curriculum === item.curriculum_code);
     
       // Map the filtered data to the structure of inputFields and set classCode and courseCode
       const updatedInputFields = filteredData.map(item => ({
@@ -128,8 +130,8 @@ export default function PreRegistrationFormView({prereg}) {
     
       // Set the updated data into inputFields with data that has neither null nor undefined on its class_id
       setInputFields(updatedInputFields.filter(field => field.class_id != null || field.class_id != undefined));
-      console.log('This is the data', updatedInputFields);
-    }, [subjectData]);
+
+    }, [subjectData, curriculum]);
     
 
     // If you want to add fields when there is more data
@@ -776,6 +778,18 @@ const handleChangeUnits = (index, value) => {
     setTotalUnits(newTotal);
   }, [inputFields]);
     
+    const uniqueCurriculum = Array.from(new Set(subjectData.map(item => item.curriculum_code)));
+
+    // Assuming curriculum is an array of objects with 'name' attribute
+    const curriculumOptions = uniqueCurriculum.map((item, index) => (
+      <option key={index} value={item}>
+        {item}
+      </option>
+    ));
+
+    useEffect(() => {
+    }, [inputFields]);
+    console.log('This is the SubjectData',curriculum);
   return (
     <>
         {error.__html && (
@@ -1696,6 +1710,15 @@ const handleChangeUnits = (index, value) => {
                                 </label>
                             </p>   
                         </div><hr className='mt-2'/>
+
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
+                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-4 mb-2">Curriculum used:</label>
+                          <select className='ml-5'
+                            required
+                            onChange={(ev) => setCurriculum(ev.target.value)}>
+                            {curriculumOptions}
+                          </select>
+                        </div>
 
                         { inputFields.map((inputField, index) => (
                             <div style={{pointerEvents:'none'}} key={index} className="flex flex-wrap flex-row px-3 -mx-3 mt-3 mb-3">
