@@ -163,7 +163,15 @@ class ArchiveController extends Controller
             // Process the archived items and restore them to their source tables
             foreach ($archivedItems as $archivedItem) {
                 // Determine the source model class based on 'item_type' and 'origin_table'
-                $modelClass = 'App\\Models\\' . ucfirst($archivedItem->item_type);
+                $modelClass = 'App\\Models\\' . $archivedItem->item_type;
+    
+                    // Check if the model class dont exists
+                    if (!class_exists($modelClass)) {
+                        return response([
+                            'message' => 'Something went wrong, plaese try again later.',
+                            'success' => false
+                        ]);
+                    }
 
                         // Use 'item_id' to find the item in the source table
                         $sourceItem = $modelClass::find($archivedItem->item_id);
