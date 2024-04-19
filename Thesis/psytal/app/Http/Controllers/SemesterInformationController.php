@@ -55,6 +55,9 @@ class SemesterInformationController extends Controller
                     "startPR" => $firstSemester['start_of_prereg'],
                     "endPR" => $firstSemester['end_of_prereg'],
                     "openPR" => $firstSemester['open_pre_reg'],
+                    "sem12" => $firstSemester['semester'],
+                    "yrStart" => $firstSemester['start_of_school_year'],
+                    "yrEnd" => $firstSemester['end_of_school_year'],
                 ]);
             } else {
                 // Return the ongoing semester without updating open_pre_reg
@@ -63,6 +66,9 @@ class SemesterInformationController extends Controller
                     "startPR" => $firstSemester['start_of_prereg'],
                     "endPR" => $firstSemester['end_of_prereg'],
                     "openPR" => $firstSemester['open_pre_reg'],
+                    "sem12" => $firstSemester['semester'],
+                    "yrStart" => $firstSemester['start_of_school_year'],
+                    "yrEnd" => $firstSemester['end_of_school_year'],
                 ]);
             }
         } else {

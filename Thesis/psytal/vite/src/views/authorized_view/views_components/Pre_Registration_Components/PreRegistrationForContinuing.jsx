@@ -17,18 +17,29 @@ export default function PreRegistrationForContinuing(prereg) {
 
     const [successMessage, setSuccessMessage] = useState('');
     const [successStatus, setSuccessStatus] = useState('');
+    const [checkStatus, setCheckStatus] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState({__html: ""});
-
+    const [disclaimer, setDisclaimer] = useState(false);
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); //help modal
+    const [semesterInformation, setSemesterInformation] = useState('');
+
+    useEffect(() => {
+      axiosClient
+        .get('/getsemesterinformation')
+        .then((res) => {
+          setSemesterInformation(res.data);  // Assuming res.data is an array
+          console.log('TFF: ', res.data.sem12);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
     
     // Function to toggle help modal
       const toggleHelpModal = () => {
         setIsHelpModalOpen(!isHelpModalOpen);
       };
-
-  //-----
-  const [disclaimer, setDisclaimer] = useState(false);
 
  //For backup file list
   useEffect(() => {
@@ -42,6 +53,12 @@ export default function PreRegistrationForContinuing(prereg) {
           ...prevState, // Spread the previous state
           vaccination_status: 'Not Vaccinated' // Update the vaccination_status property
         }));
+      
+        if(res.data.pre_reg_status === 'Accepted' || res.data.pre_reg_status === 'Declined' || res.data.pre_reg_status === 'Pending'){
+          setCheckStatus(true);
+        } else {
+          setCheckStatus(false);
+        }
     })
     .catch((error) => {
         console.error('Error fetching backup files:', error);
@@ -458,7 +475,6 @@ export default function PreRegistrationForContinuing(prereg) {
       };
       //clearing the input fields using the reset button
    
-
   return (
     <>
     <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
@@ -532,7 +548,8 @@ export default function PreRegistrationForContinuing(prereg) {
                             <select
                                 name="semester"
                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                value={preregData.semester}
+                                value={semesterInformation.sem12}
+                                disabled={checkStatus}
                                 required
                                 onChange={ev => {
                                     setPreregData({ ...preregData, semester: ev.target.value });
@@ -563,7 +580,8 @@ export default function PreRegistrationForContinuing(prereg) {
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
                                         maxLength={4}
-                                        value={preregData.start_of_school_year}
+                                        value={semesterInformation.yrStart}
+                                        disabled={checkStatus}
                                         required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
@@ -591,7 +609,8 @@ export default function PreRegistrationForContinuing(prereg) {
                                         min={new Date().getFullYear()} // Set minimum year to current year
                                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                                         step="1" // Year step
-                                        value={preregData.end_of_school_year}
+                                        value={semesterInformation.yrEnd}
+                                        disabled={checkStatus}
                                         required
                                         onChange={ev => {
                                           // Ensure that only numeric values are entered
@@ -624,7 +643,8 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input numeric characters only. (0 to 9)"
                                 inputmode="numeric"
                                 maxLength={7}
-                                value={preregData.student_school_id}     
+                                value={preregData.student_school_id}
+                                disabled={checkStatus}     
                                 required
                                 onChange={ev => {
                                     const value = ev.target.value.replace(/\D/g, '');
@@ -652,6 +672,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Last Name."
                                 value={preregData.last_name}
                                 maxLength={30}
+                                disabled={checkStatus}
                                 required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
@@ -679,6 +700,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Given Name/s, with your Suffix, if applicable."
                                 value={preregData.first_name}
                                 maxLength={50}
+                                disabled={checkStatus}
                                 required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .-]/g, '');
@@ -706,6 +728,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input your Legal Middle Name. Leave blank if not applicable."
                                 value={preregData.middle_name}
                                 maxLength={30}
+                                disabled={checkStatus}
                                 required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ -]/g, '');
@@ -733,6 +756,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 title="Input 'N/A' if not applicable."
                                 value={preregData.maiden_name}
                                 maxLength={30}
+                                disabled={checkStatus}
                                 required
                                 onChange={ev => {
                                   const value = ev.target.value.replace(/[^A-Za-zñÑ .\/-]/g, '');
@@ -762,6 +786,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                     name="yearlevel"
                                     className="bg-gray-50 border border-gray-300 mt-2 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                     value={preregData.year_level}
+                                    disabled={checkStatus}
                                     required
                                     onChange={(ev) => {
                                         setPreregData({ ...preregData, year_level: ev.target.value })
@@ -802,6 +827,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                         type='text'
                                         placeholder='(optional)'
                                         title="Leave blank if not applicable."
+                                        disabled={checkStatus}
                                         value={preregData.major}
                                         onChange={(ev) => setPreregData({ ...preregData, major: ev.target.value })}
                                     />
@@ -962,6 +988,7 @@ export default function PreRegistrationForContinuing(prereg) {
                                 type="date" 
                                 placeholder=""
                                 value={preregData.date_of_birth}
+                                disabled={checkStatus}
                                 required
                                 onChange={(ev) => {
                                   const inputBdate = new Date(ev.target.value);
@@ -991,6 +1018,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             pattern="[A-Za-zñÑ ]+"
                             title="Input your Legal Citizenship. Example: Filipino"
                             value={preregData.citizenship}
+                            disabled={checkStatus}
                             required
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
@@ -1016,6 +1044,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             //pattern="[A-Za-zñÑ ]+"
                             value={preregData.ethnicity}
                             title="Input your Ethnicity or Tribal Affilation. Example: Ilocano"
+                            disabled={checkStatus}
                             required
                             onChange={ev => {
                               const value = ev.target.value.replace(/[^A-Za-zñÑ ]/g, '');
@@ -1039,6 +1068,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             title="Input your contact number using the format given. FORMAT: 09XXXXXXXXX"
                             maxLength={11}
                             value={preregData.contact_number}
+                            disabled={checkStatus}
                             required
                             onChange={ev => {
                                 const value = ev.target.value.replace(/\D/g, '');
@@ -1066,6 +1096,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             placeholder="City/Municipality"
                             title="Input your Legal Place of Birth. This is either a city or municipality."
                             value={preregData.place_of_birth}
+                            disabled={checkStatus}
                             required
                             onChange={ev => setPreregData({ ...preregData, place_of_birth: ev.target.value })}/>
                             <img
@@ -1082,6 +1113,7 @@ export default function PreRegistrationForContinuing(prereg) {
                           </label>
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                           <select  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            disabled={checkStatus}
                             required
                             onChange={ev => setPreregData({ ...preregData, sex_at_birth: ev.target.value })} 
                             value={preregData.sex_at_birth}>
@@ -1111,6 +1143,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             placeholder=""
                             title="Input 'N/A' if not applicable."
                             value={preregData.special_needs}
+                            disabled={checkStatus}
                             required
                             onChange={ev => setPreregData({ ...preregData, special_needs: ev.target.value })}/>
                             <img
@@ -1131,6 +1164,7 @@ export default function PreRegistrationForContinuing(prereg) {
                             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                             placeholder=""
                             value={preregData.email_address}
+                            disabled={checkStatus}
                             required
                             onChange={ev => {
                               const value = ev.target.value;
@@ -1730,7 +1764,10 @@ export default function PreRegistrationForContinuing(prereg) {
                 <div className='text-center'>
                   <button
                     className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-full" 
-                    onClick={handleCloseDisclaimer}>I Understand</button>
+                    onClick={() => {
+                      handleCloseDisclaimer();
+                  }}
+                  >I Understand</button>
                 </div>
             </body>
             </div>
