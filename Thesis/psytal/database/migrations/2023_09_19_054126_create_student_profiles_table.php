@@ -48,7 +48,7 @@ return new class extends Migration
             $table->string('contact_person_number')->nullable();
             $table->string('contact_person_address')->nullable();
             $table->string('contact_person_relationship')->nullable();
-            $table->string('section')->default('TBA');
+            $table->string('section')->default('A');
             $table->string('student_status')->default('Regular');
             $table->string('semester')->default('1st Semester');
             $table->timestamps();

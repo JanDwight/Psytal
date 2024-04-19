@@ -167,6 +167,7 @@ class StudentProfileController extends Controller
         $validatedData = $request->validate([
             'id' => 'required|integer',
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'yr' => 'required|string',
             'email' => 'required|email|max:255',
         ]);
@@ -210,6 +211,7 @@ class StudentProfileController extends Controller
         //explode the name
 
         $student_profile = student_profile::where('user_id', $id)->first();
+        $user_profile = User::where('id', $id)->first(); //condition
 
         if ($student_profile) {
             // Handle the case where the user with the provided ID is not found
@@ -218,10 +220,18 @@ class StudentProfileController extends Controller
                 'last_name' => $lastName,
                 'first_name' => $firstName,
                 'middle_name' => $middleInitial,
+                'username' => $validatedData['username'],
                 'email_address' => $validatedData['email'],
                 'year_level' => $year_level,
                 'section' => $section,
             ]);
+
+            if ($user_profile) {
+                // Handle the case where the user with the provided ID is not found
+                $user_profile->update([
+                    'username' => $validatedData['username'],
+                ]);
+            }
 
             $this->storeLog('Student profile updated', 'student profile', $fullName, 'student_profiles');
 
