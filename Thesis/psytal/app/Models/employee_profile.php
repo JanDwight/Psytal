@@ -15,6 +15,7 @@ class employee_profile extends Model
     protected $fillable = [
         'user_id',
         'employee_id',
+        'username',
         'last_name',
         'first_name',
         'middle_name',

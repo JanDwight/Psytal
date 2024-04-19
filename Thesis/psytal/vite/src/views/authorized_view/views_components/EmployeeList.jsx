@@ -93,6 +93,7 @@ class EmployeeList extends Component {
         return (
           employee.employee_id.toString().includes(filterText) || // Filter by ID
           employee.full_name.toLowerCase().includes(filterText.toLowerCase()) ||
+          employee.username.toLowerCase().includes(filterText.toLowerCase()) ||
           employee.email_address.toLowerCase().includes(filterText.toLowerCase()) ||
           roleText.includes(filterText.toLowerCase()) //returns the text values of the role 
         );
@@ -108,6 +109,7 @@ class EmployeeList extends Component {
             <tr>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Employee ID</th>
               <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Name</th>
+              <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Username</th>
               <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Email</th>
               <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Role</th>
               <th className="bg-gray-200 text-left p-2" style={{ width: "10%" }}>Action</th>
@@ -118,6 +120,7 @@ class EmployeeList extends Component {
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
                 <td className="text-left p-2" style={{ width: "10%" }}>{employee.employee_id}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{employee.full_name}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{employee.username}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{employee.email_address}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{getRoleText(employee.role)}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>

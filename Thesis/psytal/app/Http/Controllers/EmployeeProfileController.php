@@ -41,6 +41,7 @@ class EmployeeProfileController extends Controller
             $userList[] = [
                 'user_id' => $user['user_id'],
                 'employee_id' => $user['employee_id'],
+                'username' => $user['username'],
                 'full_name' => $fullName,
                 'email_address' => $user['email_address'],
                 'role' => $user['role'],
