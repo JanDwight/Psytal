@@ -100,16 +100,11 @@ class ArchiveController extends Controller
             // Determine the source model class based on 'item_type' and 'origin_table'
             $modelClass = 'App\\Models\\' . ucfirst($archivedItem->item_type);
 
-            // Check if the model class exists
-            if (!class_exists($modelClass)) {
-                return response([
-                    'message' => 'Something went wrong, plaese try again later.',
-                    'success' => false
-                ]);
-            }
+            // Check if the model class dont exists
+            if (class_exists($modelClass)) {
                 // Use 'item_id' to find the item in the source table
                 $sourceItem = $modelClass::find($archivedItem->item_id);
-
+                
                 if ($sourceItem) {
                     // Write the contents of the source item to the backup file
                     fwrite($backupFile, "Backup From Table: {$archivedItem->origin_table}\n");
@@ -118,6 +113,7 @@ class ArchiveController extends Controller
                     // Update the 'archived' column to 0 in the source item
                     $sourceItem->delete(); //uncomment after all functions are done
                 }
+            }
         }
 
         // Close the backup file
@@ -169,9 +165,14 @@ class ArchiveController extends Controller
                 // Determine the source model class based on 'item_type' and 'origin_table'
                 $modelClass = 'App\\Models\\' . ucfirst($archivedItem->item_type);
     
-                try{
-                    // Check if the model class exists
-                    if (class_exists($modelClass)) {
+                    // Check if the model class dont exists
+                    if (!class_exists($modelClass)) {
+                        return response([
+                            'message' => 'Something went wrong, plaese try again later.',
+                            'success' => false
+                        ]);
+                    }
+
                         // Use 'item_id' to find the item in the source table
                         $sourceItem = $modelClass::find($archivedItem->item_id);
         
@@ -180,7 +181,6 @@ class ArchiveController extends Controller
                             // Update the 'archived' column to 0 in the source item
                             $sourceItem->update(['archived' => 0]);
                         }
-                    }
                     
                     // Force delete the selected items from the 'archives' table
                     archive::whereIn('id', $selectedItems)->forceDelete();
@@ -192,10 +192,6 @@ class ArchiveController extends Controller
             
                     // After processing the selectedItems, return a response indicating success
                     return response()->json(['message' => 'Items restored successfully', 'data' => $string_name]);
-                }catch (\Exception $e) {
-                    // Handle exceptions, e.g., log the error
-                    return response()->json(['message' => 'Error restoring items'], 500);
-                }
             }
         } catch (\Exception $e) {
             // Handle exceptions, e.g., log the error
