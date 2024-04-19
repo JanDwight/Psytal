@@ -70,7 +70,7 @@ export default function AddCourse({closeModal}) {
                       id="curriculum_code"
                       name="curriculum_code"
                       type="text"
-                      placeholder='(eg. 1st)'
+                      placeholder=''
                       value={formData.curriculum_code}
                       required
                       onChange={handleChange}
@@ -83,7 +83,7 @@ export default function AddCourse({closeModal}) {
                       id="validity"
                       name="validity"
                       type="text"
-                      placeholder='(eg. 1st)'
+                      placeholder=''
                       value={formData.validity}
                       required
                       onChange={handleChange}

@@ -58,6 +58,7 @@ class CurriculumController extends Controller
                 'course_type' => $classdata['course_type'],
                 'class_section' => $placeholder,
                 'instructor_name' => $placeholder,
+                'curriculum_code' => $data['curriculum_code'],
             ]);
             //placeholder value is replaced in update classes
             //add class might be removed

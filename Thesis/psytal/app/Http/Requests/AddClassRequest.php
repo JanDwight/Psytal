@@ -32,7 +32,8 @@ class AddClassRequest extends FormRequest
             'units' => 'required|integer',
             'class_year' => 'required|string',
             'class_section' => 'string', //'required|string',
-            'instructor_name' => 'string', //'required|string',
+            'instructor_name' => 'string', 
+            'curriculum_code' => 'string',
             //'section' => 'required|string|size:1|regex:/^[A-Z]$/',
         ];
     }
