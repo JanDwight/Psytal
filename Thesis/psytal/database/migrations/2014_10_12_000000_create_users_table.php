@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username');
             $table->string('password');
             $table->unsignedInteger('role')->default(1); // Add the 'role' column with a default value of 1 <><><>
             $table->string('email')->unique();
