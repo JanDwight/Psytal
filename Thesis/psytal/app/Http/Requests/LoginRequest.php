@@ -22,7 +22,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required',
             'remember' => 'boolean'
         ];

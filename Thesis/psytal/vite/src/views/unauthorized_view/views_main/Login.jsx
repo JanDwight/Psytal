@@ -8,6 +8,7 @@ import InputEmail from '../views_components/Forgot_Password/InputEmail';
 export default function Login() {
   const {setCurrentUser, setUserToken, setUserRole} = useStateContext();
   const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({__html: ""});
   const [userRole, currentUser, userToken] = useState('');
@@ -48,7 +49,7 @@ export default function Login() {
 
     axiosClient
     .post('/login', {
-      name: fullName,
+      username: fullName,
       password,
     })
     .then(({ data }) => {
