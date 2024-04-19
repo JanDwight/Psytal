@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('end_of_school_year')->nullable();
             $table->bigInteger('student_school_id')->nullable();
             $table->bigInteger('learners_reference_number')->nullable();
+            $table->string('username');
             $table->string('last_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
@@ -47,7 +48,7 @@ return new class extends Migration
             $table->string('contact_person_number')->nullable();
             $table->string('contact_person_address')->nullable();
             $table->string('contact_person_relationship')->nullable();
-            $table->string('section')->default('A');
+            $table->string('section')->default('TBA');
             $table->string('student_status')->default('Regular');
             $table->string('semester')->default('1st Semester');
             $table->timestamps();

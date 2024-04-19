@@ -20,6 +20,7 @@ class student_profile extends Model
             'end_of_school_year',
             'student_school_id',
             'learners_reference_number',
+            'username',
             'last_name',
             'first_name',
             'middle_name',

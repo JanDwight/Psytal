@@ -58,6 +58,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $data['name'],
+            'username' => $data['username'],
             'password' => bcrypt($data['password']),
             'role' => $data['role'],
             'email' => $data['email'],
@@ -79,6 +80,7 @@ class AuthController extends Controller
             employee_profile::create([
                 'user_id' => $user->id,
                 'employee_id' => 0,
+                'username' => $data['username'],
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'middle_name' => $data['middle_name'],
@@ -93,6 +95,7 @@ class AuthController extends Controller
                 'student_school_id' => 0,
                 'learners_reference_number' => 0,
                 'user_id' => $user->id,
+                'username' => $data['username'],
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'middle_name' => $data['middle_name'],

@@ -102,6 +102,7 @@ class StudentList extends Component {
       (student) =>
         student.student_school_id.toString().includes(filterText) || // Filter by ID
         student.full_name.toLowerCase().includes(filterText.toLowerCase()) ||
+        student.username.toLowerCase().includes(filterText.toLowerCase()) ||
         student.email.toLowerCase().includes(filterText.toLowerCase()) ||
         student.yrsection.toLowerCase().includes(filterText.toLowerCase()) 
     );
@@ -113,6 +114,7 @@ class StudentList extends Component {
             <tr>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>School ID</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Name</th>
+              <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Username</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Email</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Year & Section</th>
               <th className="text-left bg-gray-200 p-2" style={{ width: "10%" }}>Action</th>
@@ -123,6 +125,7 @@ class StudentList extends Component {
               <tr key={index} className={index % 2 === 0 ? 'odd:bg-green-100' : ''}>
                 <td className="text-left p-2" style={{ width: "10%" }}>{student.student_school_id}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{student.full_name}</td>
+                <td className="text-left p-2" style={{ width: "10%" }}>{student.username}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{student.email}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>{student.yrsection}</td>
                 <td className="text-left p-2" style={{ width: "10%" }}>

@@ -127,6 +127,7 @@ class StudentProfileController extends Controller
                 'user_id' => $user['user_id'],
                 'student_school_id' => $user['student_school_id'],
                 'full_name' => $fullName,
+                'username' => $user['username'],
                 'email' => $user['email_address'],
                 'user_id' => $user['user_id'],
                 'yrsection' => $yearLevel,
