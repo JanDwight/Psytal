@@ -21,7 +21,7 @@ class SendStudentAccountPasswordController extends Controller
         $data = 
         [
             'title'=>'PSYTAL: Welcome to Department of Psychology - Benguet State University',
-            'body'=> 'Congratulations, you are now a part of Department of Psychology. To login in the student portal please use your Full Name following this format (Lastname, Firstname, M.I.) and for your Password "'  . $studentInfo['password'] . '". Thank you'
+            'body'=> 'Congratulations, you are now a part of Department of Psychology. To login in the student portal please use your Username and for your Password "'  . $studentInfo['password'] . '". Please change your Password after login, Thank you'
         ];
         try {
             Mail::to($studentInfo['email'])->send(new SendPassword($data));
