@@ -215,7 +215,8 @@ const handleChangeUnits = (index, value) => {
     learners_reference_number: '',
     last_name: '',              
     first_name: '',
-    middle_name: '',            
+    middle_name: '',
+    username: '',             
     maiden_name: '',
     academic_classification: '',
     last_school_attended: '',
@@ -336,7 +337,7 @@ const handleChangeUnits = (index, value) => {
       last_name: preregData.last_name,
       first_name: preregData.first_name,
       middle_name: preregData.middle_name,
-      username: preregData.last_name, //temporary
+      username: preregData.username, //temporary
       role: parseInt(role),
       password: password,
       email: preregData.email_address,
@@ -359,7 +360,7 @@ const handleChangeUnits = (index, value) => {
         last_name: preregData.last_name,
         first_name: preregData.first_name,
         middle_name: preregData.middle_name,
-        username: preregData.last_name, //temporary
+        username: preregData.username, //temporary
         maiden_name: preregData.maiden_name,
         academic_classification: preregData.academic_classification,
         last_school_attended: preregData.last_school_attended,
@@ -399,6 +400,7 @@ const handleChangeUnits = (index, value) => {
               last_name: preregData.last_name,
               first_name: preregData.first_name,
               middle_name: preregData.middle_name,
+              username: preregData.username,
               maiden_name: preregData.maiden_name,
               academic_classification: preregData.academic_classification,
               last_school_attended: preregData.last_school_attended,
@@ -477,6 +479,7 @@ const handleChangeUnits = (index, value) => {
                 last_name: preregData.last_name,
                 first_name: preregData.first_name,
                 middle_name: preregData.middle_name,
+                username: preregData.username,
                 maiden_name: preregData.maiden_name,
                 academic_classification: preregData.academic_classification,
                 last_school_attended: preregData.last_school_attended,
