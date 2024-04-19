@@ -30,6 +30,7 @@ class StudentProfileRequest extends FormRequest
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
+            'username' => 'required|string',
             'maiden_name' => 'string',
             'type_of_student' => 'string',
             'year_level' => 'string',

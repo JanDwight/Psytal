@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name');
+            $table->string('username');
             $table->string('maiden_name')->nullable();
             $table->string('type_of_student')->nullable();
             $table->string('year_level')->nullable();

@@ -23,6 +23,7 @@ class preregistration_incoming_tmp extends Model
             'last_name',
             'first_name',
             'middle_name',
+            'username',
             'maiden_name',
             'type_of_student',
             'year_level',

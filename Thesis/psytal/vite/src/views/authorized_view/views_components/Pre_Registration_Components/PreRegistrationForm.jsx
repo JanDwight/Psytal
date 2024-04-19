@@ -34,7 +34,8 @@ export default function PreRegistrationForm() {
     learners_reference_number: '',
     last_name: '',              
     first_name: '',
-    middle_name: '',            
+    middle_name: '',
+    username:'',            
     maiden_name: '',
     academic_classification: '',
     last_school_attended: '',
@@ -66,7 +67,7 @@ export default function PreRegistrationForm() {
   });
 
   useEffect(() => {
-    setDisclaimer(true); // Set showModal to true when the component mounts
+    //setDisclaimer(true); // Set showModal to true when the component mounts
   }, []); 
 
   const handleCloseDisclaimer = () => {
@@ -323,10 +324,10 @@ export default function PreRegistrationForm() {
 
 
     //put axios here
-    console.log("Pre-Reg Data:", preregData);
-    console.log("Student ID:", preregData.student_school_id);
-    console.log("First Name:", preregData.first_name);
-    console.log("Last Name:", preregData.last_name);
+    //console.log("Pre-Reg Data:", preregData);
+    //console.log("Student ID:", preregData.student_school_id);
+    //console.log("First Name:", preregData.first_name);
+    //console.log("Last Name:", preregData.last_name);
     
 
     
@@ -344,6 +345,7 @@ export default function PreRegistrationForm() {
     student_school_id: '',
     last_name: '',
     first_name: '',
+    username: '',
     middle_name: '',
     maiden_name: '',
     last_school_attended: '',
@@ -395,6 +397,7 @@ export default function PreRegistrationForm() {
       last_name: preregData.last_name,
       first_name: preregData.first_name,
       middle_name: preregData.middle_name,
+      username: preregData.username,
       maiden_name: preregData.maiden_name,
       academic_classification: preregData.academic_classification,
       last_school_attended: preregData.last_school_attended,
@@ -1616,6 +1619,40 @@ export default function PreRegistrationForm() {
                   </div>
                 </div>
                 
+            </div>
+          </div>
+        </div>
+
+        {/**Start of Filling the FORM */}
+        <div className="w-full container mx-auto">
+          <div className='relative flex flex-col min-w-0 break-words w-full shadow-md rounded-t-lg px-4 py-5 bg-white border-0 mt-3'>
+            <div className="flex-auto px-4 lg:px-10 py-5 pt-0 mt-1">
+              <div className="text-normal font-medium text-center mt-2">
+                PSYTAL STUDENT PORTAL
+              </div> 
+              <hr className='mt-2'/>
+                <div className='text-center mt-3'>
+                    <label 
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
+                      htmlFor="grid-studentLastname"
+                    >
+                      Username :
+                    </label>
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      id="grid-studentUsername"
+                      type="text"
+                      pattern="[^\s]+"
+                      title="Input your desired username."
+                      value={preregData.username}
+                      maxLength={30}
+                      required
+                      onChange={ev => {
+                      const value = ev.target.value.replace(/\s/g, '');//allownumbers and special characters
+                      setPreregData({ ...preregData, username: value });
+                    }}
+                   />  
+                   <p><i>*Please provide the username for your student portal account.</i></p>
+                </div>
             </div>
           </div>
         </div>
