@@ -94,7 +94,7 @@ export default function Login() {
           <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST"> 
             <div>
               <label htmlFor="fullName" className="mt-5 block text-m font-medium leading-6 text-gray-900">
-                User Name
+                Username
               </label>
               <div className="mt-2"> 
                 <input

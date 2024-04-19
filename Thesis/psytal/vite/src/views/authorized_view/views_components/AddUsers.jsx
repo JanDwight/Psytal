@@ -10,6 +10,7 @@ export default function AddUsers({ onClose}) {
   const [last_name, setLast_name] = useState(''); // Required by AddUsers
   const [first_name, setFirst_name] = useState(''); // Required by AddUsers
   const [middle_name, setMiddle_name] = useState(''); // Required by AddUsers
+  const [username, setUsername] = useState(''); // Required by AddUsers
   const [includeNumbers] = useState(true); // Required by AddUsers
   const [includeSymbols] = useState(true); // Required by AddUsers
   const [selectedRole, setSelectedRole] = useState('1'); // Required by AddUsers
@@ -20,16 +21,6 @@ export default function AddUsers({ onClose}) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptMessage, setPromptMessage] = useState('');
   const action = "Confirm Add New User?";
-
-
-  const resetForm = () => {
-    setLast_name('');
-    setFirst_name('');
-    setMiddle_name('');
-    setEmail('');
-    setSelectedRole('');
-    setSuccessMessage(null);
-  };
 
   const addprompt = (ev) => {
     ev.preventDefault();
@@ -78,6 +69,7 @@ export default function AddUsers({ onClose}) {
       last_name,
       first_name,
       middle_name,
+      username,
       password: password,
       role: selectedRole,
       email: email,
@@ -107,80 +99,97 @@ export default function AddUsers({ onClose}) {
       <Feedback isOpen={successMessage !== ''} onClose={() => setSuccessMessage('')} successMessage={successMessage} status={successStatus} refresh={false}/>
 
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-[250px] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mx-auto p-5">           
+          <div className="w-[50] h-fit bg-[#FFFFFF] rounded-3xl ring-1 ring-black shadow-2xl mx-auto p-5">           
             <div className='flex justify-center font-bold text-4xl text-[#525252] mt-5'>
             Add User
             </div>
               <form onSubmit={addprompt}>
-                <div className="mt-10">
-                  <input
-                    id="last_name"
-                    name="last_name"
-                    type="text"
-                    autoComplete="last_name"
-                    placeholder="Last Name"
-                    pattern="[a-zA-Z\-'. ]+"
-                    title="Please use only letters and special characters [- . ']."
-                    required 
-                    onChange={ev => setLast_name(ev.target.value)}
-                    className="lock w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
-                  />
+                <div className='flex space-x-2 mt-3'>
+                  <div className="mt-2">
+                    <input
+                      id="last_name"
+                      name="last_name"
+                      type="text"
+                      autoComplete="last_name"
+                      placeholder="Last Name"
+                      pattern="[a-zA-Z\-'. ]+"
+                      title="Please use only letters and special characters [- . ']."
+                      required 
+                      onChange={ev => setLast_name(ev.target.value)}
+                      className="lock w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <input
+                      id="first_name"
+                      name="first_name"
+                      type="text"
+                      autoComplete="first_name"
+                      placeholder="First Name"
+                      pattern="[a-zA-Z\-'. ]+"
+                      title="Please use only letters and special characters [- . ']."
+                      required
+                      onChange={ev => setFirst_name(ev.target.value)}
+                      className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <input
+                      id="middle_name"
+                      name="middle_name"
+                      type="text"
+                      autoComplete="middle_name"
+                      placeholder="Middle Name"
+                      pattern="[a-zA-Z\-'. ]+"
+                      title="Please use only letters and special characters [- . ']."
+                      required
+                      onChange={ev => setMiddle_name(ev.target.value)}
+                      className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <input
-                    id="first_name"
-                    name="first_name"
-                    type="text"
-                    autoComplete="first_name"
-                    placeholder="First Name"
-                    pattern="[a-zA-Z\-'. ]+"
-                    title="Please use only letters and special characters [- . ']."
-                    required
-                    onChange={ev => setFirst_name(ev.target.value)}
-                    className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
-                  />
+                <div className='justify-center space-x-2 flex mt-3'>
+                  <div className='mt-2' style={{ flex: '1' }}>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="Username"
+                      placeholder="Username"
+                      required
+                      onChange={ev => setUsername(ev.target.value)}
+                      className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    />
+                  </div>
+                  <div className='mt-2' style={{ flex: '1' }}>
+                    <input
+                      id="email"
+                      name="email"
+                      type="text"
+                      autoComplete="email"
+                      placeholder="Email Address"
+                      required
+                      onChange={ev => setEmail(ev.target.value)}
+                      className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
+                    />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <input
-                    id="middle_name"
-                    name="middle_name"
-                    type="text"
-                    autoComplete="middle_name"
-                    placeholder="Middle Name"
-                    pattern="[a-zA-Z\-'. ]+"
-                    title="Please use only letters and special characters [- . ']."
-                    required
-                    onChange={ev => setMiddle_name(ev.target.value)}
-                    className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
-                  />
+                <div className=''>
+                  <div className="mt-5 font-bold text-xl">
+                    Role:
+                  </div>
+                  <select
+                    className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-5"
+                    id="accounttype"
+                    onChange={ev => setSelectedRole(ev.target.value)}
+                  >
+                    <option value="1">Admin</option>
+                    <option value="2">Staff</option>
+                    <option hidden={true} value="3">Instructor</option>
+                    <option value="4">Student</option>
+                  </select>
                 </div>
-                <div className="mt-5">
-                  <input
-                    id="email"
-                    name="email"
-                    type="text"
-                    autoComplete="email"
-                    placeholder="Email Address"
-                    required
-                    onChange={ev => setEmail(ev.target.value)}
-                    className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-black placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-5"
-                  />
-                </div>
-                <div className="mt-10 font-bold text-xl">
-                  Role:
-                </div>
-                <select
-                  className="block w-full rounded-md border-0 py-2 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:leading-5"
-                  id="accounttype"
-                  onChange={ev => setSelectedRole(ev.target.value)}
-                >
-                  <option value="1">Admin</option>
-                  <option value="2">Staff</option>
-                  <option hidden={true} value="3">Instructor</option>
-                  <option value="4">Student</option>
-                </select>
                 <div className="text-center flex justify-center">
-                  
                   <button type="submit" className="bg-[#0FE810]  hover:bg-lime-700 text-white font-bold py-2 px-4 mt-5 rounded-full">
                     Save
                   </button>

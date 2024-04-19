@@ -138,7 +138,7 @@ export default function ManageUsers() {
         appElement={document.getElementById('root')}
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
-        className="w-[20%] h-fit mt-[10%] mx-auto" //it just works don't question
+        className="w-[50%] h-fit mt-[10%] mx-auto" //it just works don't question
       >
         <AddUsers
           onClose={handleAddUserClose}
