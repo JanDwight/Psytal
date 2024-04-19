@@ -33,7 +33,7 @@ export default function PreRegistrationFormView({prereg}) {
 
   const [curriculum, setCurriculum] = useState('');
 
-  const [semesterInformation, setSemesterInformation] = useState('');
+  const [semesterInformation, setSemesterInformation] = useState(null);
   //<><><><><>
 
   function checkAccept() {
@@ -294,7 +294,6 @@ const handleChangeUnits = (index, value) => {
         })
       })
   }
-
   //On Accept Click
   const onClickAccept = () => {
     //ev.preventDefault();
@@ -302,6 +301,13 @@ const handleChangeUnits = (index, value) => {
     setSuccessMessage('Loading...');
     setSuccessStatus('Loading');
     
+    if(!semesterInformation)
+      {
+        setSuccessMessage('Pre-Registration is closed');
+        setSuccessStatus(false);
+        return
+      }
+
     setError({ __html: "" });
 
     const fullName = `${preregData.last_name}, ${preregData.first_name} ${preregData.middle_name.charAt(0)}.`;
@@ -780,16 +786,17 @@ const handleChangeUnits = (index, value) => {
     
     const uniqueCurriculum = Array.from(new Set(subjectData.map(item => item.curriculum_code)));
 
-    // Assuming curriculum is an array of objects with 'name' attribute
-    const curriculumOptions = uniqueCurriculum.map((item, index) => (
-      <option key={index} value={item}>
-        {item}
-      </option>
-    ));
+    // Generate options based on unique curriculum
+    const curriculumOptions = [
+      <option key="default" value="">Select Curriculum</option>,
+      ...uniqueCurriculum.map((item, index) => (
+        <option key={index} value={item}>
+          {item}
+        </option>
+      ))
+    ];
 
-    useEffect(() => {
-    }, [inputFields]);
-    console.log('This is the SubjectData',curriculum);
+
   return (
     <>
         {error.__html && (
