@@ -101,7 +101,12 @@ class ArchiveController extends Controller
             $modelClass = 'App\\Models\\' . ucfirst($archivedItem->item_type);
 
             // Check if the model class exists
-            if (class_exists($modelClass)) {
+            if (!class_exists($modelClass)) {
+                return response([
+                    'message' => 'Something went wrong, plaese try again later.',
+                    'success' => false
+                ]);
+            }
                 // Use 'item_id' to find the item in the source table
                 $sourceItem = $modelClass::find($archivedItem->item_id);
 
@@ -113,7 +118,6 @@ class ArchiveController extends Controller
                     // Update the 'archived' column to 0 in the source item
                     $sourceItem->delete(); //uncomment after all functions are done
                 }
-            }
         }
 
         // Close the backup file
@@ -143,7 +147,9 @@ class ArchiveController extends Controller
         return response()->file($backupFilePath, $headers);
     } catch (\Exception $e) {
         // Handle exceptions, e.g., log the error
-        return response()->json(['message' => 'Error processing items'], 500);
+        return response()->json([
+            'message' => 'Error processing items',
+            'success' => false]);
     }
    }
    // RESTORE RESTORE RESTORE
