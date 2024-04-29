@@ -21,12 +21,14 @@ export default function PreRegistrationForm() {
   const [successStatus, setSuccessStatus] = useState('');
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [semesterInformation, setSemesterInformation] = useState('');
+
 
   //-----
-  const [disclaimer, setDisclaimer] = useState(false);
+  const [disclaimer, setDisclaimer] = useState(true);
 
   const [preregData, setPreregData] = useState({
-    semester: '1st Semester',
+    semester: '',
     user_id: '',
     start_of_school_year: '',   
     end_of_school_year: '',
@@ -67,6 +69,18 @@ export default function PreRegistrationForm() {
   });
 
   useEffect(() => {
+    axiosClient
+      .get('/getsemesterinformation')
+      .then((res) => {
+        setSemesterInformation(res.data);  // Assuming res.data is an array
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  
+
+  useEffect(() => {
     //setDisclaimer(true); // Set showModal to true when the component mounts
   }, []); 
 
@@ -89,10 +103,10 @@ export default function PreRegistrationForm() {
 
       // Convert the integer term to text
       // Combine two terms start and End
-      const semesterTxt = preregData.semester;
-      const integerstartOfSchoolYear = preregData.start_of_school_year;
+      const semesterTxt = semesterInformation.sem12;
+      const integerstartOfSchoolYear = semesterInformation.yrStart;
       const textstartOfSchoolYear = integerstartOfSchoolYear.toString();
-      const integerendOfSchoolYear = preregData.end_of_school_year;
+      const integerendOfSchoolYear = semesterInformation.yrEnd;
       const textendOfSchoolYear = integerendOfSchoolYear.toString();
       const fullTerm = semesterTxt + ' ' + textstartOfSchoolYear + ' - ' + textendOfSchoolYear;
 
@@ -388,10 +402,10 @@ export default function PreRegistrationForm() {
     setError({ __html: "" });
     axiosClient
     .post('/preregincommingtmp', {
-      start_of_school_year: parseInt(preregData.start_of_school_year, 10),
-      end_of_school_year: parseInt(preregData.end_of_school_year, 10),
+      start_of_school_year: semesterInformation.yrStart,
+      end_of_school_year: semesterInformation.yrEnd,
       user_id: 1,
-      semester: preregData.semester,
+      semester: semesterInformation.sem12,
       student_school_id: 0,
       learners_reference_number: parseInt(preregData.learners_reference_number, 10),
       last_name: preregData.last_name,
@@ -521,6 +535,8 @@ export default function PreRegistrationForm() {
                         name="semester"
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         required
+                        value={semesterInformation.sem12}
+                        disabled
                         onChange={ev => {
                             setPreregData({ ...preregData, semester: ev.target.value });
                         }}
@@ -551,7 +567,8 @@ export default function PreRegistrationForm() {
                         max={new Date().getFullYear() + 5} // Set maximum year to 5 years after current year
                         step="1"
                         maxLength={4}
-                        value={preregData.start_of_school_year}
+                        value={semesterInformation.yrStart}
+                        disabled
                         required
                         onChange={ev => {
                           // Ensure that only numeric values are entered
@@ -581,7 +598,8 @@ export default function PreRegistrationForm() {
                           max={new Date().getFullYear() + 5} 
                           step="1" 
                           maxLength={4}
-                          value={preregData.end_of_school_year}
+                          value={semesterInformation.yrEnd}
+                          disabled
                           required
                           onChange={ev => {
                             // Ensure that only numeric values are entered

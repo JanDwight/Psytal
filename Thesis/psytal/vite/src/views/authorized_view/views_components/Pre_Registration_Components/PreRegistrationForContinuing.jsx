@@ -76,6 +76,7 @@ export default function PreRegistrationForContinuing(prereg) {
     first_name: '',
     middle_name: '',            
     maiden_name: '',
+    username: '',
     // academic_classification: '',
     // last_school_attended: '',
     // address_of_school_attended: '',
@@ -422,6 +423,7 @@ export default function PreRegistrationForContinuing(prereg) {
           first_name: preregData.first_name,
           middle_name: preregData.middle_name,
           maiden_name: preregData.maiden_name,
+          username: preregData.username,
           //  academic_classification: preregData.academic_classification,
            last_school_attended: preregData.last_school_attended,
            address_of_school_attended: preregData.address_of_school_attended,
@@ -1775,7 +1777,6 @@ export default function PreRegistrationForContinuing(prereg) {
         </div>
       </div>
       )}
------------------
 
 {/* Help Icon */}
 <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '9999' }}>

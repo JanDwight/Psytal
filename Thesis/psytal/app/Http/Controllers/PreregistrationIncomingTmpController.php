@@ -115,6 +115,7 @@ class PreregistrationIncomingTmpController extends Controller
             'first_name' => $data['first_name'],
             'middle_name' => $data['middle_name'],
             'maiden_name' => $data['maiden_name'],
+            'username' => $data['username'],
             'year_level' => $data['year_level'],
             'degree' => $data['degree'],
             'major' => $data['major'],

@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //Semester Information
     Route::post('/addsemesterinformation', [SemesterInformationController::class, 'addsemesterinformation']);
     Route::put('/updatesemesterinformation', [SemesterInformationController::class, 'updatesemesterinformation']);
-    Route::get('/getsemesterinformation', [SemesterInformationController::class, 'index']);
+    
     Route::get('/getschoolyear', [SemesterInformationController::class, 'getschoolyear']);
     Route::put('/closeprereg/{id}', [SemesterInformationController::class, 'closeprereg']);
 
@@ -168,6 +168,7 @@ Route::post('/preregincommingtmp', [PreregistrationIncomingTmpController::class,
 Route::get('/forgotpasswordsendemail', [SendStudentAccountPasswordController::class,'forgotpasswordsendemail']);
 Route::put('/changepassword', [UserController::class,'changepassword']);
 Route::get('/sendnewpassword', [SendStudentAccountPasswordController::class,'sendnewpassword']);
+Route::get('/getsemesterinformation', [SemesterInformationController::class, 'index']);
 
 //Semester Information
 Route::get('/getopenprereg', [SemesterInformationController::class, 'getopenprereg']);
