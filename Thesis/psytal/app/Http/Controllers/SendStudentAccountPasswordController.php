@@ -91,7 +91,7 @@ class SendStudentAccountPasswordController extends Controller
 
         $data = [
             'title' => 'PSYTAL: CHANGE PASSWORD REQUEST',
-            'body' => 'You have successfully verify your request to change your password.  To login in the student portal please use your Full Name following this format (Lastname, Firstname, M.I.) and use this new Password: "' . $newPassword . '". You can change your password in the ---PROFILE--- feature after logging into your account. Thank You.'
+            'body' => 'You have successfully verify your request to change your password.  To login in the student portal please use your Username and use this new Password: "' . $newPassword . '". You can change your password in the ---PROFILE--- feature after logging into your account. Thank You.'
         ];
 
         try {
