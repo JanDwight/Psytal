@@ -57,6 +57,7 @@ class CurriculumController extends Controller
                 'units' => $classdata['units'],
                 'course_type' => $classdata['course_type'],
                 'class_section' => $placeholder,
+                'class_schedule' => $placeholder,
                 'instructor_name' => $placeholder,
                 'curriculum_code' => $data['curriculum_code'],
             ]);

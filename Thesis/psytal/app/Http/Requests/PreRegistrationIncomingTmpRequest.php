@@ -31,6 +31,7 @@ class PreRegistrationIncomingTmpRequest extends FormRequest
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
             'maiden_name' => 'string',
+            'username' => 'string',
             'type_of_student' => 'string',
             'year_level' => 'string',
             'academic_classification' => 'string',
